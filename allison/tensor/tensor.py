@@ -342,7 +342,24 @@ class tensor:
         return self.data.shape
     
     def reshape(self, *shape):
-        return tensor(self.data.reshape(*shape),device=self.device)
+        
+        global _autograd_enabled
+        xp = cp if self.device == 'gpu' else np
+
+        if not _autograd_enabled:
+            return tensor(self.data.reshape(*shape), device=self.device)
+
+        out = tensor(self.data.reshape(*shape), [self], 'reshape',
+                    device=self.device, requires_grad=self.requires_grad)
+
+        def _backward():
+            if out.grad is None:
+                return
+            if self.requires_grad:
+                self.grad += out.grad.reshape(self.data.shape)
+
+        out._backward = _backward
+        return out
     
     @property
     def ndim(self):
