@@ -2,6 +2,18 @@ import numpy as np
 from allison.tensor.tensor import tensor
 
 
+def mean_squared_error(Y_true, Y_pred):
+    return ((Y_true-Y_pred)**2).mean().item()
+
+def root_mean_squared_error(Y_true, Y_pred):
+    return mean_squared_error(Y_true, Y_pred)**0.5
+
+
+def mean_absolute_error(Y_true, Y_pred):
+    return ((Y_true-Y_pred).abs().mean()).item()
+
+def mean_absolute_percentage_error(Y_true, Y_pred):
+    return (((Y_true-Y_pred)/Y_true).abs().mean()).item()
 
 def r2_score(Y_true, Y_pred):
 
@@ -14,7 +26,6 @@ def r2_score(Y_true, Y_pred):
 def accuracy_score(Y_true, Y_pred):
 
     return (Y_true==Y_pred).mean()
-
 
 
 def confusion_matrix(y_true: np.ndarray, y_pred: np.ndarray):

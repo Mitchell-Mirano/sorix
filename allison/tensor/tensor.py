@@ -299,6 +299,13 @@ class tensor:
         out._backward = _backward
         return out
     
+    def abs(self):
+        
+        xp = cp if self.device == 'gpu' else np
+        
+        return tensor(xp.abs(self.data),device=self.device)
+    
+    
 
     def backward(self):
         topo = []
