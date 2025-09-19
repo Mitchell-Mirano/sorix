@@ -23,6 +23,36 @@ def r2_score(Y_true, Y_pred):
     return (1-(sr/sy)).item()
 
 
+def regression_report(y_true: np.ndarray, y_pred: np.ndarray) -> str:
+    """
+    Reporte de regresión con columnas alineadas y rango uniforme.
+    """
+    metrics = {
+        "R2":   (r2_score(y_true, y_pred), "[0,   1]"),
+        "MAE":  (mean_absolute_error(y_true, y_pred), "[0,  ∞)"),
+        "MSE":  (mean_squared_error(y_true, y_pred), "[0,  ∞)"),
+        "RMSE": (root_mean_squared_error(y_true, y_pred), "[0,  ∞)"),
+        "MAPE": (mean_absolute_percentage_error(y_true, y_pred) * 100, "[0, 100]"),
+    }
+
+    # Forzar todos los rangos a la misma longitud (8 caracteres)
+    fixed_width = 8
+    for k, (val, rng) in metrics.items():
+        metrics[k] = (val, rng.ljust(fixed_width))
+
+    col_metric = 6
+    col_score = 9
+    col_range = fixed_width
+
+    header = f"{'Metric':<{col_metric}} | {'Score':>{col_score}} | {'Range':>{col_range}}"
+    lines = [header, "-" * len(header)]
+
+    for name, (value, rng) in metrics.items():
+        lines.append(f"{name:<{col_metric}} | {value:>{col_score}.4f} | {rng:>{col_range}}")
+
+    return "\n".join(lines)
+
+
 def accuracy_score(Y_true, Y_pred):
 
     return (Y_true==Y_pred).mean()
