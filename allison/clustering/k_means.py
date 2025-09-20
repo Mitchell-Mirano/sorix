@@ -18,12 +18,10 @@ class Kmeans:
         self.n_centroids = n_centroids
         self.centroids = None
         self.features_names = None
-        self.history_train = {}
         self.labels = None
 
     def _data_preprocessing_train(self, 
-                                 features:Union[pd.DataFrame, np.ndarray], 
-                                 history_train:bool) -> np.ndarray:
+                                 features:Union[pd.DataFrame, np.ndarray]) -> np.ndarray:
         
         if isinstance(features, pd.DataFrame):
             self.features_names = features.columns.to_list()
@@ -31,45 +29,54 @@ class Kmeans:
         features_train = features.to_numpy() if isinstance(features, pd.DataFrame) else features
 
         self.centroids = features_train[np.random.randint(0, len(features_train), self.n_centroids)]
-        if history_train:
-            self.history_train[0] = self.centroids
         return features_train
 
-    def _distances(self, features:np.ndarray, centroids:np.ndarray) -> np.ndarray:
-        distances_features_centroides = []
-        for feature in features:
-            distances_feature = []
-            for centroid in centroids:
-                distances_feature.append(np.linalg.norm(centroid - feature))
-            distances_features_centroides.append(distances_feature)
-        return np.array(distances_features_centroides)
+    def _distances(self, features: np.ndarray, centroids: np.ndarray) -> np.ndarray:
+        # features: shape (n_samples, n_features)
+        # centroids: shape (k, n_features)
+        
+        # Broadcasting para restar cada feature con cada centroid
+        diff = features[:, np.newaxis, :] - centroids[np.newaxis, :, :]
+        
+        # Calcular norma L2 en el último eje
+        distances = np.sum(diff**2, axis=-1)
+        # distances = np.linalg.norm(diff, axis=-1)
+        
+        return distances
 
     def _new_labels(self, distances:np.ndarray) -> np.ndarray:
-        new_labels = np.array([np.where(distance == np.min(distance))[0][0] for distance in distances])
-        return new_labels
 
-    def _new_centroids(self, features:np.ndarray, labels:np.array) -> np.ndarray:
+        return np.argmin(distances, axis=1) 
+
+    def _new_centroids(self, features: np.ndarray, labels: np.ndarray) -> np.ndarray:
+        k = self.n_centroids
+        n_features = features.shape[1]
+
+        # Inicializar acumuladores
+        sums = np.zeros((k, n_features))
+        counts = np.bincount(labels, minlength=k)
+
+        # Acumular sumas de cada dimensión con bincount (vectorizado en C)
+        for j in range(n_features):
+            sums[:, j] = np.bincount(labels, weights=features[:, j], minlength=k)
+
+        # Evitar división por cero en clusters vacíos
+        counts[counts == 0] = 1
+
+        # Calcular centroides = suma / cantidad
+        new_centroids = sums / counts[:, None]
+        return new_centroids
 
 
-        new_centroids = []
-        for label in set(labels):
-            filter = np.where(labels == label)
-            vectors = features[filter]
-            media_vectors = vectors.sum(axis=0) / len(vectors)
-            new_centroids.append(media_vectors)
-        return np.array(new_centroids)
 
-    def _moviment(self, centroids_before:np.ndarray, centroids_after:np.ndarray) -> float:
-        moviments = []
-        for centroid_bf, centroid_af in zip(centroids_before, centroids_after):
-            moviments.append(np.linalg.norm(centroid_bf - centroid_af))
-        return np.mean(moviments)
+    def _moviment(self, centroids_before: np.ndarray, centroids_after: np.ndarray) -> float:
+        return np.linalg.norm(centroids_before - centroids_after, axis=1).mean()
 
-    def train(self, 
+
+    def fit(self, 
               features:Union[pd.DataFrame, np.ndarray], 
-              moviment_limit:float=0.0001,
-              max_iters:int=300,
-              history_train:bool=False) -> None:
+              eps:float=0.001,
+              max_iters:int=1000) -> None:
         
         """
         Train the k-means algorithm
@@ -86,7 +93,7 @@ class Kmeans:
             Save history of train. The default is False.
         """
         
-        features_train = self._data_preprocessing_train(features, history_train)
+        features_train = self._data_preprocessing_train(features)
         iters = 0
         while True:
             iters += 1
@@ -95,12 +102,7 @@ class Kmeans:
             centroids_before = self.centroids
             self.centroids = self._new_centroids(features_train, self.labels)
             moviment = self._moviment(centroids_before, self.centroids)
-            if history_train:
-                self.history_train[iters] = self.centroids
-                print('Iter: {} \t {} \t moviment: {:.3f}'.format(iters, 50 * '=' + '>', moviment))
-            if moviment < moviment_limit:
-                break
-            if iters > max_iters:
+            if (moviment < eps) or (iters > max_iters):
                 break
 
     def predict(self, features:Union[pd.DataFrame, np.ndarray]) -> np.ndarray:
@@ -162,15 +164,11 @@ class Kmeans:
         """
 
         features = features.to_numpy() if isinstance(features, pd.DataFrame) else features
+        
         distances = self._distances(features, self.centroids)
         labels = self._new_labels(distances)
-
-        inertia = 0
-        for label in set(labels):
-            filter = np.where(labels == label)
-            vectors = features[filter]
-            inertia += np.sum((vectors - self.centroids[label])**2)
-        return inertia
+        
+        return np.sum((features - self.centroids[labels])**2)
     
 
     def __str__(self):
