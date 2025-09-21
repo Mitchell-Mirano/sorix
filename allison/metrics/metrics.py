@@ -58,12 +58,25 @@ def accuracy_score(Y_true, Y_pred):
     return (Y_true==Y_pred).mean()
 
 
-def confusion_matrix(y_true: np.ndarray, y_pred: np.ndarray):
+def confusion_matrix(y_true, y_pred):
+
+    if y_true.shape != y_pred.shape:
+        raise ValueError("y_true and y_pred must have the same shape.")
+    
+    if isinstance(y_true, tensor):
+        y_true = y_true.to_numpy().flatten()
+
+    if isinstance(y_pred, tensor):
+        y_pred = y_pred.to_numpy().flatten()
+
     classes = np.unique(y_true)
     cm = np.zeros((len(classes), len(classes)))
+
     for i, c1 in enumerate(classes):
         for j, c2 in enumerate(classes):
             cm[i, j] = np.sum((y_true == c1) & (y_pred == c2))
+    cm = cm.astype(int)
+
     return cm
 
 
@@ -72,6 +85,16 @@ def classification_report(y_true: np.ndarray, y_pred: np.ndarray) -> str:
     """
     Reporte de clasificación similar a sklearn.metrics.classification_report.
     """
+
+    if y_true.shape != y_pred.shape:
+        raise ValueError("y_true and y_pred must have the same shape.")
+    
+    if isinstance(y_true, tensor):
+        y_true = y_true.to_numpy().flatten()
+
+    if isinstance(y_pred, tensor):
+        y_pred = y_pred.to_numpy().flatten()
+        
     classes = sorted(np.unique(y_true))
     report = {}
     total_true = len(y_true)
