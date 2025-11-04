@@ -1,10 +1,10 @@
 
-# **Allison**
+# **Sorix**
 
-Allison: is a library  of Artificial Intelligence for
+sorix: is a library  of Artificial Intelligence for
 beginners.
 
-![Allison Clustering Image](https://storage.googleapis.com/open-projects-data/Allison/training_animation.gif)
+![sorix Clustering Image](https://storage.googleapis.com/open-projects-data/allison/training_animation.gif)
 
 It provides a **NumPy/CuPy-based backend** for handling tensors on both **CPU and GPU**, making it ideal for beginners who want to learn how frameworks like PyTorch work internally.
 
@@ -13,18 +13,18 @@ It provides a **NumPy/CuPy-based backend** for handling tensors on both **CPU an
 ## **Install**
 - With pip
 ```bash
-pip install allison
+pip install sorix
 ```
 
 Or with [Poetry](https://python-poetry.org/):
 
 ```bash
-poetry add allison
+poetry add sorix
 ```
 
 Or with [UV](https://docs.astral.sh/uv/guides/install-python/)
 ```bash
-uv add allison
+uv add sorix
 ```
 
 ---
@@ -35,7 +35,7 @@ uv add allison
 ### Autograd Example
 
 ```python
-from allison import tensor
+from sorix import tensor
 
 # Create tensors with gradient tracking
 x = tensor([2.0], requires_grad=True)
@@ -58,15 +58,15 @@ print("dy/db:", b.grad)   # → should be 1
 
 ```python
 import numpy as np
-from allison import tensor
-from allison.nn import Linear, MSELoss
-from allison.optim import SGD
+from sorix import tensor
+from sorix.nn import Linear, MSELoss
+from sorix.optim import SGD
 
 # 🎯 Generate synthetic data (y = 3x + 2 + noise)
 X = np.linspace(-1, 1, 100).reshape(-1, 1)
 y = 3 * X + 2 + 0.1 * np.random.randn(*X.shape)
 
-# Convert to Allison tensors (CPU, use device="cuda" for GPU)
+# Convert to sorix tensors (CPU, use device="cuda" for GPU)
 X_tensor = tensor(X, device="cpu")
 y_tensor = tensor(y, device="cpu")
 
@@ -102,17 +102,17 @@ print("Learned bias:", model.intercept_)
 
 Explore the interactive examples:
 
-* [1 - Tensor Basics](https://github.com/Mitchell-Mirano/Allison/blob/main/examples/basics/1-tensor.ipynb)
-* [2 - Regression](https://github.com/Mitchell-Mirano/Allison/blob/main/examples/nn/1-regression.ipynb)
-* [3 - Neural Network Layers](https://github.com/Mitchell-Mirano/Allison/blob/main/examples/basics/2-layers.ipynb)
+* [1 - Tensor Basics](https://github.com/Mitchell-Mirano/sorix/blob/main/examples/basics/1-tensor.ipynb)
+* [2 - Regression](https://github.com/Mitchell-Mirano/sorix/blob/main/examples/nn/1-regression.ipynb)
+* [3 - Neural Network Layers](https://github.com/Mitchell-Mirano/sorix/blob/main/examples/basics/2-layers.ipynb)
 
-👉 More examples available in the [examples folder](https://github.com/Mitchell-Mirano/Allison/tree/main/examples).
+👉 More examples available in the [examples folder](https://github.com/Mitchell-Mirano/sorix/tree/main/examples).
 
 ---
 
 ## 🛠️ **Project Status**
 
-Allison is **under active development** 🚧.
+sorix is **under active development** 🚧.
 New features are being added frequently, including:
 
 * More neural network layers.
@@ -130,7 +130,7 @@ You can contribute by:
 
 ## 📌 **Links**
 
-* [PyPI Package](https://pypi.org/project/allison/)
-* [GitHub Repository](https://github.com/Mitchell-Mirano/Allison)
+* [PyPI Package](https://pypi.org/project/sorix/)
+* [GitHub Repository](https://github.com/Mitchell-Mirano/sorix)
 
 ---
