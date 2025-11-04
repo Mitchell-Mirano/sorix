@@ -2,6 +2,13 @@
 import numpy as np
 import pandas as pd
 from typing import Union
+from allison.tensor.tensor import tensor
+from allison.utils import math as alm
+from allison.utils import utils as alu
+from allison.cupy.cupy import _cupy_available
+
+if _cupy_available:
+    import cupy as cp
 
 
 class Kmeans:
@@ -14,51 +21,57 @@ class Kmeans:
         Number of centroids.
     """
 
-    def __init__(self, n_centroids:int):
-        self.n_centroids = n_centroids
+    def __init__(self, n_clusters:int):
+        self.n_clusters = n_clusters
         self.centroids = None
         self.features_names = None
         self.labels = None
 
     def _data_preprocessing_train(self, 
-                                 features:Union[pd.DataFrame, np.ndarray]) -> np.ndarray:
+                                 features:tensor) -> np.ndarray:
         
-        if isinstance(features, pd.DataFrame):
-            self.features_names = features.columns.to_list()
+        # if isinstance(features, pd.DataFrame):
+        #     self.features_names = features.columns.to_list()
             
-        features_train = features.to_numpy() if isinstance(features, pd.DataFrame) else features
+        # features_train = features.to_numpy() if isinstance(features, pd.DataFrame) else features
 
-        self.centroids = features_train[np.random.randint(0, len(features_train), self.n_centroids)]
-        return features_train
+        xp = cp if features.device == 'gpu' and _cupy_available else np
+
+        self.centroids = features[xp.random.randint(0, len(features), self.n_clusters)].data
+        return features
 
     def _distances(self, features: np.ndarray, centroids: np.ndarray) -> np.ndarray:
+        xp = cp if features.device == 'gpu' and _cupy_available else np
+
         # features: shape (n_samples, n_features)
         # centroids: shape (k, n_features)
         
         # Broadcasting para restar cada feature con cada centroid
-        diff = features[:, np.newaxis, :] - centroids[np.newaxis, :, :]
-        
-        # Calcular norma L2 en el último eje
-        distances = np.sum(diff**2, axis=-1)
-        # distances = np.linalg.norm(diff, axis=-1)
-        
+        diff = features[:, xp.newaxis, :] - centroids[xp.newaxis, :, :]
+
+        distances = alm.sum(diff**2, axis=-1)
+
         return distances
 
-    def _new_labels(self, distances:np.ndarray) -> np.ndarray:
+    def _new_labels(self, distances:tensor) -> tensor:
 
-        return np.argmin(distances, axis=1) 
+        return alu.argmin(distances, axis=1) 
 
-    def _new_centroids(self, features: np.ndarray, labels: np.ndarray) -> np.ndarray:
-        k = self.n_centroids
+    def _new_centroids(self, features: tensor, labels: tensor) -> tensor:
+
+        xp = cp if features.device == 'gpu' and _cupy_available else np
+
+        k = self.n_clusters
+
         n_features = features.shape[1]
 
         # Inicializar acumuladores
-        sums = np.zeros((k, n_features))
-        counts = np.bincount(labels, minlength=k)
+        sums = xp.zeros((k, n_features))
+        counts = xp.bincount(labels.data.flatten(), minlength=k)
 
         # Acumular sumas de cada dimensión con bincount (vectorizado en C)
         for j in range(n_features):
-            sums[:, j] = np.bincount(labels, weights=features[:, j], minlength=k)
+            sums[:, j] = xp.bincount(labels.data.flatten(), weights=features.data[:, j], minlength=k)
 
         # Evitar división por cero en clusters vacíos
         counts[counts == 0] = 1
@@ -70,7 +83,10 @@ class Kmeans:
 
 
     def _moviment(self, centroids_before: np.ndarray, centroids_after: np.ndarray) -> float:
-        return np.linalg.norm(centroids_before - centroids_after, axis=1).mean()
+
+        xp = cp if centroids_before.device == 'gpu' and _cupy_available else np
+
+        return xp.linalg.norm(centroids_before - centroids_after, axis=1).mean()
 
 
     def fit(self, 
@@ -105,7 +121,7 @@ class Kmeans:
             if (moviment < eps) or (iters > max_iters):
                 break
 
-    def predict(self, features:Union[pd.DataFrame, np.ndarray]) -> np.ndarray:
+    def predict(self, features:tensor) -> np.ndarray:
 
         """
         Predict the labels of features
@@ -121,13 +137,11 @@ class Kmeans:
             Predicted labels.
         """
 
-        features = features.to_numpy() if isinstance(features, pd.DataFrame) else features
-
         distances = self._distances(features, self.centroids)
         labels = self._new_labels(distances)
         return labels
     
-    def get_distances(self, features:Union[pd.DataFrame, np.ndarray]) -> np.ndarray:
+    def get_distances(self, features:tensor) -> np.ndarray:
 
         """
         Get distances between features and centroids
@@ -143,11 +157,9 @@ class Kmeans:
             Distances between features and centroids.
         """
 
-        features = features.to_numpy() if isinstance(features, pd.DataFrame) else features
-
         return self._distances(features, self.centroids)
 
-    def get_inertia(self, features:Union[pd.DataFrame, np.ndarray]) -> float:
+    def get_inertia(self, features:tensor) -> float:
 
         """
         Get inertia of features for k-centroids
@@ -163,19 +175,17 @@ class Kmeans:
             Inertia of features.
         """
 
-        features = features.to_numpy() if isinstance(features, pd.DataFrame) else features
-        
         distances = self._distances(features, self.centroids)
         labels = self._new_labels(distances)
         
-        return np.sum((features - self.centroids[labels])**2)
+        return alm.sum((features - self.centroids[labels])**2)
     
 
     def __str__(self):
         
         text = f"""
         model: {self.__class__.__name__} \n
-        n_centroids: {self.n_centroids} \n
+        n_centroids: {self.n_clusters} \n
         """
         return text
     

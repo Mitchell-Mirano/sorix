@@ -43,10 +43,19 @@ def argmax(X, axis=1, keepdims=True) -> tensor | np.ndarray:
 
     if isinstance(X, tensor):
         xp = cp if X.device == 'gpu' and _cupy_available else np
-        return tensor(X.data.argmax(axis=axis, keepdims=keepdims),device=X.device)
+        return tensor(xp.argmax(X.data, axis=axis, keepdims=keepdims),device=X.device)
     else:
         xp = cp if isinstance(X, cp.ndarray) else np
         return X.argmax(axis=axis, keepdims=keepdims)
+    
+def argmin(X, axis=1, keepdims=True) -> tensor | np.ndarray:
+
+    if isinstance(X, tensor):
+        xp = cp if X.device == 'gpu' and _cupy_available else np
+        return tensor(xp.argmin(X.data, axis=axis, keepdims=keepdims),device=X.device)
+    else:
+        xp = cp if isinstance(X, cp.ndarray) else np
+        return X.argmin(axis=axis, keepdims=keepdims)
     
 
 def as_tensor(x):
