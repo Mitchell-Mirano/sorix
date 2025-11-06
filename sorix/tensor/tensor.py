@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from allison.cupy.cupy import _cupy_available
+from sorix.cupy.cupy import _cupy_available
 
 if _cupy_available:
     import cupy as cp

@@ -1,4 +1,4 @@
-from allison.cupy.cupy import _cupy_available
+from sorix.cupy.cupy import _cupy_available
 
 def is_available(verbose: bool = True) -> bool:
 

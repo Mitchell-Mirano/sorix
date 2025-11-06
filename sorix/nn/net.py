@@ -1,4 +1,4 @@
-from allison.tensor.tensor import tensor
+from sorix.tensor.tensor import tensor
 
 class NeuralNetwork:
     def __init__(self):
