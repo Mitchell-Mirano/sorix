@@ -1,5 +1,5 @@
-from allison.tensor.tensor import tensor
-from allison.cupy.cupy import _cupy_available
+from sorix.tensor.tensor import tensor
+from sorix.cupy.cupy import _cupy_available
 import numpy as np
 
 if _cupy_available:

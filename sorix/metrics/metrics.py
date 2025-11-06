@@ -1,5 +1,5 @@
 import numpy as np
-from allison.tensor.tensor import tensor
+from sorix.tensor.tensor import tensor
 
 
 
