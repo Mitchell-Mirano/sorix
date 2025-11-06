@@ -1,6 +1,6 @@
-from allison.tensor.tensor import tensor
+from sorix.tensor.tensor import tensor
 import numpy as np
-from allison.cupy.cupy import _cupy_available
+from sorix.cupy.cupy import _cupy_available
 
 if _cupy_available:
     import cupy as cp
