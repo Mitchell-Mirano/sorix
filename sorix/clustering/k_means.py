@@ -2,10 +2,10 @@
 import numpy as np
 import pandas as pd
 from typing import Union
-from allison.tensor.tensor import tensor
-from allison.utils import math as alm
-from allison.utils import utils as alu
-from allison.cupy.cupy import _cupy_available
+from sorix.tensor.tensor import tensor
+from sorix.utils import math as alm
+from sorix.utils import utils as alu
+from sorix.cupy.cupy import _cupy_available
 
 if _cupy_available:
     import cupy as cp
