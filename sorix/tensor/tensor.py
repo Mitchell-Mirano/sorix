@@ -288,7 +288,7 @@ class tensor:
         if not _autograd_enabled:
             return tensor(xp.mean(self.data), device=self.device)
         
-        out = tensor(np.mean(self.data), [self,], 'mean',device=self.device,requires_grad=self.requires_grad)
+        out = tensor(xp.mean(self.data), [self,], 'mean',device=self.device,requires_grad=self.requires_grad)
 
         def _backward():            
             if out.grad is None:
