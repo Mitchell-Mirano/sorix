@@ -1,22 +1,20 @@
+# **Sorix**
 
-# **sorix**
+*sorix is a minimalist and high-performance library for Machine Learning and Deep Learning, designed to run neural networks directly on NumPy with minimal resource usage.*
 
-*sorix is a lightweight educational library inspired by **PyTorch**, built to teach the fundamentals of Machine Learning and Deep Learning.*
-
-It provides a **NumPy/CuPy-based backend** for handling tensors on both **CPU and GPU**, making it ideal for beginners who want to learn how frameworks like PyTorch work internally.
+Inspired by the PyTorch API, it maintains a clear and intuitive interface, enabling rapid adoption without compromising efficiency. Its architecture allows seamless transition from prototype to production without structural modifications.
 
 ---
 
-## 🚀 **About sorix**
+## **Key Features**
 
-sorix re-implements the building blocks of AI from scratch:
+* **Runs optimized neural networks on NumPy**, with optional GPU acceleration via CuPy.
+* **Lightweight and efficient design**, ideal for environments with limited computational resources.
+* **Familiar and expressive API**, based on PyTorch design principles.
+* **Short learning curve**, suitable for rapid research and agile development.
+* **Production-ready models**, without the need for rewriting in other frameworks.
 
-* **Tensors**: with CPU/GPU support (NumPy & CuPy).
-* **Automatic differentiation**: inspired by PyTorch’s autograd.
-* **Neural Networks**: from basic regression to multi-layer architectures.
-* **Visualization utilities** using Matplotlib.
-
-The main goal is to **demystify AI** and show how things work under the hood, instead of treating machine learning as a black box.
+sorix delivers a balance between simplicity, performance, and scalability, enabling full understanding of the internal mechanics of models while building solutions ready for real-world deployment.
 
 ![sorix Clustering Image](https://camo.githubusercontent.com/5f676d0288de1f4543cc46bed9ae604480d588e72c258b58a31fe8f370486d01/68747470733a2f2f73746f726167652e676f6f676c65617069732e636f6d2f6f70656e2d70726f6a656374732d646174612f416c6c69736f6e2f747261696e696e675f616e696d6174696f6e2e676966)
 
@@ -68,7 +66,7 @@ print("dy/db:", b.grad)   # → should be 1
 ```
 ---
 
-### 🔢 Linear Regression Example
+### Linear Regression Example
 
 ```python
 import numpy as np
@@ -80,7 +78,7 @@ from sorix.optim import SGD
 X = np.linspace(-1, 1, 100).reshape(-1, 1)
 y = 3 * X + 2 + 0.1 * np.random.randn(*X.shape)
 
-# Convert to sorix tensors (CPU, use device="cuda" for GPU)
+# Convert to sorix tensors (CPU, use device="gpu" for GPU)
 X_tensor = tensor(X, device="cpu")
 y_tensor = tensor(y, device="cpu")
 

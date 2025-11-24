@@ -1,0 +1,105 @@
+# ====================================================================
+# CONFIGURACIÓN BÁSICA DEL SITIO
+# ====================================================================
+site_name: Sorix
+site_description: Librería minimalista y de alto rendimiento para Machine Learning y Deep Learning.
+site_url: https://github.com/Mitchell-Mirano/sorix/ # Cambiar a la URL de hosting final (por ejemplo: docs.sorix.com)
+repo_url: https://github.com/Mitchell-Mirano/sorix/
+repo_name: Mitchell-Mirano/sorix
+edit_uri: edit/main/docs/ # Permite editar la página directamente en GitHub
+
+# ====================================================================
+# 1. CONFIGURACIÓN DEL TEMA MATERIAL
+# ====================================================================
+theme:
+  name: material
+  language: es
+  # Paleta de colores similar a FastAPI (Indigo/Naranja)
+  palette:
+    # --- Modo Claro por defecto ---
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: orange
+      toggle:
+        icon: material/weather-sunny
+        name: Cambiar a modo oscuro
+    # --- Modo Oscuro ---
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate # 'slate' es un modo oscuro más suave que 'black'
+      primary: indigo
+      accent: orange
+      toggle:
+        icon: material/weather-night
+        name: Cambiar a modo claro
+  
+  # Iconografía
+  icon:
+    logo: material/book-open-variant
+    repo: fontawesome/brands/github # Muestra el logo de GitHub
+  
+  # Funcionalidades del Tema (Mejoras en navegación y UX)
+  features:
+    - navigation.sections    # Agrupa elementos de nav en el menú lateral
+    - navigation.indexes     # Usa el índice de la sección como elemento principal
+    - navigation.expand      # Expande automáticamente las secciones activas
+    - navigation.top         # Botón para ir al inicio de la página
+    - toc.follow             # La barra lateral derecha sigue la posición de scroll
+    - search.suggest         # Sugerencias al escribir en la búsqueda
+    - search.highlight       # Resalta términos de búsqueda en el texto
+    - content.code.copy      # Habilita el botón de copiar código (Redundante, pero bueno dejarlo)
+
+# ====================================================================
+# 2. ESTRUCTURA DE NAVEGACIÓN (nav)
+# ====================================================================
+nav:
+  - Inicio: index.md
+  #- Guía de Uso:
+  #  - Instalación: guia/instalacion.md
+  #  - Primeros Pasos: guia/quickstart.md
+  #  - Conceptos Fundamentales: guia/conceptos.md
+  #- Referencia API: api-reference.md
+  #- Sobre Sorix: about.md
+
+# ====================================================================
+# 3. EXTENSIONES DE MARKDOWN AVANZADAS
+# Se añaden extensiones para mejor sintaxis y funcionalidad
+# ====================================================================
+markdown_extensions:
+  - pymdownx.highlight:
+      # Ya no se necesita copy_headers: true si usamos content.code.copy en features
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - admonition        # Bloques de alertas (!!! note, !!! tip)
+  - pymdownx.details  # Bloques colapsables (Acordeones)
+  - pymdownx.superfences # Bloques de código mejorados
+  - pymdownx.tabbed:   # Pestañas para ejemplos de código
+      alternate_style: true
+  - attr_list         # Permite añadir atributos HTML/CSS (ej. alinear imágenes)
+  - toc:               # Tabla de contenido
+      permalink: true
+  - pymdownx.tasklist: # Checkboxes
+      custom_checkbox: true
+  - pymdownx.emoji:    # Soporte para emojis de texto (:smile:)
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+# ====================================================================
+# 4. CONFIGURACIÓN DE PLUGINS
+# ====================================================================
+plugins:
+  # Búsqueda integrada (soporta múltiples idiomas)
+  - search:
+      lang: es, en
+  # Generación de Referencia API automática (mkdocstrings)
+  - mkdocstrings:
+      handlers:
+        python:
+          # Debe estar instalado: pip install mkdocstrings-python
+          options:
+            docstring_style: google # Formato de docstrings usado
+            show_root_heading: true # Muestra el título de la raíz del módulo
+            show_source: true       # Muestra enlace al código fuente
