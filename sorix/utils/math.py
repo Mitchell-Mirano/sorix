@@ -130,9 +130,14 @@ def mean(X):
         return xp.mean(X)
     
 
-def sum(X):
+def sum(X, axis=None, keepdims=False):
+    
     if isinstance(X, tensor):
         xp = cp if X.device == 'gpu' and _cupy_available else np
+        
+        if not X.requires_grad:
+            return tensor(xp.sum(X.data, axis=axis, keepdims=keepdims),device=X.device)
+        
         out = tensor(xp.sum(X.data), (X,), 'sum', device=X.device, requires_grad=X.requires_grad)
 
         def _backward():
@@ -145,4 +150,4 @@ def sum(X):
         return out
     else:
         xp = cp if (cp is not None and isinstance(X, cp.ndarray)) else np
-        return xp.sum(X)
+        return xp.sum(X, axis=axis, keepdims=keepdims)
