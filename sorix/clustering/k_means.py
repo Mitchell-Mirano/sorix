@@ -3,8 +3,8 @@ import numpy as np
 import pandas as pd
 from typing import Union
 from sorix.tensor.tensor import tensor
-from sorix.utils import math as alm
-from sorix.utils import utils as alu
+from sorix.utils import math as smat
+from sorix.utils import utils as sut
 from sorix.cupy.cupy import _cupy_available
 
 if _cupy_available:
@@ -13,49 +13,40 @@ if _cupy_available:
 
 class Kmeans:
 
-    """K-means algorithm
-
-    Parameters
-    ----------
-    n_centroids : int
-        Number of centroids.
+    """
+    K-means clustering
     """
 
     def __init__(self, n_clusters:int):
+        """
+        Parameters:
+        n_clusters (int): number of clusters
+        """
         self.n_clusters = n_clusters
-        self.centroids = None
+        self._centroids = None
         self.features_names = None
         self.labels = None
 
     def _data_preprocessing_train(self, 
                                  features:tensor) -> np.ndarray:
-        
-        # if isinstance(features, pd.DataFrame):
-        #     self.features_names = features.columns.to_list()
-            
-        # features_train = features.to_numpy() if isinstance(features, pd.DataFrame) else features
 
         xp = cp if features.device == 'gpu' and _cupy_available else np
 
-        self.centroids = features[xp.random.randint(0, len(features), self.n_clusters)].data
+        self._centroids = features.data[xp.random.randint(0, len(features), self.n_clusters)]
         return features
 
-    def _distances(self, features: np.ndarray, centroids: np.ndarray) -> np.ndarray:
+    def _distances(self, features: tensor, centroids: np.ndarray) -> np.ndarray:
         xp = cp if features.device == 'gpu' and _cupy_available else np
 
-        # features: shape (n_samples, n_features)
-        # centroids: shape (k, n_features)
-        
-        # Broadcasting para restar cada feature con cada centroid
-        diff = features[:, xp.newaxis, :] - centroids[xp.newaxis, :, :]
+        diff = features.data[:, xp.newaxis, :] - centroids[xp.newaxis, :, :]
 
-        distances = alm.sum(diff**2, axis=-1)
+        distances = smat.sutm(diff**2, axis=-1)
 
         return distances
 
     def _new_labels(self, distances:tensor) -> tensor:
 
-        return alu.argmin(distances, axis=1) 
+        return sut.argmin(distances, axis=1).flatten()
 
     def _new_centroids(self, features: tensor, labels: tensor) -> tensor:
 
@@ -66,19 +57,19 @@ class Kmeans:
         n_features = features.shape[1]
 
         # Inicializar acumuladores
-        sums = xp.zeros((k, n_features))
-        counts = xp.bincount(labels.data.flatten(), minlength=k)
+        sutms = xp.zeros((k, n_features))
+        counts = xp.bincount(labels, minlength=k)
 
-        # Acumular sumas de cada dimensión con bincount (vectorizado en C)
+        # Acumular sutmas de cada dimensión con bincount (vectorizado en C)
         for j in range(n_features):
-            sums[:, j] = xp.bincount(labels.data.flatten(), weights=features.data[:, j], minlength=k)
+            sutms[:, j] = xp.bincount(labels, weights=features.data[:, j], minlength=k)
 
         # Evitar división por cero en clusters vacíos
         counts[counts == 0] = 1
 
-        # Calcular centroides = suma / cantidad
-        new_centroids = sums / counts[:, None]
-        return new_centroids
+        # Calcular centroides = sutma / cantidad
+        new_centroids = sutms / counts[:, None]
+        return new_centroids 
 
 
 
@@ -90,34 +81,29 @@ class Kmeans:
 
 
     def fit(self, 
-              features:Union[pd.DataFrame, np.ndarray], 
+              features:tensor, 
               eps:float=0.001,
               max_iters:int=1000) -> None:
         
         """
-        Train the k-means algorithm
-        
-        Parameters
-        ----------
-        features : Union[pd.DataFrame, np.ndarray]
-            Features to train.
-        moviment_limit : float, optional
-            Limit of moviment. The default is 0.0001.
-        max_iters : int, optional
-            Maximum iterations. The default is 300.
-        history_train : bool, optional
-            Save history of train. The default is False.
+        Fit the model.
+
+        Parameters:
+            features (tensor): Features to predict.
+            eps (float, optional): Stop criterion, by default 0.001
+            max_iters (int, optional): Maximum number of iterations, by default 1000
+    
         """
         
         features_train = self._data_preprocessing_train(features)
         iters = 0
         while True:
             iters += 1
-            distances = self._distances(features_train, self.centroids)
+            distances = self._distances(features_train, self._centroids)
             self.labels = self._new_labels(distances)
-            centroids_before = self.centroids
-            self.centroids = self._new_centroids(features_train, self.labels)
-            moviment = self._moviment(centroids_before, self.centroids)
+            centroids_before = self._centroids
+            self._centroids = self._new_centroids(features_train, self.labels)
+            moviment = self._moviment(centroids_before, self._centroids)
             if (moviment < eps) or (iters > max_iters):
                 break
 
@@ -126,60 +112,51 @@ class Kmeans:
         """
         Predict the labels of features
 
-        Parameters
-        ----------
-        features : Union[pd.DataFrame, np.ndarray]
-            Features to predict.
+        Parameters:
+            features (tensor): Features to predict.
 
-        Returns
-        -------
-        np.ndarray
-            Predicted labels.
+        Returns:
+            labels (tensor): Labels of features
         """
 
-        distances = self._distances(features, self.centroids)
+        distances = self._distances(features, self._centroids)
         labels = self._new_labels(distances)
-        return labels
+        return tensor(labels)
     
     def get_distances(self, features:tensor) -> np.ndarray:
 
         """
         Get distances between features and centroids
 
-        Parameters
-        ----------
-        features : Union[pd.DataFrame, np.ndarray]
-            Features to predict.
+        Parameters:
+            features (tensor): Features to predict.
 
-        Returns
-        -------
-        np.ndarray
-            Distances between features and centroids.
+        Returns:
+            distances (tensor): Distances betwen features and centroids
         """
 
-        return self._distances(features, self.centroids)
+        return tensor(self._distances(features, self._centroids))
 
     def get_inertia(self, features:tensor) -> float:
 
         """
         Get inertia of features for k-centroids
 
-        Parameters
-        ----------
-        features : Union[pd.DataFrame, np.ndarray]
-            Features to predict.
+        Parameters:
+            features (tensor): Features to predict.
 
-        Returns
-        -------
-        float
-            Inertia of features.
+        Returns:
+            inertia (float): Inertia of features
         """
 
-        distances = self._distances(features, self.centroids)
+        distances = self._distances(features, self._centroids)
         labels = self._new_labels(distances)
         
-        return alm.sum((features - self.centroids[labels])**2)
+        return smat.sutm((features - self._centroids[labels])**2).item()
     
+    @property
+    def centroids(self):
+        return tensor(self._centroids)
 
     def __str__(self):
         
