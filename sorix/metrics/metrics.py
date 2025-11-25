@@ -1,5 +1,5 @@
 import numpy as np
-from sorix.tensor.tensor import tensor
+from sorix.tensor import tensor
 
 
 def mean_squared_error(Y_true, Y_pred):

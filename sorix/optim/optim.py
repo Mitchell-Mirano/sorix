@@ -1,4 +1,4 @@
-from sorix.tensor.tensor import tensor
+from sorix.tensor import tensor
 import numpy as np
 from sorix.cupy.cupy import _cupy_available
 

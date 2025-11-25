@@ -2,7 +2,7 @@
 import numpy as np
 import pandas as pd
 from typing import Union
-from sorix.tensor.tensor import tensor
+from sorix.tensor import tensor
 from sorix.utils import math as smat
 from sorix.utils import utils as sut
 from sorix.cupy.cupy import _cupy_available

@@ -2,104 +2,179 @@
 # CONFIGURACIÓN BÁSICA DEL SITIO
 # ====================================================================
 site_name: Sorix
-site_description: Librería minimalista y de alto rendimiento para Machine Learning y Deep Learning.
-site_url: https://github.com/Mitchell-Mirano/sorix/ # Cambiar a la URL de hosting final (por ejemplo: docs.sorix.com)
+site_description: Librería minimalista y de alto rendimiento para Machine Learning y Deep Learning basada en NumPy.
+site_url: https://docs.sorix.com/
 repo_url: https://github.com/Mitchell-Mirano/sorix/
 repo_name: Mitchell-Mirano/sorix
-edit_uri: edit/main/docs/ # Permite editar la página directamente en GitHub
+edit_uri: edit/develop/docs/
 
 # ====================================================================
-# 1. CONFIGURACIÓN DEL TEMA MATERIAL
+# 1. CONFIGURACIÓN DEL TEMA MATERIAL (Estilo FastAPI)
 # ====================================================================
 theme:
   name: material
   language: es
-  # Paleta de colores similar a FastAPI (Indigo/Naranja)
+  
   palette:
-    # --- Modo Claro por defecto ---
-    - media: "(prefers-color-scheme: light)"
+    # --- Preferencia del sistema (Toggle Principal) ---
+    - media: (prefers-color-scheme)
+      toggle:
+        icon: material/theme-light-dark
+        name: Usar preferencia del sistema
+    
+    # --- Modo Claro ---
+    - media: '(prefers-color-scheme: light)'
       scheme: default
       primary: indigo
       accent: orange
       toggle:
         icon: material/weather-sunny
         name: Cambiar a modo oscuro
+    
     # --- Modo Oscuro ---
-    - media: "(prefers-color-scheme: dark)"
-      scheme: slate # 'slate' es un modo oscuro más suave que 'black'
+    - media: '(prefers-color-scheme: dark)'
+      scheme: slate
       primary: indigo
       accent: orange
       toggle:
         icon: material/weather-night
         name: Cambiar a modo claro
   
-  # Iconografía
   icon:
     logo: material/book-open-variant
-    repo: fontawesome/brands/github # Muestra el logo de GitHub
+    repo: fontawesome/brands/github
   
-  # Funcionalidades del Tema (Mejoras en navegación y UX)
   features:
-    - navigation.sections    # Agrupa elementos de nav en el menú lateral
-    - navigation.indexes     # Usa el índice de la sección como elemento principal
-    - navigation.expand      # Expande automáticamente las secciones activas
-    - navigation.top         # Botón para ir al inicio de la página
-    - toc.follow             # La barra lateral derecha sigue la posición de scroll
-    - search.suggest         # Sugerencias al escribir en la búsqueda
-    - search.highlight       # Resalta términos de búsqueda en el texto
-    - content.code.copy      # Habilita el botón de copiar código (Redundante, pero bueno dejarlo)
+    # Navegación
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.indexes
+    - navigation.expand
+    - navigation.path
+    - navigation.top
+    - toc.follow
+    
+    # Contenido y Código
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+    
+    # Búsqueda
+    - search.suggest
+    - search.highlight
+    - search.share
+
 
 # ====================================================================
 # 2. ESTRUCTURA DE NAVEGACIÓN (nav)
 # ====================================================================
 nav:
-  - Inicio: index.md
-  #- Guía de Uso:
-  #  - Instalación: guia/instalacion.md
-  #  - Primeros Pasos: guia/quickstart.md
-  #  - Conceptos Fundamentales: guia/conceptos.md
-  #- Referencia API: api-reference.md
-  #- Sobre Sorix: about.md
+  - 🏡 Sorix: index.md
+  # - ✨ Features: features.md
+  - 📚 Learn:
+    - Fundamentos:
+      - Tensor: learn/fundamentos/tensor.md
+      - Autograd: learn/fundamentos/autograd.md
+  - Examples:
+    - Fundamentos:
+      - Tensor: examples/basics/1-tensor.ipynb
+      - Layers: examples/basics/2-layers.ipynb
+    - Preprocessing: examples/preprocessing/encoders-scalers-transformers.ipynb
+    - Linear Regression: examples/regression/1-linear-regression.ipynb
+    - Logistic Regression: examples/regression/2-logistic-regression.ipynb
+    - Clustering:
+      - K-Means:
+        - Iris Dataset: examples/clustering/Iris-dataset.ipynb
+        - RandomDatasetGPU: examples/clustering/RandomDataset+GPU.ipynb
+    - Neural Network:
+      - Regression: examples/nn/1-regression.ipynb
+      - Classification:
+        - Binary: examples/nn/2.1-classification-binary.ipynb
+        - Multiclass: examples/nn/2.2-classification-multiclass.ipynb
+        - Iris Dataset: examples/nn/3-Iris_dataset.ipynb
+        - MNIST Dataset: examples/nn/4-digit-recognizer.ipynb
+
 
 # ====================================================================
 # 3. EXTENSIONES DE MARKDOWN AVANZADAS
-# Se añaden extensiones para mejor sintaxis y funcionalidad
 # ====================================================================
 markdown_extensions:
   - pymdownx.highlight:
-      # Ya no se necesita copy_headers: true si usamos content.code.copy en features
       anchor_linenums: true
       line_spans: __span
       pygments_lang_class: true
   - pymdownx.inlinehilite
   - pymdownx.snippets
-  - admonition        # Bloques de alertas (!!! note, !!! tip)
-  - pymdownx.details  # Bloques colapsables (Acordeones)
-  - pymdownx.superfences # Bloques de código mejorados
-  - pymdownx.tabbed:   # Pestañas para ejemplos de código
+  - pymdownx.superfences
+  - pymdownx.tabbed:
       alternate_style: true
-  - attr_list         # Permite añadir atributos HTML/CSS (ej. alinear imágenes)
-  - toc:               # Tabla de contenido
+  
+  - pymdownx.blocks.admonition:
+      types: 
+        - note
+        - attention
+        - tip
+        - warning
+        - error
+        - info
+  - pymdownx.blocks.details
+  
+  - attr_list
+  - toc:
       permalink: true
-  - pymdownx.tasklist: # Checkboxes
+  - pymdownx.tasklist:
       custom_checkbox: true
-  - pymdownx.emoji:    # Soporte para emojis de texto (:smile:)
+  - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - mdx_include
+  - pymdownx.arithmatex: # <--- ¡Añadir esta línea!
+      generic: true # Usa sintaxis genérica ($...$ y $$...$$)
+
 
 # ====================================================================
 # 4. CONFIGURACIÓN DE PLUGINS
 # ====================================================================
 plugins:
-  # Búsqueda integrada (soporta múltiples idiomas)
+  
+  # Integración de Jupyter Notebooks (Requiere: pip install mkdocs-jupyter)
+  - mkdocs-jupyter:
+      include: ["**/*.ipynb"]
+      
   - search:
       lang: es, en
-  # Generación de Referencia API automática (mkdocstrings)
+  
   - mkdocstrings:
       handlers:
         python:
-          # Debe estar instalado: pip install mkdocstrings-python
+          paths: [.] 
           options:
-            docstring_style: google # Formato de docstrings usado
-            show_root_heading: true # Muestra el título de la raíz del módulo
-            show_source: true       # Muestra enlace al código fuente
+            docstring_style: google
+            show_root_heading: true 
+            show_source: true
+            
+            # Opciones Avanzadas
+            show_if_no_docstring: false
+            members_order: source
+            separate_signature: true
+            signature_crossrefs: true
+            merge_init_into_class: true
+            docstring_section_style: spacy
+            unwrap_annotated: true # <--- Añadido
+            filters:
+              - '!^_'
+            
+# ====================================================================
+# 5. EXTRAS
+# ====================================================================
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/Mitchell-Mirano/sorix
+
+extra_javascript: # <--- ¡Añadir esta nueva sección!
+  # Carga el motor de renderizado de fórmulas (MathJax)
+  - javascripts/mathjax.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
