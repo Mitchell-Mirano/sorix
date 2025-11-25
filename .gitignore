@@ -173,4 +173,4 @@ poetry.toml
 # End of https://www.toptal.com/developers/gitignore/api/python
 *.joblib
 
-examples/data/digit-recognizer
+docs/examples/data/digit-recognizer
