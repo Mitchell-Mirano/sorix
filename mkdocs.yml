@@ -73,13 +73,10 @@ nav:
   - 🏡 Sorix: index.md
   # - ✨ Features: features.md
   - 📚 Learn:
-    - Fundamentos:
-      - Tensor: learn/fundamentos/tensor.md
-      - Autograd: learn/fundamentos/autograd.md
+    - Tensor: learn/tensor.ipynb
+    - Autograd: learn/autograd.ipynb
+    - Layers: learn/layers.ipynb
   - Examples:
-    - Fundamentos:
-      - Tensor: examples/basics/1-tensor.ipynb
-      - Layers: examples/basics/2-layers.ipynb
     - Preprocessing: examples/preprocessing/encoders-scalers-transformers.ipynb
     - Linear Regression: examples/regression/1-linear-regression.ipynb
     - Logistic Regression: examples/regression/2-logistic-regression.ipynb
@@ -137,8 +134,7 @@ markdown_extensions:
 # 4. CONFIGURACIÓN DE PLUGINS
 # ====================================================================
 plugins:
-  
-  # Integración de Jupyter Notebooks (Requiere: pip install mkdocs-jupyter)
+
   - mkdocs-jupyter:
       include: ["**/*.ipynb"]
       

@@ -35,3 +35,6 @@ docs = [
     "mkdocstrings-python>=1.19.0",
     "pymdown-extensions>=10.17.1",
 ]
+test = [
+    "pytest>=9.0.1",
+]
