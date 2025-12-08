@@ -27,6 +27,7 @@ dev = [
     "seaborn>=0.13.2",
 ]
 docs = [
+    "graphviz>=0.21",
     "markdown-include>=0.8.1",
     "mdx-include>=1.4.2",
     "mkdocs>=1.6.1",

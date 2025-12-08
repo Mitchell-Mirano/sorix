@@ -74,6 +74,7 @@ nav:
   # - ✨ Features: features.md
   - 📚 Learn:
     - Tensor: learn/tensor.ipynb
+    - Computational Graph: learn/graph.ipynb
     - Autograd: learn/autograd.ipynb
     - Layers: learn/layers.ipynb
   - Examples:
