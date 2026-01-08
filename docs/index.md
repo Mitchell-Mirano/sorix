@@ -78,7 +78,7 @@ Explore Sorix's full functionality with our interactive notebooks.
 
 | Module | Link |
 | :--- |  :--- |
-| **Basic** | [The main topics of ML with sorix](./learn/tensor.ipynb) |
+| **Basic** | [The main topics of ML with sorix](./learn/01-tensor.ipynb) |
 | **Examples** | [Examples of build ML models with sorix](./examples/nn/1-regression.ipynb) |
 
 -----

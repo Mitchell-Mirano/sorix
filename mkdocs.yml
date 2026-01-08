@@ -73,10 +73,10 @@ nav:
   - 🏡 Sorix: index.md
   # - ✨ Features: features.md
   - 📚 Learn:
-    - Tensor: learn/tensor.ipynb
-    - Computational Graph: learn/graph.ipynb
-    - Autograd: learn/autograd.ipynb
-    - Layers: learn/layers.ipynb
+    - Tensor: learn/01-tensor.ipynb
+    - Computational Graph: learn/02-graph.ipynb
+    - Autograd: learn/03-autograd.ipynb
+    - Layers: learn/04-layers.ipynb
   - Examples:
     - Preprocessing: examples/preprocessing/encoders-scalers-transformers.ipynb
     - Linear Regression: examples/regression/1-linear-regression.ipynb
