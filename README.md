@@ -16,7 +16,7 @@ Inspired by the PyTorch API, it maintains a clear and intuitive interface, enabl
 
 sorix delivers a balance between simplicity, performance, and scalability, enabling full understanding of the internal mechanics of models while building solutions ready for real-world deployment.
 
-![sorix Clustering Image](https://camo.githubusercontent.com/5f676d0288de1f4543cc46bed9ae604480d588e72c258b58a31fe8f370486d01/68747470733a2f2f73746f726167652e676f6f676c65617069732e636f6d2f6f70656e2d70726f6a656374732d646174612f416c6c69736f6e2f747261696e696e675f616e696d6174696f6e2e676966)
+![sorix Clustering Image](https://storage.googleapis.com/open-projects-data/Allison/training_animation.gif)
 
 ---
 
