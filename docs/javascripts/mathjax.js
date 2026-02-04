@@ -13,7 +13,11 @@ window.MathJax = {
   }
 };
 
-// Forzar renderizado tras cada cambio de página (Importante para Material)
 document$.subscribe(() => {
-  MathJax.typesetPromise();
+  if (window.MathJax) {
+    setTimeout(() => {
+      MathJax.typesetClear();
+      MathJax.typesetPromise();
+    }, 50);
+  }
 });

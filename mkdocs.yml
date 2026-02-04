@@ -138,6 +138,8 @@ plugins:
 
   - mkdocs-jupyter:
       include: ["**/*.ipynb"]
+      execute: false
+      include_source: false
       
   - search:
       lang: es, en
