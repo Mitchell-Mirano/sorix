@@ -1,0 +1,3 @@
+# sorix.tensor
+
+::: sorix.tensor

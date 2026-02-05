@@ -92,6 +92,31 @@ nav:
         - Multiclass: examples/nn/2.2-classification-multiclass.ipynb
         - Iris Dataset: examples/nn/3-Iris_dataset.ipynb
         - MNIST Dataset: examples/nn/4-digit-recognizer.ipynb
+  - API Reference:
+    - Tensor: api/tensor.md
+    - clustering:
+        - k_means: api/clustering/k_means.md
+    - cuda:
+        - cuda: api/cuda/cuda.md
+    - datasets:
+        - dataset: api/datasets/dataset.md
+        - dataloader: api/datasets/dataloader.md
+        - train_test: api/datasets/train_test.md
+    - metrics:
+        - metrics: api/metrics/metrics.md
+    - nn:
+        - layers: api/nn/layers.md
+        - loss: api/nn/loss.md
+        - net: api/nn/net.md
+    - optim:
+        - optim: api/optim/optim.md
+    - preprocessing:
+        - enconders: api/preprocessing/enconders.md
+        - scalers: api/preprocessing/scalers.md
+        - transformers: api/preprocessing/transformers.md
+    - utils:
+        - math: api/utils/math.md
+        - utils: api/utils/utils.md
 
 
 # ====================================================================
@@ -136,13 +161,9 @@ markdown_extensions:
 # ====================================================================
 plugins:
 
-  - mkdocs-jupyter:
-      include: ["**/*.ipynb"]
-      execute: false
-      include_source: false
       
   - search:
-      lang: es, en
+      lang: en
   
   - mkdocstrings:
       handlers:
@@ -164,6 +185,11 @@ plugins:
             filters:
               - '!^_'
             
+  - mkdocs-jupyter:
+      include: ["**/*.ipynb"]
+      execute: false
+      include_source: false
+
 # ====================================================================
 # 5. EXTRAS
 # ====================================================================
