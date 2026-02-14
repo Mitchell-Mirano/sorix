@@ -1,3 +1,0 @@
-# sorix.tensor
-
-::: sorix.tensor

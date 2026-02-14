@@ -1,106 +1,178 @@
 # Sorix
 
-**Sorix** is a Machine Learning and Deep Learning library designed to be **minimalist and high-performance**. Its main feature is the ability to execute neural networks directly on **NumPy** with minimal resource usage.
+**Sorix** is a minimalist and high-performance library for Machine Learning and Deep Learning, designed to run neural networks directly on **NumPy** with minimal resource usage.
 
-Inspired by the **PyTorch API**, Sorix maintains a clear and intuitive interface that allows for rapid adoption without compromising efficiency. Its architecture facilitates a smooth transition from research prototype to production, eliminating the need for structural re-writing.
+Inspired by the **PyTorch API**, Sorix maintains a clear and intuitive interface that allows for rapid adoption without compromising efficiency. Its architecture facilitates a smooth transition from research prototype to production.
 
+---
 
-## ✨ Distinctive Features
+## ✨ Key Features
 
-Leverage Sorix's expressive and familiar syntax, built to be lightweight and powerful:
+<div class="grid cards" markdown="1">
 
-  * **NumPy/CuPy Calculation Core:**
-      * Executes optimized neural networks on **NumPy** (CPU) with **optional GPU acceleration** via **CuPy**.
-  * **Lightweight and Efficient Design:**
-      * Ideal for environments with **limited computational resources** or where low overhead is required.
-  * **Familiar and Clear API:**
-      * Based on **PyTorch's** design principles, ensuring a short learning curve for users familiar with other frameworks.
-  * **Direct Path to Production:**
-      * Develop production-ready models without the need to rewrite or migrate to other heavy frameworks.
+-   :material-rocket-launch:{ .lg .middle } __High Performance__
 
-> Sorix balances simplicity, performance, and scalability, allowing for a complete understanding of the internal mechanics of models while building solutions ready for real-world deployment.
+    Executes optimized neural networks on **NumPy** with optional **GPU acceleration** via **CuPy**.
 
+-   :material-lightbulb-on:{ .lg .middle } __PyTorch-like API__
+
+    Expressive and familiar syntax based on PyTorch design principles, ensuring a short learning curve.
+
+-   :material-leaf:{ .lg .middle } __Lightweight__
+
+    Ideal for environments with limited computational resources or where low overhead is required.
+
+-   :material-factory:{ .lg .middle } __Production Ready__
+
+    Develop models that are ready for real-world deployment without the need to rewrite in other frameworks.
+
+</div>
+
+---
 
 ## 📦 Installation
 
-You can easily install Sorix using your favorite Python package management tools.
+<div class="grid" markdown="1">
 
-### CPU
+<div markdown="1">
+
+### 💻 Standard (CPU)
+For general use on CPU environments.
 
 === "pip"
-
-    Instala Sorix desde PyPI:
     ```bash
     pip install sorix
     ```
 === "Poetry"
-
-    Añade Sorix a tu proyecto con Poetry:
     ```bash
     poetry add sorix
     ```
 === "uv"
-
-    Usa el gestor de paquetes UV (de Astral):
     ```bash
     uv add sorix
     ```
 
-### GPU
+</div>
 
-Currently, Sorix only supports Cupy 13
+<div markdown="1">
+
+### 🚀 GPU Accelerated
+Requires [CuPy v13+](https://cupy.dev/) and CUDA.
 
 === "pip"
-
-    Instala Sorix desde PyPI:
     ```bash
-    pip install sorix[cp13]
+    pip install "sorix[cp13]"
     ```
 === "Poetry"
-
-    Añade Sorix a tu proyecto con Poetry:
     ```bash
-    poetry add sorix[cp13]
+    poetry add "sorix[cp13]"
     ```
 === "uv"
-
-    Usa el gestor de paquetes UV (de Astral):
     ```bash
-    uv add sorix[cp13]
+    uv add "sorix[cp13]"
     ```
 
------
+</div>
 
+</div>
 
-## 📖 Documentation and Interactive Examples
+---
 
-Explore Sorix's full functionality with our interactive notebooks.
+## ⚡ Quick Start
 
-| Module | Link |
-| :--- |  :--- |
-| **Basic** | [The main topics of ML with sorix](./learn/01-tensor.ipynb) |
-| **Examples** | [Examples of build ML models with sorix](./examples/nn/1-regression.ipynb) |
+### 1. Autograd Engine
+Sorix features a simple but powerful autograd engine for automatic differentiation.
 
------
+```python
+from sorix import tensor
+
+# Create tensors with gradient tracking
+x = tensor([2.0], requires_grad=True)
+w = tensor([3.0], requires_grad=True)
+b = tensor([1.0], requires_grad=True)
+
+# Define a simple function: y = w*x + b
+y = w * x + b
+
+# Compute gradients via backpropagation
+y.backward()
+
+print(f"dy/dx: {x.grad}") # → 3.0
+print(f"dy/dw: {w.grad}") # → 2.0
+```
+
+### 2. Linear Regression (Training Loop)
+Building and training models is as intuitive and powerful as in PyTorch.
+
+```python
+import numpy as np
+from sorix import tensor
+from sorix.nn import Linear, MSELoss
+from sorix.optim import SGD
+
+# 1. Prepare data
+X = np.linspace(-1, 1, 100).reshape(-1, 1)
+y = 3 * X + 2 + 0.1 * np.random.randn(*X.shape)
+X_t, y_t = tensor(X), tensor(y)
+
+# 2. Define model, loss, and optimizer
+model = Linear(1, 1)
+criterion = MSELoss()
+optimizer = SGD(model.parameters(), lr=0.1)
+
+# 3. Training loop
+for epoch in range(100):
+    y_pred = model(X_t)
+    loss = criterion(y_pred, y_t)
+
+    optimizer.zero_grad()
+    loss.backward()
+    optimizer.step()
+
+    if (epoch + 1) % 20 == 0:
+        print(f"Epoch {epoch+1}, Loss: {loss.item():.4f}")
+
+# 4. Final parameters
+print(f"Learned: y = {model.W.item():.2f}x + {model.b.item():.2f}")
+```
+
+---
+
+## 📂 Explore the Documentation
+
+<div class="grid cards" markdown="1">
+
+-   :material-book-open-variant:{ .lg .middle } __Learn Basics__
+
+    Understand Tensors, Graphs and Autograd.
+
+    [:octicons-arrow-right-24: Start Learning](./learn/01-tensor.ipynb)
+
+-   :material-code-braces:{ .lg .middle } __Examples__
+
+    Real-world models: Linear/Logistic Regression, MNIST, and more.
+
+    [:octicons-arrow-right-24: View Examples](./examples/nn/1-regression.ipynb)
+
+-   :material-library:{ .lg .middle } __API Reference__
+
+    Detailed documentation for every class and method.
+
+    [:octicons-arrow-right-24: Browse API](./api/tensor.md)
+
+</div>
+
+---
 
 ## 🚧 Project Status
 
 Sorix is under **active development**. We are constantly working on extending key functionalities:
 
-  * Integration of more essential neural network layers.
-  * Optimization and improvement of **GPU** support via CuPy.
-  * Extension of the `autograd` engine's functionality.
+- Integration of more essential neural network layers.
+- Optimization of **GPU** support via CuPy.
+- Extension of the `autograd` engine.
 
-### Contribute\!
-
-We appreciate any contribution from the community. You can help the project in the following ways:
-
-  * Reporting bugs (Issues).
-  * Adding new features (Pull Requests).
-  * Improving this documentation.
-  * Writing unit tests.
-
------
+---
 
 ## 🔗 Important Links
 
@@ -108,5 +180,3 @@ We appreciate any contribution from the community. You can help the project in t
 | :--- | :--- |
 | **PyPI Package** | [View on PyPI](https://pypi.org/project/sorix/) |
 | **Source Code** | [GitHub Repository](https://github.com/Mitchell-Mirano/sorix) |
-
------
