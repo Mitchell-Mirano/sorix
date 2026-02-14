@@ -7,36 +7,20 @@ if _cupy_available:
 
 
 def sigmoid(X) -> tensor | np.ndarray:
-
     if isinstance(X, tensor):
-        xp = cp if X.device == 'gpu' and _cupy_available else np
-        probs = 1 / (1 + xp.exp(-X.data))
-    else:
-        xp = cp if isinstance(X, cp.ndarray) else np
-
-        probs = 1 / (1 + xp.exp(-X))
-
-    if isinstance(X, tensor):
-        return tensor(probs,device=X.device)
+        return X.sigmoid()
     
-    return 1 / (1 + xp.exp(-X.data))
+    xp = cp if (_cupy_available and isinstance(X, cp.ndarray)) else np
+    return 1 / (1 + xp.exp(-X))
 
 
-def softmax(X, axis=1, keepdims=True) -> tensor | np.ndarray:
-
+def softmax(X, axis=-1) -> tensor | np.ndarray:
     if isinstance(X, tensor):
-        xp = cp if X.device == 'gpu' and _cupy_available else np
-        exp_logits = xp.exp(X.data - xp.max(X.data, axis=axis, keepdims=keepdims))
-        probs = exp_logits / xp.sum(exp_logits, axis=axis, keepdims=keepdims)
-    else:
-        xp = cp if isinstance(X, cp.ndarray) else np
-        exp_logits = xp.exp(X - xp.max(X, axis=axis, keepdims=keepdims))
-        probs = exp_logits / xp.sum(exp_logits, axis=axis, keepdims=keepdims)
-
-    if isinstance(X, tensor):
-        return tensor(probs,device=X.device)
+        return X.softmax(axis=axis)
     
-    return probs
+    xp = cp if (_cupy_available and isinstance(X, cp.ndarray)) else np
+    exp_logits = xp.exp(X - xp.max(X, axis=axis, keepdims=True))
+    return exp_logits / xp.sum(exp_logits, axis=axis, keepdims=True)
 
 
 def argmax(X, axis=1, keepdims=True) -> tensor | np.ndarray:

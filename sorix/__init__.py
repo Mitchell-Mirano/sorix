@@ -8,4 +8,5 @@ from .utils.utils import (as_tensor,from_numpy,
                           zeros_like,ones_like,empty_like,full_like,
                           )
 
-from .utils.math import (sin,cos,tanh,exp,log,sqrt,mean,sum)
+from .utils.math import (sin, cos, tanh, exp, log, sqrt, mean, sum,
+                          add, sub, mul, div, matmul, pow)

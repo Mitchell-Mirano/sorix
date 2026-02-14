@@ -9,10 +9,14 @@ if _cupy_available:
 _autograd_enabled = True
 
 class no_grad:
+    def __init__(self):
+        self.prev = True
+
     def __enter__(self):
         global _autograd_enabled
         self.prev = _autograd_enabled
         _autograd_enabled = False
+
     def __exit__(self, exc_type, exc_val, exc_tb):
         global _autograd_enabled
         _autograd_enabled = self.prev
@@ -33,35 +37,54 @@ class tensor:
         
         xp = cp if (device == 'gpu' and _cupy_available) else np
 
-        if isinstance(data, (list, tuple,np.ndarray,pd.DataFrame, pd.Series)):
-
+        if isinstance(data, (list, tuple, np.ndarray, pd.DataFrame, pd.Series, int, float)):
+            data = xp.array(data)
+        elif not isinstance(data, (np.ndarray, xp.ndarray if _cupy_available else np.ndarray)):
+            # Fallback for unexpected types
             data = xp.array(data)
 
         self.data = data
         
         self.device = device
         self.requires_grad = requires_grad
-        self.grad = xp.zeros_like(self.data) if requires_grad else None
+        self.grad = xp.zeros_like(self.data, dtype=float) if requires_grad else None
         self._backward = _noop
         global _autograd_enabled
-        self._prev = _children if (_autograd_enabled and requires_grad) else []
+        self._prev = set(_children) if (_autograd_enabled and requires_grad) else set()
         self._op = _op if _autograd_enabled else ''
 
     def __getstate__(self) -> object:
         return {'data': self.data.get() if self.device == 'gpu' else self.data,
-                'device': 'cpu'}
+                'device': 'cpu',
+                'requires_grad': self.requires_grad}
     
     def __setstate__(self, state):
         self.data = state['data']
-        self.grad = np.zeros_like(self.data)
+        self.device = state['device']
+        self.requires_grad = state.get('requires_grad', False)
+        xp = cp if (self.device == 'gpu' and _cupy_available) else np
+        self.grad = xp.zeros_like(self.data, dtype=float) if self.requires_grad else None
         self._backward = _noop
         self._prev = set()
         self._op = ''
-        self.device = state['device']
-        self.requires_grad = True
 
     def __getitem__(self, idx):
-        return tensor(self.data[idx], (self,), f'[{idx}]',device=self.device,requires_grad=self.requires_grad)
+        global _autograd_enabled
+        out_data = self.data[idx]
+        if not _autograd_enabled:
+            return tensor(out_data, device=self.device, requires_grad=self.requires_grad)
+        
+        out = tensor(out_data, [self], f'get[{idx}]', device=self.device, requires_grad=self.requires_grad)
+        
+        def _backward():
+            if self.requires_grad:
+                xp = cp if self.device == 'gpu' else np
+                grad_full = xp.zeros_like(self.data)
+                grad_full[idx] = out.grad
+                self.grad += grad_full
+        
+        out._backward = _backward
+        return out
     
     def __len__(self):
         return len(self.data)
@@ -92,42 +115,67 @@ class tensor:
 
     def gpu(self):
         return self.to("gpu")
+    
+    # In-place operations
+    def add_(self, other):
+        other_data = other.data if isinstance(other, tensor) else other
+        self.data += other_data
+        return self
+
+    def sub_(self, other):
+        other_data = other.data if isinstance(other, tensor) else other
+        self.data -= other_data
+        return self
+
+    def mul_(self, other):
+        other_data = other.data if isinstance(other, tensor) else other
+        self.data *= other_data
+        return self
+
+    def div_(self, other):
+        other_data = other.data if isinstance(other, tensor) else other
+        self.data /= other_data
+        return self
         
 
-    def __add__(self, other):
-        other = other if isinstance(other, tensor) else tensor(other)
-
+    def add(self, other):
+        other = other if isinstance(other, tensor) else tensor(other, device=self.device)
         global _autograd_enabled
 
         if not _autograd_enabled:
             return tensor(self.data + other.data, device=self.device)
 
         requires_grad = self.requires_grad or other.requires_grad   
-
-        out = tensor(self.data + other.data, [self, other], '+',device=self.device,requires_grad=requires_grad)
+        out = tensor(self.data + other.data, [self, other], '+', device=self.device, requires_grad=requires_grad)
 
         def _backward():
+            if out.grad is None:
+                return
             if self.requires_grad:
                 grad_self = tensor._match_shape(out.grad, self.data.shape)
-                self.grad += grad_self
+                self._accumulate_grad(grad_self)
             if other.requires_grad:
                 grad_other = tensor._match_shape(out.grad, other.data.shape)
-                other.grad += grad_other
+                other._accumulate_grad(grad_other)
 
         out._backward = _backward
         return out
+
+    def __add__(self, other):
+        return self.add(other)
     
+    def __radd__(self, other):
+        return self.add(other)
 
-    def __sub__(self, other):
+    def sub(self, other):
         other = other if isinstance(other, tensor) else tensor(other, device=self.device)
-
         global _autograd_enabled
 
         if not _autograd_enabled:
             return tensor(self.data - other.data, device=self.device)
         
         requires_grad = self.requires_grad or other.requires_grad
-        out = tensor(self.data - other.data, [self, other], '-',device=self.device,requires_grad=requires_grad)
+        out = tensor(self.data - other.data, [self, other], '-', device=self.device, requires_grad=requires_grad)
 
         def _backward():
             if out.grad is None:
@@ -135,52 +183,31 @@ class tensor:
             
             if self.requires_grad:
                 grad_self = tensor._match_shape(out.grad, self.data.shape)
-                self.grad += grad_self
+                self._accumulate_grad(grad_self)
 
             if other.requires_grad:
                 grad_other = tensor._match_shape(out.grad, other.data.shape)
-                other.grad -= grad_other
+                other._accumulate_grad(-grad_other)
 
         out._backward = _backward
         return out
+
+    def __sub__(self, other):
+        return self.sub(other)
     
     def __rsub__(self, other):
         other = other if isinstance(other, tensor) else tensor(other, device=self.device)
+        return other.sub(self)
 
-        global _autograd_enabled
-
-        if not _autograd_enabled:
-            return tensor(other.data - self.data, device=self.device)
-        
-        requires_grad = self.requires_grad or other.requires_grad
-        out = tensor(other.data - self.data, [other, self], '-', device=self.device, requires_grad=requires_grad)
-
-        def _backward():
-            if out.grad is None:
-                return
-            
-            if other.requires_grad:
-                grad_other = tensor._match_shape(out.grad, other.data.shape)
-                other.grad += grad_other
-
-            if self.requires_grad:
-                grad_self = tensor._match_shape(out.grad, self.data.shape)
-                self.grad -= grad_self
-
-        out._backward = _backward
-        return out
-
-    def __mul__(self, other):
+    def mul(self, other):
         other = other if isinstance(other, tensor) else tensor(other, device=self.device)
-
         global _autograd_enabled
 
         if not _autograd_enabled:
             return tensor(self.data * other.data, device=self.device)
         
         requires_grad = self.requires_grad or other.requires_grad
-
-        out = tensor(self.data * other.data, [self, other], '*',device=self.device,requires_grad=requires_grad)
+        out = tensor(self.data * other.data, [self, other], '*', device=self.device, requires_grad=requires_grad)
 
         def _backward():
             if out.grad is None:
@@ -188,81 +215,155 @@ class tensor:
             
             if self.requires_grad:
                 grad_self = tensor._match_shape(other.data * out.grad, self.data.shape)
-                self.grad += grad_self
+                self._accumulate_grad(grad_self)
 
             if other.requires_grad:
                 grad_other = tensor._match_shape(self.data * out.grad, other.data.shape)
-                other.grad += grad_other
+                other._accumulate_grad(grad_other)
 
         out._backward = _backward
         return out
+
+    def __mul__(self, other):
+        return self.mul(other)
     
     def __rmul__(self, other):
-        return self.__mul__(other)
+        return self.mul(other)
 
-    def __matmul__(self, other):
-        other = other if isinstance(other, tensor) else tensor(other)
+    def matmul(self, other):
+        other = other if isinstance(other, tensor) else tensor(other, device=self.device)
         global _autograd_enabled
 
         if not _autograd_enabled :
             return tensor(self.data @ other.data, device=self.device)
         
         requires_grad = self.requires_grad or other.requires_grad
-
-        out = tensor(self.data @ other.data, [self, other], '@',device=self.device,requires_grad=requires_grad)
+        out = tensor(self.data @ other.data, [self, other], '@', device=self.device, requires_grad=requires_grad)
 
         def _backward():
             if out.grad is None:
                 return
             
-
-            # Ajustar dimensiones para broadcast @
-
             if self.requires_grad:
                 grad_self = out.grad @ other.data.T
-                self.grad += tensor._match_shape(grad_self, self.data.shape)
+                self._accumulate_grad(tensor._match_shape(grad_self, self.data.shape))
 
             if other.requires_grad:
                 grad_other = self.data.T @ out.grad
-                other.grad += tensor._match_shape(grad_other, other.data.shape)
+                other._accumulate_grad(tensor._match_shape(grad_other, other.data.shape))
 
+        out._backward = _backward
+        return out
+
+    def tanh(self):
+        xp = cp if self.device == 'gpu' else np
+        global _autograd_enabled
+
+        if not _autograd_enabled:
+            return tensor(xp.tanh(self.data), device=self.device)
+        
+        out = tensor(xp.tanh(self.data), [self], 'tanh', device=self.device, requires_grad=self.requires_grad)
+
+        def _backward():
+            if out.grad is None:
+                return
+            if self.requires_grad:
+                self._accumulate_grad(out.grad * (1 - out.data**2))
+        
+        out._backward = _backward
+        return out
+
+    def _accumulate_grad(self, grad):
+        if grad is None:
+            return
+        if self.grad is None:
+            xp = cp if self.device == 'gpu' else np
+            self.grad = xp.zeros_like(self.data, dtype=float)
+        self.grad += grad
+
+    def __matmul__(self, other):
+        return self.matmul(other)
+    
+    def __rmatmul__(self, other):
+        other = other if isinstance(other, tensor) else tensor(other, device=self.device)
+        return other.matmul(self)
+
+    def pow(self, other):
+        assert isinstance(other, (int, float)), "only supporting int/float powers for now"
+        global _autograd_enabled
+
+        if not _autograd_enabled:
+            return tensor(self.data**other, device=self.device)
+        
+        out = tensor(self.data**other, [self], f'**{other}', device=self.device, requires_grad=self.requires_grad)
+
+        def _backward():
+            if out.grad is None:
+                return
+            
+            if self.requires_grad:
+                grad = out.grad * (other * (self.data**(other-1)))
+                self._accumulate_grad(grad)
+
+        out._backward = _backward
+        return out
+
+    def sigmoid(self):
+        xp = cp if self.device == 'gpu' else np
+        global _autograd_enabled
+
+        out_data = 1 / (1 + xp.exp(-self.data))
+        if not _autograd_enabled:
+            return tensor(out_data, device=self.device, requires_grad=self.requires_grad)
+        
+        out = tensor(out_data, [self], 'sigmoid', device=self.device, requires_grad=self.requires_grad)
+
+        def _backward():
+            if out.grad is None:
+                return
+            if self.requires_grad:
+                self._accumulate_grad(out.grad * out.data * (1 - out.data))
+        
+        out._backward = _backward
+        return out
+
+    def softmax(self, axis=-1):
+        xp = cp if self.device == 'gpu' else np
+        global _autograd_enabled
+        
+        # Stability trick
+        shifted_data = self.data - xp.max(self.data, axis=axis, keepdims=True)
+        exp_data = xp.exp(shifted_data)
+        out_data = exp_data / xp.sum(exp_data, axis=axis, keepdims=True)
+
+        if not _autograd_enabled:
+            return tensor(out_data, device=self.device, requires_grad=self.requires_grad)
+        
+        out = tensor(out_data, [self], 'softmax', device=self.device, requires_grad=self.requires_grad)
+
+        def _backward():
+            if out.grad is None:
+                return
+            if self.requires_grad:
+                # Softmax gradient: s * (grad - sum(grad * s, axis, keepdims))
+                sum_grad_s = xp.sum(out.grad * out.data, axis=axis, keepdims=True)
+                self._accumulate_grad(out.data * (out.grad - sum_grad_s))
+        
         out._backward = _backward
         return out
 
     def __pow__(self, other):
+        return self.pow(other)
 
-        assert isinstance(other, (int, float)), "only supporting int/float powers for now"
-
-        global _autograd_enabled
-
-        if not _autograd_enabled:
-
-            return tensor(self.data**other, device=self.device)
-        
-        out = tensor(self.data**other, [self], f'**{other}',device=self.device,requires_grad=self.requires_grad)
-
-        def _backward():
-            if out.grad is None:
-                return
-            
-            if self.requires_grad:
-                self.grad += out.grad * other * (self.data**(other-1))
-
-        out._backward = _backward
-        return out
-    
-    def __truediv__(self, other):
-        
-        other = other if isinstance(other, tensor) else tensor(other)
-
+    def div(self, other):
+        other = other if isinstance(other, tensor) else tensor(other, device=self.device)
         global _autograd_enabled
 
         if not _autograd_enabled:
             return tensor(self.data / other.data, device=self.device)
         
         requires_grad = self.requires_grad or other.requires_grad
-
-        out = tensor(self.data / other.data, [self, other], '/',device=self.device,requires_grad=requires_grad)
+        out = tensor(self.data / other.data, [self, other], '/', device=self.device, requires_grad=requires_grad)
 
         def _backward():
             if out.grad is None:
@@ -270,42 +371,115 @@ class tensor:
             
             if self.requires_grad:
                 grad_self = tensor._match_shape(out.grad / other.data, self.data.shape)
-                self.grad += grad_self
+                self._accumulate_grad(grad_self)
 
             if other.requires_grad:
                 grad_other = tensor._match_shape(-self.data * out.grad / (other.data**2), other.data.shape)
-                other.grad += grad_other
+                other._accumulate_grad(grad_other)
 
         out._backward = _backward
         return out
+
+    def __truediv__(self, other):
+        return self.div(other)
     
-    def mean(self):
-
+    def __rtruediv__(self, other):
+        other = other if isinstance(other, tensor) else tensor(other, device=self.device)
+        return other.div(self)
+    
+    def mean(self, axis=None, keepdims=False):
         global _autograd_enabled
-
         xp = cp if self.device == 'gpu' else np
 
         if not _autograd_enabled:
-            return tensor(xp.mean(self.data), device=self.device)
+            return tensor(xp.mean(self.data, axis=axis, keepdims=keepdims), device=self.device)
         
-        out = tensor(xp.mean(self.data), [self,], 'mean',device=self.device,requires_grad=self.requires_grad)
+        out = tensor(xp.mean(self.data, axis=axis, keepdims=keepdims), [self], 'mean', device=self.device, requires_grad=self.requires_grad)
 
         def _backward():            
             if out.grad is None:
                 return
             
             if self.requires_grad:
-                self.grad += out.grad * xp.ones_like(self.data) / self.data.size
+                grad = out.grad
+                if not keepdims and axis is not None:
+                    grad = xp.expand_dims(grad, axis=axis)
+                self._accumulate_grad(grad * xp.ones_like(self.data) / self.data.size)
+        out._backward = _backward
+        return out
+    
+    def sum(self, axis=None, keepdims=False):
+        global _autograd_enabled
+        xp = cp if self.device == 'gpu' else np
+        
+        if not _autograd_enabled:
+            return tensor(self.data.sum(axis=axis, keepdims=keepdims), device=self.device)
+            
+        out = tensor(self.data.sum(axis=axis, keepdims=keepdims), [self], 'sum', device=self.device, requires_grad=self.requires_grad)
+        
+        def _backward():
+            if out.grad is None:
+                return
+
+            if self.requires_grad:
+                grad = out.grad
+                if not keepdims and axis is not None:
+                    grad = xp.expand_dims(grad, axis=axis)
+                self._accumulate_grad(xp.ones_like(self.data) * grad)
+        
         out._backward = _backward
         return out
     
     def abs(self):
-        
         xp = cp if self.device == 'gpu' else np
+        return tensor(xp.abs(self.data), device=self.device)
+    
+    def reshape(self, *shape):
+        if len(shape) == 1 and isinstance(shape[0], (list, tuple)):
+            shape = shape[0]
+            
+        global _autograd_enabled
+        if not _autograd_enabled:
+            return tensor(self.data.reshape(*shape), device=self.device, requires_grad=self.requires_grad)
         
-        return tensor(xp.abs(self.data),device=self.device)
-    
-    
+        out = tensor(self.data.reshape(*shape), [self], 'reshape', device=self.device, requires_grad=self.requires_grad)
+        
+        def _backward():
+            if out.grad is None:
+                return
+            if self.requires_grad:
+                self._accumulate_grad(out.grad.reshape(self.data.shape))
+        
+        out._backward = _backward
+        return out
+
+    def transpose(self, *axes):
+        global _autograd_enabled
+        if not _autograd_enabled:
+            return tensor(self.data.transpose(*axes), device=self.device, requires_grad=self.requires_grad)
+        
+        out = tensor(self.data.transpose(*axes), [self], 'transpose', device=self.device, requires_grad=self.requires_grad)
+        
+        def _backward():
+            if out.grad is None:
+                return
+            if self.requires_grad:
+                # La inversa de una transposición es la transposición con los ejes invertidos
+                if not axes:
+                    self._accumulate_grad(out.grad.transpose())
+                else:
+                    inv_axes = np.argsort(axes)
+                    self._accumulate_grad(out.grad.transpose(*inv_axes))
+        
+        out._backward = _backward
+        return out
+
+    @property
+    def T(self):
+        return self.transpose()
+
+    def flatten(self):
+        return self.reshape(-1)
 
     def backward(self):
         topo = []
@@ -319,13 +493,20 @@ class tensor:
                 topo.append(t)
 
         build_topo(self)
-        self.grad = cp.ones_like(self.data) if self.device == 'gpu' else np.ones_like(self.data)
+        
+        xp = cp if self.device == 'gpu' else np
+        if self.grad is None:
+             self.grad = xp.ones_like(self.data, dtype=float)
+        else:
+             self.grad += xp.ones_like(self.data, dtype=float)
 
         for node in reversed(topo):
             node._backward()
 
     @staticmethod
     def _match_shape(grad, shape):
+        if grad is None:
+            return None
         while grad.ndim > len(shape):
             grad = grad.sum(axis=0)
 
@@ -348,9 +529,6 @@ class tensor:
     def shape(self):
         return self.data.shape
     
-    def reshape(self, *shape):
-        return tensor(self.data.reshape(*shape),device=self.device)
-    
     @property
     def ndim(self):
         return self.data.ndim
@@ -372,14 +550,13 @@ class tensor:
     def item(self):
         return self.data.item()
     
-    def flatten(self):
-        return tensor(self.data.flatten(),device=self.device)
-    
-    def __array__(self, dtype=None):
+    def __array__(self, dtype=None, copy=None):
         arr = self.to_numpy()
         if dtype is not None:
-            return arr.astype(dtype)
-        return arr 
+            arr = arr.astype(dtype)
+        if copy is False:
+             return arr
+        return arr.copy()
     
    # Comparaciones
     def __gt__(self, other):
@@ -406,5 +583,5 @@ class tensor:
         other_data = other.data if isinstance(other, tensor) else other
         return tensor(self.data != other_data, device=self.device, requires_grad=False)
     
-    def sum(self, axis=None, keepdims=False):
-        return tensor(self.data.sum(axis=axis, keepdims=keepdims),device=self.device)
+    def __hash__(self):
+        return id(self)

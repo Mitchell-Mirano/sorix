@@ -2,22 +2,15 @@
 name = "sorix"
 version = "1.0.0"
 description = "A Machine Learning library for begainers"
-authors = [
-  {name = "Mitchell Mirano", email = "mitchellmirano25@gmail.com"},
-]
+authors = [{ name = "Mitchell Mirano", email = "mitchellmirano25@gmail.com" }]
 readme = "README.md"
-requires-python = ">=3.12"
-dependencies = [
-   "numpy>=2.0",
-]
+requires-python = ">=3.12, <3.14"
+dependencies = ["numpy>=2.0"]
 
 [project.optional-dependencies]
 
 # Para CUDA 13.x
-cp13 = [
-    "cupy-cuda13x>=13.0",
-    "numpy>=2.0,<3.0",
-]
+cp13 = ["cupy-cuda13x>=13.0", "numpy>=2.0,<3.0"]
 
 [dependency-groups]
 dev = [
@@ -36,6 +29,4 @@ docs = [
     "mkdocstrings-python>=1.19.0",
     "pymdown-extensions>=10.17.1",
 ]
-test = [
-    "pytest>=9.0.1",
-]
+test = ["pytest>=9.0.1", "pytest-cov"]

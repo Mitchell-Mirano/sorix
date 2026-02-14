@@ -54,8 +54,7 @@ def regression_report(y_true: np.ndarray, y_pred: np.ndarray) -> str:
 
 
 def accuracy_score(Y_true, Y_pred):
-
-    return (Y_true==Y_pred).mean()
+    return (Y_true==Y_pred).mean().item()
 
 
 def confusion_matrix(y_true, y_pred):
