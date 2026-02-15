@@ -9,7 +9,7 @@
     <img src="https://img.shields.io/pypi/v/sorix.svg?color=indigo" alt="PyPI version">
   </a>
   <a href="https://github.com/Mitchell-Mirano/sorix/actions">
-    <img src="https://github.com/Mitchell-Mirano/sorix/actions/workflows/tests.yml/badge.svg" alt="Tests status">
+    <img src="https://github.com/Mitchell-Mirano/sorix/actions/workflows/tests.yml/badge.svg?branch=qa" alt="Tests status">
   </a>
   <a href="https://opensource.org/licenses/MIT">
     <img src="https://img.shields.io/badge/License-MIT-orange.svg" alt="License: MIT">
