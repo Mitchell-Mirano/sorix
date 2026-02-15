@@ -1,72 +1,68 @@
-# **Sorix**
+# 🌌 Sorix
 
-*sorix is a minimalist and high-performance library for Machine Learning and Deep Learning, designed to run neural networks directly on NumPy with minimal resource usage.*
+<p align="center">
+  <img src="https://storage.googleapis.com/open-projects-data/Allison/training_animation.gif" width="600" alt="Sorix training animation">
+</p>
 
-Inspired by the PyTorch API, it maintains a clear and intuitive interface, enabling rapid adoption without compromising efficiency. Its architecture allows seamless transition from prototype to production without structural modifications.
+<p align="center">
+  <a href="https://pypi.org/project/sorix/">
+    <img src="https://img.shields.io/pypi/v/sorix.svg?color=indigo" alt="PyPI version">
+  </a>
+  <a href="https://github.com/Mitchell-Mirano/sorix/actions">
+    <img src="https://github.com/Mitchell-Mirano/sorix/actions/workflows/tests.yml/badge.svg" alt="Tests status">
+  </a>
+  <a href="https://opensource.org/licenses/MIT">
+    <img src="https://img.shields.io/badge/License-MIT-orange.svg" alt="License: MIT">
+  </a>
+  <a href="https://github.com/Mitchell-Mirano/sorix/stargazers">
+    <img src="https://img.shields.io/github/stars/Mitchell-Mirano/sorix?style=social" alt="GitHub stars">
+  </a>
+</p>
 
 ---
 
-## **Key Features**
+**Sorix** is a high-performance, minimalist deep learning library built on top of NumPy/CuPy. Designed for research and production environments where efficiency and a clean API matter. If you know **PyTorch**, you already know how to use **Sorix**.
 
-* **Runs optimized neural networks on NumPy**, with optional GPU acceleration via CuPy.
-* **Lightweight and efficient design**, ideal for environments with limited computational resources.
-* **Familiar and expressive API**, based on PyTorch design principles.
-* **Short learning curve**, suitable for rapid research and agile development.
-* **Production-ready models**, without the need for rewriting in other frameworks.
-
-sorix delivers a balance between simplicity, performance, and scalability, enabling full understanding of the internal mechanics of models while building solutions ready for real-world deployment.
-
-![sorix Clustering Image](https://storage.googleapis.com/open-projects-data/Allison/training_animation.gif)
+[**📖 Read the Full Documentation**](https://mitchell-mirano.github.io/sorix/)
 
 ---
 
-## 📦 **Installation**
+## 🚀 Key Features
 
-Install sorix from [PyPI](https://pypi.org/project/sorix/):
+*   **⚡ High Performance**: Run optimized neural networks on NumPy (CPU) or CuPy (GPU).
+*   **🧩 PyTorch-like API**: Familiar and expressive syntax for a near-zero learning curve.
+*   **🍃 Lightweight**: Minimal dependencies, ideal for resource-constrained environments.
+*   **🛠️ Production Ready**: Straight path from prototype to real-world deployment.
+*   **📈 Autograd Engine**: Simple yet powerful automatic differentiation.
 
+---
+
+## 📦 Installation
+
+Choose your preferred package manager:
+
+**Using pip:**
 ```bash
 pip install sorix
 ```
 
-Or with [Poetry](https://python-poetry.org/):
-
-```bash
-poetry add sorix
-```
-
-Or with [UV](https://docs.astral.sh/uv/guides/install-python/)
+**Using uv:**
 ```bash
 uv add sorix
 ```
 
----
-
-## ⚡ **Quick Start**
-
-
-### Autograd Example
-
-```python
-from sorix import tensor
-
-# Create tensors with gradient tracking
-x = tensor([2.0], requires_grad=True)
-w = tensor([3.0], requires_grad=True)
-b = tensor([1.0], requires_grad=True)
-
-# Define a simple function: y = w*x + b
-y = w * x + b
-
-# Compute gradients via backpropagation
-y.backward()
-
-print("dy/dx:", x.grad)   # → should be w = 3
-print("dy/dw:", w.grad)   # → should be x = 2
-print("dy/db:", b.grad)   # → should be 1
+**Using Poetry:**
+```bash
+poetry add sorix
 ```
+
+> **Note for GPU support**: Install the CuPy extra using `pip install "sorix[cp13]"` (Requires CuPy v13 and CUDA).
+
 ---
 
-### Linear Regression Example
+## ⚡ Sorix in 30 Seconds
+
+Building and training a model is intuitive. Here is a complete training loop:
 
 ```python
 import numpy as np
@@ -74,75 +70,76 @@ from sorix import tensor
 from sorix.nn import Linear, MSELoss
 from sorix.optim import SGD
 
-# 🎯 Generate synthetic data (y = 3x + 2 + noise)
+# 1. Prepare data (y = 3x + 2)
 X = np.linspace(-1, 1, 100).reshape(-1, 1)
 y = 3 * X + 2 + 0.1 * np.random.randn(*X.shape)
+X_t, y_t = tensor(X), tensor(y)
 
-# Convert to sorix tensors (CPU, use device="gpu" for GPU)
-X_tensor = tensor(X, device="cpu")
-y_tensor = tensor(y, device="cpu")
-
-# Define model, loss, and optimizer
-features, outputs = 1, 1
-model = Linear(features, outputs)
+# 2. Define model, loss, and optimizer
+model = Linear(1, 1) # Simple y = Wx + b
 criterion = MSELoss()
 optimizer = SGD(model.parameters(), lr=0.1)
 
-# 🏋️ Training loop
-for epoch in range(200):
-    # Forward pass
-    y_pred = model(X_tensor)
-    loss = criterion(y_pred, y_tensor)
+# 3. Training loop
+for epoch in range(100):
+    y_pred = model(X_t)
+    loss = criterion(y_pred, y_t)
 
-    # Backward pass
     optimizer.zero_grad()
     loss.backward()
     optimizer.step()
 
-    # Print progress every 20 epochs
     if (epoch + 1) % 20 == 0:
-        print(f"Epoch [{epoch+1}/200] - Loss: {loss.item():.4f}")
+        print(f"Epoch {epoch+1}, Loss: {loss.item():.4f}")
 
-# ✅ Final learned parameters
-print("Learned weight:", model.coef_)
-print("Learned bias:", model.intercept_)
+# Learned: y = 3.00x + 2.00
+print(f"Learned: y = {model.W.item():.2f}x + {model.b.item():.2f}")
 ```
 
 ---
 
-## 📖 **Documentation & Examples**
+## 📖 Learn & Examples
 
-Explore the interactive examples:
+Learn Sorix through interactive notebooks. Open them directly in **Google Colab**:
 
-* [1 - Tensor Basics](https://github.com/Mitchell-Mirano/sorix/blob/develop/docs/examples/basics/1-tensor.ipynb)
-* [2 - Regression](https://github.com/Mitchell-Mirano/sorix/blob/develop/docs/examples/nn/1-regression.ipynb)
-* [3 - Neural Network Layers](https://github.com/Mitchell-Mirano/sorix/blob/develop/docs/examples/basics/2-layers.ipynb)
-
-👉 More examples available in the [examples folder](https://github.com/Mitchell-Mirano/sorix/tree/main/examples).
-
----
-
-## 🛠️ **Project Status**
-
-sorix is **under active development** 🚧.
-New features are being added frequently, including:
-
-* More neural network layers.
-* Better GPU support.
-* Extended autograd functionality.
-
-You can contribute by:
-
-* Reporting issues
-* Adding new features
-* Improving documentation
-* Writing tests
+| Topic | Documentation | Colab |
+| :--- | :--- | :--- |
+| **Tensor Basics** | [Tensors Guide](https://mitchell-mirano.github.io/sorix/learn/01-tensor/) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Mitchell-Mirano/sorix/blob/develop/docs/learn/01-tensor.ipynb) |
+| **Autograd Engine** | [Autograd Guide](https://mitchell-mirano.github.io/sorix/learn/03-autograd/) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Mitchell-Mirano/sorix/blob/develop/docs/learn/03-autograd.ipynb) |
+| **Linear Regression** | [Regression Guide](https://mitchell-mirano.github.io/sorix/examples/nn/1-regression/) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Mitchell-Mirano/sorix/blob/develop/docs/examples/nn/1-regression.ipynb) |
+| **MNIST Classification** | [MNIST Guide](https://mitchell-mirano.github.io/sorix/examples/nn/4-digit-recognizer/) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Mitchell-Mirano/sorix/blob/develop/docs/examples/nn/4-digit-recognizer.ipynb) |
 
 ---
 
-## 📌 **Links**
+## 🛠️ Roadmap
 
-* [PyPI Package](https://pypi.org/project/sorix/)
-* [GitHub Repository](https://github.com/Mitchell-Mirano/sorix)
+- [x] **Core Autograd Engine** (NumPy/CuPy backends)
+- [x] **Basic Layers**: Linear, ReLU, Sigmoid, Tanh, BatchNorm1D
+- [x] **Optimizers**: SGD, Adam, RMSprop
+- [x] **GPU Acceleration** via CuPy
+- [ ] **Sequential API** (Coming soon)
+- [ ] **Convolutional Layers** (Conv2d, MaxPool2d)
+- [ ] **Dropout & Regularization**
+- [ ] **Advanced Initializations** (Kaiming, Orthogonal)
 
 ---
+
+## 🤝 Contribution
+
+We appreciate any contribution from the community!
+
+1.  **Report Bugs**: Open an [Issue](https://github.com/Mitchell-Mirano/sorix/issues).
+2.  **Add Features**: Submit a [Pull Request](https://github.com/Mitchell-Mirano/sorix/pulls).
+3.  **Improve Docs**: Help us make the documentation better.
+4.  **Write Tests**: Improve our code [coverage](https://mitchell-mirano.github.io/sorix/).
+
+---
+
+## 📌 Links
+
+*   **Documentation**: [mitchell-mirano.github.io/sorix](https://mitchell-mirano.github.io/sorix/)
+*   **PyPI Package**: [sorix](https://pypi.org/project/sorix/)
+*   **Samples**: [examples/ folder](https://github.com/Mitchell-Mirano/sorix/tree/develop/docs/examples)
+
+---
+<p align="center">Made with ❤️ for the AI Community</p>
