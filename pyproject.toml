@@ -34,3 +34,12 @@ docs = [
     "pymdown-extensions>=10.17.1",
 ]
 test = ["pytest>=9.0.1", "pytest-cov"]
+
+[tool.setuptools.packages.find]
+include = ["sorix*"] # Incluye sorix y sus subpaquetes
+exclude = [
+    "site*",
+    "scripts*",
+    "docs*",
+    "tests*",
+] # Excluye explícitamente directorios no deseados

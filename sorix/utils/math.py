@@ -3,7 +3,13 @@ import numpy as np
 from sorix.cupy.cupy import _cupy_available
 
 if _cupy_available:
-    import cupy as cp
+    try:
+        import cupy as cp
+    except ImportError:
+        _cupy_available = False
+        cp = None
+else:
+    cp = None
 
 
 def add(input, other):
