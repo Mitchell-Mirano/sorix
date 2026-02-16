@@ -41,7 +41,13 @@ jobs:
         run: |
           uv run python scripts/update_notebook_links.py
 
+      - name: Build Docs
+        if: github.event_name == 'pull_request'
+        run: |
+          uv run mkdocs build
+
       - name: Deploy Docs
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         run: |
           uv run mike deploy --push --update-aliases latest
           uv run mike set-default --push latest
