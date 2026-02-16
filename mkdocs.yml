@@ -6,7 +6,7 @@ site_description: Librería minimalista y de alto rendimiento para Machine Learn
 site_url: https://mitchell-mirano.github.io/sorix/
 repo_url: https://github.com/Mitchell-Mirano/sorix/
 repo_name: Mitchell-Mirano/sorix
-edit_uri: edit/develop/docs/
+edit_uri: edit/{{ branch }}/docs/
 
 # ====================================================================
 # 1. CONFIGURACIÓN DEL TEMA MATERIAL (Estilo FastAPI)
@@ -179,6 +179,8 @@ plugins:
 # 5. EXTRAS
 # ====================================================================
 extra:
+  version:
+    provider: mike
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/Mitchell-Mirano/sorix
