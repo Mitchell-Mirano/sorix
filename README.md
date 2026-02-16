@@ -104,10 +104,10 @@ Learn Sorix through interactive notebooks. Open them directly in **Google Colab*
 
 | Topic | Documentation | Colab |
 | :--- | :--- | :--- |
-| **Tensor Basics** | [Tensors Guide](https://mitchell-mirano.github.io/sorix/learn/01-tensor/) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Mitchell-Mirano/sorix/blob/develop/docs/learn/01-tensor.ipynb) |
-| **Autograd Engine** | [Autograd Guide](https://mitchell-mirano.github.io/sorix/learn/03-autograd/) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Mitchell-Mirano/sorix/blob/develop/docs/learn/03-autograd.ipynb) |
-| **Linear Regression** | [Regression Guide](https://mitchell-mirano.github.io/sorix/examples/nn/1-regression/) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Mitchell-Mirano/sorix/blob/develop/docs/examples/nn/1-regression.ipynb) |
-| **MNIST Classification** | [MNIST Guide](https://mitchell-mirano.github.io/sorix/examples/nn/4-digit-recognizer/) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Mitchell-Mirano/sorix/blob/develop/docs/examples/nn/4-digit-recognizer.ipynb) |
+| **Tensor Basics** | [Tensors Guide](https://mitchell-mirano.github.io/sorix/latest/learn/01-tensor/) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Mitchell-Mirano/sorix/blob/main/docs/learn/01-tensor.ipynb) |
+| **Autograd Engine** | [Autograd Guide](https://mitchell-mirano.github.io/sorix/latest/learn/03-autograd/) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Mitchell-Mirano/sorix/blob/main/docs/learn/03-autograd.ipynb) |
+| **Linear Regression** | [Regression Guide](https://mitchell-mirano.github.io/sorix/latest/examples/nn/1-regression/) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Mitchell-Mirano/sorix/blob/main/docs/examples/nn/1-regression.ipynb) |
+| **MNIST Classification** | [MNIST Guide](https://mitchell-mirano.github.io/sorix/latest/examples/nn/4-digit-recognizer/) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Mitchell-Mirano/sorix/blob/main/docs/examples/nn/4-digit-recognizer.ipynb) |
 
 ---
 
