@@ -1,0 +1,49 @@
+name: Update Notebook Links
+
+on:
+  push:
+    branches:
+      - main
+      - qa
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-notebooks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          version: "latest"
+
+      - name: Set up Python
+        run: uv python install 3.12
+
+      - name: Update Notebook Links
+        env:
+          GIT_BRANCH: ${{ github.ref_name }}
+        run: |
+          uv run python scripts/update_notebook_links.py
+
+      - name: Commit and Push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          git add docs/
+          
+          # Only commit if there are changes
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: update notebook links to branch ${{ github.ref_name }} [skip ci]"
+            git push
+          else
+            echo "No changes to notebooks."
+          fi

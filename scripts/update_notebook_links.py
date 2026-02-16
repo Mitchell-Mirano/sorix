@@ -55,13 +55,26 @@ def update_notebook_links(notebook_path: Path, target_branch: str):
         
         # Process all cells
         for cell in notebook.get('cells', []):
-            if cell.get('cell_type') == 'markdown':
+            cell_type = cell.get('cell_type')
+            if cell_type in ['markdown', 'code']:
                 source = cell.get('source', [])
                 if isinstance(source, list):
                     new_source = []
                     for line in source:
                         new_line = line
                         
+                        # Update pip install command (usually in code cells)
+                        if 'pip install' in new_line and 'sorix @ git+' in new_line:
+                            import re
+                            replaced_line = re.sub(
+                                r'(github\.com/Mitchell-Mirano/sorix\.git@)[^/\'"]+',
+                                rf'\1{target_branch}',
+                                new_line
+                            )
+                            if replaced_line != new_line:
+                                new_line = replaced_line
+                                modified = True
+
                         # Replace Jinja2 macros with actual values
                         if '{{ github_blob }}' in new_line:
                             new_line = new_line.replace('{{ github_blob }}', github_blob)
@@ -84,7 +97,7 @@ def update_notebook_links(notebook_path: Path, target_branch: str):
                             modified = True
                         
                         # Also replace hardcoded Colab links (for backward compatibility)
-                        if 'colab.research.google.com/github/Mitchell-Mirano/sorix/blob/' in new_line:
+                        if cell_type == 'markdown' and 'colab.research.google.com/github/Mitchell-Mirano/sorix/blob/' in new_line:
                             import re
                             replaced_line = re.sub(
                                 r'(colab\.research\.google\.com/github/Mitchell-Mirano/sorix/blob/)[^/]+/',
@@ -96,7 +109,7 @@ def update_notebook_links(notebook_path: Path, target_branch: str):
                                 modified = True
                         
                         # Replace hardcoded GitHub blob links
-                        if 'github.com/Mitchell-Mirano/sorix/blob/' in new_line and 'colab' not in new_line:
+                        if cell_type == 'markdown' and 'github.com/Mitchell-Mirano/sorix/blob/' in new_line and 'colab' not in new_line:
                             import re
                             replaced_line = re.sub(
                                 r'(github\.com/Mitchell-Mirano/sorix/blob/)[^/]+/',
