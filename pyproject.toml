@@ -1,6 +1,6 @@
 [project]
 name = "sorix"
-version = "1.0.0"
+dynamic = ["version"]
 description = "A minimalistic and high-performance Machine Learning library based on NumPy"
 authors = [{ name = "Mitchell Mirano", email = "mitchellmirano25@gmail.com" }]
 license = { text = "MIT" }
@@ -67,3 +67,10 @@ exclude = [
     "docs*",
     "tests*",
 ] # Excluye explícitamente directorios no deseados
+
+[tool.setuptools_scm]
+write_to = "sorix/_version.py"
+
+[build-system]
+requires = ["setuptools>=64", "setuptools_scm>=8"]
+build-backend = "setuptools.build_meta"
