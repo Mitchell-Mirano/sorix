@@ -1,4 +1,4 @@
-from .tensor.tensor import tensor,no_grad
+from .tensor import tensor,no_grad
 from .cuda import cuda
 from .utils.utils import sigmoid,softmax,argmax
 from .utils.utils import (as_tensor,from_numpy,
@@ -8,4 +8,5 @@ from .utils.utils import (as_tensor,from_numpy,
                           zeros_like,ones_like,empty_like,full_like,
                           )
 
-from .utils.math import (sin,cos,tanh,exp,log,sqrt,mean,sum)
+from .utils.math import (sin, cos, tanh, exp, log, sqrt, mean, sum,
+                          add, sub, mul, div, matmul, pow)

@@ -1,52 +1,51 @@
-from sorix.tensor.tensor import tensor
+from sorix.tensor import tensor
 import numpy as np
 from sorix.cupy.cupy import _cupy_available
 
 if _cupy_available:
-    import cupy as cp
+    try:
+        import cupy as cp
+    except ImportError:
+        _cupy_available = False
+        cp = None
+else:
+    cp = None
 
 
 def sigmoid(X) -> tensor | np.ndarray:
-
     if isinstance(X, tensor):
-        xp = cp if X.device == 'gpu' and _cupy_available else np
-        probs = 1 / (1 + xp.exp(-X.data))
-    else:
-        xp = cp if isinstance(X, cp.ndarray) else np
-
-        probs = 1 / (1 + xp.exp(-X))
-
-    if isinstance(X, tensor):
-        return tensor(probs,device=X.device)
+        return X.sigmoid()
     
-    return 1 / (1 + xp.exp(-X.data))
+    xp = cp if (_cupy_available and (cp is not None and isinstance(X, cp.ndarray))) else np
+    return 1 / (1 + xp.exp(-X))
 
 
-def softmax(X, axis=1, keepdims=True) -> tensor | np.ndarray:
-
+def softmax(X, axis=-1) -> tensor | np.ndarray:
     if isinstance(X, tensor):
-        xp = cp if X.device == 'gpu' and _cupy_available else np
-        exp_logits = xp.exp(X.data - xp.max(X.data, axis=axis, keepdims=keepdims))
-        probs = exp_logits / xp.sum(exp_logits, axis=axis, keepdims=keepdims)
-    else:
-        xp = cp if isinstance(X, cp.ndarray) else np
-        exp_logits = xp.exp(X - xp.max(X, axis=axis, keepdims=keepdims))
-        probs = exp_logits / xp.sum(exp_logits, axis=axis, keepdims=keepdims)
-
-    if isinstance(X, tensor):
-        return tensor(probs,device=X.device)
+        return X.softmax(axis=axis)
     
-    return probs
+    xp = cp if (_cupy_available and (cp is not None and isinstance(X, cp.ndarray))) else np
+    exp_logits = xp.exp(X - xp.max(X, axis=axis, keepdims=True))
+    return exp_logits / xp.sum(exp_logits, axis=axis, keepdims=True)
 
 
 def argmax(X, axis=1, keepdims=True) -> tensor | np.ndarray:
 
     if isinstance(X, tensor):
         xp = cp if X.device == 'gpu' and _cupy_available else np
-        return tensor(X.data.argmax(axis=axis, keepdims=keepdims),device=X.device)
+        return tensor(xp.argmax(X.data, axis=axis, keepdims=keepdims),device=X.device)
     else:
-        xp = cp if isinstance(X, cp.ndarray) else np
+        xp = cp if (cp is not None and isinstance(X, cp.ndarray)) else np
         return X.argmax(axis=axis, keepdims=keepdims)
+    
+def argmin(X, axis=1, keepdims=True) -> tensor | np.ndarray:
+
+    if isinstance(X, tensor):
+        xp = cp if X.device == 'gpu' and _cupy_available else np
+        return tensor(xp.argmin(X.data, axis=axis, keepdims=keepdims),device=X.device)
+    else:
+        xp = cp if (cp is not None and isinstance(X, cp.ndarray)) else np
+        return X.argmin(axis=axis, keepdims=keepdims)
     
 
 def as_tensor(x):

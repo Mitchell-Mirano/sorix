@@ -1,0 +1,192 @@
+# ====================================================================
+# CONFIGURACIÓN BÁSICA DEL SITIO
+# ====================================================================
+site_name: Sorix
+site_description: Librería minimalista y de alto rendimiento para Machine Learning y Deep Learning basada en NumPy.
+site_url: https://mitchell-mirano.github.io/sorix/
+repo_url: https://github.com/Mitchell-Mirano/sorix/
+repo_name: Mitchell-Mirano/sorix
+edit_uri: edit/{{ branch }}/docs/
+
+# ====================================================================
+# 1. CONFIGURACIÓN DEL TEMA MATERIAL (Estilo FastAPI)
+# ====================================================================
+theme:
+  name: material
+  language: es
+  
+  palette:
+    # --- Preferencia del sistema (Toggle Principal) ---
+    - media: (prefers-color-scheme)
+      toggle:
+        icon: material/theme-light-dark
+        name: Usar preferencia del sistema
+    
+    # --- Modo Claro ---
+    - media: '(prefers-color-scheme: light)'
+      scheme: default
+      primary: indigo
+      accent: orange
+      toggle:
+        icon: material/weather-sunny
+        name: Cambiar a modo oscuro
+    
+    # --- Modo Oscuro ---
+    - media: '(prefers-color-scheme: dark)'
+      scheme: slate
+      primary: indigo
+      accent: orange
+      toggle:
+        icon: material/weather-night
+        name: Cambiar a modo claro
+  
+  icon:
+    logo: material/book-open-variant
+    repo: fontawesome/brands/github
+  
+  features:
+    # Navegación
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.indexes
+    - navigation.expand
+    - navigation.path
+    - navigation.top
+    - toc.follow
+    
+    # Contenido y Código
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+    
+    # Búsqueda
+    - search.suggest
+    - search.highlight
+    - search.share
+
+
+# ====================================================================
+# 2. ESTRUCTURA DE NAVEGACIÓN (nav)
+# ====================================================================
+nav:
+  - 🏡 Sorix: index.md
+  # - ✨ Features: features.md
+  - 📚 Learn:
+    - Tensor: learn/01-tensor.ipynb
+    - Computational Graph: learn/02-graph.ipynb
+    - Autograd: learn/03-autograd.ipynb
+    - Layers: learn/04-layers.ipynb
+  - Examples:
+    - Preprocessing: examples/preprocessing/encoders-scalers-transformers.ipynb
+    - Linear Regression: examples/regression/1-linear-regression.ipynb
+    - Logistic Regression: examples/regression/2-logistic-regression.ipynb
+    - Clustering:
+      - K-Means:
+        - Iris Dataset: examples/clustering/Iris-dataset.ipynb
+        - RandomDatasetGPU: examples/clustering/RandomDataset+GPU.ipynb
+    - Neural Network:
+      - Regression: examples/nn/1-regression.ipynb
+      - Classification:
+        - Binary: examples/nn/2.1-classification-binary.ipynb
+        - Multiclass: examples/nn/2.2-classification-multiclass.ipynb
+        - Iris Dataset: examples/nn/3-Iris_dataset.ipynb
+        - MNIST Dataset: examples/nn/4-digit-recognizer.ipynb
+  - API Reference: api/
+
+
+# ====================================================================
+# 3. EXTENSIONES DE MARKDOWN AVANZADAS
+# ====================================================================
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  
+  - pymdownx.blocks.admonition:
+      types: 
+        - note
+        - attention
+        - tip
+        - warning
+        - error
+        - info
+  - pymdownx.blocks.details
+  
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - mdx_include
+  - pymdownx.arithmatex: # <--- ¡Añadir esta línea!
+      generic: true # Usa sintaxis genérica ($...$ y $$...$$)
+
+
+# ====================================================================
+# 4. CONFIGURACIÓN DE PLUGINS
+# ====================================================================
+plugins:
+
+  - search:
+      lang: en
+  - gen-files:
+      scripts:
+        - scripts/gen_ref_pages.py
+  - literate-nav:
+      nav_file: SUMMARY.md
+  # - section-index
+  
+  - macros:
+      module_name: docs/macros
+  
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [.] 
+          options:
+            docstring_style: google
+            show_root_heading: true 
+            show_source: true
+            
+            # Opciones Avanzadas
+            show_if_no_docstring: false
+            members_order: source
+            separate_signature: true
+            signature_crossrefs: true
+            merge_init_into_class: true
+            docstring_section_style: spacy
+            unwrap_annotated: true # <--- Añadido
+            filters:
+              - '!^_'
+            
+  - mkdocs-jupyter:
+      include: ["**/*.ipynb"]
+      execute: false
+      include_source: false
+
+# ====================================================================
+# 5. EXTRAS
+# ====================================================================
+extra:
+  version:
+    provider: mike
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/Mitchell-Mirano/sorix
+
+extra_javascript: # <--- ¡Añadir esta nueva sección!
+  # Carga el motor de renderizado de fórmulas (MathJax)
+  - javascripts/mathjax.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js

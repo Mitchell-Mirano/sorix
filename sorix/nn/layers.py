@@ -1,4 +1,4 @@
-from sorix.tensor.tensor import tensor
+from sorix.tensor import tensor
 import numpy as np
 from sorix.cupy.cupy import _cupy_available
 
@@ -67,8 +67,10 @@ class Relu:
         out = tensor(xp.maximum(0, X.data), (X,), 'ReLU',device=X.device,requires_grad=X.requires_grad)
         
         def _backward():
-            # Usar other.data para claridad
-            X.grad += out.grad * (X.data > 0)
+            if out.grad is None:
+                return
+            if X.requires_grad:
+                X._accumulate_grad(out.grad * (X.data > 0))
         out._backward = _backward
         return out
 
@@ -81,8 +83,10 @@ class Sigmoid:
         out = tensor(1 / (1 + xp.exp(-X.data)), (X,), 'Sigmoid',device=X.device,requires_grad=X.requires_grad)
         
         def _backward():
-            # Usar other.data para claridad
-            X.grad += out.grad * out.data * (1 - out.data)
+            if out.grad is None:
+                return
+            if X.requires_grad:
+                X._accumulate_grad(out.grad * out.data * (1 - out.data))
         out._backward = _backward
         return out
     
@@ -95,8 +99,10 @@ class Tanh:
         out = tensor(xp.tanh(X.data), (X,), 'Tanh',device=X.device,requires_grad=X.requires_grad)
         
         def _backward():
-            # Usar other.data para claridad
-            X.grad += out.grad * (1 - out.data**2)
+            if out.grad is None:
+                return
+            if X.requires_grad:
+                X._accumulate_grad(out.grad * (1 - out.data**2))
         out._backward = _backward
         return out
 

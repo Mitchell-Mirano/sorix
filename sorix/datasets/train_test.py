@@ -11,7 +11,7 @@ def train_test_split(X: pd.DataFrame,
 
     Args:
         X (pd.DataFrame): Features.
-        y (pd.Series): Labels.
+        Y (pd.Series): Labels.
         test_size (float, optional): Proportion of the dataset to include in the test split. Default is 0.2.
         random_state (int, optional): Random state for reproducibility. Default is 42.
         shuffle (bool, optional): Whether to shuffle the data before splitting. Default is True.

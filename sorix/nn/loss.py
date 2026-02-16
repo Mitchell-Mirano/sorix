@@ -1,5 +1,5 @@
 import numpy as np
-from sorix.tensor.tensor import tensor
+from sorix.tensor import tensor
 from sorix.cupy.cupy import _cupy_available
 
 if _cupy_available:

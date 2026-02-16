@@ -1,10 +1,46 @@
-from sorix.tensor.tensor import tensor
+from sorix.tensor import tensor
 import numpy as np
 from sorix.cupy.cupy import _cupy_available
 
 if _cupy_available:
-    import cupy as cp
+    try:
+        import cupy as cp
+    except ImportError:
+        _cupy_available = False
+        cp = None
+else:
+    cp = None
 
+
+def add(input, other):
+    if isinstance(input, tensor):
+        return input.add(other)
+    return input + other
+
+def sub(input, other):
+    if isinstance(input, tensor):
+        return input.sub(other)
+    return input - other
+
+def mul(input, other):
+    if isinstance(input, tensor):
+        return input.mul(other)
+    return input * other
+
+def div(input, other):
+    if isinstance(input, tensor):
+        return input.div(other)
+    return input / other
+
+def matmul(input, other):
+    if isinstance(input, tensor):
+        return input.matmul(other)
+    return input @ other
+
+def pow(input, exponent):
+    if isinstance(input, tensor):
+        return input.pow(exponent)
+    return input ** exponent
 
 def sin(X):
     if isinstance(X, tensor):
@@ -43,17 +79,7 @@ def cos(X):
     
 def tanh(X):
     if isinstance(X, tensor):
-        xp = cp if X.device == 'gpu' and _cupy_available else np
-        out = tensor(xp.tanh(X.data), (X,), 'tanh', device=X.device, requires_grad=X.requires_grad)
-
-        def _backward():
-            if out.grad is None:
-                return
-            if X.requires_grad:
-                X.grad += out.grad * (1 - out.data**2)
-
-        out._backward = _backward
-        return out
+        return X.tanh()
     else:
         xp = cp if (cp is not None and isinstance(X, cp.ndarray)) else np
         return xp.tanh(X)
@@ -112,37 +138,17 @@ def sqrt(X):
         xp = cp if (cp is not None and isinstance(X, cp.ndarray)) else np
         return xp.sqrt(X)
     
-def mean(X):
+def mean(X, axis=None, keepdims=False):
     if isinstance(X, tensor):
-        xp = cp if X.device == 'gpu' and _cupy_available else np
-        out = tensor(xp.mean(X.data), (X,), 'mean', device=X.device, requires_grad=X.requires_grad)
-
-        def _backward():
-            if out.grad is None:
-                return
-            if X.requires_grad:
-                X.grad += out.grad * xp.ones_like(X.data) / X.data.size
-
-        out._backward = _backward
-        return out
+        return X.mean(axis=axis, keepdims=keepdims)
     else:
         xp = cp if (cp is not None and isinstance(X, cp.ndarray)) else np
-        return xp.mean(X)
+        return xp.mean(X, axis=axis, keepdims=keepdims)
     
 
-def sum(X):
+def sum(X, axis=None, keepdims=False):
     if isinstance(X, tensor):
-        xp = cp if X.device == 'gpu' and _cupy_available else np
-        out = tensor(xp.sum(X.data), (X,), 'sum', device=X.device, requires_grad=X.requires_grad)
-
-        def _backward():
-            if out.grad is None:
-                return
-            if X.requires_grad:
-                X.grad += out.grad * xp.ones_like(X.data)
-
-        out._backward = _backward
-        return out
+        return X.sum(axis=axis, keepdims=keepdims)
     else:
         xp = cp if (cp is not None and isinstance(X, cp.ndarray)) else np
-        return xp.sum(X)
+        return xp.sum(X, axis=axis, keepdims=keepdims)
