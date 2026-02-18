@@ -3,17 +3,17 @@ import numpy as np
 import os
 import joblib
 from sorix import Tensor, tensor, no_grad
-from sorix.nn.layers import Linear, Relu
-from sorix.nn.net import NeuralNetwork
-from sorix.nn.loss import MSELoss
-from sorix.optim.optim import Adam
+from sorix.nn import Linear, ReLU
+from sorix import nn
+from sorix.nn import MSELoss
+from sorix.optim import Adam
 from sorix.cuda import cuda
 
-class SimpleNet(NeuralNetwork):
+class SimpleNet(nn.Module):
     def __init__(self, in_features, out_features):
         super().__init__()
         self.l1 = Linear(in_features, 10)
-        self.relu = Relu()
+        self.relu = ReLU()
         self.l2 = Linear(10, out_features)
         
     def forward(self, x):

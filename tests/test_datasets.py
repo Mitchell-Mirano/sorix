@@ -1,7 +1,9 @@
 import pytest
 import numpy as np
 import pandas as pd
-from sorix.datasets import Dataset, DataLoader, train_test_split
+from sorix.utils.data import Dataset, DataLoader
+from sorix.model_selection import train_test_split
+
 
 def test_dataset_basics():
     """Test basic Dataset functionality: len and indexing."""
