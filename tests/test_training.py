@@ -65,7 +65,8 @@ def test_training_gpu_convergence():
     print(f"GPU Training: Initial Loss {initial_loss:.4f}, Final Loss {final_loss:.4f}")
 
 def test_model_save_and_load(tmp_path):
-    """Test exporting and importing model weights."""
+    """Test exporting and importing model weights using the new API."""
+    import sorix
     model, _, _ = train_model(device='cpu')
     
     # Test data
@@ -75,21 +76,22 @@ def test_model_save_and_load(tmp_path):
     with no_grad():
         original_output = model(test_x).to_numpy()
     
-    # Save weights
-    weight_path = os.path.join(tmp_path, "model.joblib")
-    joblib.dump(model.weights(), weight_path)
+    # Save weights using state_dict and sorix.save
+    weight_path = os.path.join(tmp_path, "model.sor")
+    sorix.save(model.state_dict(), weight_path)
     
-    # Create new model and load weights
+    # Create new model and load weights using state_dict and sorix.load
     new_model = SimpleNet(2, 1)
-    loaded_weights = joblib.load(weight_path)
-    new_model.load_weights(loaded_weights)
+    loaded_state = sorix.load(weight_path)
+    new_model.load_state_dict(loaded_state)
     
     with no_grad():
         new_output = new_model(test_x).to_numpy()
     
     # Outputs should be identical
     assert np.allclose(original_output, new_output, atol=1e-6)
-    print("Model serialization test passed.")
+    print("Model serialization test (state_dict API) passed.")
+
 
 def test_to_device_consistency():
     """Verify that moving a model between devices preserves weights."""

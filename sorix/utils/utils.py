@@ -224,3 +224,27 @@ def full_like(*args,device='cpu',requires_grad=False):
     xp = cp if device == 'gpu' and _cupy_available else np
 
     return tensor(xp.full_like(*args),device=device,requires_grad=requires_grad)
+
+import pickle
+
+def save(obj, f):
+    """
+    Saves an object to a file using pickle. 
+    Tensors will be automatically moved to CPU during serialization.
+    """
+    if isinstance(f, str):
+        with open(f, 'wb') as file:
+            pickle.dump(obj, file)
+    else:
+        pickle.dump(obj, f)
+
+def load(f):
+    """
+    Loads an object from a file using pickle.
+    """
+    if isinstance(f, str):
+        with open(f, 'rb') as file:
+            return pickle.load(file)
+    else:
+        return pickle.load(f)
+
