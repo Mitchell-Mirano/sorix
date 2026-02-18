@@ -1,6 +1,6 @@
 import pytest
 import numpy as np
-from sorix import tensor, no_grad
+from sorix import Tensor, tensor, no_grad
 
 def test_tensor_inplace():
     a = tensor([1.0, 2.0])

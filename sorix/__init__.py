@@ -1,4 +1,4 @@
-from .tensor import tensor, no_grad
+from .tensor import Tensor, tensor, no_grad
 from .cuda import cuda
 from .utils.utils import sigmoid, softmax, argmax
 from .utils.utils import (as_tensor, from_numpy,

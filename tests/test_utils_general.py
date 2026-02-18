@@ -1,6 +1,6 @@
 import pytest
 import numpy as np
-from sorix import tensor
+from sorix import Tensor, tensor
 from sorix.utils import utils
 
 def test_sigmoid():
@@ -40,14 +40,14 @@ def test_argmax_argmin():
 def test_as_tensor_from_numpy():
     data = [1, 2, 3]
     t1 = utils.as_tensor(data)
-    assert isinstance(t1, tensor)
+    assert isinstance(t1, Tensor)
     assert np.array_equal(t1.data, data)
     
     t2 = utils.as_tensor(t1)
     assert t2 is t1
     
     t3 = utils.from_numpy(np.array(data))
-    assert isinstance(t3, tensor)
+    assert isinstance(t3, Tensor)
     assert np.array_equal(t3.data, data)
     
     t4 = utils.from_numpy(t3)

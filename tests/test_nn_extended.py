@@ -1,8 +1,8 @@
 import pytest
 import numpy as np
-from sorix import tensor
-from sorix.nn.layers import Linear, Relu, Sigmoid, Tanh, BatchNorm1D
-from sorix.nn.net import NeuralNetwork
+from sorix import Tensor, tensor
+from sorix.nn import Linear, ReLU, Sigmoid, Tanh, BatchNorm1d
+from sorix.nn import Module
 
 def test_linear_initializations():
     # Xavier
@@ -33,7 +33,7 @@ def test_linear_to_cpu():
     assert lin.W.device == 'cpu'
 
 def test_batchnorm1d_training_eval():
-    bn = BatchNorm1D(5)
+    bn = BatchNorm1d(5)
     assert bn.training == True
     
     x = tensor(np.random.randn(10, 5))
@@ -49,15 +49,15 @@ def test_batchnorm1d_training_eval():
     assert out_eval.shape == (10, 5)
 
 def test_batchnorm1d_to_cpu():
-    bn = BatchNorm1D(5)
+    bn = BatchNorm1d(5)
     bn.to('cpu')
     assert bn.device == 'cpu'
 
 def test_neural_network_modes():
-    class MultiLayerNet(NeuralNetwork):
+    class MultiLayerNet(Module):
         def __init__(self):
             super().__init__()
-            self.layers = [Linear(10, 5), BatchNorm1D(5)]
+            self.layers = [Linear(10, 5), BatchNorm1d(5)]
             self.dict_layers = {"l1": Linear(5, 2)}
             
         def forward(self, x):
@@ -86,7 +86,7 @@ def test_neural_network_modes():
     assert net.device == 'cpu'
 
 def test_neural_network_weights_io():
-    class SimpleNet(NeuralNetwork):
+    class SimpleNet(Module):
         def __init__(self):
             super().__init__()
             self.l1 = Linear(2, 1)
@@ -101,7 +101,7 @@ def test_neural_network_weights_io():
     assert new_net.l1 is net.l1 # Since it's a reference to the same object in __dict__
 
 def test_neural_network_abstract_error():
-    net = NeuralNetwork()
+    net = Module()
     with pytest.raises(NotImplementedError):
         net.forward(tensor([1, 2]))
 

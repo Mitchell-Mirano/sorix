@@ -1,4 +1,4 @@
-from sorix.tensor import tensor
+from sorix.tensor import Tensor, tensor
 import numpy as np
 from sorix.cupy.cupy import _cupy_available
 
@@ -13,39 +13,39 @@ else:
 
 
 def add(input, other):
-    if isinstance(input, tensor):
+    if isinstance(input, Tensor):
         return input.add(other)
     return input + other
 
 def sub(input, other):
-    if isinstance(input, tensor):
+    if isinstance(input, Tensor):
         return input.sub(other)
     return input - other
 
 def mul(input, other):
-    if isinstance(input, tensor):
+    if isinstance(input, Tensor):
         return input.mul(other)
     return input * other
 
 def div(input, other):
-    if isinstance(input, tensor):
+    if isinstance(input, Tensor):
         return input.div(other)
     return input / other
 
 def matmul(input, other):
-    if isinstance(input, tensor):
+    if isinstance(input, Tensor):
         return input.matmul(other)
     return input @ other
 
 def pow(input, exponent):
-    if isinstance(input, tensor):
+    if isinstance(input, Tensor):
         return input.pow(exponent)
     return input ** exponent
 
 def sin(X):
-    if isinstance(X, tensor):
+    if isinstance(X, Tensor):
         xp = cp if X.device == 'gpu' and _cupy_available else np
-        out = tensor(xp.sin(X.data), (X,), 'sin', device=X.device, requires_grad=X.requires_grad)
+        out = Tensor(xp.sin(X.data), (X,), 'sin', device=X.device, requires_grad=X.requires_grad)
 
         def _backward():
             if out.grad is None:
@@ -61,9 +61,9 @@ def sin(X):
 
 
 def cos(X):
-    if isinstance(X, tensor):
+    if isinstance(X, Tensor):
         xp = cp if X.device == 'gpu' and _cupy_available else np
-        out = tensor(xp.cos(X.data), (X,), 'cos', device=X.device, requires_grad=X.requires_grad)
+        out = Tensor(xp.cos(X.data), (X,), 'cos', device=X.device, requires_grad=X.requires_grad)
 
         def _backward():
             if out.grad is None:
@@ -78,7 +78,7 @@ def cos(X):
         return xp.cos(X)
     
 def tanh(X):
-    if isinstance(X, tensor):
+    if isinstance(X, Tensor):
         return X.tanh()
     else:
         xp = cp if (cp is not None and isinstance(X, cp.ndarray)) else np
@@ -86,9 +86,9 @@ def tanh(X):
     
 
 def exp(X):
-    if isinstance(X, tensor):
+    if isinstance(X, Tensor):
         xp = cp if X.device == 'gpu' and _cupy_available else np
-        out = tensor(xp.exp(X.data), (X,), 'exp', device=X.device, requires_grad=X.requires_grad)
+        out = Tensor(xp.exp(X.data), (X,), 'exp', device=X.device, requires_grad=X.requires_grad)
 
         def _backward():
             if out.grad is None:
@@ -104,9 +104,9 @@ def exp(X):
     
 
 def log(X):
-    if isinstance(X, tensor):
+    if isinstance(X, Tensor):
         xp = cp if X.device == 'gpu' and _cupy_available else np
-        out = tensor(xp.log(X.data), (X,), 'log', device=X.device, requires_grad=X.requires_grad)
+        out = Tensor(xp.log(X.data), (X,), 'log', device=X.device, requires_grad=X.requires_grad)
 
         def _backward():
             if out.grad is None:
@@ -122,9 +122,10 @@ def log(X):
     
 
 def sqrt(X):
-    if isinstance(X, tensor):
+    if isinstance(X, Tensor):
         xp = cp if X.device == 'gpu' and _cupy_available else np
-        out = tensor(xp.sqrt(X.data), (X,), 'sqrt', device=X.device, requires_grad=X.requires_grad)
+        out = Tensor(xp.sqrt(X.data), (X,), 'sqrt', device=X.device, requires_grad=X.requires_grad)
+
 
         def _backward():
             if out.grad is None:
@@ -139,7 +140,7 @@ def sqrt(X):
         return xp.sqrt(X)
     
 def mean(X, axis=None, keepdims=False):
-    if isinstance(X, tensor):
+    if isinstance(X, Tensor):
         return X.mean(axis=axis, keepdims=keepdims)
     else:
         xp = cp if (cp is not None and isinstance(X, cp.ndarray)) else np
@@ -147,7 +148,7 @@ def mean(X, axis=None, keepdims=False):
     
 
 def sum(X, axis=None, keepdims=False):
-    if isinstance(X, tensor):
+    if isinstance(X, Tensor):
         return X.sum(axis=axis, keepdims=keepdims)
     else:
         xp = cp if (cp is not None and isinstance(X, cp.ndarray)) else np

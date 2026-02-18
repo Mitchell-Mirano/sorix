@@ -1,9 +1,9 @@
 import pytest
 import numpy as np
-from sorix import tensor
-from sorix.nn.layers import Linear, Relu, Sigmoid, Tanh
-from sorix.nn.net import NeuralNetwork
-from sorix.nn.loss import MSELoss, CrossEntropyLoss
+from sorix import Tensor, tensor
+from sorix.nn import Linear, ReLU, Sigmoid, Tanh
+from sorix.nn import Module
+from sorix.nn import MSELoss, CrossEntropyLoss
 
 def test_linear_layer_forward():
     """Test Linear layer forward pass and parameter management."""
@@ -42,12 +42,12 @@ def test_linear_layer_backward():
     assert np.allclose(lin.b.grad, [[1.0]])
 
 def test_activations():
-    """Test Relu, Sigmoid, Tanh layers."""
+    """Test ReLU, Sigmoid, Tanh layers."""
     x_data = np.array([-1.0, 0.0, 1.0])
     x = tensor(x_data, requires_grad=True)
     
     # ReLU
-    relu = Relu()
+    relu = ReLU()
     out_relu = relu(x)
     assert np.array_equal(out_relu.data, [0.0, 0.0, 1.0])
     out_relu.backward()
@@ -75,8 +75,8 @@ def test_activations():
     assert np.allclose(x.grad, 1 - expected_tanh**2)
 
 def test_neural_network_parameters():
-    """Test parameter collection in NeuralNetwork."""
-    class SimpleNet(NeuralNetwork):
+    """Test parameter collection in Module."""
+    class SimpleNet(Module):
         def __init__(self):
             super().__init__()
             self.l1 = Linear(10, 5)

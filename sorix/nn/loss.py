@@ -1,5 +1,5 @@
 import numpy as np
-from sorix.tensor import tensor
+from sorix.tensor import Tensor, tensor
 from sorix.cupy.cupy import _cupy_available
 
 if _cupy_available:
@@ -7,19 +7,19 @@ if _cupy_available:
 
 
 class MSELoss:
-    def __call__(self, y_pred: tensor, y_real: tensor):
+    def __call__(self, y_pred: Tensor, y_real: Tensor):
         return ((y_pred - y_real)**2).mean()
     
 
 class BCEWithLogitsLoss:
-    def __call__(self, y_pred: tensor, y_real: tensor) -> tensor:
+    def __call__(self, y_pred: Tensor, y_real: Tensor) -> Tensor:
         xp = cp if y_pred.device == 'gpu' else np
 
         batch_size = y_real.data.shape[0]
 
         probs = 1 / (1 + xp.exp(-y_pred.data))
         loss_val = -xp.mean(y_real.data * xp.log(probs) + (1 - y_real.data) * xp.log(1 - probs))
-        out = tensor(loss_val, (y_pred,), 'BCELossWithLogits',device=y_pred.device,requires_grad=y_pred.requires_grad)
+        out = Tensor(loss_val, (y_pred,), 'BCELossWithLogits',device=y_pred.device,requires_grad=y_pred.requires_grad)
         
         def _backward():
             # Usar other.data para claridad
@@ -33,7 +33,7 @@ class CrossEntropyLoss:
         self.one_hot = one_hot
         self.xp = np
 
-    def __call__(self, y_pred: tensor, y_real: tensor) -> tensor:
+    def __call__(self, y_pred: Tensor, y_real: Tensor) -> Tensor:
 
         self.xp = cp if y_pred.device == 'gpu' else np
 
@@ -52,7 +52,7 @@ class CrossEntropyLoss:
             loss_val = self.xp.mean(correct_log_probs)
         
         # Paso 3: Crear el Tensor de pérdida para el backpropagation
-        out = tensor(loss_val, (y_pred,), 'CrossEntropyLoss',device=y_pred.device,requires_grad=y_pred.requires_grad)
+        out = Tensor(loss_val, (y_pred,), 'CrossEntropyLoss',device=y_pred.device,requires_grad=y_pred.requires_grad)
 
         # Paso 4: Unificar el backpropagation
         def _backward():

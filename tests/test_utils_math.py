@@ -1,6 +1,6 @@
 import pytest
 import numpy as np
-from sorix import tensor
+from sorix import Tensor, tensor
 from sorix.utils import math
 
 def test_add():
@@ -9,7 +9,7 @@ def test_add():
     
     # Test with tensor
     c = math.add(a, b)
-    assert isinstance(c, tensor)
+    assert isinstance(c, Tensor)
     assert np.array_equal(c.data, [4.0, 6.0])
     
     c.backward()

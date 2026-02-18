@@ -1,7 +1,7 @@
 import pytest
 import numpy as np
-from sorix import tensor
-from sorix.optim.optim import SGD, SGDMomentum, RMSprop, Adam
+from sorix import Tensor, tensor
+from sorix.optim import SGD, SGDMomentum, RMSprop, Adam
 
 def test_optimizer_zero_grad():
     params = [tensor([1.0, 2.0], requires_grad=True)]

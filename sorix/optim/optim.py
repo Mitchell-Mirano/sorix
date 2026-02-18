@@ -1,4 +1,4 @@
-from sorix.tensor import tensor
+from sorix.tensor import Tensor, tensor
 import numpy as np
 from sorix.cupy.cupy import _cupy_available
 
@@ -8,7 +8,7 @@ if _cupy_available:
 
 class Optimizer:
 
-    def __init__(self, parameters: list[tensor], lr=1e-3):
+    def __init__(self, parameters: list[Tensor], lr=1e-3):
         self.parameters = parameters
         self.lr = lr
         self.device = parameters[0].device
@@ -26,7 +26,7 @@ class Optimizer:
 
 
 class SGD(Optimizer):
-    def __init__(self, parameters: list[tensor], lr=1e-3):
+    def __init__(self, parameters: list[Tensor], lr=1e-3):
         super().__init__(parameters, lr)
 
 
@@ -36,7 +36,7 @@ class SGD(Optimizer):
 
 
 class SGDMomentum(Optimizer):
-    def __init__(self, parameters: list[tensor], lr=1e-3, momentum=0.9):
+    def __init__(self, parameters: list[Tensor], lr=1e-3, momentum=0.9):
         super().__init__(parameters, lr)
         self.momentum = momentum
         self.vts = {}
@@ -51,7 +51,7 @@ class SGDMomentum(Optimizer):
 
 
 class RMSprop(Optimizer):
-    def __init__(self, parameters: list[tensor], lr=1e-3, decay=0.9,epsilon=1e-8):
+    def __init__(self, parameters: list[Tensor], lr=1e-3, decay=0.9,epsilon=1e-8):
         super().__init__(parameters, lr)
         self.decay = decay
         self.vts = {}
@@ -68,7 +68,7 @@ class RMSprop(Optimizer):
 
 
 class Adam(Optimizer):
-    def __init__(self, parameters: list[tensor], lr=1e-3, beta1=0.9, beta2=0.999, epsilon=1e-8):
+    def __init__(self, parameters: list[Tensor], lr=1e-3, beta1=0.9, beta2=0.999, epsilon=1e-8):
         super().__init__(parameters, lr)
         self.beta1 = beta1
         self.beta2 = beta2

@@ -1,1 +1,1 @@
-from .optim import SGD,SGDMomentum,RMSprop,Adam
+from .optim import Optimizer, SGD, SGDMomentum, RMSprop, Adam

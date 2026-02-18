@@ -1,4 +1,4 @@
-from sorix.tensor import tensor
+from sorix.tensor import Tensor, tensor
 import numpy as np
 from sorix.cupy.cupy import _cupy_available
 
@@ -12,16 +12,16 @@ else:
     cp = None
 
 
-def sigmoid(X) -> tensor | np.ndarray:
-    if isinstance(X, tensor):
+def sigmoid(X) -> Tensor | np.ndarray:
+    if isinstance(X, Tensor):
         return X.sigmoid()
     
     xp = cp if (_cupy_available and (cp is not None and isinstance(X, cp.ndarray))) else np
     return 1 / (1 + xp.exp(-X))
 
 
-def softmax(X, axis=-1) -> tensor | np.ndarray:
-    if isinstance(X, tensor):
+def softmax(X, axis=-1) -> Tensor | np.ndarray:
+    if isinstance(X, Tensor):
         return X.softmax(axis=axis)
     
     xp = cp if (_cupy_available and (cp is not None and isinstance(X, cp.ndarray))) else np
@@ -29,18 +29,18 @@ def softmax(X, axis=-1) -> tensor | np.ndarray:
     return exp_logits / xp.sum(exp_logits, axis=axis, keepdims=True)
 
 
-def argmax(X, axis=1, keepdims=True) -> tensor | np.ndarray:
+def argmax(X, axis=1, keepdims=True) -> Tensor | np.ndarray:
 
-    if isinstance(X, tensor):
+    if isinstance(X, Tensor):
         xp = cp if X.device == 'gpu' and _cupy_available else np
         return tensor(xp.argmax(X.data, axis=axis, keepdims=keepdims),device=X.device)
     else:
         xp = cp if (cp is not None and isinstance(X, cp.ndarray)) else np
         return X.argmax(axis=axis, keepdims=keepdims)
     
-def argmin(X, axis=1, keepdims=True) -> tensor | np.ndarray:
+def argmin(X, axis=1, keepdims=True) -> Tensor | np.ndarray:
 
-    if isinstance(X, tensor):
+    if isinstance(X, Tensor):
         xp = cp if X.device == 'gpu' and _cupy_available else np
         return tensor(xp.argmin(X.data, axis=axis, keepdims=keepdims),device=X.device)
     else:
@@ -49,13 +49,13 @@ def argmin(X, axis=1, keepdims=True) -> tensor | np.ndarray:
     
 
 def as_tensor(x):
-    if isinstance(x, tensor):
+    if isinstance(x, Tensor):
         return x
 
     return tensor(x)
 
 def from_numpy(x):
-    if isinstance(x, tensor):
+    if isinstance(x, Tensor):
         return x
 
     return tensor(x)

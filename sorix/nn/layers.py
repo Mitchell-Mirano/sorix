@@ -1,4 +1,4 @@
-from sorix.tensor import tensor
+from sorix.tensor import Tensor, tensor
 import numpy as np
 from sorix.cupy.cupy import _cupy_available
 
@@ -28,7 +28,7 @@ class Linear:
         self.W = tensor(xp.random.normal(0, self.std_dev, size=(features, neurons)),device=self.device,requires_grad=True)
         self.b = tensor(xp.zeros((1, neurons)),device=self.device,requires_grad=True)  if self.bias else None
 
-    def __call__(self, X: tensor):
+    def __call__(self, X: Tensor):
         if self.bias:
             return X @ self.W + self.b  
         return X @ self.W
@@ -60,11 +60,11 @@ class Linear:
 
 
 class Relu:
-    def __call__(self, X: tensor):
+    def __call__(self, X: Tensor):
 
         xp = cp if X.device == 'gpu' else np
 
-        out = tensor(xp.maximum(0, X.data), (X,), 'ReLU',device=X.device,requires_grad=X.requires_grad)
+        out = Tensor(xp.maximum(0, X.data), (X,), 'ReLU',device=X.device,requires_grad=X.requires_grad)
         
         def _backward():
             if out.grad is None:
@@ -76,11 +76,11 @@ class Relu:
 
 
 class Sigmoid:
-    def __call__(self, X: tensor):
+    def __call__(self, X: Tensor):
 
         xp = cp if X.device == 'gpu' else np
 
-        out = tensor(1 / (1 + xp.exp(-X.data)), (X,), 'Sigmoid',device=X.device,requires_grad=X.requires_grad)
+        out = Tensor(1 / (1 + xp.exp(-X.data)), (X,), 'Sigmoid',device=X.device,requires_grad=X.requires_grad)
         
         def _backward():
             if out.grad is None:
@@ -92,11 +92,11 @@ class Sigmoid:
     
     
 class Tanh:
-    def __call__(self, X: tensor):
+    def __call__(self, X: Tensor):
 
         xp = cp if X.device == 'gpu' else np
 
-        out = tensor(xp.tanh(X.data), (X,), 'Tanh',device=X.device,requires_grad=X.requires_grad)
+        out = Tensor(xp.tanh(X.data), (X,), 'Tanh',device=X.device,requires_grad=X.requires_grad)
         
         def _backward():
             if out.grad is None:
@@ -120,7 +120,7 @@ class BatchNorm1D:
         self.device = device
         self.training = True
 
-    def __call__(self, X: tensor):
+    def __call__(self, X: Tensor):
         xp = cp if X.device == 'gpu' else np
 
         if self.training:

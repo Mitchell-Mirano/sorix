@@ -1,7 +1,7 @@
 import pytest
 import numpy as np
-from sorix import tensor
-from sorix.nn.loss import MSELoss, BCEWithLogitsLoss, CrossEntropyLoss
+from sorix import Tensor, tensor
+from sorix.nn import MSELoss, BCEWithLogitsLoss, CrossEntropyLoss
 
 def test_mse_loss():
     """Test Mean Squared Error loss and its gradient."""

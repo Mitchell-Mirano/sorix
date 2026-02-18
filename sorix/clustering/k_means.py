@@ -2,7 +2,7 @@
 import numpy as np
 import pandas as pd
 from typing import Union
-from sorix.tensor import tensor
+from sorix.tensor import Tensor, tensor
 from sorix.utils import math as smat
 from sorix.utils import utils as sut
 from sorix.cupy.cupy import _cupy_available
@@ -28,14 +28,14 @@ class Kmeans:
         self.labels = None
 
     def _data_preprocessing_train(self, 
-                                 features:tensor) -> tensor:
+                                 features: Tensor) -> Tensor:
 
         xp = cp if features.device == 'gpu' and _cupy_available else np
 
         self._centroids = features.data[xp.random.randint(0, len(features), self.n_clusters)]
         return features
 
-    def _distances(self, features: tensor, centroids: np.ndarray) -> np.ndarray:
+    def _distances(self, features: Tensor, centroids: np.ndarray) -> np.ndarray:
         xp = cp if features.device == 'gpu' and _cupy_available else np
 
         diff = features.data[:, xp.newaxis, :] - centroids[xp.newaxis, :, :]
@@ -44,11 +44,11 @@ class Kmeans:
 
         return distances
 
-    def _new_labels(self, distances:tensor) -> np.ndarray:
+    def _new_labels(self, distances: Tensor) -> np.ndarray:
 
         return sut.argmin(distances, axis=1).flatten()
 
-    def _new_centroids(self, features: tensor, labels: tensor) -> np.ndarray:
+    def _new_centroids(self, features: Tensor, labels: Tensor) -> np.ndarray:
 
         xp = cp if features.device == 'gpu' and _cupy_available else np
 
@@ -81,7 +81,7 @@ class Kmeans:
 
 
     def fit(self, 
-              features:tensor, 
+              features: Tensor, 
               eps:float=0.001,
               max_iters:int=1000) -> None:
         
@@ -107,7 +107,7 @@ class Kmeans:
             if (moviment < eps) or (iters > max_iters):
                 break
 
-    def predict(self, features:tensor) -> tensor:
+    def predict(self, features: Tensor) -> Tensor:
 
         """
         Predict the labels of features
@@ -123,7 +123,7 @@ class Kmeans:
         labels = self._new_labels(distances)
         return tensor(labels)
     
-    def get_distances(self, features:tensor) -> tensor:
+    def get_distances(self, features: Tensor) -> Tensor:
 
         """
         Get distances between features and centroids
@@ -137,7 +137,7 @@ class Kmeans:
 
         return tensor(self._distances(features, self._centroids))
 
-    def get_inertia(self, features:tensor) -> float:
+    def get_inertia(self, features: Tensor) -> float:
 
         """
         Get inertia of features for k-centroids
@@ -155,7 +155,7 @@ class Kmeans:
         return smat.sum((features - self.centroids[labels])**2).item()
     
     @property
-    def centroids(self) -> tensor:
+    def centroids(self) -> Tensor:
         return tensor(self._centroids)
 
     def __str__(self):

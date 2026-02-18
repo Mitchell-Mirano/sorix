@@ -1,26 +1,44 @@
 import numpy as np
-from sorix.tensor import tensor
+from sorix.tensor import Tensor, tensor
 
+
+def _get_metric_data(Y_true, Y_pred):
+    if isinstance(Y_true, Tensor):
+        return Y_true, Y_pred
+    return np.array(Y_true), np.array(Y_pred)
 
 def mean_squared_error(Y_true, Y_pred):
-    return ((Y_true-Y_pred)**2).mean().item()
+    Y_true, Y_pred = _get_metric_data(Y_true, Y_pred)
+    mse = ((Y_true-Y_pred)**2).mean()
+    return mse.item() if hasattr(mse, 'item') else float(mse)
 
 def root_mean_squared_error(Y_true, Y_pred):
     return mean_squared_error(Y_true, Y_pred)**0.5
 
 
 def mean_absolute_error(Y_true, Y_pred):
-    return ((Y_true-Y_pred).abs().mean()).item()
+    Y_true, Y_pred = _get_metric_data(Y_true, Y_pred)
+    if isinstance(Y_true, Tensor):
+        mae = (Y_true-Y_pred).abs().mean()
+    else:
+        mae = np.abs(Y_true-Y_pred).mean()
+    return mae.item() if hasattr(mae, 'item') else float(mae)
 
 def mean_absolute_percentage_error(Y_true, Y_pred):
-    return (((Y_true-Y_pred)/Y_true).abs().mean()).item()
+    Y_true, Y_pred = _get_metric_data(Y_true, Y_pred)
+    if isinstance(Y_true, Tensor):
+        mape = ((Y_true-Y_pred)/Y_true).abs().mean()
+    else:
+        mape = np.abs((Y_true-Y_pred)/Y_true).mean()
+    return mape.item() if hasattr(mape, 'item') else float(mape)
 
 def r2_score(Y_true, Y_pred):
-
+    Y_true, Y_pred = _get_metric_data(Y_true, Y_pred)
     sr = ((Y_true-Y_pred)**2).mean()
     sy = ((Y_true-Y_true.mean())**2).mean()
-    
-    return (1-(sr/sy)).item()
+    r2 = (1-(sr/sy))
+    return r2.item() if hasattr(r2, 'item') else float(r2)
+
 
 
 def regression_report(y_true: np.ndarray, y_pred: np.ndarray) -> str:
@@ -54,20 +72,17 @@ def regression_report(y_true: np.ndarray, y_pred: np.ndarray) -> str:
 
 
 def accuracy_score(Y_true, Y_pred):
-    return (Y_true==Y_pred).mean().item()
+    Y_true, Y_pred = _get_metric_data(Y_true, Y_pred)
+    if isinstance(Y_true, Tensor):
+        acc = (Y_true == Y_pred).mean()
+    else:
+        acc = (Y_true == Y_pred).mean()
+    return acc.item() if hasattr(acc, 'item') else float(acc)
 
 
 def confusion_matrix(y_true, y_pred):
-
-    if y_true.shape != y_pred.shape:
-        raise ValueError("y_true and y_pred must have the same shape.")
+    y_true, y_pred = _get_classification_data(y_true, y_pred)
     
-    if isinstance(y_true, tensor):
-        y_true = y_true.to_numpy().flatten()
-
-    if isinstance(y_pred, tensor):
-        y_pred = y_pred.to_numpy().flatten()
-
     classes = np.unique(y_true)
     cm = np.zeros((len(classes), len(classes)))
 
@@ -80,22 +95,90 @@ def confusion_matrix(y_true, y_pred):
 
 
 
+
+def _get_classification_data(y_true, y_pred):
+    if y_true.shape != y_pred.shape:
+        raise ValueError("y_true and y_pred must have the same shape.")
+    
+    if isinstance(y_true, Tensor):
+        y_true = y_true.to_numpy().flatten()
+    elif isinstance(y_true, (list, tuple)):
+        y_true = np.array(y_true).flatten()
+
+    if isinstance(y_pred, Tensor):
+        y_pred = y_pred.to_numpy().flatten()
+    elif isinstance(y_pred, (list, tuple)):
+        y_pred = np.array(y_pred).flatten()
+        
+    return y_true, y_pred
+
+def precision_score(y_true, y_pred, average='binary', pos_label=1):
+    y_true, y_pred = _get_classification_data(y_true, y_pred)
+    classes = np.unique(y_true)
+    
+    if average == 'binary':
+        true_pos = np.sum((y_true == pos_label) & (y_pred == pos_label))
+        pred_pos = np.sum(y_pred == pos_label)
+        return true_pos / pred_pos if pred_pos > 0 else 0.0
+    
+    precisions = []
+    supports = []
+    for c in classes:
+        true_pos = np.sum((y_true == c) & (y_pred == c))
+        pred_pos = np.sum(y_pred == c)
+        precisions.append(true_pos / pred_pos if pred_pos > 0 else 0.0)
+        supports.append(np.sum(y_true == c))
+        
+    if average == 'macro':
+        return np.mean(precisions)
+    elif average == 'weighted':
+        return np.average(precisions, weights=supports)
+    return precisions
+
+def recall_score(y_true, y_pred, average='binary', pos_label=1):
+    y_true, y_pred = _get_classification_data(y_true, y_pred)
+    classes = np.unique(y_true)
+    
+    if average == 'binary':
+        true_pos = np.sum((y_true == pos_label) & (y_pred == pos_label))
+        actual_pos = np.sum(y_true == pos_label)
+        return true_pos / actual_pos if actual_pos > 0 else 0.0
+    
+    recalls = []
+    supports = []
+    for c in classes:
+        true_pos = np.sum((y_true == c) & (y_pred == c))
+        actual_pos = np.sum(y_true == c)
+        recalls.append(true_pos / actual_pos if actual_pos > 0 else 0.0)
+        supports.append(actual_pos)
+        
+    if average == 'macro':
+        return np.mean(recalls)
+    elif average == 'weighted':
+        return np.average(recalls, weights=supports)
+    return recalls
+
+def f1_score(y_true, y_pred, average='binary', pos_label=1):
+    p = precision_score(y_true, y_pred, average=average, pos_label=pos_label)
+    r = recall_score(y_true, y_pred, average=average, pos_label=pos_label)
+    
+    if isinstance(p, (list, np.ndarray)):
+        p = np.array(p)
+        r = np.array(r)
+        denom = p + r
+        denom[denom == 0] = 1e-9
+        return 2 * p * r / denom
+    
+    return 2 * p * r / (p + r) if (p + r) > 0 else 0.0
+
 def classification_report(y_true: np.ndarray, y_pred: np.ndarray) -> str:
     """
     Reporte de clasificación similar a sklearn.metrics.classification_report.
     """
-
-    if y_true.shape != y_pred.shape:
-        raise ValueError("y_true and y_pred must have the same shape.")
-    
-    if isinstance(y_true, tensor):
-        y_true = y_true.to_numpy().flatten()
-
-    if isinstance(y_pred, tensor):
-        y_pred = y_pred.to_numpy().flatten()
-        
+    y_true, y_pred = _get_classification_data(y_true, y_pred)
     classes = sorted(np.unique(y_true))
     report = {}
+
     total_true = len(y_true)
 
     # Métricas por clase
@@ -146,5 +229,6 @@ def classification_report(y_true: np.ndarray, y_pred: np.ndarray) -> str:
     lines.append(f"{'weighted avg':<12}{weighted_precision:>9.2f}{weighted_recall:>9.2f}{weighted_f1:>9.2f}{total_true:>9}")
 
     return "\n".join(lines)
+
 
 

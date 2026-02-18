@@ -1,6 +1,6 @@
 import pytest
 import numpy as np
-from sorix import tensor
+from sorix import Tensor, tensor
 from sorix.clustering.k_means import Kmeans
 
 def test_kmeans_basic_fit():
@@ -20,7 +20,7 @@ def test_kmeans_basic_fit():
     
     # Predict should return a tensor of labels
     preds = model.predict(X)
-    assert isinstance(preds, tensor)
+    assert isinstance(preds, Tensor)
     assert preds.shape == (30,)
     
     # Inertia is a float
