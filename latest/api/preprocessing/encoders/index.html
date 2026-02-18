@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://mitchell-mirano.github.io/sorix/latest/api/datasets/dataset/">
+        <link rel="canonical" href="https://mitchell-mirano.github.io/sorix/latest/api/preprocessing/encoders/">
       
       
-        <link rel="prev" href="../dataloader/">
+        <link rel="prev" href="../">
       
       
-        <link rel="next" href="../train_test/">
+        <link rel="next" href="../scalers/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>dataset - Sorix</title>
+        <title>encoders - Sorix</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#sorix.datasets.dataset" class="md-skip">
+        <a href="#sorix.preprocessing.encoders" class="md-skip">
           Saltar a contenido
         </a>
       
@@ -120,7 +120,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              dataset
+              encoders
             
           </span>
         </div>
@@ -1667,8 +1667,6 @@
                 
   
   
-    
-  
   
   
     
@@ -1676,10 +1674,6 @@
       
         
           
-        
-      
-        
-      
         
       
         
@@ -1696,22 +1690,24 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_6" checked>
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_6" >
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
+            <a href="../../metrics/" class="md-nav__link ">
               
   
   
   <span class="md-ellipsis">
     
   
-    datasets
+    metrics
   
 
     
@@ -1728,12 +1724,12 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_6_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4_6">
             <span class="md-nav__icon md-icon"></span>
             
   
-    datasets
+    metrics
   
 
           </label>
@@ -1748,124 +1744,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../dataloader/" class="md-nav__link">
+      <a href="../../metrics/metrics/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    dataloader
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-    
-  
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    dataset
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    dataset
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Tabla de contenidos
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#sorix.datasets.dataset" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        dataset
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../train_test/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    train_test
+    metrics
   
 
     
@@ -1924,14 +1810,14 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../metrics/" class="md-nav__link ">
+            <a href="../../model_selection/" class="md-nav__link ">
               
   
   
   <span class="md-ellipsis">
     
   
-    metrics
+    model_selection
   
 
     
@@ -1953,7 +1839,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    metrics
+    model_selection
   
 
           </label>
@@ -1968,14 +1854,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../metrics/metrics/" class="md-nav__link">
+      <a href="../../model_selection/train_test/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    metrics
+    train_test
   
 
     
@@ -2281,8 +2167,10 @@
                 
   
   
+    
   
   
+  
     
     
       
@@ -2308,17 +2196,15 @@
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_10" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_10" checked>
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../preprocessing/" class="md-nav__link ">
+            <a href="../" class="md-nav__link ">
               
   
   
@@ -2342,7 +2228,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_10_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_10_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_4_10">
             <span class="md-nav__icon md-icon"></span>
             
@@ -2359,17 +2245,42 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../preprocessing/enconders/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    encoders
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
   <span class="md-ellipsis">
     
   
-    enconders
+    encoders
   
 
     
@@ -2378,6 +2289,35 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#sorix.preprocessing.encoders" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        encoders
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -2390,7 +2330,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../preprocessing/scalers/" class="md-nav__link">
+      <a href="../scalers/" class="md-nav__link">
         
   
   
@@ -2418,7 +2358,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../preprocessing/transformers/" class="md-nav__link">
+      <a href="../transformers/" class="md-nav__link">
         
   
   
@@ -2492,6 +2432,8 @@
       
         
       
+        
+      
     
     
     
@@ -2549,6 +2491,143 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_12_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../utils/data/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    data
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_12_2" id="__nav_4_12_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_12_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_12_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    data
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utils/data/dataloader/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    dataloader
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utils/data/dataset/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    dataset
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
               
             
               
@@ -2647,10 +2726,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#sorix.datasets.dataset" class="md-nav__link">
+  <a href="#sorix.preprocessing.encoders" class="md-nav__link">
     <span class="md-ellipsis">
       
-        dataset
+        encoders
       
     </span>
   </a>
@@ -2721,7 +2800,7 @@
         <a href="../" class="md-path__link">
           
   <span class="md-ellipsis">
-    datasets
+    preprocessing
   </span>
 
         </a>
@@ -2743,17 +2822,17 @@
   
 
 
-  <h1>dataset</h1>
+  <h1>encoders</h1>
 
 <div class="doc doc-object doc-module">
 
 
 
-<h2 id="sorix.datasets.dataset" class="doc doc-heading">
-            <span class="doc doc-object-name doc-module-name">sorix.datasets.dataset</span>
+<h2 id="sorix.preprocessing.encoders" class="doc doc-heading">
+            <span class="doc doc-object-name doc-module-name">sorix.preprocessing.encoders</span>
 
 
-<a href="#sorix.datasets.dataset" class="headerlink" title="Permanent link">&para;</a></h2>
+<a href="#sorix.preprocessing.encoders" class="headerlink" title="Permanent link">&para;</a></h2>
 
     <div class="doc doc-contents first">
 

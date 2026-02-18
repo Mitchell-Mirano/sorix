@@ -2,178 +2,182 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://mitchell-mirano.github.io/sorix/latest/</loc>
-         <lastmod>2026-02-16</lastmod>
+         <lastmod>2026-02-18</lastmod>
     </url>
     <url>
          <loc>https://mitchell-mirano.github.io/sorix/latest/api/</loc>
-         <lastmod>2026-02-16</lastmod>
+         <lastmod>2026-02-18</lastmod>
     </url>
     <url>
          <loc>https://mitchell-mirano.github.io/sorix/latest/api/SUMMARY/</loc>
-         <lastmod>2026-02-16</lastmod>
+         <lastmod>2026-02-18</lastmod>
     </url>
     <url>
          <loc>https://mitchell-mirano.github.io/sorix/latest/api/_version/</loc>
-         <lastmod>2026-02-16</lastmod>
+         <lastmod>2026-02-18</lastmod>
     </url>
     <url>
          <loc>https://mitchell-mirano.github.io/sorix/latest/api/tensor/</loc>
-         <lastmod>2026-02-16</lastmod>
+         <lastmod>2026-02-18</lastmod>
     </url>
     <url>
          <loc>https://mitchell-mirano.github.io/sorix/latest/api/clustering/</loc>
-         <lastmod>2026-02-16</lastmod>
+         <lastmod>2026-02-18</lastmod>
     </url>
     <url>
          <loc>https://mitchell-mirano.github.io/sorix/latest/api/clustering/k_means/</loc>
-         <lastmod>2026-02-16</lastmod>
+         <lastmod>2026-02-18</lastmod>
     </url>
     <url>
          <loc>https://mitchell-mirano.github.io/sorix/latest/api/cuda/</loc>
-         <lastmod>2026-02-16</lastmod>
+         <lastmod>2026-02-18</lastmod>
     </url>
     <url>
          <loc>https://mitchell-mirano.github.io/sorix/latest/api/cuda/cuda/</loc>
-         <lastmod>2026-02-16</lastmod>
+         <lastmod>2026-02-18</lastmod>
     </url>
     <url>
          <loc>https://mitchell-mirano.github.io/sorix/latest/api/cupy/</loc>
-         <lastmod>2026-02-16</lastmod>
+         <lastmod>2026-02-18</lastmod>
     </url>
     <url>
          <loc>https://mitchell-mirano.github.io/sorix/latest/api/cupy/cupy/</loc>
-         <lastmod>2026-02-16</lastmod>
-    </url>
-    <url>
-         <loc>https://mitchell-mirano.github.io/sorix/latest/api/datasets/</loc>
-         <lastmod>2026-02-16</lastmod>
-    </url>
-    <url>
-         <loc>https://mitchell-mirano.github.io/sorix/latest/api/datasets/dataloader/</loc>
-         <lastmod>2026-02-16</lastmod>
-    </url>
-    <url>
-         <loc>https://mitchell-mirano.github.io/sorix/latest/api/datasets/dataset/</loc>
-         <lastmod>2026-02-16</lastmod>
-    </url>
-    <url>
-         <loc>https://mitchell-mirano.github.io/sorix/latest/api/datasets/train_test/</loc>
-         <lastmod>2026-02-16</lastmod>
+         <lastmod>2026-02-18</lastmod>
     </url>
     <url>
          <loc>https://mitchell-mirano.github.io/sorix/latest/api/metrics/</loc>
-         <lastmod>2026-02-16</lastmod>
+         <lastmod>2026-02-18</lastmod>
     </url>
     <url>
          <loc>https://mitchell-mirano.github.io/sorix/latest/api/metrics/metrics/</loc>
-         <lastmod>2026-02-16</lastmod>
+         <lastmod>2026-02-18</lastmod>
+    </url>
+    <url>
+         <loc>https://mitchell-mirano.github.io/sorix/latest/api/model_selection/</loc>
+         <lastmod>2026-02-18</lastmod>
+    </url>
+    <url>
+         <loc>https://mitchell-mirano.github.io/sorix/latest/api/model_selection/train_test/</loc>
+         <lastmod>2026-02-18</lastmod>
     </url>
     <url>
          <loc>https://mitchell-mirano.github.io/sorix/latest/api/nn/</loc>
-         <lastmod>2026-02-16</lastmod>
+         <lastmod>2026-02-18</lastmod>
     </url>
     <url>
          <loc>https://mitchell-mirano.github.io/sorix/latest/api/nn/layers/</loc>
-         <lastmod>2026-02-16</lastmod>
+         <lastmod>2026-02-18</lastmod>
     </url>
     <url>
          <loc>https://mitchell-mirano.github.io/sorix/latest/api/nn/loss/</loc>
-         <lastmod>2026-02-16</lastmod>
+         <lastmod>2026-02-18</lastmod>
     </url>
     <url>
          <loc>https://mitchell-mirano.github.io/sorix/latest/api/nn/net/</loc>
-         <lastmod>2026-02-16</lastmod>
+         <lastmod>2026-02-18</lastmod>
     </url>
     <url>
          <loc>https://mitchell-mirano.github.io/sorix/latest/api/optim/</loc>
-         <lastmod>2026-02-16</lastmod>
+         <lastmod>2026-02-18</lastmod>
     </url>
     <url>
          <loc>https://mitchell-mirano.github.io/sorix/latest/api/optim/optim/</loc>
-         <lastmod>2026-02-16</lastmod>
+         <lastmod>2026-02-18</lastmod>
     </url>
     <url>
          <loc>https://mitchell-mirano.github.io/sorix/latest/api/preprocessing/</loc>
-         <lastmod>2026-02-16</lastmod>
+         <lastmod>2026-02-18</lastmod>
     </url>
     <url>
-         <loc>https://mitchell-mirano.github.io/sorix/latest/api/preprocessing/enconders/</loc>
-         <lastmod>2026-02-16</lastmod>
+         <loc>https://mitchell-mirano.github.io/sorix/latest/api/preprocessing/encoders/</loc>
+         <lastmod>2026-02-18</lastmod>
     </url>
     <url>
          <loc>https://mitchell-mirano.github.io/sorix/latest/api/preprocessing/scalers/</loc>
-         <lastmod>2026-02-16</lastmod>
+         <lastmod>2026-02-18</lastmod>
     </url>
     <url>
          <loc>https://mitchell-mirano.github.io/sorix/latest/api/preprocessing/transformers/</loc>
-         <lastmod>2026-02-16</lastmod>
+         <lastmod>2026-02-18</lastmod>
     </url>
     <url>
          <loc>https://mitchell-mirano.github.io/sorix/latest/api/utils/</loc>
-         <lastmod>2026-02-16</lastmod>
+         <lastmod>2026-02-18</lastmod>
     </url>
     <url>
          <loc>https://mitchell-mirano.github.io/sorix/latest/api/utils/math/</loc>
-         <lastmod>2026-02-16</lastmod>
+         <lastmod>2026-02-18</lastmod>
     </url>
     <url>
          <loc>https://mitchell-mirano.github.io/sorix/latest/api/utils/utils/</loc>
-         <lastmod>2026-02-16</lastmod>
+         <lastmod>2026-02-18</lastmod>
+    </url>
+    <url>
+         <loc>https://mitchell-mirano.github.io/sorix/latest/api/utils/data/</loc>
+         <lastmod>2026-02-18</lastmod>
+    </url>
+    <url>
+         <loc>https://mitchell-mirano.github.io/sorix/latest/api/utils/data/dataloader/</loc>
+         <lastmod>2026-02-18</lastmod>
+    </url>
+    <url>
+         <loc>https://mitchell-mirano.github.io/sorix/latest/api/utils/data/dataset/</loc>
+         <lastmod>2026-02-18</lastmod>
     </url>
     <url>
          <loc>https://mitchell-mirano.github.io/sorix/latest/examples/clustering/Iris-dataset/</loc>
-         <lastmod>2026-02-16</lastmod>
+         <lastmod>2026-02-18</lastmod>
     </url>
     <url>
          <loc>https://mitchell-mirano.github.io/sorix/latest/examples/clustering/RandomDataset%2BGPU/</loc>
-         <lastmod>2026-02-16</lastmod>
+         <lastmod>2026-02-18</lastmod>
     </url>
     <url>
          <loc>https://mitchell-mirano.github.io/sorix/latest/examples/nn/1-regression/</loc>
-         <lastmod>2026-02-16</lastmod>
+         <lastmod>2026-02-18</lastmod>
     </url>
     <url>
          <loc>https://mitchell-mirano.github.io/sorix/latest/examples/nn/2.1-classification-binary/</loc>
-         <lastmod>2026-02-16</lastmod>
+         <lastmod>2026-02-18</lastmod>
     </url>
     <url>
          <loc>https://mitchell-mirano.github.io/sorix/latest/examples/nn/2.2-classification-multiclass/</loc>
-         <lastmod>2026-02-16</lastmod>
+         <lastmod>2026-02-18</lastmod>
     </url>
     <url>
          <loc>https://mitchell-mirano.github.io/sorix/latest/examples/nn/3-Iris_dataset/</loc>
-         <lastmod>2026-02-16</lastmod>
+         <lastmod>2026-02-18</lastmod>
     </url>
     <url>
          <loc>https://mitchell-mirano.github.io/sorix/latest/examples/nn/4-digit-recognizer/</loc>
-         <lastmod>2026-02-16</lastmod>
+         <lastmod>2026-02-18</lastmod>
     </url>
     <url>
          <loc>https://mitchell-mirano.github.io/sorix/latest/examples/preprocessing/encoders-scalers-transformers/</loc>
-         <lastmod>2026-02-16</lastmod>
+         <lastmod>2026-02-18</lastmod>
     </url>
     <url>
          <loc>https://mitchell-mirano.github.io/sorix/latest/examples/regression/1-linear-regression/</loc>
-         <lastmod>2026-02-16</lastmod>
+         <lastmod>2026-02-18</lastmod>
     </url>
     <url>
          <loc>https://mitchell-mirano.github.io/sorix/latest/examples/regression/2-logistic-regression/</loc>
-         <lastmod>2026-02-16</lastmod>
+         <lastmod>2026-02-18</lastmod>
     </url>
     <url>
          <loc>https://mitchell-mirano.github.io/sorix/latest/learn/01-tensor/</loc>
-         <lastmod>2026-02-16</lastmod>
+         <lastmod>2026-02-18</lastmod>
     </url>
     <url>
          <loc>https://mitchell-mirano.github.io/sorix/latest/learn/02-graph/</loc>
-         <lastmod>2026-02-16</lastmod>
+         <lastmod>2026-02-18</lastmod>
     </url>
     <url>
          <loc>https://mitchell-mirano.github.io/sorix/latest/learn/03-autograd/</loc>
-         <lastmod>2026-02-16</lastmod>
+         <lastmod>2026-02-18</lastmod>
     </url>
     <url>
          <loc>https://mitchell-mirano.github.io/sorix/latest/learn/04-layers/</loc>
-         <lastmod>2026-02-16</lastmod>
+         <lastmod>2026-02-18</lastmod>
     </url>
 </urlset>

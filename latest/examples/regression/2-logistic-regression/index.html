@@ -1733,10 +1733,6 @@
       
         
       
-        
-      
-        
-      
     
     
     
@@ -1756,14 +1752,14 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../api/datasets/" class="md-nav__link ">
+            <a href="../../../api/metrics/" class="md-nav__link ">
               
   
   
   <span class="md-ellipsis">
     
   
-    datasets
+    metrics
   
 
     
@@ -1785,7 +1781,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    datasets
+    metrics
   
 
           </label>
@@ -1800,70 +1796,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../api/datasets/dataloader/" class="md-nav__link">
+      <a href="../../../api/metrics/metrics/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    dataloader
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../api/datasets/dataset/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    dataset
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../api/datasets/train_test/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    train_test
+    metrics
   
 
     
@@ -1919,14 +1859,14 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../api/metrics/" class="md-nav__link ">
+            <a href="../../../api/model_selection/" class="md-nav__link ">
               
   
   
   <span class="md-ellipsis">
     
   
-    metrics
+    model_selection
   
 
     
@@ -1948,7 +1888,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    metrics
+    model_selection
   
 
           </label>
@@ -1963,14 +1903,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../api/metrics/metrics/" class="md-nav__link">
+      <a href="../../../api/model_selection/train_test/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    metrics
+    train_test
   
 
     
@@ -2348,14 +2288,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../api/preprocessing/enconders/" class="md-nav__link">
+      <a href="../../../api/preprocessing/encoders/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    enconders
+    encoders
   
 
     
@@ -2478,6 +2418,8 @@
       
         
       
+        
+      
     
     
     
@@ -2532,6 +2474,143 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_12_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../api/utils/data/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    data
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_12_2" id="__nav_4_12_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_12_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_12_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    data
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../api/utils/data/dataloader/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    dataloader
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../api/utils/data/dataset/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    dataset
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
               
             
               
@@ -3242,13 +3321,13 @@ import seaborn as sns</div>
 </clipboard-copy>
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sorix</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sorix.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sorix.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sorix.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">classification_report</span><span class="p">,</span> <span class="n">confusion_matrix</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sorix.nn</span><span class="w"> </span><span class="kn">import</span> <span class="n">Linear</span><span class="p">,</span> <span class="n">BCEWithLogitsLoss</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sorix.optim</span><span class="w"> </span><span class="kn">import</span> <span class="n">RMSprop</span><span class="p">,</span> <span class="n">Adam</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-3">import sorix
-from sorix.datasets import train_test_split
+from sorix.model_selection import train_test_split
 from sorix.metrics import classification_report, confusion_matrix
 from sorix.nn import Linear, BCEWithLogitsLoss
 from sorix.optim import RMSprop, Adam</div>
@@ -3965,34 +4044,46 @@ optimizer = Adam(model.parameters(), lr=0.01)
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>Epoch: 0 | Loss: 1.6742
-Epoch: 100 | Loss: 0.2143
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Epoch: 100 | Loss: 0.2143
 Epoch: 200 | Loss: 0.1048
+Epoch: 300 | Loss: 0.0634
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Epoch: 300 | Loss: 0.0634
-Epoch: 400 | Loss: 0.0433
-Epoch: 500 | Loss: 0.0319
+<pre>Epoch: 400 | Loss: 0.0433
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Epoch: 600 | Loss: 0.0247
+<pre>Epoch: 500 | Loss: 0.0319
+Epoch: 600 | Loss: 0.0247
 Epoch: 700 | Loss: 0.0198
-Epoch: 800 | Loss: 0.0163
-Epoch: 900 | Loss: 0.0137
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Epoch: 1000 | Loss: 0.0117
+<pre>Epoch: 800 | Loss: 0.0163
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Epoch: 900 | Loss: 0.0137
+Epoch: 1000 | Loss: 0.0117
 </pre>
 </div>
 </div>

@@ -1685,10 +1685,6 @@
       
         
       
-        
-      
-        
-      
     
     
     
@@ -1708,14 +1704,14 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../api/datasets/" class="md-nav__link ">
+            <a href="../../../api/metrics/" class="md-nav__link ">
               
   
   
   <span class="md-ellipsis">
     
   
-    datasets
+    metrics
   
 
     
@@ -1737,7 +1733,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    datasets
+    metrics
   
 
           </label>
@@ -1752,70 +1748,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../api/datasets/dataloader/" class="md-nav__link">
+      <a href="../../../api/metrics/metrics/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    dataloader
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../api/datasets/dataset/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    dataset
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../api/datasets/train_test/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    train_test
+    metrics
   
 
     
@@ -1871,14 +1811,14 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../api/metrics/" class="md-nav__link ">
+            <a href="../../../api/model_selection/" class="md-nav__link ">
               
   
   
   <span class="md-ellipsis">
     
   
-    metrics
+    model_selection
   
 
     
@@ -1900,7 +1840,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    metrics
+    model_selection
   
 
           </label>
@@ -1915,14 +1855,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../api/metrics/metrics/" class="md-nav__link">
+      <a href="../../../api/model_selection/train_test/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    metrics
+    train_test
   
 
     
@@ -2300,14 +2240,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../api/preprocessing/enconders/" class="md-nav__link">
+      <a href="../../../api/preprocessing/encoders/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    enconders
+    encoders
   
 
     
@@ -2430,6 +2370,8 @@
       
         
       
+        
+      
     
     
     
@@ -2484,6 +2426,143 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_12_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../api/utils/data/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    data
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_12_2" id="__nav_4_12_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_12_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_12_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    data
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../api/utils/data/dataloader/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    dataloader
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../api/utils/data/dataset/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    dataset
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
               
             
               
@@ -3192,14 +3271,14 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">sorix</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sorix.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sorix.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sorix.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span><span class="p">,</span><span class="n">MinMaxScaler</span><span class="p">,</span><span class="n">RobustScaler</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sorix.nn</span><span class="w"> </span><span class="kn">import</span> <span class="n">NeuralNetwork</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sorix.nn</span><span class="w"> </span><span class="kn">import</span> <span class="n">Module</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sorix</span><span class="w"> </span><span class="kn">import</span> <span class="n">tensor</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sorix.nn</span><span class="w"> </span><span class="kn">import</span> <span class="n">CrossEntropyLoss</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sorix.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">accuracy_score</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sorix.optim</span><span class="w"> </span><span class="kn">import</span> <span class="n">RMSprop</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sorix.nn</span><span class="w"> </span><span class="kn">import</span> <span class="n">Linear</span><span class="p">,</span><span class="n">Relu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sorix.nn</span><span class="w"> </span><span class="kn">import</span> <span class="n">Linear</span><span class="p">,</span><span class="n">ReLU</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sorix.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">confusion_matrix</span><span class="p">,</span> <span class="n">classification_report</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
 </pre></div>
@@ -3209,14 +3288,14 @@ import matplotlib.pyplot as plt
 from typing import Union
 
 import sorix
-from sorix.datasets import train_test_split
+from sorix.model_selection import train_test_split
 from sorix.preprocessing import StandardScaler,MinMaxScaler,RobustScaler
-from sorix.nn import NeuralNetwork
+from sorix.nn import Module
 from sorix import tensor
 from sorix.nn import CrossEntropyLoss
 from sorix.metrics import accuracy_score
 from sorix.optim import RMSprop
-from sorix.nn import Linear,Relu
+from sorix.nn import Linear,ReLU
 from sorix.metrics import confusion_matrix, classification_report
 import seaborn as sns</div>
 </div>
@@ -3645,7 +3724,7 @@ y_test = df_test[labels]</div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[9]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>&lt;matplotlib.collections.PathCollection at 0x7f2ad1d216a0&gt;</pre>
+<pre>&lt;matplotlib.collections.PathCollection at 0x7ffadf520ad0&gt;</pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
@@ -3812,16 +3891,16 @@ Y_test shape: (30, 1), device: gpu
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Net</span><span class="p">(</span><span class="n">NeuralNetwork</span><span class="p">):</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Net</span><span class="p">(</span><span class="n">Module</span><span class="p">):</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">Linear</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">Linear</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fc3</span> <span class="o">=</span> <span class="n">Linear</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">relu</span> <span class="o">=</span> <span class="n">Relu</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">relu</span> <span class="o">=</span> <span class="n">ReLU</span><span class="p">()</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">tensor</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
@@ -3834,16 +3913,16 @@ Y_test shape: (30, 1), device: gpu
 <span class="n">criterion</span> <span class="o">=</span> <span class="n">CrossEntropyLoss</span><span class="p">()</span>
 <span class="n">optimizer</span> <span class="o">=</span> <span class="n">RMSprop</span><span class="p">(</span><span class="n">net</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-13">class Net(NeuralNetwork):
+<div class="clipboard-copy-txt" id="cell-13">class Net(Module):
 
     def __init__(self):
         super().__init__()
         self.fc1 = Linear(4, 8)
         self.fc2 = Linear(8, 4)
         self.fc3 = Linear(4, 3)
-        self.relu = Relu()
+        self.relu = ReLU()
 
-    def forward(self, x: tensor) -&gt; tensor:
+    def forward(self, x: tensor) -&gt; Tensor:
         x = self.fc1(x)
         x = self.relu(x)
         x = self.fc2(x)
@@ -4101,7 +4180,13 @@ for epoch in range(1000 + 1):
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>[gpu] Epoch     0 | Loss: 1.3640 | Acc Train: 34.17% | Acc Test: 50.00%
-[gpu] Epoch    10 | Loss: 0.4880 | Acc Train: 85.83% | Acc Test: 93.33%
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[gpu] Epoch    10 | Loss: 0.4880 | Acc Train: 85.83% | Acc Test: 93.33%
 [gpu] Epoch    20 | Loss: 0.2957 | Acc Train: 90.83% | Acc Test: 93.33%
 [gpu] Epoch    30 | Loss: 0.1825 | Acc Train: 94.17% | Acc Test: 100.00%
 Entrenamiento completado en 30 epochs!

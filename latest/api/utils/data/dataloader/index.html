@@ -10,31 +10,31 @@
       
       
       
-        <link rel="canonical" href="https://mitchell-mirano.github.io/sorix/latest/api/preprocessing/enconders/">
+        <link rel="canonical" href="https://mitchell-mirano.github.io/sorix/latest/api/utils/data/dataloader/">
       
       
         <link rel="prev" href="../">
       
       
-        <link rel="next" href="../scalers/">
+        <link rel="next" href="../dataset/">
       
       
         
       
       
-      <link rel="icon" href="../../../assets/images/favicon.png">
+      <link rel="icon" href="../../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
     
     
       
-        <title>enconders - Sorix</title>
+        <title>dataloader - Sorix</title>
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.618322db.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.618322db.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -53,9 +53,9 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../../../assets/_mkdocstrings.css">
     
-    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#sorix.preprocessing.enconders" class="md-skip">
+        <a href="#sorix.utils.data.dataloader" class="md-skip">
           Saltar a contenido
         </a>
       
@@ -100,7 +100,7 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Cabecera">
-    <a href="../../.." title="Sorix" class="md-header__button md-logo" aria-label="Sorix" data-md-component="logo">
+    <a href="../../../.." title="Sorix" class="md-header__button md-logo" aria-label="Sorix" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 21.5c-1.35-.85-3.8-1.5-5.5-1.5-1.65 0-3.35.3-4.75 1.05-.1.05-.15.05-.25.05-.25 0-.5-.25-.5-.5V6c.6-.45 1.25-.75 2-1 1.11-.35 2.33-.5 3.5-.5 1.95 0 4.05.4 5.5 1.5 1.45-1.1 3.55-1.5 5.5-1.5 1.17 0 2.39.15 3.5.5.75.25 1.4.55 2 1v14.6c0 .25-.25.5-.5.5-.1 0-.15 0-.25-.05-1.4-.75-3.1-1.05-4.75-1.05-1.7 0-4.15.65-5.5 1.5M12 8v11.5c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5V7c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5m1 3.5c1.11-.68 2.6-1 4.5-1 .91 0 1.76.09 2.5.28V9.23c-.87-.15-1.71-.23-2.5-.23q-2.655 0-4.5.84zm4.5.17c-1.71 0-3.21.26-4.5.79v1.69c1.11-.65 2.6-.99 4.5-.99 1.04 0 1.88.08 2.5.24v-1.5c-.87-.16-1.71-.23-2.5-.23m2.5 2.9c-.87-.16-1.71-.24-2.5-.24-1.83 0-3.33.27-4.5.8v1.69c1.11-.66 2.6-.99 4.5-.99 1.04 0 1.88.08 2.5.24z"/></svg>
@@ -120,7 +120,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              enconders
+              dataloader
             
           </span>
         </div>
@@ -242,7 +242,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../.." class="md-tabs__link">
+      <a href="../../../.." class="md-tabs__link">
         
   
   
@@ -263,7 +263,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../learn/01-tensor/" class="md-tabs__link">
+        <a href="../../../../learn/01-tensor/" class="md-tabs__link">
           
   
   
@@ -285,7 +285,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../examples/preprocessing/encoders-scalers-transformers/" class="md-tabs__link">
+        <a href="../../../../examples/preprocessing/encoders-scalers-transformers/" class="md-tabs__link">
           
   
   
@@ -309,7 +309,7 @@
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="../../" class="md-tabs__link">
+        <a href="../../../" class="md-tabs__link">
           
   
   
@@ -351,7 +351,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navegación" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="Sorix" class="md-nav__button md-logo" aria-label="Sorix" data-md-component="logo">
+    <a href="../../../.." title="Sorix" class="md-nav__button md-logo" aria-label="Sorix" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 21.5c-1.35-.85-3.8-1.5-5.5-1.5-1.65 0-3.35.3-4.75 1.05-.1.05-.15.05-.25.05-.25 0-.5-.25-.5-.5V6c.6-.45 1.25-.75 2-1 1.11-.35 2.33-.5 3.5-.5 1.95 0 4.05.4 5.5 1.5 1.45-1.1 3.55-1.5 5.5-1.5 1.17 0 2.39.15 3.5.5.75.25 1.4.55 2 1v14.6c0 .25-.25.5-.5.5-.1 0-.15 0-.25-.05-1.4-.75-3.1-1.05-4.75-1.05-1.7 0-4.15.65-5.5 1.5M12 8v11.5c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5V7c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5m1 3.5c1.11-.68 2.6-1 4.5-1 .91 0 1.76.09 2.5.28V9.23c-.87-.15-1.71-.23-2.5-.23q-2.655 0-4.5.84zm4.5.17c-1.71 0-3.21.26-4.5.79v1.69c1.11-.65 2.6-.99 4.5-.99 1.04 0 1.88.08 2.5.24v-1.5c-.87-.16-1.71-.23-2.5-.23m2.5 2.9c-.87-.16-1.71-.24-2.5-.24-1.83 0-3.33.27-4.5.8v1.69c1.11-.66 2.6-.99 4.5-.99 1.04 0 1.88.08 2.5.24z"/></svg>
@@ -381,7 +381,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../.." class="md-nav__link">
+      <a href="../../../.." class="md-nav__link">
         
   
   
@@ -472,7 +472,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../learn/01-tensor/" class="md-nav__link">
+      <a href="../../../../learn/01-tensor/" class="md-nav__link">
         
   
   
@@ -500,7 +500,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../learn/02-graph/" class="md-nav__link">
+      <a href="../../../../learn/02-graph/" class="md-nav__link">
         
   
   
@@ -528,7 +528,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../learn/03-autograd/" class="md-nav__link">
+      <a href="../../../../learn/03-autograd/" class="md-nav__link">
         
   
   
@@ -556,7 +556,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../learn/04-layers/" class="md-nav__link">
+      <a href="../../../../learn/04-layers/" class="md-nav__link">
         
   
   
@@ -657,7 +657,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../examples/preprocessing/encoders-scalers-transformers/" class="md-nav__link">
+      <a href="../../../../examples/preprocessing/encoders-scalers-transformers/" class="md-nav__link">
         
   
   
@@ -685,7 +685,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../examples/regression/1-linear-regression/" class="md-nav__link">
+      <a href="../../../../examples/regression/1-linear-regression/" class="md-nav__link">
         
   
   
@@ -713,7 +713,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../examples/regression/2-logistic-regression/" class="md-nav__link">
+      <a href="../../../../examples/regression/2-logistic-regression/" class="md-nav__link">
         
   
   
@@ -859,7 +859,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../examples/clustering/Iris-dataset/" class="md-nav__link">
+      <a href="../../../../examples/clustering/Iris-dataset/" class="md-nav__link">
         
   
   
@@ -887,7 +887,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../examples/clustering/RandomDataset%2BGPU/" class="md-nav__link">
+      <a href="../../../../examples/clustering/RandomDataset%2BGPU/" class="md-nav__link">
         
   
   
@@ -991,7 +991,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../examples/nn/1-regression/" class="md-nav__link">
+      <a href="../../../../examples/nn/1-regression/" class="md-nav__link">
         
   
   
@@ -1083,7 +1083,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../examples/nn/2.1-classification-binary/" class="md-nav__link">
+      <a href="../../../../examples/nn/2.1-classification-binary/" class="md-nav__link">
         
   
   
@@ -1111,7 +1111,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../examples/nn/2.2-classification-multiclass/" class="md-nav__link">
+      <a href="../../../../examples/nn/2.2-classification-multiclass/" class="md-nav__link">
         
   
   
@@ -1139,7 +1139,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../examples/nn/3-Iris_dataset/" class="md-nav__link">
+      <a href="../../../../examples/nn/3-Iris_dataset/" class="md-nav__link">
         
   
   
@@ -1167,7 +1167,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../examples/nn/4-digit-recognizer/" class="md-nav__link">
+      <a href="../../../../examples/nn/4-digit-recognizer/" class="md-nav__link">
         
   
   
@@ -1268,7 +1268,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../" class="md-nav__link ">
+            <a href="../../../" class="md-nav__link ">
               
   
   
@@ -1312,7 +1312,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../_version/" class="md-nav__link">
+      <a href="../../../_version/" class="md-nav__link">
         
   
   
@@ -1370,7 +1370,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../clustering/" class="md-nav__link ">
+            <a href="../../../clustering/" class="md-nav__link ">
               
   
   
@@ -1414,7 +1414,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../clustering/k_means/" class="md-nav__link">
+      <a href="../../../clustering/k_means/" class="md-nav__link">
         
   
   
@@ -1480,7 +1480,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../cuda/" class="md-nav__link ">
+            <a href="../../../cuda/" class="md-nav__link ">
               
   
   
@@ -1524,7 +1524,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../cuda/cuda/" class="md-nav__link">
+      <a href="../../../cuda/cuda/" class="md-nav__link">
         
   
   
@@ -1590,7 +1590,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../cupy/" class="md-nav__link ">
+            <a href="../../../cupy/" class="md-nav__link ">
               
   
   
@@ -1634,7 +1634,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../cupy/cupy/" class="md-nav__link">
+      <a href="../../../cupy/cupy/" class="md-nav__link">
         
   
   
@@ -1678,10 +1678,6 @@
       
         
       
-        
-      
-        
-      
     
     
     
@@ -1704,14 +1700,14 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../datasets/" class="md-nav__link ">
+            <a href="../../../metrics/" class="md-nav__link ">
               
   
   
   <span class="md-ellipsis">
     
   
-    datasets
+    metrics
   
 
     
@@ -1733,7 +1729,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    datasets
+    metrics
   
 
           </label>
@@ -1748,70 +1744,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../datasets/dataloader/" class="md-nav__link">
+      <a href="../../../metrics/metrics/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    dataloader
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../datasets/dataset/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    dataset
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../datasets/train_test/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    train_test
+    metrics
   
 
     
@@ -1870,14 +1810,14 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../metrics/" class="md-nav__link ">
+            <a href="../../../model_selection/" class="md-nav__link ">
               
   
   
   <span class="md-ellipsis">
     
   
-    metrics
+    model_selection
   
 
     
@@ -1899,7 +1839,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    metrics
+    model_selection
   
 
           </label>
@@ -1914,14 +1854,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../metrics/metrics/" class="md-nav__link">
+      <a href="../../../model_selection/train_test/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    metrics
+    train_test
   
 
     
@@ -1984,7 +1924,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../nn/" class="md-nav__link ">
+            <a href="../../../nn/" class="md-nav__link ">
               
   
   
@@ -2028,7 +1968,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../nn/layers/" class="md-nav__link">
+      <a href="../../../nn/layers/" class="md-nav__link">
         
   
   
@@ -2056,7 +1996,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../nn/loss/" class="md-nav__link">
+      <a href="../../../nn/loss/" class="md-nav__link">
         
   
   
@@ -2084,7 +2024,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../nn/net/" class="md-nav__link">
+      <a href="../../../nn/net/" class="md-nav__link">
         
   
   
@@ -2150,7 +2090,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../optim/" class="md-nav__link ">
+            <a href="../../../optim/" class="md-nav__link ">
               
   
   
@@ -2194,7 +2134,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../optim/optim/" class="md-nav__link">
+      <a href="../../../optim/optim/" class="md-nav__link">
         
   
   
@@ -2218,6 +2158,204 @@
           </ul>
         </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_10" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../preprocessing/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    preprocessing
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_10" id="__nav_4_10_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    preprocessing
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../preprocessing/encoders/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    encoders
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../preprocessing/scalers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    scalers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../preprocessing/transformers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    transformers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tensor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    tensor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -2260,18 +2398,18 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_10" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_12" checked>
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
+            <a href="../../" class="md-nav__link ">
               
   
   
   <span class="md-ellipsis">
     
   
-    preprocessing
+    utils
   
 
     
@@ -2282,18 +2420,91 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_4_10" id="__nav_4_10_label" tabindex="">
+              <label class="md-nav__link " for="__nav_4_12" id="__nav_4_12_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_10_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_4_10">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_12_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_12">
             <span class="md-nav__icon md-icon"></span>
             
   
-    preprocessing
+    utils
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_12_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    data
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_12_2" id="__nav_4_12_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_12_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_12_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    data
   
 
           </label>
@@ -2322,7 +2533,7 @@
   <span class="md-ellipsis">
     
   
-    enconders
+    dataloader
   
 
     
@@ -2340,7 +2551,7 @@
   <span class="md-ellipsis">
     
   
-    enconders
+    dataloader
   
 
     
@@ -2364,10 +2575,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#sorix.preprocessing.enconders" class="md-nav__link">
+  <a href="#sorix.utils.data.dataloader" class="md-nav__link">
     <span class="md-ellipsis">
       
-        enconders
+        dataloader
       
     </span>
   </a>
@@ -2390,42 +2601,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../scalers/" class="md-nav__link">
+      <a href="../dataset/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    scalers
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../transformers/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    transformers
+    dataset
   
 
     
@@ -2454,111 +2637,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tensor/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    tensor
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-      
-        
-          
-        
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-        
-          
-          
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-        
-        
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_12" >
-        
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="../../utils/" class="md-nav__link ">
-              
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    utils
-  
-
-    
-  </span>
-  
-  
-
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_4_12" id="__nav_4_12_label" tabindex="">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_12_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4_12">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    utils
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../utils/math/" class="md-nav__link">
+      <a href="../../math/" class="md-nav__link">
         
   
   
@@ -2586,7 +2665,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../utils/utils/" class="md-nav__link">
+      <a href="../../utils/" class="md-nav__link">
         
   
   
@@ -2647,10 +2726,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#sorix.preprocessing.enconders" class="md-nav__link">
+  <a href="#sorix.utils.data.dataloader" class="md-nav__link">
     <span class="md-ellipsis">
       
-        enconders
+        dataloader
       
     </span>
   </a>
@@ -2682,7 +2761,7 @@
   
   
     <li class="md-path__item">
-      <a href="../../.." class="md-path__link">
+      <a href="../../../.." class="md-path__link">
         
   <span class="md-ellipsis">
     🏡 Sorix
@@ -2700,7 +2779,7 @@
     
     
       <li class="md-path__item">
-        <a href="../../" class="md-path__link">
+        <a href="../../../" class="md-path__link">
           
   <span class="md-ellipsis">
     API Reference
@@ -2718,10 +2797,28 @@
     
     
       <li class="md-path__item">
+        <a href="../../" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    utils
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
         <a href="../" class="md-path__link">
           
   <span class="md-ellipsis">
-    preprocessing
+    data
   </span>
 
         </a>
@@ -2743,17 +2840,17 @@
   
 
 
-  <h1>enconders</h1>
+  <h1>dataloader</h1>
 
 <div class="doc doc-object doc-module">
 
 
 
-<h2 id="sorix.preprocessing.enconders" class="doc doc-heading">
-            <span class="doc doc-object-name doc-module-name">sorix.preprocessing.enconders</span>
+<h2 id="sorix.utils.data.dataloader" class="doc doc-heading">
+            <span class="doc doc-object-name doc-module-name">sorix.utils.data.dataloader</span>
 
 
-<a href="#sorix.preprocessing.enconders" class="headerlink" title="Permanent link">&para;</a></h2>
+<a href="#sorix.utils.data.dataloader" class="headerlink" title="Permanent link">&para;</a></h2>
 
     <div class="doc doc-contents first">
 
@@ -2857,12 +2954,12 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.expand", "navigation.path", "navigation.top", "toc.follow", "content.code.copy", "content.code.annotate", "content.tabs.link", "search.suggest", "search.highlight", "search.share"], "search": "../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": {"provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.expand", "navigation.path", "navigation.top", "toc.follow", "content.code.copy", "content.code.annotate", "content.tabs.link", "search.suggest", "search.highlight", "search.share"], "search": "../../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
       
-        <script src="../../../javascripts/mathjax.js"></script>
+        <script src="../../../../javascripts/mathjax.js"></script>
       
         <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
       
