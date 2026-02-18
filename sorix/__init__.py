@@ -6,7 +6,9 @@ from .utils.utils import (as_tensor, from_numpy,
                           arange, linspace, logspace,
                           rand, randn, randint, randperm,
                           zeros_like, ones_like, empty_like, full_like,
+                          save, load
                           )
+
 
 from .utils.math import (sin, cos, tanh, exp, log, sqrt, mean, sum,
                           add, sub, mul, div, matmul, pow)

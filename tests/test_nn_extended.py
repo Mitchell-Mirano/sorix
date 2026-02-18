@@ -85,7 +85,7 @@ def test_neural_network_modes():
     net.to('cpu')
     assert net.device == 'cpu'
 
-def test_neural_network_weights_io():
+def test_neural_network_state_dict_io():
     class SimpleNet(Module):
         def __init__(self):
             super().__init__()
@@ -93,12 +93,39 @@ def test_neural_network_weights_io():
         def forward(self, x): return self.l1(x)
         
     net = SimpleNet()
-    w = net.weights()
-    assert "l1" in w
+    w = net.state_dict()
+    assert "l1.W" in w
+    assert "l1.b" in w
     
     new_net = SimpleNet()
-    new_net.load_weights(w)
-    assert new_net.l1 is net.l1 # Since it's a reference to the same object in __dict__
+    # Change some values
+    new_net.l1.W.data.fill(10.0)
+    new_net.load_state_dict(w)
+    
+    # Check if loaded correctly
+    assert np.all(new_net.l1.W.data == net.l1.W.data)
+
+def test_sorix_serialization(tmp_path):
+    import sorix
+    import os
+    
+    class SimpleNet(Module):
+        def __init__(self):
+            super().__init__()
+            self.l1 = Linear(2, 1)
+        def forward(self, x): return self.l1(x)
+        
+    net = SimpleNet()
+    path = os.path.join(tmp_path, "model.sor")
+    sorix.save(net.state_dict(), path)
+    
+    loaded_state = sorix.load(path)
+    assert "l1.W" in loaded_state
+    
+    new_net = SimpleNet()
+    new_net.load_state_dict(loaded_state)
+    assert np.all(new_net.l1.W.data == net.l1.W.data)
+
 
 def test_neural_network_abstract_error():
     net = Module()
