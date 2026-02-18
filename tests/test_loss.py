@@ -1,6 +1,6 @@
 import pytest
 import numpy as np
-from sorix import tensor
+from sorix import Tensor, tensor
 from sorix.nn.loss import MSELoss, BCEWithLogitsLoss, CrossEntropyLoss
 
 def test_mse_loss():

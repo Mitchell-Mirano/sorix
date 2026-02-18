@@ -1,6 +1,6 @@
 import pytest
 import numpy as np
-from sorix import tensor
+from sorix import Tensor, tensor
 from sorix.metrics import (
     mean_squared_error, 
     root_mean_squared_error, 

@@ -2,7 +2,7 @@ import pytest
 import numpy as np
 import os
 import joblib
-from sorix import tensor, no_grad
+from sorix import Tensor, tensor, no_grad
 from sorix.nn.layers import Linear, Relu
 from sorix.nn.net import NeuralNetwork
 from sorix.nn.loss import MSELoss

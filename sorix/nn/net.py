@@ -1,11 +1,11 @@
-from sorix.tensor import tensor
+from sorix.tensor import Tensor, tensor
 
 class NeuralNetwork:
     def __init__(self):
         super().__init__()
         self.device = None
 
-    def forward(self, x: tensor) -> tensor:
+    def forward(self, x: Tensor) -> Tensor:
         raise NotImplementedError("Debes implementar forward en la subclase.")
 
     def parameters(self):
@@ -81,7 +81,7 @@ class NeuralNetwork:
         for v in self.__dict__.values():
             _apply(v)
 
-    def __call__(self, x: tensor) -> tensor:
+    def __call__(self, x: Tensor) -> Tensor:
         return self.forward(x)
     
     def weights(self):

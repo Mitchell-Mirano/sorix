@@ -1,6 +1,6 @@
 import pytest
 import numpy as np
-from sorix import tensor
+from sorix import Tensor, tensor
 from sorix.optim.optim import SGD, SGDMomentum, RMSprop, Adam
 
 def test_optimizer_zero_grad():

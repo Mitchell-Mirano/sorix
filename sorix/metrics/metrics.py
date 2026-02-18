@@ -1,5 +1,5 @@
 import numpy as np
-from sorix.tensor import tensor
+from sorix.tensor import Tensor, tensor
 
 
 def mean_squared_error(Y_true, Y_pred):
@@ -62,10 +62,10 @@ def confusion_matrix(y_true, y_pred):
     if y_true.shape != y_pred.shape:
         raise ValueError("y_true and y_pred must have the same shape.")
     
-    if isinstance(y_true, tensor):
+    if isinstance(y_true, Tensor):
         y_true = y_true.to_numpy().flatten()
 
-    if isinstance(y_pred, tensor):
+    if isinstance(y_pred, Tensor):
         y_pred = y_pred.to_numpy().flatten()
 
     classes = np.unique(y_true)
@@ -88,10 +88,10 @@ def classification_report(y_true: np.ndarray, y_pred: np.ndarray) -> str:
     if y_true.shape != y_pred.shape:
         raise ValueError("y_true and y_pred must have the same shape.")
     
-    if isinstance(y_true, tensor):
+    if isinstance(y_true, Tensor):
         y_true = y_true.to_numpy().flatten()
 
-    if isinstance(y_pred, tensor):
+    if isinstance(y_pred, Tensor):
         y_pred = y_pred.to_numpy().flatten()
         
     classes = sorted(np.unique(y_true))

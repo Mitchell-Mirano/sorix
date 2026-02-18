@@ -1,6 +1,6 @@
 import pytest
 import numpy as np
-from sorix import tensor
+from sorix import Tensor, tensor
 from sorix.nn.layers import Linear, Relu, Sigmoid, Tanh, BatchNorm1D
 from sorix.nn.net import NeuralNetwork
 
