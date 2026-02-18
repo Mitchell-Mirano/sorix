@@ -6,9 +6,11 @@ if _cupy_available:
     import cupy as cp
     
 
-class Linear:
-    def __init__(self, features: int, neurons: int,bias=True, init='he',device='cpu'):
+from .net import Module
 
+class Linear(Module):
+    def __init__(self, features: int, neurons: int,bias=True, init='he',device='cpu'):
+        super().__init__()
         if device == 'gpu' and not _cupy_available:
             raise Exception('Cupy is not available')
         
@@ -33,33 +35,16 @@ class Linear:
             return X @ self.W + self.b  
         return X @ self.W
     
-    def to(self, device):
-
-        if device == self.device:
-            return self
-        
-        self.W = self.W.to(device)
-
-        if self.bias:
-            self.b = self.b.to(device)
-        self.device = device
-        return self
-    
-    def parameters(self):
-        if self.bias:
-            return [self.W, self.b] 
-        return [self.W]
-    
     @property
     def coef_(self):
         return self.W.data.flatten()
         
     @property
     def intercept_(self):
-        return self.b.item()
+        return self.b.item() if self.b is not None else None
 
 
-class Relu:
+class ReLU(Module):
     def __call__(self, X: Tensor):
 
         xp = cp if X.device == 'gpu' else np
@@ -75,7 +60,7 @@ class Relu:
         return out
 
 
-class Sigmoid:
+class Sigmoid(Module):
     def __call__(self, X: Tensor):
 
         xp = cp if X.device == 'gpu' else np
@@ -91,7 +76,7 @@ class Sigmoid:
         return out
     
     
-class Tanh:
+class Tanh(Module):
     def __call__(self, X: Tensor):
 
         xp = cp if X.device == 'gpu' else np
@@ -106,19 +91,23 @@ class Tanh:
         out._backward = _backward
         return out
 
-class BatchNorm1D:
+class BatchNorm1d(Module):
     def __init__(self, features: int, alpha: float = 0.9, epsilon: float = 1e-5, device='cpu'):
+        super().__init__()
         self.gamma = tensor(np.ones((1, features)), requires_grad=True)
         self.beta = tensor(np.zeros((1, features)), requires_grad=True)
 
-        # buffers (no requieren gradiente)
-        self.running_mean = np.zeros((1, features), dtype=np.float32)
-        self.running_var = np.ones((1, features), dtype=np.float32)
+        # buffers (no requieren gradiente, ahora son tensores para que state_dict los capture)
+        self.running_mean = tensor(np.zeros((1, features), dtype=np.float32), requires_grad=False)
+        self.running_var = tensor(np.ones((1, features), dtype=np.float32), requires_grad=False)
 
         self.alpha = alpha
         self.epsilon = epsilon
         self.device = device
         self.training = True
+        
+        if self.device != 'cpu':
+            self.to(self.device)
 
     def __call__(self, X: Tensor):
         xp = cp if X.device == 'gpu' else np
@@ -128,40 +117,18 @@ class BatchNorm1D:
             batch_mean = xp.mean(X.data, axis=0, keepdims=True)
             batch_var = xp.var(X.data, axis=0, keepdims=True)
 
-            # actualizar los buffers (NO tensores, solo numpy/cupy arrays)
-            self.running_mean = self.alpha * self.running_mean + (1 - self.alpha) * batch_mean
-            self.running_var = self.alpha * self.running_var + (1 - self.alpha) * batch_var
+            # actualizar los buffers (actualizamos .data directamente para eficiencia)
+            self.running_mean.data = self.alpha * self.running_mean.data + (1 - self.alpha) * batch_mean
+            self.running_var.data = self.alpha * self.running_var.data + (1 - self.alpha) * batch_var
 
             mean = batch_mean
             var = batch_var
         else:
             # usar estadísticas acumuladas
-            mean = self.running_mean
-            var = self.running_var
+            mean = self.running_mean.data
+            var = self.running_var.data
 
         # normalizar
         X_norm = (X - mean) / xp.sqrt(var + self.epsilon)
         out = self.gamma * X_norm + self.beta
         return out
-
-    def to(self, device):
-        if device == self.device:
-            return self
-
-        if device == 'gpu' and not _cupy_available:
-            raise Exception('Cupy is not available')
-
-        if device == 'gpu':
-            self.running_mean = cp.array(self.running_mean)
-            self.running_var = cp.array(self.running_var)
-        else:  # cpu
-            self.running_mean = cp.asnumpy(self.running_mean)
-            self.running_var = cp.asnumpy(self.running_var)
-
-        self.gamma = self.gamma.to(device)
-        self.beta = self.beta.to(device)
-        self.device = device
-        return self
-
-    def parameters(self):
-        return [self.gamma, self.beta]
