@@ -37,9 +37,20 @@ class BaseScaler:
     def get_features_names(self):
         return self.numerical_features
 
+    def state_dict(self):
+        """Devuelve un diccionario con el estado del escalador."""
+        return {k: v for k, v in self.__dict__.items() if not k.startswith('_')}
+
+    def load_state_dict(self, state_dict):
+        """Carga el estado del escalador desde un diccionario."""
+        for k, v in state_dict.items():
+            setattr(self, k, v)
+        return self
+
     def __repr__(self):
         params = ", ".join(f"{k}={v}" for k, v in self.__dict__.items())
         return f"{self.__class__.__name__}({params})"
+
 
 
 class MinMaxScaler(BaseScaler):

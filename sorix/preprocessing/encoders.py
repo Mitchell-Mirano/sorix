@@ -50,6 +50,16 @@ class OneHotEncoder:
             
     
 
+    def state_dict(self):
+        """Devuelve un diccionario con el estado del codificador."""
+        return {k: v for k, v in self.__dict__.items() if not k.startswith('_')}
+
+    def load_state_dict(self, state_dict):
+        """Carga el estado del codificador desde un diccionario."""
+        for k, v in state_dict.items():
+            setattr(self, k, v)
+        return self
+
     def __str__(self) -> str:
         return f"OneHotEncoder({self.features})"
     
