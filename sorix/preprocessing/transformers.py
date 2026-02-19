@@ -50,3 +50,39 @@ class ColumnTransformer:
             features.extend([f'{cat}_{feature}' for feature in tf.get_features_names()])
 
         return features
+
+    def state_dict(self):
+        """Devuelve un diccionario con el estado del transformador de columnas."""
+        state = {
+            'n_features': self.n_features,
+            'features_names': self.features_names,
+            'transformers_states': []
+        }
+        for name, tf, cols in self.transformers:
+            if hasattr(tf, 'state_dict') and callable(tf.state_dict):
+                state['transformers_states'].append((name, tf.state_dict(), cols))
+            else:
+                # Fallback if the transformer doesn't have state_dict (unlikely in sorix)
+                state['transformers_states'].append((name, tf, cols))
+        return state
+
+    def load_state_dict(self, state_dict):
+        """Carga el estado del transformador de columnas."""
+        self.n_features = state_dict['n_features']
+        self.features_names = state_dict['features_names']
+        
+        # Mapping for easier lookup
+        tf_states = {name: (state, cols) for name, state, cols in state_dict['transformers_states']}
+        
+        for name, tf, cols in self.transformers:
+            if name in tf_states:
+                state, _ = tf_states[name]
+                if hasattr(tf, 'load_state_dict') and callable(tf.load_state_dict):
+                    tf.load_state_dict(state)
+                else:
+                    # If it was saved as the object itself
+                    # (this might happen if tf didn't have state_dict when saved)
+                    # But in our new system they will have it.
+                    pass
+        return self
+
