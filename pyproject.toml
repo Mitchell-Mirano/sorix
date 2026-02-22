@@ -37,6 +37,7 @@ cp13 = ["cupy-cuda13x>=13.0", "numpy>=2.0,<3.0"]
 
 [dependency-groups]
 dev = [
+    "black>=26.1.0",
     "joblib>=1.5.2",
     "jupyter>=1.1.1",
     "matplotlib>=3.10.6",

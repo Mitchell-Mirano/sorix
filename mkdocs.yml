@@ -165,7 +165,7 @@ plugins:
             separate_signature: true
             signature_crossrefs: true
             merge_init_into_class: true
-            docstring_section_style: spacy
+            docstring_section_style: list
             unwrap_annotated: true # <--- Añadido
             filters:
               - '!^_'
@@ -173,7 +173,7 @@ plugins:
   - mkdocs-jupyter:
       include: ["**/*.ipynb"]
       execute: false
-      include_source: false
+      include_source: true
 
 # ====================================================================
 # 5. EXTRAS

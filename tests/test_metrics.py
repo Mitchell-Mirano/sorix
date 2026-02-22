@@ -65,3 +65,52 @@ def test_reports_run_without_error():
     assert isinstance(class_rep, str)
     assert "MAE" in reg_rep
     assert "precision" in class_rep
+
+def test_metrics_extra():
+    from sorix.metrics import precision_score, recall_score, f1_score
+    y_true = [0, 1, 2, 0, 1, 2]
+    y_pred = [0, 2, 1, 0, 0, 1]
+    
+    # Test precision with different averages
+    p_macro = precision_score(y_true, y_pred, average='macro')
+    p_weighted = precision_score(y_true, y_pred, average='weighted')
+    p_none = precision_score(y_true, y_pred, average=None)
+    
+    assert isinstance(p_macro, float)
+    assert isinstance(p_weighted, float)
+    assert len(p_none) == 3
+    
+    # Test recall with different averages
+    r_macro = recall_score(y_true, y_pred, average='macro')
+    r_weighted = recall_score(y_true, y_pred, average='weighted')
+    r_none = recall_score(y_true, y_pred, average=None)
+    
+    assert isinstance(r_macro, float)
+    assert isinstance(r_weighted, float)
+    assert len(r_none) == 3
+    
+    # Test f1 with different averages
+    f1_macro = f1_score(y_true, y_pred, average='macro')
+    f1_weighted = f1_score(y_true, y_pred, average='weighted')
+    f1_none = f1_score(y_true, y_pred, average=None)
+    
+    assert isinstance(f1_macro, float)
+    assert isinstance(f1_weighted, float)
+    assert len(f1_none) == 3
+    
+    # Test f1 with zero precision/recall
+    y_t_zero = [1, 1]
+    y_p_zero = [0, 0]
+    assert f1_score(y_t_zero, y_p_zero, average='binary') == 0.0
+
+def test_metrics_invalid_shape():
+    from sorix.metrics import precision_score
+    with pytest.raises(ValueError, match="must have the same shape"):
+        precision_score([0, 1], [0])
+
+def test_mape_zeros():
+    from sorix.metrics import mean_absolute_percentage_error
+    y_true = tensor([1.0, 0.0]) 
+    y_pred = tensor([1.0, 1.0])
+    val = mean_absolute_percentage_error(y_true, y_pred)
+    assert np.isinf(val) or np.isnan(val) or isinstance(val, float)

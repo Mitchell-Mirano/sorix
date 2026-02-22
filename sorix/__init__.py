@@ -1,3 +1,11 @@
+"""
+Sorix: A lightweight deep learning library with automatic differentiation.
+
+Sorix provides a flexible Tensor class with autograd support, a variety of 
+neural network layers, optimizers, and metrics, designed to feel familiar 
+to users of other modern deep learning frameworks while remaining simple 
+and easy to understand.
+"""
 from .tensor import Tensor, tensor, no_grad
 from .cuda import cuda
 from .utils.utils import sigmoid, softmax, argmax
