@@ -12,7 +12,7 @@ from .net import Module
 
 class Linear(Module):
     """
-    Applies a linear transformation to the incoming data: \(y = X@W + b\).
+    Applies a linear transformation to the incoming data.
     
     Attributes:
         W (Tensor): Weights of the layer.
