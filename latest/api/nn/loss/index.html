@@ -1904,6 +1904,8 @@
       
         
       
+        
+      
     
     
     
@@ -1959,6 +1961,34 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../init/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    init
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -2059,6 +2089,45 @@
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="loss">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sorix.nn.loss.MSELoss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MSELoss
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sorix.nn.loss.BCEWithLogitsLoss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BCEWithLogitsLoss
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sorix.nn.loss.CrossEntropyLoss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CrossEntropyLoss
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -2734,6 +2803,45 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="loss">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sorix.nn.loss.MSELoss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MSELoss
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sorix.nn.loss.BCEWithLogitsLoss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BCEWithLogitsLoss
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sorix.nn.loss.CrossEntropyLoss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CrossEntropyLoss
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -2854,6 +2962,155 @@
 
 
 
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="sorix.nn.loss.MSELoss" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">MSELoss</span>
+
+
+<a href="#sorix.nn.loss.MSELoss" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>Computes the Mean Squared Error loss between the prediction and the target.</p>
+
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="sorix.nn.loss.BCEWithLogitsLoss" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">BCEWithLogitsLoss</span>
+
+
+<a href="#sorix.nn.loss.BCEWithLogitsLoss" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>This loss combines a Sigmoid layer and the BCELoss in one single class.
+More numerically stable than using a plain Sigmoid followed by a BCELoss.</p>
+
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="sorix.nn.loss.CrossEntropyLoss" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">CrossEntropyLoss</span>
+
+
+<a href="#sorix.nn.loss.CrossEntropyLoss" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">CrossEntropyLoss</span><span class="p">(</span><span class="n">one_hot</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span></code></pre></div>
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>This criterion computes the cross entropy loss between input and target.</p>
+
+
+
+
+
+
+
+
+                  <details class="mkdocstrings-source">
+                    <summary>Source code in <code>sorix/nn/loss.py</code></summary>
+                    <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-43">43</a></span>
+<span class="normal"><a href="#__codelineno-0-44">44</a></span>
+<span class="normal"><a href="#__codelineno-0-45">45</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">one_hot</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">one_hot</span> <span class="o">=</span> <span class="n">one_hot</span>
+</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">xp</span> <span class="o">=</span> <span class="n">np</span>
+</span></code></pre></div></td></tr></table></div>
+                  </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
 
 
 

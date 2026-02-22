@@ -2023,6 +2023,8 @@
       
         
       
+        
+      
     
     
     
@@ -2080,6 +2082,34 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nn/init/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    init
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -3068,72 +3098,37 @@ n_clusters (int): number of clusters</p>
         <p>Fit the model.</p>
 
 
-<table>
-      <thead>
-        <tr>
-          <th><span class="doc-section-title">PARAMETER</span></th>
-          <th><span>DESCRIPTION</span></th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                <code>features</code>
-            </td>
-            <td class="doc-param-details">
-              <div class="doc-md-description">
-                <p>Features to predict.</p>
-              </div>
-              <p>
-                  <span class="doc-param-annotation">
-                    <b>TYPE:</b>
-                      <code><a class="autorefs autorefs-internal" title="tensor (sorix.tensor.tensor)" href="../../tensor/#sorix.tensor.tensor">tensor</a></code>
-                  </span>
-              </p>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>eps</code>
-            </td>
-            <td class="doc-param-details">
-              <div class="doc-md-description">
-                <p>Stop criterion, by default 0.001</p>
-              </div>
-              <p>
-                  <span class="doc-param-annotation">
-                    <b>TYPE:</b>
-                      <code><span title="float">float</span></code>
-                  </span>
-                  <span class="doc-param-default">
-                    <b>DEFAULT:</b>
-                      <code>0.001</code>
-                  </span>
-              </p>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>max_iters</code>
-            </td>
-            <td class="doc-param-details">
-              <div class="doc-md-description">
-                <p>Maximum number of iterations, by default 1000</p>
-              </div>
-              <p>
-                  <span class="doc-param-annotation">
-                    <b>TYPE:</b>
-                      <code><span title="int">int</span></code>
-                  </span>
-                  <span class="doc-param-default">
-                    <b>DEFAULT:</b>
-                      <code>1000</code>
-                  </span>
-              </p>
-            </td>
-          </tr>
-      </tbody>
-    </table>
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+            <b><code>features</code></b>
+              (<code><a class="autorefs autorefs-internal" title="tensor (sorix.tensor.tensor)" href="../../tensor/#sorix.tensor.tensor">tensor</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>Features to predict.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+            <b><code>eps</code></b>
+              (<code><span title="float">float</span></code>, default:
+                  <code>0.001</code>
+)
+          –
+          <div class="doc-md-description">
+            <p>Stop criterion, by default 0.001</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+            <b><code>max_iters</code></b>
+              (<code><span title="int">int</span></code>, default:
+                  <code>1000</code>
+)
+          –
+          <div class="doc-md-description">
+            <p>Maximum number of iterations, by default 1000</p>
+          </div>
+        </li>
+    </ul>
 
 
             <details class="mkdocstrings-source">
@@ -3211,60 +3206,29 @@ n_clusters (int): number of clusters</p>
         <p>Predict the labels of features</p>
 
 
-<table>
-      <thead>
-        <tr>
-          <th><span class="doc-section-title">PARAMETER</span></th>
-          <th><span>DESCRIPTION</span></th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                <code>features</code>
-            </td>
-            <td class="doc-param-details">
-              <div class="doc-md-description">
-                <p>Features to predict.</p>
-              </div>
-              <p>
-                  <span class="doc-param-annotation">
-                    <b>TYPE:</b>
-                      <code><a class="autorefs autorefs-internal" title="tensor (sorix.tensor.tensor)" href="../../tensor/#sorix.tensor.tensor">tensor</a></code>
-                  </span>
-              </p>
-            </td>
-          </tr>
-      </tbody>
-    </table>
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+            <b><code>features</code></b>
+              (<code><a class="autorefs autorefs-internal" title="tensor (sorix.tensor.tensor)" href="../../tensor/#sorix.tensor.tensor">tensor</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>Features to predict.</p>
+          </div>
+        </li>
+    </ul>
 
 
-<table>
-      <thead>
-        <tr>
-          <th><span class="doc-section-title">RETURNS</span></th>
-          <th><span>DESCRIPTION</span></th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                <code>labels</code>
-            </td>
-            <td class="doc-returns-details">
-              <div class="doc-md-description">
-                <p>Labels of features</p>
-              </div>
-                <p>
-                  <span class="doc-returns-annotation">
-                    <b>TYPE:</b>
-                      <code><a class="autorefs autorefs-internal" title="tensor (sorix.tensor.tensor)" href="../../tensor/#sorix.tensor.tensor">tensor</a></code>
-                  </span>
-                </p>
-            </td>
-          </tr>
-      </tbody>
-    </table>
+<p><span class="doc-section-title">Returns:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+<b><code>labels</code></b> (              <code><a class="autorefs autorefs-internal" title="tensor (sorix.tensor.tensor)" href="../../tensor/#sorix.tensor.tensor">tensor</a></code>
+)          –
+          <div class="doc-md-description">
+            <p>Labels of features</p>
+          </div>
+        </li>
+    </ul>
 
 
             <details class="mkdocstrings-source">
@@ -3320,60 +3284,29 @@ n_clusters (int): number of clusters</p>
         <p>Get distances between features and centroids</p>
 
 
-<table>
-      <thead>
-        <tr>
-          <th><span class="doc-section-title">PARAMETER</span></th>
-          <th><span>DESCRIPTION</span></th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                <code>features</code>
-            </td>
-            <td class="doc-param-details">
-              <div class="doc-md-description">
-                <p>Features to predict.</p>
-              </div>
-              <p>
-                  <span class="doc-param-annotation">
-                    <b>TYPE:</b>
-                      <code><a class="autorefs autorefs-internal" title="tensor (sorix.tensor.tensor)" href="../../tensor/#sorix.tensor.tensor">tensor</a></code>
-                  </span>
-              </p>
-            </td>
-          </tr>
-      </tbody>
-    </table>
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+            <b><code>features</code></b>
+              (<code><a class="autorefs autorefs-internal" title="tensor (sorix.tensor.tensor)" href="../../tensor/#sorix.tensor.tensor">tensor</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>Features to predict.</p>
+          </div>
+        </li>
+    </ul>
 
 
-<table>
-      <thead>
-        <tr>
-          <th><span class="doc-section-title">RETURNS</span></th>
-          <th><span>DESCRIPTION</span></th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                <code>distances</code>
-            </td>
-            <td class="doc-returns-details">
-              <div class="doc-md-description">
-                <p>Distances betwen features and centroids</p>
-              </div>
-                <p>
-                  <span class="doc-returns-annotation">
-                    <b>TYPE:</b>
-                      <code><a class="autorefs autorefs-internal" title="tensor (sorix.tensor.tensor)" href="../../tensor/#sorix.tensor.tensor">tensor</a></code>
-                  </span>
-                </p>
-            </td>
-          </tr>
-      </tbody>
-    </table>
+<p><span class="doc-section-title">Returns:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+<b><code>distances</code></b> (              <code><a class="autorefs autorefs-internal" title="tensor (sorix.tensor.tensor)" href="../../tensor/#sorix.tensor.tensor">tensor</a></code>
+)          –
+          <div class="doc-md-description">
+            <p>Distances betwen features and centroids</p>
+          </div>
+        </li>
+    </ul>
 
 
             <details class="mkdocstrings-source">
@@ -3425,60 +3358,29 @@ n_clusters (int): number of clusters</p>
         <p>Get inertia of features for k-centroids</p>
 
 
-<table>
-      <thead>
-        <tr>
-          <th><span class="doc-section-title">PARAMETER</span></th>
-          <th><span>DESCRIPTION</span></th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                <code>features</code>
-            </td>
-            <td class="doc-param-details">
-              <div class="doc-md-description">
-                <p>Features to predict.</p>
-              </div>
-              <p>
-                  <span class="doc-param-annotation">
-                    <b>TYPE:</b>
-                      <code><a class="autorefs autorefs-internal" title="tensor (sorix.tensor.tensor)" href="../../tensor/#sorix.tensor.tensor">tensor</a></code>
-                  </span>
-              </p>
-            </td>
-          </tr>
-      </tbody>
-    </table>
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+            <b><code>features</code></b>
+              (<code><a class="autorefs autorefs-internal" title="tensor (sorix.tensor.tensor)" href="../../tensor/#sorix.tensor.tensor">tensor</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>Features to predict.</p>
+          </div>
+        </li>
+    </ul>
 
 
-<table>
-      <thead>
-        <tr>
-          <th><span class="doc-section-title">RETURNS</span></th>
-          <th><span>DESCRIPTION</span></th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                <code>inertia</code>
-            </td>
-            <td class="doc-returns-details">
-              <div class="doc-md-description">
-                <p>Inertia of features</p>
-              </div>
-                <p>
-                  <span class="doc-returns-annotation">
-                    <b>TYPE:</b>
-                      <code><span title="float">float</span></code>
-                  </span>
-                </p>
-            </td>
-          </tr>
-      </tbody>
-    </table>
+<p><span class="doc-section-title">Returns:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+<b><code>inertia</code></b> (              <code><span title="float">float</span></code>
+)          –
+          <div class="doc-md-description">
+            <p>Inertia of features</p>
+          </div>
+        </li>
+    </ul>
 
 
             <details class="mkdocstrings-source">
