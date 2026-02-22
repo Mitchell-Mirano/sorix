@@ -1,22 +1,33 @@
+from __future__ import annotations
+from typing import List, Dict, Any, Iterator, Optional, Union, Set
 from sorix.tensor import Tensor, tensor
 
 class Module:
-    def __init__(self):
+    """
+    Base class for all neural network modules.
+    
+    Your models should also subclass this class.
+    """
+    def __init__(self) -> None:
         super().__init__()
-        self.device = 'cpu'
-        self.training = True
+        self.device: str = 'cpu'
+        self.training: bool = True
 
     def forward(self, x: Tensor) -> Tensor:
+        """
+        Defines the computation performed at every call.
+        Should be overridden by all subclasses.
+        """
         raise NotImplementedError("Debes implementar forward en la subclase.")
 
-    def parameters(self):
+    def parameters(self) -> List[Tensor]:
         """
-        Returns an iterator over module parameters.
+        Returns an iterator over module parameters (tensors that require gradients).
         """
-        params = []
-        visited = set()
+        params: List[Tensor] = []
+        visited: Set[int] = set()
 
-        def _gather_params(obj):
+        def _gather_params(obj: Any) -> None:
             if id(obj) in visited:
                 return
             visited.add(id(obj))
@@ -42,11 +53,16 @@ class Module:
         _gather_params(self)
         return params
 
-    def to(self, device):
-        """Mueve TODOS los tensores/capas/subredes al device."""
+    def to(self, device: str) -> Module:
+        """
+        Moves all model parameters and buffers to the specified device.
+        
+        Args:
+            device: 'cpu' or 'gpu'.
+        """
         self.device = device
 
-        def _apply(obj):
+        def _apply(obj: Any) -> Any:
             if hasattr(obj, "to") and callable(obj.to) and obj is not self:
                 return obj.to(device)
             
@@ -74,9 +90,10 @@ class Module:
 
         return self
 
-    def train(self):
+    def train(self) -> None:
+        """Sets the module in training mode."""
         self.training = True
-        def _apply(obj):
+        def _apply(obj: Any) -> None:
             if hasattr(obj, "training"):
                 obj.training = True
             if isinstance(obj, (list, tuple)):
@@ -87,9 +104,10 @@ class Module:
             if not k.startswith('_'):
                 _apply(v)
 
-    def eval(self):
+    def eval(self) -> None:
+        """Sets the module in evaluation mode."""
         self.training = False
-        def _apply(obj):
+        def _apply(obj: Any) -> None:
             if hasattr(obj, "training"):
                 obj.training = False
             if isinstance(obj, (list, tuple)):
@@ -103,13 +121,13 @@ class Module:
     def __call__(self, x: Tensor) -> Tensor:
         return self.forward(x)
     
-    def state_dict(self):
+    def state_dict(self) -> Dict[str, Tensor]:
         """
-        Returns a dictionary containing a whole state of the module.
+        Returns a dictionary containing the whole state of the module (parameters and buffers).
         """
-        state = {}
+        state: Dict[str, Tensor] = {}
 
-        def _get_state(obj, prefix):
+        def _get_state(obj: Any, prefix: str) -> None:
             for name, val in obj.__dict__.items():
                 if name.startswith('_') or name == 'device' or name == 'training':
                     continue
@@ -129,7 +147,7 @@ class Module:
         _get_state(self, "")
         return state
 
-    def load_state_dict(self, state_dict):
+    def load_state_dict(self, state_dict: Dict[str, Tensor]) -> None:
         """
         Copies parameters and buffers from state_dict into this module and its descendants.
         """
@@ -144,12 +162,59 @@ class Module:
             else:
                 pass
 
-    def weights(self):
+    def weights(self) -> Dict[str, Tensor]:
         """Deprecated: use state_dict() instead."""
         return self.state_dict()
 
-    def load_weights(self, weights):
+    def load_weights(self, weights: Dict[str, Tensor]) -> None:
         """Deprecated: use load_state_dict() instead."""
         self.load_state_dict(weights)
+
+
+class Sequential(Module):
+    """
+    A sequential container.
+    Modules will be added to it in the order they are passed in the constructor.
+    
+    Examples:
+        ```python
+        model = nn.Sequential(
+            nn.Linear(10, 5),
+            nn.ReLU(),
+            nn.Linear(5, 2)
+        )
+        ```
+    """
+    def __init__(self, *args: Any) -> None:
+        super().__init__()
+        self._modules: Dict[str, Module] = {}
+        if len(args) == 1 and isinstance(args[0], dict):
+            for name, module in args[0].items():
+                setattr(self, name, module)
+            self._modules = args[0]
+        else:
+            for idx, module in enumerate(args):
+                name = str(idx)
+                setattr(self, name, module)
+                self._modules[name] = module
+
+    def forward(self, x: Tensor) -> Tensor:
+        for module in self._modules.values():
+            x = module(x)
+        return x
+
+    def __getitem__(self, idx: Union[int, slice, str]) -> Union[Module, Sequential]:
+        if isinstance(idx, slice):
+            return Sequential(dict(list(self._modules.items())[idx]))
+        if isinstance(idx, int):
+            if idx < 0: idx += len(self._modules)
+            return self._modules[str(idx)]
+        return self._modules[str(idx)]
+
+    def __len__(self) -> int:
+        return len(self._modules)
+
+    def __iter__(self) -> Iterator[Module]:
+        return iter(self._modules.values())
 
 
