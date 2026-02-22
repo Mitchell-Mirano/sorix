@@ -1,5 +1,7 @@
+from __future__ import annotations
 import numpy as np
 import pandas as pd
+from typing import Union, Any, List, Tuple, Set, Optional
 from sorix.cupy.cupy import _cupy_available
 
 if _cupy_available:
@@ -9,6 +11,17 @@ if _cupy_available:
 _autograd_enabled = True
 
 class no_grad:
+    """
+    Context manager that disables autograd engine.
+    
+    Examples:
+        ```python
+        with sorix.no_grad():
+            x = sorix.tensor([1.0], requires_grad=True)
+            y = x + 2
+        print(y.requires_grad)  # False
+        ```
+    """
     def __init__(self):
         self.prev = True
 
@@ -21,18 +34,50 @@ class no_grad:
         global _autograd_enabled
         _autograd_enabled = self.prev
 
-def _noop():
-    """Función vacía para usar como backward por defecto."""
+def _noop() -> None:
+    """Empty function to use as default backward."""
     return None
 
 
+# Type for data that can be converted to a Tensor
+TensorData = Union[List, Tuple, np.ndarray, pd.DataFrame, pd.Series, int, float, Any]
+
 class Tensor:
+    """
+    Primitive unit in Sorix. A multi-dimensional array with automatic differentiation.
+    
+    Attributes:
+        data (np.ndarray | cp.ndarray): The actual numerical data.
+        device (str): 'cpu' or 'gpu'.
+        requires_grad (bool): If True, gradients will be computed for this tensor.
+        grad (np.ndarray | cp.ndarray | None): Accumulated gradient for this tensor.
 
-    def __init__(self, data, _children=[], _op='',device='cpu',requires_grad=False):
+    Examples:
+        ```python
+        x = Tensor([1, 2, 3], requires_grad=True)
+        print(x)
+        # Tensor(
+        # [1 2 3], shape=(3,), device=cpu, requires_grad=True)
+        ```
+    """
 
+    def __init__(
+        self, 
+        data: TensorData, 
+        _children: Union[List[Tensor], Tuple[Tensor, ...]] = [], 
+        _op: str = '',
+        device: str = 'cpu',
+        requires_grad: bool = False
+    ) -> None:
+        """
+        Initializes a new Tensor.
         
+        Args:
+            data: Numerical data (numpy array, list, scalar, etc.).
+            device: Computing device ('cpu' or 'gpu').
+            requires_grad: Whether to track gradients for this tensor.
+        """
         if device == 'gpu' and not _cupy_available:
-
             raise Exception('Cupy is not available')
         
         xp = cp if (device == 'gpu' and _cupy_available) else np
@@ -43,22 +88,21 @@ class Tensor:
             # Fallback for unexpected types
             data = xp.array(data)
 
-        self.data = data
-        
-        self.device = device
-        self.requires_grad = requires_grad
-        self.grad = xp.zeros_like(self.data, dtype=float) if requires_grad else None
+        self.data: np.ndarray = data
+        self.device: str = device
+        self.requires_grad: bool = requires_grad
+        self.grad: Optional[np.ndarray] = xp.zeros_like(self.data, dtype=float) if requires_grad else None
         self._backward = _noop
         global _autograd_enabled
-        self._prev = set(_children) if (_autograd_enabled and requires_grad) else set()
-        self._op = _op if _autograd_enabled else ''
+        self._prev: Set[Tensor] = set(_children) if (_autograd_enabled and requires_grad) else set()
+        self._op: str = _op if _autograd_enabled else ''
 
-    def __getstate__(self) -> object:
+    def __getstate__(self) -> dict:
         return {'data': self.data.get() if self.device == 'gpu' else self.data,
                 'device': 'cpu',
                 'requires_grad': self.requires_grad}
     
-    def __setstate__(self, state):
+    def __setstate__(self, state: dict) -> None:
         self.data = state['data']
         self.device = state['device']
         self.requires_grad = state.get('requires_grad', False)
@@ -68,7 +112,8 @@ class Tensor:
         self._prev = set()
         self._op = ''
 
-    def __getitem__(self, idx):
+    def __getitem__(self, idx: Any) -> Tensor:
+        """Enables indexing on Tensors. Supports autograd."""
         global _autograd_enabled
         out_data = self.data[idx]
         if not _autograd_enabled:
@@ -76,7 +121,7 @@ class Tensor:
         
         out = Tensor(out_data, [self], f'get[{idx}]', device=self.device, requires_grad=self.requires_grad)
         
-        def _backward():
+        def _backward() -> None:
             if self.requires_grad:
                 xp = cp if self.device == 'gpu' else np
                 grad_full = xp.zeros_like(self.data)
@@ -86,12 +131,17 @@ class Tensor:
         out._backward = _backward
         return out
     
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self.data)
 
 
-    def to(self, device):
-
+    def to(self, device: str) -> Tensor:
+        """
+        Moves the tensor to the specified device.
+        
+        Args:
+            device: 'cpu' or 'gpu'.
+        """
         if device == self.device:
             return self
         
@@ -110,35 +160,57 @@ class Tensor:
 
         return self 
 
-    def cpu(self):
+    def cpu(self) -> Tensor:
+        """Moves tensor to CPU."""
         return self.to("cpu")
 
-    def gpu(self):
+    def gpu(self) -> Tensor:
+        """Moves tensor to GPU."""
         return self.to("gpu")
     
     # In-place operations
-    def add_(self, other):
+    def add_(self, other: Union[Tensor, float, int]) -> Tensor:
+        """In-place addition."""
         other_data = other.data if isinstance(other, Tensor) else other
         self.data += other_data
         return self
 
-    def sub_(self, other):
+    def sub_(self, other: Union[Tensor, float, int]) -> Tensor:
+        """In-place subtraction."""
         other_data = other.data if isinstance(other, Tensor) else other
         self.data -= other_data
         return self
 
-    def mul_(self, other):
+    def mul_(self, other: Union[Tensor, float, int]) -> Tensor:
+        """In-place multiplication."""
         other_data = other.data if isinstance(other, Tensor) else other
         self.data *= other_data
         return self
 
-    def div_(self, other):
+    def div_(self, other: Union[Tensor, float, int]) -> Tensor:
+        """In-place division."""
         other_data = other.data if isinstance(other, Tensor) else other
         self.data /= other_data
         return self
         
 
-    def add(self, other):
+    def add(self, other: Union[Tensor, float, int]) -> Tensor:
+        """
+        Element-wise addition.
+        
+        Args:
+            other: The tensor or scalar to add.
+            
+        Returns:
+            A new tensor with the sum.
+
+        Examples:
+            ```python
+            x = Tensor([1, 2])
+            y = Tensor([3, 4])
+            z = x.add(y)  # Tensor([4, 6])
+            ```
+        """
         other = other if isinstance(other, Tensor) else Tensor(other, device=self.device)
         global _autograd_enabled
 
@@ -148,7 +220,7 @@ class Tensor:
         requires_grad = self.requires_grad or other.requires_grad   
         out = Tensor(self.data + other.data, [self, other], '+', device=self.device, requires_grad=requires_grad)
 
-        def _backward():
+        def _backward() -> None:
             if out.grad is None:
                 return
             if self.requires_grad:
@@ -161,13 +233,29 @@ class Tensor:
         out._backward = _backward
         return out
 
-    def __add__(self, other):
+    def __add__(self, other: Union[Tensor, float, int]) -> Tensor:
         return self.add(other)
     
-    def __radd__(self, other):
+    def __radd__(self, other: Union[Tensor, float, int]) -> Tensor:
         return self.add(other)
 
-    def sub(self, other):
+    def sub(self, other: Union[Tensor, float, int]) -> Tensor:
+        """
+        Element-wise subtraction.
+        
+        Args:
+            other: The tensor or scalar to subtract.
+            
+        Returns:
+            A new tensor with the result.
+
+        Examples:
+            ```python
+            x = Tensor([5, 5])
+            y = Tensor([1, 2])
+            z = x.sub(y)  # Tensor([4, 3])
+            ```
+        """
         other = other if isinstance(other, Tensor) else Tensor(other, device=self.device)
         global _autograd_enabled
 
@@ -177,7 +265,7 @@ class Tensor:
         requires_grad = self.requires_grad or other.requires_grad
         out = Tensor(self.data - other.data, [self, other], '-', device=self.device, requires_grad=requires_grad)
 
-        def _backward():
+        def _backward() -> None:
             if out.grad is None:
                 return
             
@@ -192,14 +280,30 @@ class Tensor:
         out._backward = _backward
         return out
 
-    def __sub__(self, other):
+    def __sub__(self, other: Union[Tensor, float, int]) -> Tensor:
         return self.sub(other)
     
-    def __rsub__(self, other):
+    def __rsub__(self, other: Union[Tensor, float, int]) -> Tensor:
         other = other if isinstance(other, Tensor) else Tensor(other, device=self.device)
         return other.sub(self)
 
-    def mul(self, other):
+    def mul(self, other: Union[Tensor, float, int]) -> Tensor:
+        """
+        Element-wise multiplication.
+        
+        Args:
+            other: The tensor or scalar to multiply by.
+            
+        Returns:
+            A new tensor with the product.
+
+        Examples:
+            ```python
+            x = Tensor([2, 3])
+            y = Tensor([4, 5])
+            z = x.mul(y)  # Tensor([8, 15])
+            ```
+        """
         other = other if isinstance(other, Tensor) else Tensor(other, device=self.device)
         global _autograd_enabled
 
@@ -209,7 +313,7 @@ class Tensor:
         requires_grad = self.requires_grad or other.requires_grad
         out = Tensor(self.data * other.data, [self, other], '*', device=self.device, requires_grad=requires_grad)
 
-        def _backward():
+        def _backward() -> None:
             if out.grad is None:
                 return
             
@@ -224,13 +328,29 @@ class Tensor:
         out._backward = _backward
         return out
 
-    def __mul__(self, other):
+    def __mul__(self, other: Union[Tensor, float, int]) -> Tensor:
         return self.mul(other)
     
-    def __rmul__(self, other):
+    def __rmul__(self, other: Union[Tensor, float, int]) -> Tensor:
         return self.mul(other)
 
-    def matmul(self, other):
+    def matmul(self, other: Union[Tensor, np.ndarray]) -> Tensor:
+        """
+        Matrix multiplication.
+        
+        Args:
+            other: The tensor or array to multiply by.
+            
+        Returns:
+            A new tensor with the matrix product.
+
+        Examples:
+            ```python
+            x = Tensor([[1, 2], [3, 4]])
+            y = Tensor([[5], [6]])
+            z = x.matmul(y) # [[17], [39]]
+            ```
+        """
         other = other if isinstance(other, Tensor) else Tensor(other, device=self.device)
         global _autograd_enabled
 
@@ -240,7 +360,7 @@ class Tensor:
         requires_grad = self.requires_grad or other.requires_grad
         out = Tensor(self.data @ other.data, [self, other], '@', device=self.device, requires_grad=requires_grad)
 
-        def _backward():
+        def _backward() -> None:
             if out.grad is None:
                 return
             
@@ -255,7 +375,8 @@ class Tensor:
         out._backward = _backward
         return out
 
-    def tanh(self):
+    def tanh(self) -> Tensor:
+        """Hyperbolic tangent activation."""
         xp = cp if self.device == 'gpu' else np
         global _autograd_enabled
 
@@ -264,7 +385,7 @@ class Tensor:
         
         out = Tensor(xp.tanh(self.data), [self], 'tanh', device=self.device, requires_grad=self.requires_grad)
 
-        def _backward():
+        def _backward() -> None:
             if out.grad is None:
                 return
             if self.requires_grad:
@@ -273,7 +394,8 @@ class Tensor:
         out._backward = _backward
         return out
 
-    def _accumulate_grad(self, grad):
+    def _accumulate_grad(self, grad: np.ndarray) -> None:
+        """Internal method to accumulate gradients."""
         if grad is None:
             return
         if self.grad is None:
@@ -281,34 +403,36 @@ class Tensor:
             self.grad = xp.zeros_like(self.data, dtype=float)
         self.grad += grad
 
-    def __matmul__(self, other):
+    def __matmul__(self, other: Union[Tensor, np.ndarray]) -> Tensor:
         return self.matmul(other)
     
-    def __rmatmul__(self, other):
+    def __rmatmul__(self, other: Union[Tensor, np.ndarray]) -> Tensor:
         other = other if isinstance(other, Tensor) else Tensor(other, device=self.device)
         return other.matmul(self)
 
-    def pow(self, other):
-        assert isinstance(other, (int, float)), "only supporting int/float powers for now"
+    def pow(self, n: Union[int, float]) -> Tensor:
+        """Raises tensor to the power of n."""
+        assert isinstance(n, (int, float)), "only supporting int/float powers for now"
         global _autograd_enabled
 
         if not _autograd_enabled:
-            return Tensor(self.data**other, device=self.device)
+            return Tensor(self.data**n, device=self.device)
         
-        out = Tensor(self.data**other, [self], f'**{other}', device=self.device, requires_grad=self.requires_grad)
+        out = Tensor(self.data**n, [self], f'**{n}', device=self.device, requires_grad=self.requires_grad)
 
-        def _backward():
+        def _backward() -> None:
             if out.grad is None:
                 return
             
             if self.requires_grad:
-                grad = out.grad * (other * (self.data**(other-1)))
+                grad = out.grad * (n * (self.data**(n-1)))
                 self._accumulate_grad(grad)
 
         out._backward = _backward
         return out
 
-    def sigmoid(self):
+    def sigmoid(self) -> Tensor:
+        """Sigmoid activation."""
         xp = cp if self.device == 'gpu' else np
         global _autograd_enabled
 
@@ -318,7 +442,7 @@ class Tensor:
         
         out = Tensor(out_data, [self], 'sigmoid', device=self.device, requires_grad=self.requires_grad)
 
-        def _backward():
+        def _backward() -> None:
             if out.grad is None:
                 return
             if self.requires_grad:
@@ -327,7 +451,8 @@ class Tensor:
         out._backward = _backward
         return out
 
-    def softmax(self, axis=-1):
+    def softmax(self, axis: int = -1) -> Tensor:
+        """Softmax activation along an axis."""
         xp = cp if self.device == 'gpu' else np
         global _autograd_enabled
         
@@ -341,7 +466,7 @@ class Tensor:
         
         out = Tensor(out_data, [self], 'softmax', device=self.device, requires_grad=self.requires_grad)
 
-        def _backward():
+        def _backward() -> None:
             if out.grad is None:
                 return
             if self.requires_grad:
@@ -352,10 +477,11 @@ class Tensor:
         out._backward = _backward
         return out
 
-    def __pow__(self, other):
-        return self.pow(other)
+    def __pow__(self, n: Union[int, float]) -> Tensor:
+        return self.pow(n)
 
-    def div(self, other):
+    def div(self, other: Union[Tensor, float, int]) -> Tensor:
+        """Element-wise division."""
         other = other if isinstance(other, Tensor) else Tensor(other, device=self.device)
         global _autograd_enabled
 
@@ -365,7 +491,7 @@ class Tensor:
         requires_grad = self.requires_grad or other.requires_grad
         out = Tensor(self.data / other.data, [self, other], '/', device=self.device, requires_grad=requires_grad)
 
-        def _backward():
+        def _backward() -> None:
             if out.grad is None:
                 return
             
@@ -380,14 +506,15 @@ class Tensor:
         out._backward = _backward
         return out
 
-    def __truediv__(self, other):
+    def __truediv__(self, other: Union[Tensor, float, int]) -> Tensor:
         return self.div(other)
     
-    def __rtruediv__(self, other):
+    def __rtruediv__(self, other: Union[Tensor, float, int]) -> Tensor:
         other = other if isinstance(other, Tensor) else Tensor(other, device=self.device)
         return other.div(self)
     
-    def mean(self, axis=None, keepdims=False):
+    def mean(self, axis: Optional[Union[int, Tuple[int, ...]]] = None, keepdims: bool = False) -> Tensor:
+        """Computes mean along axis."""
         global _autograd_enabled
         xp = cp if self.device == 'gpu' else np
 
@@ -396,7 +523,7 @@ class Tensor:
         
         out = Tensor(xp.mean(self.data, axis=axis, keepdims=keepdims), [self], 'mean', device=self.device, requires_grad=self.requires_grad)
 
-        def _backward():            
+        def _backward() -> None:            
             if out.grad is None:
                 return
             
@@ -408,7 +535,8 @@ class Tensor:
         out._backward = _backward
         return out
     
-    def sum(self, axis=None, keepdims=False):
+    def sum(self, axis: Optional[Union[int, Tuple[int, ...]]] = None, keepdims: bool = False) -> Tensor:
+        """Computes sum along axis."""
         global _autograd_enabled
         xp = cp if self.device == 'gpu' else np
         
@@ -417,7 +545,7 @@ class Tensor:
             
         out = Tensor(self.data.sum(axis=axis, keepdims=keepdims), [self], 'sum', device=self.device, requires_grad=self.requires_grad)
         
-        def _backward():
+        def _backward() -> None:
             if out.grad is None:
                 return
 
@@ -430,11 +558,13 @@ class Tensor:
         out._backward = _backward
         return out
     
-    def abs(self):
+    def abs(self) -> Tensor:
+        """Absolute value."""
         xp = cp if self.device == 'gpu' else np
         return Tensor(xp.abs(self.data), device=self.device)
     
-    def reshape(self, *shape):
+    def reshape(self, *shape: Any) -> Tensor:
+        """Reshapes the tensor to a new shape."""
         if len(shape) == 1 and isinstance(shape[0], (list, tuple)):
             shape = shape[0]
             
@@ -444,7 +574,7 @@ class Tensor:
         
         out = Tensor(self.data.reshape(*shape), [self], 'reshape', device=self.device, requires_grad=self.requires_grad)
         
-        def _backward():
+        def _backward() -> None:
             if out.grad is None:
                 return
             if self.requires_grad:
@@ -453,18 +583,18 @@ class Tensor:
         out._backward = _backward
         return out
 
-    def transpose(self, *axes):
+    def transpose(self, *axes: Any) -> Tensor:
+        """Transposes the tensor axes."""
         global _autograd_enabled
         if not _autograd_enabled:
             return Tensor(self.data.transpose(*axes), device=self.device, requires_grad=self.requires_grad)
         
         out = Tensor(self.data.transpose(*axes), [self], 'transpose', device=self.device, requires_grad=self.requires_grad)
         
-        def _backward():
+        def _backward() -> None:
             if out.grad is None:
                 return
             if self.requires_grad:
-                # La inversa de una transposición es la transposición con los ejes invertidos
                 if not axes:
                     self._accumulate_grad(out.grad.transpose())
                 else:
@@ -475,17 +605,32 @@ class Tensor:
         return out
 
     @property
-    def T(self):
+    def T(self) -> Tensor:
+        """Transpose of the tensor."""
         return self.transpose()
 
-    def flatten(self):
+    def flatten(self) -> Tensor:
+        """Flattens the tensor into 1D."""
         return self.reshape(-1)
 
-    def backward(self):
-        topo = []
-        visited = set()
+    def backward(self) -> None:
+        """
+        Computes the gradient of current tensor w.r.t. graph leaves.
+        
+        The graph is traversed in reverse topological order to propagate gradients.
 
-        def build_topo(t):
+        Examples:
+            ```python
+            x = Tensor([2.0], requires_grad=True)
+            y = x * x
+            y.backward()
+            print(x.grad)  # [4.]
+            ```
+        """
+        topo: List[Tensor] = []
+        visited: Set[int] = set()
+
+        def build_topo(t: Tensor) -> None:
             if id(t) not in visited:
                 visited.add(id(t))
                 for child in t._prev:
@@ -504,7 +649,8 @@ class Tensor:
             node._backward()
 
     @staticmethod
-    def _match_shape(grad, shape):
+    def _match_shape(grad: np.ndarray, shape: Tuple[int, ...]) -> np.ndarray:
+        """Internal helper to match gradient shape for broadcasting."""
         if grad is None:
             return None
         while grad.ndim > len(shape):
@@ -522,35 +668,53 @@ class Tensor:
     def __str__(self) -> str:
         return f"Tensor(\n{self.data}, shape={self.data.shape}, device={self.device}, requires_grad={self.requires_grad})"
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return self.__str__()
     
     @property
-    def shape(self):
+    def shape(self) -> Tuple[int, ...]:
         return self.data.shape
     
     @property
-    def ndim(self):
+    def ndim(self) -> int:
         return self.data.ndim
     
     @property
-    def size(self):
+    def size(self) -> int:
         return self.data.size
     
     @property
-    def dtype(self):
+    def dtype(self) -> Any:
         return self.data.dtype
     
-    def astype(self, dtype):
-        return Tensor(self.data.astype(dtype),device=self.device)
+    def astype(self, dtype: Any) -> Tensor:
+        """Casts tensor to a new data type."""
+        return Tensor(self.data.astype(dtype), device=self.device)
     
-    def to_numpy(self):
+    def to_numpy(self) -> np.ndarray:
+        """
+        Returns the data as a NumPy array.
+        
+        If the tensor is on the GPU, it will be copied to the host.
+
+        Returns:
+            The numerical data as a NumPy ndarray.
+        """
         return self.data if self.device == 'cpu' else self.data.get()   
 
-    def item(self):
+    def item(self) -> Union[float, int]:
+        """
+        Returns the scalar value of a 1-element tensor.
+
+        Examples:
+            ```python
+            x = Tensor([42])
+            val = x.item()  # 42
+            ```
+        """
         return self.data.item()
     
-    def __array__(self, dtype=None, copy=None):
+    def __array__(self, dtype: Any = None, copy: bool = None) -> np.ndarray:
         arr = self.to_numpy()
         if dtype is not None:
             arr = arr.astype(dtype)
@@ -558,37 +722,48 @@ class Tensor:
              return arr
         return arr.copy()
     
-   # Comparaciones
-    def __gt__(self, other):
+    # Comparisons
+    def __gt__(self, other: Union[Tensor, float, int]) -> Tensor:
         other_data = other.data if isinstance(other, Tensor) else other
         return Tensor(self.data > other_data, device=self.device, requires_grad=False)
 
-    def __lt__(self, other):
+    def __lt__(self, other: Union[Tensor, float, int]) -> Tensor:
         other_data = other.data if isinstance(other, Tensor) else other
         return Tensor(self.data < other_data, device=self.device, requires_grad=False)
 
-    def __ge__(self, other):
+    def __ge__(self, other: Union[Tensor, float, int]) -> Tensor:
         other_data = other.data if isinstance(other, Tensor) else other
         return Tensor(self.data >= other_data, device=self.device, requires_grad=False)
 
-    def __le__(self, other):
+    def __le__(self, other: Union[Tensor, float, int]) -> Tensor:
         other_data = other.data if isinstance(other, Tensor) else other
         return Tensor(self.data <= other_data, device=self.device, requires_grad=False)
 
-    def __eq__(self, other):
+    def __eq__(self, other: Any) -> Tensor:
         other_data = other.data if isinstance(other, Tensor) else other
         return Tensor(self.data == other_data, device=self.device, requires_grad=False)
 
-    def __ne__(self, other):
+    def __ne__(self, other: Any) -> Tensor:
         other_data = other.data if isinstance(other, Tensor) else other
         return Tensor(self.data != other_data, device=self.device, requires_grad=False)
     
-    def __hash__(self):
+    def __hash__(self) -> int:
         return id(self)
 
-def tensor(data, device='cpu', requires_grad=False):
+    def __neg__(self) -> Tensor:
+        return self * -1
+
+    def __abs__(self) -> Tensor:
+        return self.abs()
+
+def tensor(data: TensorData, device: str = 'cpu', requires_grad: bool = False) -> Tensor:
     """
     Factory function to create a Sorix Tensor.
+    
+    Examples:
+        ```python
+        x = sorix.tensor([1.0, 2.0], requires_grad=True)
+        ```
     """
     return Tensor(data, device=device, requires_grad=requires_grad)
 
