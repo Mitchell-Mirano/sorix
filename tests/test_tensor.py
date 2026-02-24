@@ -228,7 +228,7 @@ def test_tensor_utility_methods():
     assert c.item() == 5.0
     
     # to_numpy
-    assert isinstance(a.to_numpy(), np.ndarray)
+    assert isinstance(a.numpy(), np.ndarray)
     
     # __array__
     assert isinstance(np.array(a), np.ndarray)
@@ -316,8 +316,8 @@ def test_tensor_to_gpu_error():
     if not _cupy_available:
         a = tensor([1, 2])
         with pytest.raises(RuntimeError, match="CuPy no está instalado"):
-            a.to("gpu")
-        with pytest.raises(ValueError, match="device debe ser 'cpu' o 'gpu'"):
+            a.to('cuda')
+        with pytest.raises(ValueError, match="device debe ser 'cpu' o 'cuda'"):
             a.to("invalid")
 
 def test_tensor_broadcasting_complex():
@@ -334,27 +334,27 @@ def test_tensor_gpu_ops_if_available():
     from sorix.cupy.cupy import _cupy_available
     if _cupy_available:
         import cupy as cp
-        a = tensor([1.0, 2.0], device='gpu', requires_grad=True)
-        b = tensor([3.0, 4.0], device='gpu', requires_grad=True)
+        a = tensor([1.0, 2.0], device='cuda', requires_grad=True)
+        b = tensor([3.0, 4.0], device='cuda', requires_grad=True)
         
         # Arithmetic
         c = a + b
-        assert c.device == 'gpu'
+        assert c.device == 'cuda'
         assert isinstance(c.data, cp.ndarray)
         
         # Non-linear with backward
         d = a.tanh()
-        assert d.device == 'gpu'
+        assert d.device == 'cuda'
         d.sum().backward()
         
         a.grad = cp.zeros_like(a.data)
         e = a.sigmoid()
-        assert e.device == 'gpu'
+        assert e.device == 'cuda'
         e.sum().backward()
         
         a.grad = cp.zeros_like(a.data)
         f = a.softmax()
-        assert f.device == 'gpu'
+        assert f.device == 'cuda'
         f.sum().backward()
         
         # Power

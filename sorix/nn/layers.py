@@ -35,11 +35,11 @@ class Linear(Module):
         device: str = 'cpu'
     ) -> None:
         super().__init__()
-        if device == 'gpu' and not _cupy_available:
+        if device == 'cuda' and not _cupy_available:
             raise Exception('Cupy is not available')
         
         self.device = device
-        xp = cp if device == 'gpu' else np
+        xp = cp if device == 'cuda' else np
         
         if init not in ['he', 'xavier']:
             raise ValueError(f'Invalid initialization method: {init}. Valid methods are "he" and "xavier"')
@@ -66,21 +66,21 @@ class Linear(Module):
     @property
     def coef_(self) -> np.ndarray:
         """Returns weights as a flattened numpy array (Scikit-Learn parity)."""
-        return self.W.to_numpy().flatten()
+        return self.W.numpy().flatten()
         
     @property
     def intercept_(self) -> Optional[Union[float, np.ndarray]]:
         """Returns biases as a flattened numpy array or scalar (Scikit-Learn parity)."""
         if self.b is None:
             return None
-        data = self.b.to_numpy().flatten()
+        data = self.b.numpy().flatten()
         return data.item() if data.size == 1 else data
 
 
 class ReLU(Module):
     """Rectified Linear Unit activation function."""
     def __call__(self, X: Tensor) -> Tensor:
-        xp = cp if X.device == 'gpu' else np
+        xp = cp if X.device == 'cuda' else np
         out = Tensor(xp.maximum(0, X.data), (X,), 'ReLU', device=X.device, requires_grad=X.requires_grad)
         
         def _backward() -> None:
@@ -95,7 +95,7 @@ class ReLU(Module):
 class Sigmoid(Module):
     """Sigmoid activation function."""
     def __call__(self, X: Tensor) -> Tensor:
-        xp = cp if X.device == 'gpu' else np
+        xp = cp if X.device == 'cuda' else np
         out = Tensor(1 / (1 + xp.exp(-X.data)), (X,), 'Sigmoid', device=X.device, requires_grad=X.requires_grad)
         
         def _backward() -> None:
@@ -110,7 +110,7 @@ class Sigmoid(Module):
 class Tanh(Module):
     """Hyperbolic tangent activation function."""
     def __call__(self, X: Tensor) -> Tensor:
-        xp = cp if X.device == 'gpu' else np
+        xp = cp if X.device == 'cuda' else np
         out = Tensor(xp.tanh(X.data), (X,), 'Tanh', device=X.device, requires_grad=X.requires_grad)
         
         def _backward() -> None:
@@ -134,7 +134,7 @@ class BatchNorm1d(Module):
     ) -> None:
         super().__init__()
         self.device = device
-        xp = cp if device == 'gpu' else np
+        xp = cp if device == 'cuda' else np
         
         self.gamma = tensor(xp.ones((1, features)), requires_grad=True, dtype=float32)
         self.beta = tensor(xp.zeros((1, features)), requires_grad=True, dtype=float32)
@@ -151,7 +151,7 @@ class BatchNorm1d(Module):
             self.to(self.device)
 
     def __call__(self, X: Tensor) -> Tensor:
-        xp = cp if X.device == 'gpu' else np
+        xp = cp if X.device == 'cuda' else np
 
         if self.training:
             # Stats from batch
@@ -190,7 +190,7 @@ class Dropout(Module):
         if not self.training or self.p == 0:
             return X
         
-        xp = cp if X.device == 'gpu' else np
+        xp = cp if X.device == 'cuda' else np
         if self.p >= 1.0:
             return Tensor(xp.zeros_like(X.data), device=X.device, requires_grad=X.requires_grad)
 

@@ -68,7 +68,7 @@ class Module:
         Moves all model parameters and buffers to the specified device.
         
         Args:
-            device: 'cpu' or 'gpu'.
+            device: 'cpu' or 'cuda'.
         """
         self.device = device
 

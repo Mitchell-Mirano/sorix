@@ -44,7 +44,7 @@ def pow(input, exponent):
 
 def sin(X):
     if isinstance(X, Tensor):
-        xp = cp if X.device == 'gpu' and _cupy_available else np
+        xp = cp if X.device == 'cuda' and _cupy_available else np
         out = Tensor(xp.sin(X.data), (X,), 'sin', device=X.device, requires_grad=X.requires_grad)
 
         def _backward():
@@ -62,7 +62,7 @@ def sin(X):
 
 def cos(X):
     if isinstance(X, Tensor):
-        xp = cp if X.device == 'gpu' and _cupy_available else np
+        xp = cp if X.device == 'cuda' and _cupy_available else np
         out = Tensor(xp.cos(X.data), (X,), 'cos', device=X.device, requires_grad=X.requires_grad)
 
         def _backward():
@@ -87,7 +87,7 @@ def tanh(X):
 
 def exp(X):
     if isinstance(X, Tensor):
-        xp = cp if X.device == 'gpu' and _cupy_available else np
+        xp = cp if X.device == 'cuda' and _cupy_available else np
         out = Tensor(xp.exp(X.data), (X,), 'exp', device=X.device, requires_grad=X.requires_grad)
 
         def _backward():
@@ -105,7 +105,7 @@ def exp(X):
 
 def log(X):
     if isinstance(X, Tensor):
-        xp = cp if X.device == 'gpu' and _cupy_available else np
+        xp = cp if X.device == 'cuda' and _cupy_available else np
         out = Tensor(xp.log(X.data), (X,), 'log', device=X.device, requires_grad=X.requires_grad)
 
         def _backward():
@@ -123,7 +123,7 @@ def log(X):
 
 def sqrt(X):
     if isinstance(X, Tensor):
-        xp = cp if X.device == 'gpu' and _cupy_available else np
+        xp = cp if X.device == 'cuda' and _cupy_available else np
         out = Tensor(xp.sqrt(X.data), (X,), 'sqrt', device=X.device, requires_grad=X.requires_grad)
 
 

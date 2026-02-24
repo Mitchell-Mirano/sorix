@@ -129,22 +129,22 @@ def test_gpu_logic_if_available():
     from sorix.cupy.cupy import _cupy_available
     if _cupy_available:
         # Test creation on GPU
-        z = utils.zeros((2, 2), device='gpu')
-        assert z.device == 'gpu'
+        z = utils.zeros((2, 2), device='cuda')
+        assert z.device == 'cuda'
         import cupy as cp
         assert isinstance(z.data, cp.ndarray)
         
         # Test argmax on GPU
-        x = tensor([[1, 5, 2]], device='gpu')
+        x = tensor([[1, 5, 2]], device='cuda')
         am = utils.argmax(x)
-        assert am.device == 'gpu'
+        assert am.device == 'cuda'
         assert am.data[0, 0] == 1
         
         # Test softmax on GPU
         sm = utils.softmax(x)
-        assert sm.device == 'gpu'
+        assert sm.device == 'cuda'
         
         # Test ones_like on GPU
-        ol = utils.ones_like(x.data, device='gpu')
-        assert ol.device == 'gpu'
+        ol = utils.ones_like(x.data, device='cuda')
+        assert ol.device == 'cuda'
         assert isinstance(ol.data, cp.ndarray)
