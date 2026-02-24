@@ -1,7 +1,7 @@
 from __future__ import annotations
 import numpy as np
 from typing import Optional, Union, Any
-from sorix.tensor import Tensor, tensor
+from sorix.tensor import Tensor, tensor, float32
 from sorix.cupy.cupy import _cupy_available
 
 if _cupy_available:
@@ -50,13 +50,18 @@ class Linear(Module):
             self.std_dev = xp.sqrt(2.0 / (features + neurons))  # Xavier init for tanh
 
         self.bias = bias
-        self.W = tensor(xp.random.normal(0, self.std_dev, size=(features, neurons)), device=self.device, requires_grad=True)
-        self.b = tensor(xp.zeros((1, neurons)), device=self.device, requires_grad=True) if self.bias else None
+        self.W = tensor(xp.random.normal(0, self.std_dev, size=(features, neurons)), 
+                        device=self.device, requires_grad=True, dtype=float32)
+        self.b = tensor(xp.zeros((1, neurons)), 
+                        device=self.device, requires_grad=True, dtype=float32) if self.bias else None
 
     def __call__(self, X: Tensor) -> Tensor:
         if self.bias and self.b is not None:
             return X @ self.W + self.b  
         return X @ self.W
+    
+    def extra_repr(self) -> str:
+        return f"in_features={self.W.shape[0]}, out_features={self.W.shape[1]}, bias={self.bias}"
     
     @property
     def coef_(self) -> np.ndarray:
@@ -128,12 +133,15 @@ class BatchNorm1d(Module):
         device: str = 'cpu'
     ) -> None:
         super().__init__()
-        self.gamma = tensor(np.ones((1, features)), requires_grad=True)
-        self.beta = tensor(np.zeros((1, features)), requires_grad=True)
+        self.device = device
+        xp = cp if device == 'gpu' else np
+        
+        self.gamma = tensor(xp.ones((1, features)), requires_grad=True, dtype=float32)
+        self.beta = tensor(xp.zeros((1, features)), requires_grad=True, dtype=float32)
 
         # buffers (captured by state_dict)
-        self.running_mean = tensor(np.zeros((1, features), dtype=np.float32), requires_grad=False)
-        self.running_var = tensor(np.ones((1, features), dtype=np.float32), requires_grad=False)
+        self.running_mean = tensor(xp.zeros((1, features)), requires_grad=False, dtype=float32)
+        self.running_var = tensor(xp.ones((1, features)), requires_grad=False, dtype=float32)
 
         self.alpha = alpha
         self.epsilon = epsilon
@@ -166,6 +174,9 @@ class BatchNorm1d(Module):
         out = self.gamma * X_norm + self.beta
         return out
 
+    def extra_repr(self) -> str:
+        return f"features={self.gamma.shape[1]}, eps={self.epsilon}, alpha={self.alpha}"
+
 class Dropout(Module):
     """
     During training, randomly zeroes some of the elements of the input tensor 
@@ -188,3 +199,6 @@ class Dropout(Module):
         mask = Tensor(mask_data, device=X.device, requires_grad=False)
         
         return X * mask
+
+    def extra_repr(self) -> str:
+        return f"p={self.p}"

@@ -10,6 +10,13 @@ if _cupy_available:
 
 _autograd_enabled = True
 
+# DType aliases (using strings for framework-agnostic efficiency)
+float32 = 'float32'
+float64 = 'float64'
+int32 = 'int32'
+int64 = 'int64'
+bool_ = 'bool'
+
 class no_grad:
     """
     Context manager that disables autograd engine.
@@ -67,7 +74,8 @@ class Tensor:
         _children: Union[List[Tensor], Tuple[Tensor, ...]] = [], 
         _op: str = '',
         device: str = 'cpu',
-        requires_grad: bool = False
+        requires_grad: bool = False,
+        dtype: Any = None
     ) -> None:
         """
         Initializes a new Tensor.
@@ -76,6 +84,7 @@ class Tensor:
             data: Numerical data (numpy array, list, scalar, etc.).
             device: Computing device ('cpu' or 'gpu').
             requires_grad: Whether to track gradients for this tensor.
+            dtype: Data type for the tensor elements.
         """
         if device == 'gpu' and not _cupy_available:
             raise Exception('Cupy is not available')
@@ -83,15 +92,17 @@ class Tensor:
         xp = cp if (device == 'gpu' and _cupy_available) else np
 
         if isinstance(data, (list, tuple, np.ndarray, pd.DataFrame, pd.Series, int, float)):
-            data = xp.array(data)
+            data = xp.array(data, dtype=dtype)
         elif not isinstance(data, (np.ndarray, xp.ndarray if _cupy_available else np.ndarray)):
             # Fallback for unexpected types
-            data = xp.array(data)
+            data = xp.array(data, dtype=dtype)
+        elif dtype is not None:
+             data = data.astype(dtype)
 
-        self.data: np.ndarray = data
+        self.data: Any = data
         self.device: str = device
         self.requires_grad: bool = requires_grad
-        self.grad: Optional[np.ndarray] = xp.zeros_like(self.data, dtype=float) if requires_grad else None
+        self.grad: Optional[np.ndarray] = xp.zeros_like(self.data, dtype=self.dtype) if requires_grad else None
         self._backward = _noop
         global _autograd_enabled
         self._prev: Set[Tensor] = set(_children) if (_autograd_enabled and requires_grad) else set()
@@ -641,9 +652,9 @@ class Tensor:
         
         xp = cp if self.device == 'gpu' else np
         if self.grad is None:
-             self.grad = xp.ones_like(self.data, dtype=float)
+             self.grad = xp.ones_like(self.data, dtype=self.dtype)
         else:
-             self.grad += xp.ones_like(self.data, dtype=float)
+             self.grad += xp.ones_like(self.data, dtype=self.dtype)
 
         for node in reversed(topo):
             node._backward()
@@ -666,7 +677,7 @@ class Tensor:
         return iter(self.data)
 
     def __str__(self) -> str:
-        return f"Tensor(\n{self.data}, shape={self.data.shape}, device={self.device}, requires_grad={self.requires_grad})"
+        return f"Tensor(\n{self.data}, shape={self.data.shape}, dtype={self.dtype}, device={self.device}, requires_grad={self.requires_grad})"
 
     def __repr__(self) -> str:
         return self.__str__()
@@ -756,14 +767,19 @@ class Tensor:
     def __abs__(self) -> Tensor:
         return self.abs()
 
-def tensor(data: TensorData, device: str = 'cpu', requires_grad: bool = False) -> Tensor:
+def tensor(
+    data: TensorData, 
+    device: str = 'cpu', 
+    requires_grad: bool = False,
+    dtype: Any = None
+) -> Tensor:
     """
     Factory function to create a Sorix Tensor.
     
     Examples:
         ```python
-        x = sorix.tensor([1.0, 2.0], requires_grad=True)
+        x = sorix.tensor([1.0, 2.0], requires_grad=True, dtype=sorix.float32)
         ```
     """
-    return Tensor(data, device=device, requires_grad=requires_grad)
+    return Tensor(data, device=device, requires_grad=requires_grad, dtype=dtype)
 

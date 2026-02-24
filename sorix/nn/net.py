@@ -2,6 +2,16 @@ from __future__ import annotations
 from typing import List, Dict, Any, Iterator, Optional, Union, Set
 from sorix.tensor import Tensor, tensor
 
+def _add_indent(s: str, num_spaces: int) -> str:
+    s = s.split('\n')
+    if len(s) == 1:
+        return s[0]
+    first = s.pop(0)
+    s = [(num_spaces * ' ') + line for line in s]
+    s = '\n'.join(s)
+    s = first + '\n' + s
+    return s
+
 class Module:
     """
     Base class for all neural network modules.
@@ -147,6 +157,48 @@ class Module:
         _get_state(self, "")
         return state
 
+    def extra_repr(self) -> str:
+        """
+        Set the extra representation of the module.
+        Should be overridden by subclasses.
+        """
+        return ""
+
+    def __repr__(self) -> str:
+        # Get children modules
+        child_modules = {}
+        # We need to consider both named attributes and _modules for Sequential
+        if hasattr(self, '_modules'):
+            child_modules = self._modules
+        else:
+            for name, module in self.__dict__.items():
+                if isinstance(module, Module) and module is not self:
+                    child_modules[name] = module
+
+        main_str = self.__class__.__name__ + '('
+        if child_modules:
+            main_str += '\n'
+            for name, module in child_modules.items():
+                mod_str = repr(module)
+                mod_str = _add_indent(mod_str, 2)
+                main_str += f'  ({name}): {mod_str}\n'
+            main_str += ')'
+        else:
+            extra_lines = []
+            extra_repr = self.extra_repr()
+            if extra_repr:
+                extra_lines = extra_repr.split('\n')
+            if len(extra_lines) > 1:
+                main_str += '\n  ' + '\n  '.join(extra_lines) + '\n)'
+            elif len(extra_lines) == 1:
+                main_str += extra_lines[0] + ')'
+            else:
+                main_str += ')'
+        return main_str
+
+    def __str__(self) -> str:
+        return self.__repr__()
+
     def load_state_dict(self, state_dict: Dict[str, Tensor]) -> None:
         """
         Copies parameters and buffers from state_dict into this module and its descendants.
@@ -161,14 +213,6 @@ class Module:
                     pass
             else:
                 pass
-
-    def weights(self) -> Dict[str, Tensor]:
-        """Deprecated: use state_dict() instead."""
-        return self.state_dict()
-
-    def load_weights(self, weights: Dict[str, Tensor]) -> None:
-        """Deprecated: use load_state_dict() instead."""
-        self.load_state_dict(weights)
 
 
 class Sequential(Module):

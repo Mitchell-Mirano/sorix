@@ -241,6 +241,30 @@ def test_tensor_utility_methods():
     assert "Tensor" in str(a)
     assert "Tensor" in repr(a)
 
+def test_tensor_dtypes():
+    """Test explicit dtype setting and aliases."""
+    import sorix
+    
+    # Using aliases
+    t1 = tensor([1, 2], dtype=sorix.float32)
+    assert t1.dtype == 'float32'
+    assert t1.data.dtype == np.float32
+    
+    t2 = tensor([1, 2], dtype=sorix.int64)
+    assert t2.dtype == 'int64'
+    assert t2.data.dtype == np.int64
+    
+    t3 = tensor([1.5, 2.5], dtype=sorix.int32)
+    assert t3.dtype == 'int32'
+    assert np.array_equal(t3.data, [1, 2])
+    
+    # Verify backward respects dtype
+    x = tensor([2], dtype=sorix.int64, requires_grad=True)
+    y = x * x # 4
+    y.backward()
+    assert x.grad.dtype == x.dtype
+    assert x.grad[0] == 4
+
 def test_tensor_getitem_autograd():
     a = tensor([1.0, 2.0, 3.0], requires_grad=True)
     b = a[1]
