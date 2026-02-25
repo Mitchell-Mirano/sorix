@@ -10,6 +10,13 @@ if _cupy_available:
 
 _autograd_enabled = True
 
+# DType aliases (using strings for framework-agnostic efficiency)
+float32 = 'float32'
+float64 = 'float64'
+int32 = 'int32'
+int64 = 'int64'
+bool_ = 'bool'
+
 class no_grad:
     """
     Context manager that disables autograd engine.
@@ -48,7 +55,7 @@ class Tensor:
     
     Attributes:
         data (np.ndarray | cp.ndarray): The actual numerical data.
-        device (str): 'cpu' or 'gpu'.
+        device (str): 'cpu' or 'cuda'.
         requires_grad (bool): If True, gradients will be computed for this tensor.
         grad (np.ndarray | cp.ndarray | None): Accumulated gradient for this tensor.
 
@@ -67,38 +74,42 @@ class Tensor:
         _children: Union[List[Tensor], Tuple[Tensor, ...]] = [], 
         _op: str = '',
         device: str = 'cpu',
-        requires_grad: bool = False
+        requires_grad: bool = False,
+        dtype: Any = None
     ) -> None:
         """
         Initializes a new Tensor.
         
         Args:
             data: Numerical data (numpy array, list, scalar, etc.).
-            device: Computing device ('cpu' or 'gpu').
+            device: Computing device ('cpu' or 'cuda').
             requires_grad: Whether to track gradients for this tensor.
+            dtype: Data type for the tensor elements.
         """
-        if device == 'gpu' and not _cupy_available:
+        if device == 'cuda' and not _cupy_available:
             raise Exception('Cupy is not available')
         
-        xp = cp if (device == 'gpu' and _cupy_available) else np
+        xp = cp if (device == 'cuda' and _cupy_available) else np
 
         if isinstance(data, (list, tuple, np.ndarray, pd.DataFrame, pd.Series, int, float)):
-            data = xp.array(data)
+            data = xp.array(data, dtype=dtype)
         elif not isinstance(data, (np.ndarray, xp.ndarray if _cupy_available else np.ndarray)):
             # Fallback for unexpected types
-            data = xp.array(data)
+            data = xp.array(data, dtype=dtype)
+        elif dtype is not None:
+             data = data.astype(dtype)
 
-        self.data: np.ndarray = data
+        self.data: Any = data
         self.device: str = device
         self.requires_grad: bool = requires_grad
-        self.grad: Optional[np.ndarray] = xp.zeros_like(self.data, dtype=float) if requires_grad else None
+        self.grad: Optional[np.ndarray] = xp.zeros_like(self.data, dtype=self.dtype) if requires_grad else None
         self._backward = _noop
         global _autograd_enabled
         self._prev: Set[Tensor] = set(_children) if (_autograd_enabled and requires_grad) else set()
         self._op: str = _op if _autograd_enabled else ''
 
     def __getstate__(self) -> dict:
-        return {'data': self.data.get() if self.device == 'gpu' else self.data,
+        return {'data': self.data.get() if self.device == 'cuda' else self.data,
                 'device': 'cpu',
                 'requires_grad': self.requires_grad}
     
@@ -106,7 +117,7 @@ class Tensor:
         self.data = state['data']
         self.device = state['device']
         self.requires_grad = state.get('requires_grad', False)
-        xp = cp if (self.device == 'gpu' and _cupy_available) else np
+        xp = cp if (self.device == 'cuda' and _cupy_available) else np
         self.grad = xp.zeros_like(self.data, dtype=float) if self.requires_grad else None
         self._backward = _noop
         self._prev = set()
@@ -123,7 +134,7 @@ class Tensor:
         
         def _backward() -> None:
             if self.requires_grad:
-                xp = cp if self.device == 'gpu' else np
+                xp = cp if self.device == 'cuda' else np
                 grad_full = xp.zeros_like(self.data)
                 grad_full[idx] = out.grad
                 self.grad += grad_full
@@ -140,21 +151,21 @@ class Tensor:
         Moves the tensor to the specified device.
         
         Args:
-            device: 'cpu' or 'gpu'.
+            device: 'cpu' or 'cuda'.
         """
         if device == self.device:
             return self
         
-        if device == "gpu":
+        if device == 'cuda':
             if not _cupy_available:
                 raise RuntimeError("CuPy no está instalado, no puedes usar CUDA")
             self.data = cp.asarray(self.data)
             self.grad = cp.array(self.grad) if (self.requires_grad and self.grad is not None) else None
         elif device == "cpu":
-            self.data = cp.asnumpy(self.data) if self.device == "gpu" else self.data
+            self.data = cp.asnumpy(self.data) if self.device == 'cuda' else self.data
             self.grad = cp.asnumpy(self.grad) if (self.requires_grad and self.grad is not None) else None
         else:
-            raise ValueError("device debe ser 'cpu' o 'gpu'")
+            raise ValueError("device debe ser 'cpu' o 'cuda'")
         
         self.device = device
 
@@ -166,7 +177,7 @@ class Tensor:
 
     def gpu(self) -> Tensor:
         """Moves tensor to GPU."""
-        return self.to("gpu")
+        return self.to('cuda')
     
     # In-place operations
     def add_(self, other: Union[Tensor, float, int]) -> Tensor:
@@ -377,7 +388,7 @@ class Tensor:
 
     def tanh(self) -> Tensor:
         """Hyperbolic tangent activation."""
-        xp = cp if self.device == 'gpu' else np
+        xp = cp if self.device == 'cuda' else np
         global _autograd_enabled
 
         if not _autograd_enabled:
@@ -399,7 +410,7 @@ class Tensor:
         if grad is None:
             return
         if self.grad is None:
-            xp = cp if self.device == 'gpu' else np
+            xp = cp if self.device == 'cuda' else np
             self.grad = xp.zeros_like(self.data, dtype=float)
         self.grad += grad
 
@@ -433,7 +444,7 @@ class Tensor:
 
     def sigmoid(self) -> Tensor:
         """Sigmoid activation."""
-        xp = cp if self.device == 'gpu' else np
+        xp = cp if self.device == 'cuda' else np
         global _autograd_enabled
 
         out_data = 1 / (1 + xp.exp(-self.data))
@@ -453,7 +464,7 @@ class Tensor:
 
     def softmax(self, axis: int = -1) -> Tensor:
         """Softmax activation along an axis."""
-        xp = cp if self.device == 'gpu' else np
+        xp = cp if self.device == 'cuda' else np
         global _autograd_enabled
         
         # Stability trick
@@ -516,7 +527,7 @@ class Tensor:
     def mean(self, axis: Optional[Union[int, Tuple[int, ...]]] = None, keepdims: bool = False) -> Tensor:
         """Computes mean along axis."""
         global _autograd_enabled
-        xp = cp if self.device == 'gpu' else np
+        xp = cp if self.device == 'cuda' else np
 
         if not _autograd_enabled:
             return Tensor(xp.mean(self.data, axis=axis, keepdims=keepdims), device=self.device)
@@ -538,7 +549,7 @@ class Tensor:
     def sum(self, axis: Optional[Union[int, Tuple[int, ...]]] = None, keepdims: bool = False) -> Tensor:
         """Computes sum along axis."""
         global _autograd_enabled
-        xp = cp if self.device == 'gpu' else np
+        xp = cp if self.device == 'cuda' else np
         
         if not _autograd_enabled:
             return Tensor(self.data.sum(axis=axis, keepdims=keepdims), device=self.device)
@@ -560,7 +571,7 @@ class Tensor:
     
     def abs(self) -> Tensor:
         """Absolute value."""
-        xp = cp if self.device == 'gpu' else np
+        xp = cp if self.device == 'cuda' else np
         return Tensor(xp.abs(self.data), device=self.device)
     
     def reshape(self, *shape: Any) -> Tensor:
@@ -639,11 +650,11 @@ class Tensor:
 
         build_topo(self)
         
-        xp = cp if self.device == 'gpu' else np
+        xp = cp if self.device == 'cuda' else np
         if self.grad is None:
-             self.grad = xp.ones_like(self.data, dtype=float)
+             self.grad = xp.ones_like(self.data, dtype=self.dtype)
         else:
-             self.grad += xp.ones_like(self.data, dtype=float)
+             self.grad += xp.ones_like(self.data, dtype=self.dtype)
 
         for node in reversed(topo):
             node._backward()
@@ -666,7 +677,7 @@ class Tensor:
         return iter(self.data)
 
     def __str__(self) -> str:
-        return f"Tensor(\n{self.data}, shape={self.data.shape}, device={self.device}, requires_grad={self.requires_grad})"
+        return f"Tensor(\n{self.data}, shape={self.data.shape}, dtype={self.dtype}, device={self.device}, requires_grad={self.requires_grad})"
 
     def __repr__(self) -> str:
         return self.__str__()
@@ -691,7 +702,7 @@ class Tensor:
         """Casts tensor to a new data type."""
         return Tensor(self.data.astype(dtype), device=self.device)
     
-    def to_numpy(self) -> np.ndarray:
+    def numpy(self) -> np.ndarray:
         """
         Returns the data as a NumPy array.
         
@@ -714,13 +725,18 @@ class Tensor:
         """
         return self.data.item()
     
-    def __array__(self, dtype: Any = None, copy: bool = None) -> np.ndarray:
-        arr = self.to_numpy()
+    def __array__(self, dtype=None) -> np.ndarray:
+        arr = self.numpy()                     # debe ser np.ndarray
         if dtype is not None:
-            arr = arr.astype(dtype)
-        if copy is False:
-             return arr
-        return arr.copy()
+            arr = arr.astype(dtype, copy=False)
+        return arr
+
+
+    def to_numpy(self, dtype=None, copy=False):
+        arr = self.numpy()
+        if dtype is not None:
+            arr = arr.astype(dtype, copy=False)
+        return arr.copy() if copy else arr
     
     # Comparisons
     def __gt__(self, other: Union[Tensor, float, int]) -> Tensor:
@@ -756,14 +772,19 @@ class Tensor:
     def __abs__(self) -> Tensor:
         return self.abs()
 
-def tensor(data: TensorData, device: str = 'cpu', requires_grad: bool = False) -> Tensor:
+def tensor(
+    data: TensorData, 
+    device: str = 'cpu', 
+    requires_grad: bool = False,
+    dtype: Any = None
+) -> Tensor:
     """
     Factory function to create a Sorix Tensor.
     
     Examples:
         ```python
-        x = sorix.tensor([1.0, 2.0], requires_grad=True)
+        x = sorix.tensor([1.0, 2.0], requires_grad=True, dtype=sorix.float32)
         ```
     """
-    return Tensor(data, device=device, requires_grad=requires_grad)
+    return Tensor(data, device=device, requires_grad=requires_grad, dtype=dtype)
 

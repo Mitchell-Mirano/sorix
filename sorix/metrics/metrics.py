@@ -136,12 +136,12 @@ def _get_classification_data(y_true: Any, y_pred: Any) -> Tuple[np.ndarray, np.n
         raise ValueError("y_true and y_pred must have the same shape.")
     
     if isinstance(y_true, Tensor):
-        y_true_out = y_true.to_numpy().flatten()
+        y_true_out = y_true.numpy().flatten()
     else:
         y_true_out = y_true.flatten()
 
     if isinstance(y_pred, Tensor):
-        y_pred_out = y_pred.to_numpy().flatten()
+        y_pred_out = y_pred.numpy().flatten()
     else:
         y_pred_out = y_pred.flatten()
         

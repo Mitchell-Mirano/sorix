@@ -164,14 +164,14 @@ def test_gpu_math_if_available():
     from sorix.cupy.cupy import _cupy_available
     if _cupy_available:
         import cupy as cp
-        x = tensor([0.0, np.pi/2], requires_grad=True, device='gpu')
+        x = tensor([0.0, np.pi/2], requires_grad=True, device='cuda')
         y = math.sin(x)
-        assert y.device == 'gpu'
+        assert y.device == 'cuda'
         assert isinstance(y.data, cp.ndarray)
-        assert np.allclose(y.to_numpy(), [0.0, 1.0])
+        assert np.allclose(y.numpy(), [0.0, 1.0])
         y.backward()
-        assert x.device == 'gpu'
+        assert x.device == 'cuda'
         
         # Test mean/sum on GPU
-        assert math.mean(x).device == 'gpu'
-        assert math.sum(x).device == 'gpu'
+        assert math.mean(x).device == 'cuda'
+        assert math.sum(x).device == 'cuda'

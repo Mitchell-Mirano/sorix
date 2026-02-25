@@ -8,7 +8,7 @@ if _cupy_available:
 
 def _get_xp(tensor: Any) -> Any:
     """Returns numpy or cupy depending on tensor device."""
-    return cp if tensor.device == 'gpu' else np
+    return cp if tensor.device == 'cuda' else np
 
 def uniform_(tensor: Any, a: float = 0.0, b: float = 1.0) -> Any:
     """Fills the input tensor with values drawn from the uniform distribution U(a, b)."""

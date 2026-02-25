@@ -30,13 +30,13 @@ class Kmeans:
     def _data_preprocessing_train(self, 
                                  features: Tensor) -> Tensor:
 
-        xp = cp if features.device == 'gpu' and _cupy_available else np
+        xp = cp if features.device == 'cuda' and _cupy_available else np
 
         self._centroids = features.data[xp.random.randint(0, len(features), self.n_clusters)]
         return features
 
     def _distances(self, features: Tensor, centroids: np.ndarray) -> np.ndarray:
-        xp = cp if features.device == 'gpu' and _cupy_available else np
+        xp = cp if features.device == 'cuda' and _cupy_available else np
 
         diff = features.data[:, xp.newaxis, :] - centroids[xp.newaxis, :, :]
 
@@ -50,7 +50,7 @@ class Kmeans:
 
     def _new_centroids(self, features: Tensor, labels: Tensor) -> np.ndarray:
 
-        xp = cp if features.device == 'gpu' and _cupy_available else np
+        xp = cp if features.device == 'cuda' and _cupy_available else np
 
         k = self.n_clusters
 
@@ -75,7 +75,7 @@ class Kmeans:
 
     def _moviment(self, centroids_before: np.ndarray, centroids_after: np.ndarray) -> float:
 
-        xp = cp if centroids_before.device == 'gpu' and _cupy_available else np
+        xp = cp if centroids_before.device == 'cuda' and _cupy_available else np
 
         return xp.linalg.norm(centroids_before - centroids_after, axis=1).mean()
 
