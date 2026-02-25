@@ -3489,7 +3489,7 @@ import numpy as np</div>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">tensor_label</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
-    <span class="n">arr</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="s2">"to_numpy"</span><span class="p">)</span> <span class="k">else</span> <span class="n">t</span><span class="o">.</span><span class="n">data</span>
+    <span class="n">arr</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="s2">"to_numpy"</span><span class="p">)</span> <span class="k">else</span> <span class="n">t</span><span class="o">.</span><span class="n">data</span>
     <span class="k">if</span> <span class="n">arr</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
     <span class="k">if</span> <span class="n">arr</span><span class="o">.</span><span class="n">size</span> <span class="o">&lt;=</span> <span class="mi">6</span><span class="p">:</span>
@@ -3545,7 +3545,7 @@ import numpy as np</div>
     
 
     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">grad</span><span class="p">,</span> <span class="s2">"to_numpy"</span><span class="p">):</span>
-        <span class="n">grad_arr</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+        <span class="n">grad_arr</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
     <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">grad</span><span class="p">,</span> <span class="s2">"data"</span><span class="p">):</span>
         <span class="n">grad_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
@@ -3625,7 +3625,7 @@ def trace_graph(root):
 
 
 def tensor_label(t):
-    arr = t.to_numpy() if hasattr(t, "to_numpy") else t.data
+    arr = t.numpy() if hasattr(t, "to_numpy") else t.data
     if arr.ndim == 0:
         return str(arr.item())
     if arr.size &lt;= 6:
@@ -3681,7 +3681,7 @@ def gradient_label(t):
     
 
     if hasattr(t.grad, "to_numpy"):
-        grad_arr = t.grad.to_numpy()
+        grad_arr = t.grad.numpy()
     elif hasattr(t.grad, "data"):
         grad_arr = np.array(t.grad.data)
     else:

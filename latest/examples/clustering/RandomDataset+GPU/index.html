@@ -3325,10 +3325,10 @@ from sorix.clustering import Kmeans</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">device</span> <span class="o">=</span> <span class="s1">'gpu'</span> <span class="k">if</span> <span class="n">sorix</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s1">'cpu'</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">device</span> <span class="o">=</span> <span class="s1">'cuda'</span> <span class="k">if</span> <span class="n">sorix</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s1">'cpu'</span>
 <span class="n">device</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-3">device = 'gpu' if sorix.cuda.is_available() else 'cpu'
+<div class="clipboard-copy-txt" id="cell-3">device = 'cuda' if sorix.cuda.is_available() else 'cpu'
 device</div>
 </div>
 </div>
@@ -3344,14 +3344,14 @@ device</div>
 <pre>✅ GPU basic operation passed
 ✅ GPU available: NVIDIA GeForce RTX 4070 Laptop GPU
 CUDA runtime version: 13000
-CuPy version: 13.6.0
+CuPy version: 14.0.1
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[3]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>'gpu'</pre>
+<pre>'cuda'</pre>
 </div>
 </div>
 </div>
@@ -3508,7 +3508,7 @@ X_train</div>
  ...
  [3.56752298 8.4546417 ]
  [2.8109625  7.1025456 ]
- [4.49822372 7.9792028 ]], shape=(3000000, 2), device=gpu, requires_grad=False)</pre>
+ [4.49822372 7.9792028 ]], shape=(3000000, 2), dtype=float64, device=cuda, requires_grad=False)</pre>
 </div>
 </div>
 </div>

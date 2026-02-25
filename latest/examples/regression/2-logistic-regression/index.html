@@ -3385,10 +3385,10 @@ from sorix.optim import RMSprop, Adam</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">device</span> <span class="o">=</span> <span class="s1">'gpu'</span> <span class="k">if</span> <span class="n">sorix</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s1">'cpu'</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">device</span> <span class="o">=</span> <span class="s1">'cuda'</span> <span class="k">if</span> <span class="n">sorix</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s1">'cpu'</span>
 <span class="n">device</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-4">device = 'gpu' if sorix.cuda.is_available() else 'cpu'
+<div class="clipboard-copy-txt" id="cell-4">device = 'cuda' if sorix.cuda.is_available() else 'cpu'
 device</div>
 </div>
 </div>
@@ -3404,14 +3404,14 @@ device</div>
 <pre>✅ GPU basic operation passed
 ✅ GPU available: NVIDIA GeForce RTX 4070 Laptop GPU
 CUDA runtime version: 13000
-CuPy version: 13.6.0
+CuPy version: 14.0.1
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[4]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>'gpu'</pre>
+<pre>'cuda'</pre>
 </div>
 </div>
 </div>
@@ -4074,14 +4074,14 @@ optimizer = Adam(model.parameters(), lr=0.01)
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>Epoch: 0 | Loss: 1.6742
-Epoch: 100 | Loss: 0.2143
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Epoch: 200 | Loss: 0.1048
+<pre>Epoch: 100 | Loss: 0.2143
+Epoch: 200 | Loss: 0.1048
 Epoch: 300 | Loss: 0.0634
 </pre>
 </div>
@@ -4090,14 +4090,14 @@ Epoch: 300 | Loss: 0.0634
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>Epoch: 400 | Loss: 0.0433
-Epoch: 500 | Loss: 0.0319
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Epoch: 600 | Loss: 0.0247
+<pre>Epoch: 500 | Loss: 0.0319
+Epoch: 600 | Loss: 0.0247
 Epoch: 700 | Loss: 0.0198
 </pre>
 </div>
@@ -4106,14 +4106,14 @@ Epoch: 700 | Loss: 0.0198
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>Epoch: 800 | Loss: 0.0163
-Epoch: 900 | Loss: 0.0137
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Epoch: 1000 | Loss: 0.0117
+<pre>Epoch: 900 | Loss: 0.0137
+Epoch: 1000 | Loss: 0.0117
 </pre>
 </div>
 </div>
@@ -4248,7 +4248,7 @@ model2.to(device)</div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[16]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>&lt;sorix.nn.layers.Linear at 0x7f221575ec10&gt;</pre>
+<pre>Linear(in_features=4, out_features=1, bias=True)</pre>
 </div>
 </div>
 </div>
@@ -4278,7 +4278,7 @@ model2.to(device)</div>
 <span class="n">probs</span> <span class="o">=</span> <span class="n">sorix</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">logits</span><span class="p">)</span>
 <span class="n">preds</span> <span class="o">=</span> <span class="p">(</span><span class="n">probs</span><span class="o">.</span><span class="n">data</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">'uint8'</span><span class="p">)</span>
 <span class="n">acc_test</span> <span class="o">=</span> <span class="p">(</span><span class="n">preds</span> <span class="o">==</span> <span class="n">Y_test</span><span class="o">.</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-<span class="n">preds</span> <span class="o">=</span> <span class="n">preds</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="k">if</span> <span class="n">device</span> <span class="o">==</span> <span class="s1">'gpu'</span> <span class="k">else</span> <span class="n">preds</span>
+<span class="n">preds</span> <span class="o">=</span> <span class="n">preds</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="k">if</span> <span class="n">device</span> <span class="o">==</span> <span class="s1">'cuda'</span> <span class="k">else</span> <span class="n">preds</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_test</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span><span class="n">X_test</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span><span class="n">c</span><span class="o">=</span><span class="n">preds</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Logistic Regression on Test Data(Accuracy:</span><span class="si">{</span><span class="mi">100</span><span class="o">*</span><span class="n">acc_test</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%)"</span><span class="p">)</span>
@@ -4289,7 +4289,7 @@ model2.to(device)</div>
 probs = sorix.sigmoid(logits)
 preds = (probs.data &gt; 0.5).astype('uint8')
 acc_test = (preds == Y_test.data).mean()
-preds = preds.get() if device == 'gpu' else preds
+preds = preds.get() if device == 'cuda' else preds
 
 plt.scatter(X_test[:,0],X_test[:,1],c=preds)
 plt.title(f"Logistic Regression on Test Data(Accuracy:{100*acc_test:.2f}%)")
