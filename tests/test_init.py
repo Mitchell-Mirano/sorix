@@ -79,7 +79,7 @@ def test_gpu_init_if_available():
     from sorix.cupy.cupy import _cupy_available
     if _cupy_available:
         import cupy as cp
-        t = tensor(np.empty((10, 10)), device='gpu')
+        t = tensor(np.empty((10, 10)), device='cuda')
         
         init.ones_(t)
         assert isinstance(t.data, cp.ndarray)

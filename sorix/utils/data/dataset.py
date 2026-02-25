@@ -15,7 +15,13 @@ class Dataset:
 
     def __setitem__(self, idx, value):
         if self.y is not None:
-            self.X[idx], self.y[idx] = value
+            self.X[idx] = value[0]
+            # Use .item() if it's a 1-element array to avoid DeprecationWarning
+            val_y = value[1]
+            if hasattr(val_y, 'item') and (getattr(val_y, 'size', 0) == 1 or np.ndim(val_y) == 0):
+                self.y[idx] = val_y.item()
+            else:
+                self.y[idx] = val_y
         else:
             self.X[idx] = value
 

@@ -285,5 +285,19 @@ def test_dropout_eval_identity():
     out = drop(x)
     assert np.allclose(x.data, out.data)
 
+def test_nn_layers_default_dtype():
+    """Verify that layers initialize parameters with float32 by default."""
+    import sorix
+    lin = Linear(10, 5)
+    assert lin.W.dtype == 'float32'
+    assert lin.b.dtype == 'float32'
+    
+    from sorix.nn import BatchNorm1d
+    bn = BatchNorm1d(5)
+    assert bn.gamma.dtype == 'float32'
+    assert bn.beta.dtype == 'float32'
+    assert bn.running_mean.dtype == 'float32'
+    assert bn.running_var.dtype == 'float32'
+
 
 

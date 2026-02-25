@@ -16,7 +16,7 @@ class Optimizer:
         self.parameters = parameters
         self.lr = lr
         self.device = parameters[0].device
-        self.xp = cp if self.device == 'gpu' else np
+        self.xp = cp if self.device == 'cuda' else np
 
     def zero_grad(self) -> None:
         """Sets gradients of all optimized tensors to zero."""

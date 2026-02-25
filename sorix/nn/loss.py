@@ -22,7 +22,7 @@ class BCEWithLogitsLoss:
     More numerically stable than using a plain Sigmoid followed by a BCELoss.
     """
     def __call__(self, y_pred: Tensor, y_real: Tensor) -> Tensor:
-        xp = cp if y_pred.device == 'gpu' else np
+        xp = cp if y_pred.device == 'cuda' else np
         batch_size = y_real.data.shape[0]
 
         probs = 1 / (1 + xp.exp(-y_pred.data))
@@ -45,7 +45,7 @@ class CrossEntropyLoss:
         self.xp = np
 
     def __call__(self, y_pred: Tensor, y_real: Tensor) -> Tensor:
-        self.xp = cp if y_pred.device == 'gpu' else np
+        self.xp = cp if y_pred.device == 'cuda' else np
 
         # Step 1: Stable Softmax
         exp_logits = self.xp.exp(y_pred.data - self.xp.max(y_pred.data, axis=-1, keepdims=True))

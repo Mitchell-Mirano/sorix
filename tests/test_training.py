@@ -58,7 +58,7 @@ def test_training_cpu_convergence():
 @pytest.mark.skipif(not cuda.is_available(verbose=False), reason="CUDA not available")
 def test_training_gpu_convergence():
     """Verify that a model can converge on GPU if available."""
-    model, initial_loss, final_loss = train_model(device='gpu')
+    model, initial_loss, final_loss = train_model(device='cuda')
     
     assert final_loss < initial_loss
     assert final_loss < 0.1
@@ -74,7 +74,7 @@ def test_model_save_and_load(tmp_path):
     test_x = tensor(test_x_raw)
     
     with no_grad():
-        original_output = model(test_x).to_numpy()
+        original_output = model(test_x).numpy()
     
     # Save weights using state_dict and sorix.save
     weight_path = os.path.join(tmp_path, "model.sor")
@@ -86,7 +86,7 @@ def test_model_save_and_load(tmp_path):
     new_model.load_state_dict(loaded_state)
     
     with no_grad():
-        new_output = new_model(test_x).to_numpy()
+        new_output = new_model(test_x).numpy()
     
     # Outputs should be identical
     assert np.allclose(original_output, new_output, atol=1e-6)
@@ -96,16 +96,16 @@ def test_model_save_and_load(tmp_path):
 def test_to_device_consistency():
     """Verify that moving a model between devices preserves weights."""
     model = SimpleNet(5, 2)
-    W_before = model.l1.W.to_numpy().copy()
+    W_before = model.l1.W.numpy().copy()
     
     # To CPU (should be same)
     model.to('cpu')
-    assert np.allclose(model.l1.W.to_numpy(), W_before)
+    assert np.allclose(model.l1.W.numpy(), W_before)
     
     # If GPU is available, test round-trip
     if cuda.is_available(verbose=False):
-        model.to('gpu')
-        assert model.l1.W.device == 'gpu'
+        model.to('cuda')
+        assert model.l1.W.device == 'cuda'
         model.to('cpu')
         assert model.l1.W.device == 'cpu'
-        assert np.allclose(model.l1.W.to_numpy(), W_before)
+        assert np.allclose(model.l1.W.numpy(), W_before)

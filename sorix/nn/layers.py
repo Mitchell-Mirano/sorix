@@ -1,7 +1,7 @@
 from __future__ import annotations
 import numpy as np
 from typing import Optional, Union, Any
-from sorix.tensor import Tensor, tensor
+from sorix.tensor import Tensor, tensor, float32
 from sorix.cupy.cupy import _cupy_available
 
 if _cupy_available:
@@ -12,7 +12,7 @@ from .net import Module
 
 class Linear(Module):
     """
-    Applies a linear transformation to the incoming data: \(y = X@W + b\).
+    Applies a linear transformation to the incoming data.
     
     Attributes:
         W (Tensor): Weights of the layer.
@@ -35,11 +35,11 @@ class Linear(Module):
         device: str = 'cpu'
     ) -> None:
         super().__init__()
-        if device == 'gpu' and not _cupy_available:
+        if device == 'cuda' and not _cupy_available:
             raise Exception('Cupy is not available')
         
         self.device = device
-        xp = cp if device == 'gpu' else np
+        xp = cp if device == 'cuda' else np
         
         if init not in ['he', 'xavier']:
             raise ValueError(f'Invalid initialization method: {init}. Valid methods are "he" and "xavier"')
@@ -50,32 +50,37 @@ class Linear(Module):
             self.std_dev = xp.sqrt(2.0 / (features + neurons))  # Xavier init for tanh
 
         self.bias = bias
-        self.W = tensor(xp.random.normal(0, self.std_dev, size=(features, neurons)), device=self.device, requires_grad=True)
-        self.b = tensor(xp.zeros((1, neurons)), device=self.device, requires_grad=True) if self.bias else None
+        self.W = tensor(xp.random.normal(0, self.std_dev, size=(features, neurons)), 
+                        device=self.device, requires_grad=True, dtype=float32)
+        self.b = tensor(xp.zeros((1, neurons)), 
+                        device=self.device, requires_grad=True, dtype=float32) if self.bias else None
 
     def __call__(self, X: Tensor) -> Tensor:
         if self.bias and self.b is not None:
             return X @ self.W + self.b  
         return X @ self.W
     
+    def extra_repr(self) -> str:
+        return f"in_features={self.W.shape[0]}, out_features={self.W.shape[1]}, bias={self.bias}"
+    
     @property
     def coef_(self) -> np.ndarray:
         """Returns weights as a flattened numpy array (Scikit-Learn parity)."""
-        return self.W.to_numpy().flatten()
+        return self.W.numpy().flatten()
         
     @property
     def intercept_(self) -> Optional[Union[float, np.ndarray]]:
         """Returns biases as a flattened numpy array or scalar (Scikit-Learn parity)."""
         if self.b is None:
             return None
-        data = self.b.to_numpy().flatten()
+        data = self.b.numpy().flatten()
         return data.item() if data.size == 1 else data
 
 
 class ReLU(Module):
     """Rectified Linear Unit activation function."""
     def __call__(self, X: Tensor) -> Tensor:
-        xp = cp if X.device == 'gpu' else np
+        xp = cp if X.device == 'cuda' else np
         out = Tensor(xp.maximum(0, X.data), (X,), 'ReLU', device=X.device, requires_grad=X.requires_grad)
         
         def _backward() -> None:
@@ -90,7 +95,7 @@ class ReLU(Module):
 class Sigmoid(Module):
     """Sigmoid activation function."""
     def __call__(self, X: Tensor) -> Tensor:
-        xp = cp if X.device == 'gpu' else np
+        xp = cp if X.device == 'cuda' else np
         out = Tensor(1 / (1 + xp.exp(-X.data)), (X,), 'Sigmoid', device=X.device, requires_grad=X.requires_grad)
         
         def _backward() -> None:
@@ -105,7 +110,7 @@ class Sigmoid(Module):
 class Tanh(Module):
     """Hyperbolic tangent activation function."""
     def __call__(self, X: Tensor) -> Tensor:
-        xp = cp if X.device == 'gpu' else np
+        xp = cp if X.device == 'cuda' else np
         out = Tensor(xp.tanh(X.data), (X,), 'Tanh', device=X.device, requires_grad=X.requires_grad)
         
         def _backward() -> None:
@@ -128,12 +133,15 @@ class BatchNorm1d(Module):
         device: str = 'cpu'
     ) -> None:
         super().__init__()
-        self.gamma = tensor(np.ones((1, features)), requires_grad=True)
-        self.beta = tensor(np.zeros((1, features)), requires_grad=True)
+        self.device = device
+        xp = cp if device == 'cuda' else np
+        
+        self.gamma = tensor(xp.ones((1, features)), requires_grad=True, dtype=float32)
+        self.beta = tensor(xp.zeros((1, features)), requires_grad=True, dtype=float32)
 
         # buffers (captured by state_dict)
-        self.running_mean = tensor(np.zeros((1, features), dtype=np.float32), requires_grad=False)
-        self.running_var = tensor(np.ones((1, features), dtype=np.float32), requires_grad=False)
+        self.running_mean = tensor(xp.zeros((1, features)), requires_grad=False, dtype=float32)
+        self.running_var = tensor(xp.ones((1, features)), requires_grad=False, dtype=float32)
 
         self.alpha = alpha
         self.epsilon = epsilon
@@ -143,7 +151,7 @@ class BatchNorm1d(Module):
             self.to(self.device)
 
     def __call__(self, X: Tensor) -> Tensor:
-        xp = cp if X.device == 'gpu' else np
+        xp = cp if X.device == 'cuda' else np
 
         if self.training:
             # Stats from batch
@@ -166,6 +174,9 @@ class BatchNorm1d(Module):
         out = self.gamma * X_norm + self.beta
         return out
 
+    def extra_repr(self) -> str:
+        return f"features={self.gamma.shape[1]}, eps={self.epsilon}, alpha={self.alpha}"
+
 class Dropout(Module):
     """
     During training, randomly zeroes some of the elements of the input tensor 
@@ -179,7 +190,7 @@ class Dropout(Module):
         if not self.training or self.p == 0:
             return X
         
-        xp = cp if X.device == 'gpu' else np
+        xp = cp if X.device == 'cuda' else np
         if self.p >= 1.0:
             return Tensor(xp.zeros_like(X.data), device=X.device, requires_grad=X.requires_grad)
 
@@ -188,3 +199,6 @@ class Dropout(Module):
         mask = Tensor(mask_data, device=X.device, requires_grad=False)
         
         return X * mask
+
+    def extra_repr(self) -> str:
+        return f"p={self.p}"
