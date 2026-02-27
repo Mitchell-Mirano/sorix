@@ -1,51 +1,51 @@
 # ====================================================================
-# CONFIGURACIÓN BÁSICA DEL SITIO
+# BASIC SITE CONFIGURATION
 # ====================================================================
 site_name: Sorix
-site_description: Librería minimalista y de alto rendimiento para Machine Learning y Deep Learning basada en NumPy.
+site_description: High-performance, minimalist library for Machine Learning and Deep Learning based on NumPy.
 site_url: https://mitchell-mirano.github.io/sorix/
 repo_url: https://github.com/Mitchell-Mirano/sorix/
 repo_name: Mitchell-Mirano/sorix
 edit_uri: edit/{{ branch }}/docs/
 
 # ====================================================================
-# 1. CONFIGURACIÓN DEL TEMA MATERIAL (Estilo FastAPI)
+# 1. MATERIAL THEME CONFIGURATION (FastAPI style)
 # ====================================================================
 theme:
   name: material
-  language: es
+  language: en
   
   palette:
-    # --- Preferencia del sistema (Toggle Principal) ---
+    # --- System preference (Main Toggle) ---
     - media: (prefers-color-scheme)
       toggle:
         icon: material/theme-light-dark
-        name: Usar preferencia del sistema
+        name: Use system preference
     
-    # --- Modo Claro ---
+    # --- Light Mode ---
     - media: '(prefers-color-scheme: light)'
       scheme: default
       primary: indigo
       accent: orange
       toggle:
         icon: material/weather-sunny
-        name: Cambiar a modo oscuro
+        name: Switch to dark mode
     
-    # --- Modo Oscuro ---
+    # --- Dark Mode ---
     - media: '(prefers-color-scheme: dark)'
       scheme: slate
       primary: indigo
       accent: orange
       toggle:
         icon: material/weather-night
-        name: Cambiar a modo claro
+        name: Switch to light mode
   
   icon:
     logo: material/book-open-variant
     repo: fontawesome/brands/github
   
   features:
-    # Navegación
+    # Navigation
     - navigation.tabs
     - navigation.tabs.sticky
     - navigation.sections
@@ -55,19 +55,19 @@ theme:
     - navigation.top
     - toc.follow
     
-    # Contenido y Código
+    # Content and Code
     - content.code.copy
     - content.code.annotate
     - content.tabs.link
     
-    # Búsqueda
+    # Search
     - search.suggest
     - search.highlight
     - search.share
 
 
 # ====================================================================
-# 2. ESTRUCTURA DE NAVEGACIÓN (nav)
+# 2. NAVIGATION STRUCTURE (nav)
 # ====================================================================
 nav:
   - 🏡 Sorix: index.md
@@ -96,7 +96,7 @@ nav:
 
 
 # ====================================================================
-# 3. EXTENSIONES DE MARKDOWN AVANZADAS
+# 3. ADVANCED MARKDOWN EXTENSIONS
 # ====================================================================
 markdown_extensions:
   - pymdownx.highlight:
@@ -129,12 +129,12 @@ markdown_extensions:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - mdx_include
-  - pymdownx.arithmatex: # <--- ¡Añadir esta línea!
-      generic: true # Usa sintaxis genérica ($...$ y $$...$$)
+  - pymdownx.arithmatex:
+      generic: true # Use generic syntax ($...$ and $$...$$)
 
 
 # ====================================================================
-# 4. CONFIGURACIÓN DE PLUGINS
+# 4. PLUGIN CONFIGURATION
 # ====================================================================
 plugins:
 
@@ -159,14 +159,14 @@ plugins:
             show_root_heading: true 
             show_source: true
             
-            # Opciones Avanzadas
+            # Advanced Options
             show_if_no_docstring: false
             members_order: source
             separate_signature: true
             signature_crossrefs: true
             merge_init_into_class: true
             docstring_section_style: list
-            unwrap_annotated: true # <--- Añadido
+            unwrap_annotated: true
             filters:
               - '!^_'
             
@@ -185,8 +185,8 @@ extra:
     - icon: fontawesome/brands/github
       link: https://github.com/Mitchell-Mirano/sorix
 
-extra_javascript: # <--- ¡Añadir esta nueva sección!
-  # Carga el motor de renderizado de fórmulas (MathJax)
+extra_javascript:
+  # Load formula rendering engine (MathJax)
   - javascripts/mathjax.js
   - https://polyfill.io/v3/polyfill.min.js?features=es6
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js

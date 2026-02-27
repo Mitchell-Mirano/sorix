@@ -17,7 +17,7 @@ def is_available(verbose: bool = True) -> bool:
                 print("❌ No CUDA devices found.")
             return False
 
-        # Test 1: operación simple en GPU (memoria + aritmética básica)
+        # Test 1: simple GPU operation (memory + basic arithmetic)
         try:
             _ = int((cp.arange(5) * 2).sum())
             print("✅ GPU basic operation passed")
@@ -26,11 +26,11 @@ def is_available(verbose: bool = True) -> bool:
                 print("❌ GPU basic operation failed:", e)
             return False
 
-        # Test 2: operación que fuerza cuBLAS (matmul)
+        # Test 2: operation that forces cuBLAS (matmul)
         try:
             A = cp.random.rand(4, 4)
             B = cp.random.rand(4, 4)
-            _ = int((A @ B).sum())  # fuerza cuBLAS
+            _ = int((A @ B).sum())  # forces cuBLAS
         except Exception as e:
             if verbose:
                 print("❌ cuBLAS/linear algebra operation failed:", e)

@@ -315,9 +315,9 @@ def test_tensor_to_gpu_error():
     from sorix.cupy.cupy import _cupy_available
     if not _cupy_available:
         a = tensor([1, 2])
-        with pytest.raises(RuntimeError, match="CuPy no está instalado"):
+        with pytest.raises(RuntimeError, match="CuPy is not installed"):
             a.to('cuda')
-        with pytest.raises(ValueError, match="device debe ser 'cpu' o 'cuda'"):
+        with pytest.raises(ValueError, match="device must be 'cpu' or 'cuda'"):
             a.to("invalid")
 
 def test_tensor_broadcasting_complex():

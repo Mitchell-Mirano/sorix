@@ -52,7 +52,7 @@ class ColumnTransformer:
         return features
 
     def state_dict(self):
-        """Devuelve un diccionario con el estado del transformador de columnas."""
+        """Returns a dictionary with the state of the column transformer."""
         state = {
             'n_features': self.n_features,
             'features_names': self.features_names,
@@ -67,7 +67,7 @@ class ColumnTransformer:
         return state
 
     def load_state_dict(self, state_dict):
-        """Carga el estado del transformador de columnas."""
+        """Loads the state of the column transformer."""
         self.n_features = state_dict['n_features']
         self.features_names = state_dict['features_names']
         

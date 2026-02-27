@@ -158,14 +158,14 @@ class Tensor:
         
         if device == 'cuda':
             if not _cupy_available:
-                raise RuntimeError("CuPy no está instalado, no puedes usar CUDA")
+                raise RuntimeError("CuPy is not installed, you cannot use CUDA")
             self.data = cp.asarray(self.data)
             self.grad = cp.array(self.grad) if (self.requires_grad and self.grad is not None) else None
         elif device == "cpu":
             self.data = cp.asnumpy(self.data) if self.device == 'cuda' else self.data
             self.grad = cp.asnumpy(self.grad) if (self.requires_grad and self.grad is not None) else None
         else:
-            raise ValueError("device debe ser 'cpu' o 'cuda'")
+            raise ValueError("device must be 'cpu' or 'cuda'")
         
         self.device = device
 
@@ -726,7 +726,7 @@ class Tensor:
         return self.data.item()
     
     def __array__(self, dtype=None) -> np.ndarray:
-        arr = self.numpy()                     # debe ser np.ndarray
+        arr = self.numpy()                     # must be np.ndarray
         if dtype is not None:
             arr = arr.astype(dtype, copy=False)
         return arr
