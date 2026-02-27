@@ -10,12 +10,90 @@ if _cupy_available:
 
 _autograd_enabled = True
 
-# DType aliases (using strings for framework-agnostic efficiency)
-float32 = 'float32'
-float64 = 'float64'
-int32 = 'int32'
-int64 = 'int64'
-bool_ = 'bool'
+class Device:
+    """Represents a computing device in Sorix, matching PyTorch's torch.device."""
+    def __init__(self, device: Union[str, Device]):
+        if isinstance(device, Device):
+            self.type = device.type
+            self.index = device.index
+        elif isinstance(device, str):
+            if ':' in device:
+                self.type, index_str = device.split(':')
+                self.index = int(index_str)
+            else:
+                self.type = device
+                self.index = 0 if device != 'cpu' else None
+        else:
+            raise ValueError(f"Invalid device: {device}")
+
+    def __repr__(self) -> str:
+        if self.type == 'cpu':
+            return "device(type='cpu')"
+        return f"device(type='{self.type}', index={self.index})"
+
+    def __str__(self) -> str:
+        if self.type == 'cpu':
+            return 'cpu'
+        return f"{self.type}:{self.index}"
+    
+    def __eq__(self, other: Any) -> bool:
+        if isinstance(other, str):
+            if ':' in other:
+                return str(self) == other
+            return self.type == other
+        if isinstance(other, Device):
+            return self.type == other.type and self.index == other.index
+        return False
+
+class Size(tuple):
+    """A tuple subclass that represents the shape of a Tensor, matching PyTorch's torch.Size."""
+    def __repr__(self) -> str:
+        return f"sorix.Size([{', '.join(map(str, self))}])"
+
+class DType:
+    """Represents a data type in Sorix, matching PyTorch's torch.dtype."""
+    def __init__(self, name: str):
+        self.name = name
+    def __repr__(self) -> str:
+        return f"sorix.{self.name}"
+    def __str__(self) -> str:
+        return f"sorix.{self.name}"
+    def __hash__(self) -> int:
+        return hash(self.name)
+    def __eq__(self, other: Any) -> bool:
+        if isinstance(other, DType):
+            return self.name == other.name
+        
+        # Handle Python types
+        if other is int: other = 'int64'
+        elif other is float: other = 'float64'
+        elif other is bool: other = 'bool'
+        
+        # Allow comparison with strings or numpy dtypes
+        s = str(other)
+        if hasattr(other, 'name'): # numpy dtypes
+            s = str(other.name)
+            
+        return self.name == s or f"sorix.{self.name}" == s or (
+            len(s) > 0 and len(self.name) > 0 and 
+            s.replace('64', '').replace('32', '') == self.name.replace('64', '').replace('32', '')
+        )
+
+# DType instances
+float32 = DType('float32')
+float64 = DType('float64')
+int32 = DType('int32')
+int64 = DType('int64')
+bool_ = DType('bool')
+
+_str_to_dtype = {
+    'float32': float32,
+    'float64': float64,
+    'int32': int32,
+    'int64': int64,
+    'bool': bool_,
+    'bool_': bool_,
+}
 
 class no_grad:
     """
@@ -86,23 +164,50 @@ class Tensor:
             requires_grad: Whether to track gradients for this tensor.
             dtype: Data type for the tensor elements.
         """
-        if device == 'cuda' and not _cupy_available:
+        self.device = Device(device)
+        
+        if self.device.type == 'cuda' and not _cupy_available:
             raise Exception('Cupy is not available')
         
-        xp = cp if (device == 'cuda' and _cupy_available) else np
+        xp = cp if (self.device.type == 'cuda' and _cupy_available) else np
 
-        if isinstance(data, (list, tuple, np.ndarray, pd.DataFrame, pd.Series, int, float)):
-            data = xp.array(data, dtype=dtype)
-        elif not isinstance(data, (np.ndarray, xp.ndarray if _cupy_available else np.ndarray)):
-            # Fallback for unexpected types
-            data = xp.array(data, dtype=dtype)
-        elif dtype is not None:
-             data = data.astype(dtype)
+        if self.device.type == 'cuda' and _cupy_available:
+            with cp.cuda.Device(self.device.index):
+                if isinstance(data, (list, tuple, int, float)):
+                    data = xp.array(data, dtype=dtype.name if isinstance(dtype, DType) else dtype)
+                    if dtype is None and data.dtype == xp.float64:
+                        data = data.astype(xp.float32)
+                elif isinstance(data, (np.ndarray, xp.ndarray if _cupy_available else np.ndarray, pd.DataFrame, pd.Series)):
+                    data = xp.array(data, dtype=dtype.name if isinstance(dtype, DType) else dtype)
+                else:
+                    data = xp.array(data, dtype=dtype.name if isinstance(dtype, DType) else dtype)
+                    if dtype is None and data.dtype == xp.float64:
+                        data = data.astype(xp.float32)
+        else:
+            if isinstance(data, (list, tuple, int, float)):
+                data = xp.array(data, dtype=dtype.name if isinstance(dtype, DType) else dtype)
+                if dtype is None and data.dtype == xp.float64:
+                    data = data.astype(xp.float32)
+            elif isinstance(data, (np.ndarray, xp.ndarray if _cupy_available else np.ndarray, pd.DataFrame, pd.Series)):
+                data = xp.array(data, dtype=dtype.name if isinstance(dtype, DType) else dtype)
+            else:
+                data = xp.array(data, dtype=dtype.name if isinstance(dtype, DType) else dtype)
+                if dtype is None and data.dtype == xp.float64:
+                    data = data.astype(xp.float32)
 
         self.data: Any = data
-        self.device: str = device
         self.requires_grad: bool = requires_grad
-        self.grad: Optional[np.ndarray] = xp.zeros_like(self.data, dtype=self.dtype) if requires_grad else None
+        
+        if requires_grad:
+            d_name = self.dtype.name if isinstance(self.dtype, DType) else str(self.dtype)
+            if self.device.type == 'cuda' and _cupy_available:
+                with cp.cuda.Device(self.device.index):
+                    self.grad = xp.zeros_like(self.data, dtype=d_name)
+            else:
+                self.grad = xp.zeros_like(self.data, dtype=d_name)
+        else:
+            self.grad = None
+
         self._backward = _noop
         global _autograd_enabled
         self._prev: Set[Tensor] = set(_children) if (_autograd_enabled and requires_grad) else set()
@@ -134,10 +239,10 @@ class Tensor:
         
         def _backward() -> None:
             if self.requires_grad:
-                xp = cp if self.device == 'cuda' else np
+                xp = cp if self.device.type == 'cuda' else np
                 grad_full = xp.zeros_like(self.data)
                 grad_full[idx] = out.grad
-                self.grad += grad_full
+                self._accumulate_grad(grad_full)
         
         out._backward = _backward
         return out
@@ -146,30 +251,31 @@ class Tensor:
         return len(self.data)
 
 
-    def to(self, device: str) -> Tensor:
+    def to(self, device: Union[str, Device]) -> Tensor:
         """
         Moves the tensor to the specified device.
         
         Args:
-            device: 'cpu' or 'cuda'.
+            device: 'cpu', 'cuda', 'cuda:0', etc.
         """
-        if device == self.device:
+        new_device = Device(device)
+        if new_device == self.device:
             return self
         
-        if device == 'cuda':
+        if new_device.type == 'cuda':
             if not _cupy_available:
                 raise RuntimeError("CuPy is not installed, you cannot use CUDA")
-            self.data = cp.asarray(self.data)
-            self.grad = cp.array(self.grad) if (self.requires_grad and self.grad is not None) else None
-        elif device == "cpu":
+            with cp.cuda.Device(new_device.index):
+                self.data = cp.asarray(self.data)
+                self.grad = cp.array(self.grad) if (self.requires_grad and self.grad is not None) else None
+        elif new_device.type == "cpu":
             self.data = cp.asnumpy(self.data) if self.device == 'cuda' else self.data
             self.grad = cp.asnumpy(self.grad) if (self.requires_grad and self.grad is not None) else None
         else:
-            raise ValueError("device must be 'cpu' or 'cuda'")
+            raise ValueError(f"Invalid device type: {new_device.type}")
         
-        self.device = device
-
-        return self 
+        self.device = new_device
+        return self
 
     def cpu(self) -> Tensor:
         """Moves tensor to CPU."""
@@ -410,8 +516,9 @@ class Tensor:
         if grad is None:
             return
         if self.grad is None:
-            xp = cp if self.device == 'cuda' else np
-            self.grad = xp.zeros_like(self.data, dtype=float)
+            xp = cp if self.device.type == 'cuda' else np
+            d_name = self.dtype.name if isinstance(self.dtype, DType) else str(self.dtype)
+            self.grad = xp.zeros_like(self.data, dtype=d_name)
         self.grad += grad
 
     def __matmul__(self, other: Union[Tensor, np.ndarray]) -> Tensor:
@@ -650,11 +757,12 @@ class Tensor:
 
         build_topo(self)
         
-        xp = cp if self.device == 'cuda' else np
+        xp = cp if self.device.type == 'cuda' else np
+        d_name = self.dtype.name if isinstance(self.dtype, DType) else str(self.dtype)
         if self.grad is None:
-             self.grad = xp.ones_like(self.data, dtype=self.dtype)
+             self.grad = xp.ones_like(self.data, dtype=d_name)
         else:
-             self.grad += xp.ones_like(self.data, dtype=self.dtype)
+             self.grad += xp.ones_like(self.data, dtype=d_name)
 
         for node in reversed(topo):
             node._backward()
@@ -676,15 +784,41 @@ class Tensor:
     def __iter__(self):
         return iter(self.data)
 
-    def __str__(self) -> str:
-        return f"Tensor(\n{self.data}, shape={self.data.shape}, dtype={self.dtype}, device={self.device}, requires_grad={self.requires_grad})"
-
     def __repr__(self) -> str:
-        return self.__str__()
+        # Use numpy's array2string with separator to get commas
+        data_str = np.array2string(self.numpy(), separator=', ')
+        if '\n' in data_str:
+            data_str = data_str.replace('\n', '\n       ')
+        
+        params = []
+        if self.device != 'cpu':
+            params.append(f"device='{self.device}'")
+        
+        # PyTorch-like dtype printing: 
+        # - Default float (float32) is hidden
+        # - Default int (int64) is hidden
+        d = self.dtype
+        if d == float64:
+            params.append(f"dtype={d}")
+        elif d == float32 and '.' not in data_str: # Unusual: float32 but looks like int
+            params.append(f"dtype={d}")
+        elif d == int32:
+            params.append(f"dtype={d}")
+        elif d == int64 and '.' in data_str: # Unusual: int64 but data_str shows dots? (e.g. from array printer settings)
+            params.append(f"dtype={d}")
+        elif d == bool_:
+            params.append(f"dtype={d}")
+            
+        if self.requires_grad:
+            params.append("requires_grad=True")
+            
+        if not params:
+            return f"tensor({data_str})"
+        return f"tensor({data_str}, {', '.join(params)})"
     
     @property
-    def shape(self) -> Tuple[int, ...]:
-        return self.data.shape
+    def shape(self) -> Size:
+        return Size(self.data.shape)
     
     @property
     def ndim(self) -> int:
@@ -695,8 +829,9 @@ class Tensor:
         return self.data.size
     
     @property
-    def dtype(self) -> Any:
-        return self.data.dtype
+    def dtype(self) -> DType:
+        d = self.data.dtype
+        return _str_to_dtype.get(str(d), d)
     
     def astype(self, dtype: Any) -> Tensor:
         """Casts tensor to a new data type."""
@@ -725,7 +860,7 @@ class Tensor:
         """
         return self.data.item()
     
-    def __array__(self, dtype=None) -> np.ndarray:
+    def __array__(self, dtype=None, copy=None) -> np.ndarray:
         arr = self.numpy()                     # must be np.ndarray
         if dtype is not None:
             arr = arr.astype(dtype, copy=False)

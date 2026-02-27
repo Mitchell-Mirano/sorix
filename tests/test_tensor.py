@@ -238,8 +238,8 @@ def test_tensor_utility_methods():
     assert len(items) == 2
     
     # __str__, __repr__
-    assert "Tensor" in str(a)
-    assert "Tensor" in repr(a)
+    assert "tensor" in str(a).lower()
+    assert "tensor" in repr(a).lower()
 
 def test_tensor_dtypes():
     """Test explicit dtype setting and aliases."""
