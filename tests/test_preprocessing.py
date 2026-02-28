@@ -129,11 +129,11 @@ def test_scalers_edge_cases():
     assert np.all(scaled == 0)
 
     # Not fitted error
-    with pytest.raises(ValueError, match="Debe llamar a fit"):
+    with pytest.raises(ValueError, match="You must call fit"):
         MinMaxScaler().transform(data)
     
     # Invalid input type
-    with pytest.raises(TypeError, match="La entrada debe ser"):
+    with pytest.raises(TypeError, match="Input must be"):
         MinMaxScaler().fit(123)
 
     # __repr__

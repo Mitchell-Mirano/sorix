@@ -56,19 +56,19 @@ class Kmeans:
 
         n_features = features.shape[1]
 
-        # Inicializar acumuladores
-        sutms = xp.zeros((k, n_features))
+        # Initialize accumulators
+        sums = xp.zeros((k, n_features))
         counts = xp.bincount(labels, minlength=k)
 
-        # Acumular sutmas de cada dimensión con bincount (vectorizado en C)
+        # Accumulate sums for each dimension with bincount (C-vectorized)
         for j in range(n_features):
-            sutms[:, j] = xp.bincount(labels, weights=features.data[:, j], minlength=k)
+            sums[:, j] = xp.bincount(labels, weights=features.data[:, j], minlength=k)
 
-        # Evitar división por cero en clusters vacíos
+        # Avoid division by zero in empty clusters
         counts[counts == 0] = 1
 
-        # Calcular centroides = sutma / cantidad
-        new_centroids = sutms / counts[:, None]
+        # Compute centroids = sum / count
+        new_centroids = sums / counts[:, None]
         return new_centroids 
 
 
