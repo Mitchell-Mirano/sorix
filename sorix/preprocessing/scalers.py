@@ -3,20 +3,20 @@ import pandas as pd
 from typing import Union, Optional, List
 
 class BaseScaler:
-    """Clase base para todos los escaladores, implementando métodos comunes."""
+    """Base class for all scalers, implementing common methods."""
     def __init__(self):
         self.numerical_features: List[str] = []
         self.n_features: int = 0
 
     def prepros(self, X: Union[np.ndarray, pd.DataFrame]):
-        """Valida y registra nombres de columnas."""
+        """Validates and registers column names."""
         if isinstance(X, pd.DataFrame):
             self.numerical_features = list(X.columns)
             X = X.to_numpy()
         elif isinstance(X, np.ndarray):
             self.numerical_features = [f"F{i}" for i in range(X.shape[1])] if X.ndim > 1 else ["F0"]
         else:
-            raise TypeError("La entrada debe ser un ndarray de NumPy o un DataFrame de Pandas.")
+            raise TypeError("Input must be a NumPy ndarray or a Pandas DataFrame.")
         
         self.n_features = X.shape[1] if X.ndim > 1 else 1
         return X
@@ -38,11 +38,11 @@ class BaseScaler:
         return self.numerical_features
 
     def state_dict(self):
-        """Devuelve un diccionario con el estado del escalador."""
+        """Returns a dictionary with the scaler's state."""
         return {k: v for k, v in self.__dict__.items() if not k.startswith('_')}
 
     def load_state_dict(self, state_dict):
-        """Carga el estado del escalador desde un diccionario."""
+        """Loads the scaler's state from a dictionary."""
         for k, v in state_dict.items():
             setattr(self, k, v)
         return self
@@ -54,7 +54,7 @@ class BaseScaler:
 
 
 class MinMaxScaler(BaseScaler):
-    """Escala las características a un rango [0, 1]."""
+    """Scales features to a range [0, 1]."""
     def __init__(self):
         super().__init__()
         self.min: Optional[np.ndarray] = None
@@ -67,9 +67,9 @@ class MinMaxScaler(BaseScaler):
         return self
 
     def transform(self, X):
-        X = self.prepros(X)  # asegura nombres si no se hizo antes
+        X = self.prepros(X)  # ensure names if not done before
         if self.min is None or self.max is None:
-            raise ValueError("Debe llamar a fit() antes de transform().")
+            raise ValueError("You must call fit() before transform().")
         denom = self.max - self.min
         denom[denom == 0] = 1e-9
         return (X - self.min) / denom
@@ -80,7 +80,7 @@ class MinMaxScaler(BaseScaler):
 
 
 class StandardScaler(BaseScaler):
-    """Estandariza eliminando la media y escalando a varianza unitaria."""
+    """Standardizes by removing the mean and scaling to unit variance."""
     def __init__(self):
         super().__init__()
         self.mean: Optional[np.ndarray] = None
@@ -95,7 +95,7 @@ class StandardScaler(BaseScaler):
     def transform(self, X):
         X = self.prepros(X)
         if self.mean is None or self.std is None:
-            raise ValueError("Debe llamar a fit() antes de transform().")
+            raise ValueError("You must call fit() before transform().")
         std_safe = self.std.copy()
         std_safe[std_safe == 0] = 1e-9
         return (X - self.mean) / std_safe
@@ -106,7 +106,7 @@ class StandardScaler(BaseScaler):
 
 
 class RobustScaler(BaseScaler):
-    """Escala usando mediana e IQR (robusto a outliers)."""
+    """Scales using median and IQR (robust to outliers)."""
     def __init__(self):
         super().__init__()
         self.median: Optional[np.ndarray] = None
@@ -123,7 +123,7 @@ class RobustScaler(BaseScaler):
     def transform(self, X):
         X = self.prepros(X)
         if self.median is None:
-            raise ValueError("Debe llamar a fit() antes de transform().")
+            raise ValueError("You must call fit() before transform().")
         iqr = self.q3 - self.q1
         iqr[iqr == 0] = 1e-9
         return (X - self.median) / iqr

@@ -238,8 +238,8 @@ def test_tensor_utility_methods():
     assert len(items) == 2
     
     # __str__, __repr__
-    assert "Tensor" in str(a)
-    assert "Tensor" in repr(a)
+    assert "tensor" in str(a).lower()
+    assert "tensor" in repr(a).lower()
 
 def test_tensor_dtypes():
     """Test explicit dtype setting and aliases."""
@@ -315,9 +315,9 @@ def test_tensor_to_gpu_error():
     from sorix.cupy.cupy import _cupy_available
     if not _cupy_available:
         a = tensor([1, 2])
-        with pytest.raises(RuntimeError, match="CuPy no está instalado"):
+        with pytest.raises(RuntimeError, match="CuPy is not installed"):
             a.to('cuda')
-        with pytest.raises(ValueError, match="device debe ser 'cpu' o 'cuda'"):
+        with pytest.raises(ValueError, match="device must be 'cpu' or 'cuda'"):
             a.to("invalid")
 
 def test_tensor_broadcasting_complex():

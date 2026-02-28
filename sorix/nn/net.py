@@ -28,7 +28,7 @@ class Module:
         Defines the computation performed at every call.
         Should be overridden by all subclasses.
         """
-        raise NotImplementedError("Debes implementar forward en la subclase.")
+        raise NotImplementedError("You must implement forward in the subclass.")
 
     def parameters(self) -> List[Tensor]:
         """

@@ -79,7 +79,8 @@ def test_pow():
     assert math.pow(2, 3) == 8
 
 def test_sin():
-    x = tensor([0.0, np.pi/2], requires_grad=True)
+    import sorix
+    x = tensor([0.0, np.pi/2], dtype=sorix.float64, requires_grad=True)
     y = math.sin(x)
     assert np.allclose(y.data, [0.0, 1.0])
     
@@ -90,7 +91,8 @@ def test_sin():
     assert np.allclose(math.sin(np.array([0.0])), [0.0])
 
 def test_cos():
-    x = tensor([0.0, np.pi/2], requires_grad=True)
+    import sorix
+    x = tensor([0.0, np.pi/2], dtype=sorix.float64, requires_grad=True)
     y = math.cos(x)
     assert np.allclose(y.data, [1.0, 0.0])
     
