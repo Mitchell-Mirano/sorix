@@ -317,7 +317,7 @@ def test_tensor_to_gpu_error():
         a = tensor([1, 2])
         with pytest.raises(RuntimeError, match="CuPy is not installed"):
             a.to('cuda')
-        with pytest.raises(ValueError, match="device must be 'cpu' or 'cuda'"):
+        with pytest.raises(ValueError, match="Invalid device type"):
             a.to("invalid")
 
 def test_tensor_broadcasting_complex():
