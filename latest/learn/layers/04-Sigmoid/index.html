@@ -10,31 +10,31 @@
       
       
       
-        <link rel="canonical" href="https://mitchell-mirano.github.io/sorix/latest/learn/01-tensor/">
+        <link rel="canonical" href="https://mitchell-mirano.github.io/sorix/latest/learn/layers/04-Sigmoid/">
       
       
-        <link rel="prev" href="../..">
+        <link rel="prev" href="../03-ReLU/">
       
       
-        <link rel="next" href="../02-graph/">
+        <link rel="next" href="../05-Tanh/">
       
       
         
       
       
-      <link rel="icon" href="../../assets/images/favicon.png">
+      <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
     
     
       
-        <title>Tensor - Sorix</title>
+        <title>Sigmoid - Sorix</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.618322db.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.618322db.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -53,9 +53,9 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#tensor" class="md-skip">
+        <a href="#sigmoid" class="md-skip">
           Skip to content
         </a>
       
@@ -100,7 +100,7 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="Sorix" class="md-header__button md-logo" aria-label="Sorix" data-md-component="logo">
+    <a href="../../.." title="Sorix" class="md-header__button md-logo" aria-label="Sorix" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 21.5c-1.35-.85-3.8-1.5-5.5-1.5-1.65 0-3.35.3-4.75 1.05-.1.05-.15.05-.25.05-.25 0-.5-.25-.5-.5V6c.6-.45 1.25-.75 2-1 1.11-.35 2.33-.5 3.5-.5 1.95 0 4.05.4 5.5 1.5 1.45-1.1 3.55-1.5 5.5-1.5 1.17 0 2.39.15 3.5.5.75.25 1.4.55 2 1v14.6c0 .25-.25.5-.5.5-.1 0-.15 0-.25-.05-1.4-.75-3.1-1.05-4.75-1.05-1.7 0-4.15.65-5.5 1.5M12 8v11.5c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5V7c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5m1 3.5c1.11-.68 2.6-1 4.5-1 .91 0 1.76.09 2.5.28V9.23c-.87-.15-1.71-.23-2.5-.23q-2.655 0-4.5.84zm4.5.17c-1.71 0-3.21.26-4.5.79v1.69c1.11-.65 2.6-.99 4.5-.99 1.04 0 1.88.08 2.5.24v-1.5c-.87-.16-1.71-.23-2.5-.23m2.5 2.9c-.87-.16-1.71-.24-2.5-.24-1.83 0-3.33.27-4.5.8v1.69c1.11-.66 2.6-.99 4.5-.99 1.04 0 1.88.08 2.5.24z"/></svg>
@@ -120,7 +120,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Tensor
+              Sigmoid
             
           </span>
         </div>
@@ -242,7 +242,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../.." class="md-tabs__link">
+      <a href="../../.." class="md-tabs__link">
         
   
   
@@ -264,8 +264,17 @@
   
     
     
+      
+  
+  
+  
+    
+  
+  
+    
+    
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="./" class="md-tabs__link">
+        <a href="../../basics/01-tensor/" class="md-tabs__link">
           
   
   
@@ -278,6 +287,9 @@
     
   
 
+    
+  
+
       
         
   
@@ -287,7 +299,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../examples/preprocessing/encoders-scalers-transformers/" class="md-tabs__link">
+        <a href="../../../examples/preprocessing/encoders-scalers-transformers/" class="md-tabs__link">
           
   
   
@@ -309,7 +321,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../api/" class="md-tabs__link">
+        <a href="../../../api/" class="md-tabs__link">
           
   
   
@@ -351,7 +363,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="Sorix" class="md-nav__button md-logo" aria-label="Sorix" data-md-component="logo">
+    <a href="../../.." title="Sorix" class="md-nav__button md-logo" aria-label="Sorix" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 21.5c-1.35-.85-3.8-1.5-5.5-1.5-1.65 0-3.35.3-4.75 1.05-.1.05-.15.05-.25.05-.25 0-.5-.25-.5-.5V6c.6-.45 1.25-.75 2-1 1.11-.35 2.33-.5 3.5-.5 1.95 0 4.05.4 5.5 1.5 1.45-1.1 3.55-1.5 5.5-1.5 1.17 0 2.39.15 3.5.5.75.25 1.4.55 2 1v14.6c0 .25-.25.5-.5.5-.1 0-.15 0-.25-.05-1.4-.75-3.1-1.05-4.75-1.05-1.7 0-4.15.65-5.5 1.5M12 8v11.5c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5V7c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5m1 3.5c1.11-.68 2.6-1 4.5-1 .91 0 1.76.09 2.5.28V9.23c-.87-.15-1.71-.23-2.5-.23q-2.655 0-4.5.84zm4.5.17c-1.71 0-3.21.26-4.5.79v1.69c1.11-.65 2.6-.99 4.5-.99 1.04 0 1.88.08 2.5.24v-1.5c-.87-.16-1.71-.23-2.5-.23m2.5 2.9c-.87-.16-1.71-.24-2.5-.24-1.83 0-3.33.27-4.5.8v1.69c1.11-.66 2.6-.99 4.5-.99 1.04 0 1.88.08 2.5.24z"/></svg>
@@ -381,7 +393,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../.." class="md-nav__link">
+      <a href="../../.." class="md-nav__link">
         
   
   
@@ -472,26 +484,46 @@
                 
   
   
+  
+  
     
-  
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
+    
       
         
       
+        
       
-        <label class="md-nav__link md-nav__link--active" for="__toc">
+        
+      
+    
+    
+    
+      
+      
+        
           
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="">
+            
   
   
   <span class="md-ellipsis">
     
   
-    Tensor
+    Basics
   
 
     
@@ -499,10 +531,28 @@
   
   
 
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Basics
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../basics/01-tensor/" class="md-nav__link">
         
   
   
@@ -518,81 +568,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#create-a-tensor" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Create a Tensor
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#sorix-utils-to-create-tensors" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Sorix utils to create tensors
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#basic-operations" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Basic Operations
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#slicing" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Slicing
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#using-gpu" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Using GPU
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -605,7 +580,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../02-graph/" class="md-nav__link">
+      <a href="../../basics/02-graph/" class="md-nav__link">
         
   
   
@@ -633,7 +608,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../03-autograd/" class="md-nav__link">
+      <a href="../../basics/03-autograd/" class="md-nav__link">
         
   
   
@@ -654,15 +629,65 @@
 
               
             
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
               
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../04-layers/" class="md-nav__link">
+  
+    
+    
+      
         
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
   
   
   <span class="md-ellipsis">
@@ -676,7 +701,765 @@
   
   
 
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_2" id="__nav_2_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Layers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-Linear/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linear
+  
+
+    
+  </span>
+  
+  
+
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-BatchNorm1d/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BatchNorm1d
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-ReLU/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ReLU
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sigmoid
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sigmoid
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#mathematical-definition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mathematical definition
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Mathematical definition">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#numerical-stability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Numerical Stability
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#backward-computation-gradient" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backward computation (gradient)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#visualizing-sigmoid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Visualizing Sigmoid
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#handling-extreme-values" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Handling Extreme Values
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-Tanh/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tanh
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-Dropout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dropout
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-Module/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Module
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../loss/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Loss
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_3" id="__nav_2_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Loss
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../loss/01-MSELoss/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MSELoss
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../loss/02-BCEWithLogitsLoss/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BCEWithLogitsLoss
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../loss/03-CrossEntropyLoss/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CrossEntropyLoss
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../optimizers/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Optimizers
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_4" id="__nav_2_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Optimizers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../optimizers/01-SGD/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SGD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../optimizers/02-SGDMomentum/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SGDMomentum
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../optimizers/03-RMSprop/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RMSprop
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../optimizers/04-Adam/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adam
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../optimizers/05-Comparison/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Optimizer Comparison
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../optimizers/06-Optimizer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Optimizer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -762,7 +1545,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/preprocessing/encoders-scalers-transformers/" class="md-nav__link">
+      <a href="../../../examples/preprocessing/encoders-scalers-transformers/" class="md-nav__link">
         
   
   
@@ -790,7 +1573,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/regression/1-linear-regression/" class="md-nav__link">
+      <a href="../../../examples/regression/1-linear-regression/" class="md-nav__link">
         
   
   
@@ -818,7 +1601,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/regression/2-logistic-regression/" class="md-nav__link">
+      <a href="../../../examples/regression/2-logistic-regression/" class="md-nav__link">
         
   
   
@@ -964,7 +1747,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/clustering/Iris-dataset/" class="md-nav__link">
+      <a href="../../../examples/clustering/Iris-dataset/" class="md-nav__link">
         
   
   
@@ -992,7 +1775,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/clustering/RandomDataset%2BGPU/" class="md-nav__link">
+      <a href="../../../examples/clustering/RandomDataset%2BGPU/" class="md-nav__link">
         
   
   
@@ -1096,7 +1879,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/nn/1-regression/" class="md-nav__link">
+      <a href="../../../examples/nn/1-regression/" class="md-nav__link">
         
   
   
@@ -1188,7 +1971,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/nn/2.1-classification-binary/" class="md-nav__link">
+      <a href="../../../examples/nn/2.1-classification-binary/" class="md-nav__link">
         
   
   
@@ -1216,7 +1999,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/nn/2.2-classification-multiclass/" class="md-nav__link">
+      <a href="../../../examples/nn/2.2-classification-multiclass/" class="md-nav__link">
         
   
   
@@ -1244,7 +2027,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/nn/3-Iris_dataset/" class="md-nav__link">
+      <a href="../../../examples/nn/3-Iris_dataset/" class="md-nav__link">
         
   
   
@@ -1272,7 +2055,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/nn/4-digit-recognizer/" class="md-nav__link">
+      <a href="../../../examples/nn/4-digit-recognizer/" class="md-nav__link">
         
   
   
@@ -1370,7 +2153,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../api/" class="md-nav__link ">
+            <a href="../../../api/" class="md-nav__link ">
               
   
   
@@ -1414,7 +2197,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/_version/" class="md-nav__link">
+      <a href="../../../api/_version/" class="md-nav__link">
         
   
   
@@ -1469,7 +2252,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../api/clustering/" class="md-nav__link ">
+            <a href="../../../api/clustering/" class="md-nav__link ">
               
   
   
@@ -1513,7 +2296,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/clustering/k_means/" class="md-nav__link">
+      <a href="../../../api/clustering/k_means/" class="md-nav__link">
         
   
   
@@ -1576,7 +2359,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../api/cuda/" class="md-nav__link ">
+            <a href="../../../api/cuda/" class="md-nav__link ">
               
   
   
@@ -1620,7 +2403,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/cuda/cuda/" class="md-nav__link">
+      <a href="../../../api/cuda/cuda/" class="md-nav__link">
         
   
   
@@ -1683,7 +2466,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../api/cupy/" class="md-nav__link ">
+            <a href="../../../api/cupy/" class="md-nav__link ">
               
   
   
@@ -1727,7 +2510,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/cupy/cupy/" class="md-nav__link">
+      <a href="../../../api/cupy/cupy/" class="md-nav__link">
         
   
   
@@ -1790,7 +2573,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../api/metrics/" class="md-nav__link ">
+            <a href="../../../api/metrics/" class="md-nav__link ">
               
   
   
@@ -1834,7 +2617,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/metrics/metrics/" class="md-nav__link">
+      <a href="../../../api/metrics/metrics/" class="md-nav__link">
         
   
   
@@ -1897,7 +2680,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../api/model_selection/" class="md-nav__link ">
+            <a href="../../../api/model_selection/" class="md-nav__link ">
               
   
   
@@ -1941,7 +2724,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/model_selection/train_test/" class="md-nav__link">
+      <a href="../../../api/model_selection/train_test/" class="md-nav__link">
         
   
   
@@ -2010,7 +2793,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../api/nn/" class="md-nav__link ">
+            <a href="../../../api/nn/" class="md-nav__link ">
               
   
   
@@ -2054,7 +2837,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/nn/init/" class="md-nav__link">
+      <a href="../../../api/nn/init/" class="md-nav__link">
         
   
   
@@ -2082,7 +2865,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/nn/layers/" class="md-nav__link">
+      <a href="../../../api/nn/layers/" class="md-nav__link">
         
   
   
@@ -2110,7 +2893,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/nn/loss/" class="md-nav__link">
+      <a href="../../../api/nn/loss/" class="md-nav__link">
         
   
   
@@ -2138,7 +2921,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/nn/net/" class="md-nav__link">
+      <a href="../../../api/nn/net/" class="md-nav__link">
         
   
   
@@ -2201,7 +2984,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../api/optim/" class="md-nav__link ">
+            <a href="../../../api/optim/" class="md-nav__link ">
               
   
   
@@ -2245,7 +3028,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/optim/optim/" class="md-nav__link">
+      <a href="../../../api/optim/optim/" class="md-nav__link">
         
   
   
@@ -2312,7 +3095,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../api/preprocessing/" class="md-nav__link ">
+            <a href="../../../api/preprocessing/" class="md-nav__link ">
               
   
   
@@ -2356,7 +3139,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/preprocessing/encoders/" class="md-nav__link">
+      <a href="../../../api/preprocessing/encoders/" class="md-nav__link">
         
   
   
@@ -2384,7 +3167,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/preprocessing/scalers/" class="md-nav__link">
+      <a href="../../../api/preprocessing/scalers/" class="md-nav__link">
         
   
   
@@ -2412,7 +3195,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/preprocessing/transformers/" class="md-nav__link">
+      <a href="../../../api/preprocessing/transformers/" class="md-nav__link">
         
   
   
@@ -2448,7 +3231,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/tensor/" class="md-nav__link">
+      <a href="../../../api/tensor/" class="md-nav__link">
         
   
   
@@ -2507,7 +3290,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../api/utils/" class="md-nav__link ">
+            <a href="../../../api/utils/" class="md-nav__link ">
               
   
   
@@ -2580,7 +3363,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../api/utils/data/" class="md-nav__link ">
+            <a href="../../../api/utils/data/" class="md-nav__link ">
               
   
   
@@ -2624,7 +3407,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/utils/data/dataloader/" class="md-nav__link">
+      <a href="../../../api/utils/data/dataloader/" class="md-nav__link">
         
   
   
@@ -2652,7 +3435,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/utils/data/dataset/" class="md-nav__link">
+      <a href="../../../api/utils/data/dataset/" class="md-nav__link">
         
   
   
@@ -2688,7 +3471,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/utils/math/" class="md-nav__link">
+      <a href="../../../api/utils/math/" class="md-nav__link">
         
   
   
@@ -2716,7 +3499,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/utils/utils/" class="md-nav__link">
+      <a href="../../../api/utils/utils/" class="md-nav__link">
         
   
   
@@ -2779,10 +3562,38 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#create-a-tensor" class="md-nav__link">
+  <a href="#mathematical-definition" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Create a Tensor
+        Mathematical definition
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Mathematical definition">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#numerical-stability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Numerical Stability
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#backward-computation-gradient" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backward computation (gradient)
       
     </span>
   </a>
@@ -2790,10 +3601,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#sorix-utils-to-create-tensors" class="md-nav__link">
+  <a href="#visualizing-sigmoid" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Sorix utils to create tensors
+        Visualizing Sigmoid
       
     </span>
   </a>
@@ -2801,32 +3612,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#basic-operations" class="md-nav__link">
+  <a href="#handling-extreme-values" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Basic Operations
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#slicing" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Slicing
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#using-gpu" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Using GPU
+        Handling Extreme Values
       
     </span>
   </a>
@@ -2858,7 +3647,7 @@
   
   
     <li class="md-path__item">
-      <a href="../.." class="md-path__link">
+      <a href="../../.." class="md-path__link">
         
   <span class="md-ellipsis">
     🏡 Sorix
@@ -2875,11 +3664,37 @@
   
     
     
+      
+  
+  
+    
+    
       <li class="md-path__item">
-        <a href="./" class="md-path__link">
+        <a href="../../basics/01-tensor/" class="md-path__link">
           
   <span class="md-ellipsis">
     📚 Learn
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Layers
   </span>
 
         </a>
@@ -3337,26 +4152,41 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </style>
 <!-- End of mermaid configuration --><div class="jupyter-wrapper">
 <div class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=c51a6612">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=sigmoid_header">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="tensor">Tensor<a class="anchor-link" href="#tensor">¶</a></h1><p><a href="https://colab.research.google.com/github/Mitchell-Mirano/sorix/blob/main/docs/learn/01-tensor.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg"/></a>
-<a href="https://github.com/Mitchell-Mirano/sorix/blob/main/docs/learn/01-tensor.ipynb"><img alt="Open in GitHub" src="https://img.shields.io/badge/Open%20in-GitHub-black?logo=github"/></a>
-<a href="http://127.0.0.1:8000/learn/01-tensor/"><img alt="Open in Docs" src="https://img.shields.io/badge/Open%20in-Docs-blue?logo=readthedocs"/></a></p>
-<p>The <strong>Tensor</strong> is Sorix's core data structure, analogous to <strong>NumPy</strong> arrays but with the added ability to record every operation within a <a href="../02-graph">computational graph</a>. This operation tracking is what enables the automatic computation of gradients<a href="../03-autograd">(Autograd)</a>.</p>
+<h1 id="sigmoid">Sigmoid<a class="anchor-link" href="#sigmoid">¶</a></h1><p><a href="https://colab.research.google.com/github/Mitchell-Mirano/sorix/blob/main/docs/learn/layers/04-Sigmoid.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg"/></a>
+<a href="https://github.com/Mitchell-Mirano/sorix/blob/main/docs/learn/layers/04-Sigmoid.ipynb"><img alt="Open in GitHub" src="https://img.shields.io/badge/Open%20in-GitHub-black?logo=github"/></a>
+<a href="http://127.0.0.1:8000/sorix/learn/layers/04-Sigmoid"><img alt="Open in Docs" src="https://img.shields.io/badge/Open%20in-Docs-blue?logo=readthedocs"/></a></p>
+<p>The <strong>Sigmoid</strong> layer implements the logistic sigmoid activation function. It maps any real-valued input into the range $(0, 1)$, which is essential for binary classification and predicting probabilities.</p>
+<h2 id="mathematical-definition">Mathematical definition<a class="anchor-link" href="#mathematical-definition">¶</a></h2><p>For an input $x \in \mathbb{R}$, the Sigmoid function is defined as:</p>
+<p>$$\sigma(x) = \frac{1}{1 + e^{-x}}$$</p>
+<h3 id="numerical-stability">Numerical Stability<a class="anchor-link" href="#numerical-stability">¶</a></h3><p>The naive implementation of $\sigma(x)$ can be unstable for large negative values because $e^{-x}$ will overflow. To prevent this, Sorix uses a numerically stable piecewise implementation:</p>
+<p>$$
+\sigma(x) = 
+\begin{cases} 
+\frac{1}{1 + e^{-x}} &amp; \text{if } x \geq 0 \\
+\frac{e^x}{1 + e^x} &amp; \text{if } x &lt; 0 
+\end{cases}
+$$</p>
+<p>This ensures that we always calculate $e^z$ where $z \leq 0$, preventing overflows.</p>
+<h2 id="backward-computation-gradient">Backward computation (gradient)<a class="anchor-link" href="#backward-computation-gradient">¶</a></h2><p>The derivative can be expressed in terms of the output $y = \sigma(x)$:
+$$\frac{d\sigma(x)}{dx} = y(1 - y)$$</p>
+<p>During backpropagation, the gradient is propagated as:
+$$\frac{\partial \mathcal{L}}{\partial x} = \frac{\partial \mathcal{L}}{\partial y} \cdot y(1 - y)$$</p>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=34e275a1">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=sigmoid_install">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-1">
@@ -3380,12 +4210,12 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=69c6dbfe">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=sigmoid_imports">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-2">
@@ -3398,36 +4228,46 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sorix</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sorix</span><span class="w"> </span><span class="kn">import</span> <span class="n">tensor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sorix.nn</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sigmoid</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sorix</span>
+
+<span class="c1"># Modern plot style</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">'ggplot'</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-2">import sorix
-import numpy as np
-import pandas as pd</div>
+<div class="clipboard-copy-txt" id="cell-2">import numpy as np
+import matplotlib.pyplot as plt
+from sorix import tensor
+from sorix.nn import Sigmoid
+import sorix
+
+# Modern plot style
+plt.style.use('ggplot')</div>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=69ba32ae">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=0a82c606">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="create-a-tensor">Create a Tensor<a class="anchor-link" href="#create-a-tensor">¶</a></h2><p>A tensor can be initialized from a NumPy array, a pandas DataFrame, or a Python list. Internally, Sorix converts any supported input into a NumPy array.</p>
+<h2 id="visualizing-sigmoid">Visualizing Sigmoid<a class="anchor-link" href="#visualizing-sigmoid">¶</a></h2>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=f3bc580d">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=ae0c24c4">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-3">
@@ -3440,13 +4280,33 @@ import pandas as pd</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># from list</span>
-<span class="n">a</span> <span class="o">=</span> <span class="n">sorix</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
-<span class="n">a</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">x_vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">(</span><span class="n">x_vals</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">sigmoid</span> <span class="o">=</span> <span class="n">Sigmoid</span><span class="p">()</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">sigmoid</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_vals</span><span class="p">,</span> <span class="n">Y</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">label</span><span class="o">=</span><span class="s1">'$Sigmoid(x) = </span><span class="se">\\</span><span class="s1">sigma(x)$'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#f39c12'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Sigmoid Activation Function"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"x"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"$</span><span class="se">\\</span><span class="s2">sigma(x)$"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-3"># from list
-a = sorix.tensor([1,2,3])
-a</div>
+<div class="clipboard-copy-txt" id="cell-3">x_vals = np.linspace(-10, 10, 100)
+X = tensor(x_vals, requires_grad=True)
+sigmoid = Sigmoid()
+Y = sigmoid(X)
+
+plt.figure(figsize=(10, 5))
+plt.plot(x_vals, Y.numpy(), label='$Sigmoid(x) = \\sigma(x)$', color='#f39c12', lw=2)
+plt.title("Sigmoid Activation Function")
+plt.xlabel("x")
+plt.ylabel("$\\sigma(x)$")
+plt.grid(True, alpha=0.3)
+plt.legend()
+plt.show()</div>
 </div>
 </div>
 </div>
@@ -3455,23 +4315,33 @@ a</div>
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[7]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>Tensor(
-[1 2 3], shape=(3,), device=cpu, requires_grad=False)</pre>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedImage jp-OutputArea-output" tabindex="0">
+<img alt="No description has been provided for this image" class="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA1QAAAHbCAYAAADMGNt5AAAAOnRFWHRTb2Z0d2FyZQBNYXRwbG90bGliIHZlcnNpb24zLjEwLjYsIGh0dHBzOi8vbWF0cGxvdGxpYi5vcmcvq6yFwwAAAAlwSFlzAAAPYQAAD2EBqD+naQAAbUpJREFUeJzt3Xd8FHX+x/H3bE0jCaGFGghdRBA7qIAgiCJFERXPxin2cr+zn54Nz0PvPAt6Z1dUEA5FBRRPKR6KDThKQECESAklARJKkq3z+yNkZUkhbTOb5PV8PPLIzne+s/vZL0OS987MdwzTNE0BAAAAACrNZnUBAAAAAFBXEagAAAAAoIoIVAAAAABQRQQqAAAAAKgiAhUAAAAAVBGBCgAAAACqiEAFAAAAAFVEoAIAAACAKiJQAQAAAEAVEagAoBxvvfWWDMPQW2+9ZXUp1bJo0SIZhqFHHnmkwts88sgjMgxDixYtilhdNSla623fvr3at29vdRkNQlX2cwCoLgIVgAYlEAjo1VdfVf/+/ZWSkiKn06nmzZvrhBNO0HXXXadPPvnE6hLrhfz8fCUnJ8swDI0bN65GnjNaw+2AAQNkGIbVZVRK+/btZRhGmV/RGkgyMzNlGIauueYaq0sBgBCH1QUAQG0JBAIaPny45s2bp+TkZF1wwQVq06aNvF6v1qxZo6lTp2rdunUaMWJEaJvRo0fr9NNPV8uWLS2svPpOPfVU/fTTT2ratGmtvN706dOVl5cnwzD04Ycfas+ePWrSpElEX/PWW2/VZZddpnbt2kX0dSpr/vz5VpdQpjvuuEPJyckl2gcMGFDrtdSE2t7PAUAiUAFoQKZNm6Z58+apV69e+uqrr5SUlBS2Pj8/X99//31YW1JSUol+dVFcXJy6detWa6/3yiuvyGaz6a677tJTTz2lt99+W//3f/8X0dds2rRpVP4h3bFjR6tLKNOdd95Zr05HrO39HAAkTvkD0IAsWbJEknTNNdeUGpLi4uI0cODAsLbyTjP7/PPP1a9fP8XHxyslJUWjRo3SunXrdM0118gwDGVmZob6Hnmq0i+//KIxY8aoSZMmatSokYYMGaKMjAxJUnZ2tiZMmKCWLVsqJiZGp5xyihYuXFjq+8nLy9P999+vrl27KiYmRo0bN9bQoUP15Zdfluhb3rUly5Yt03nnnadGjRopMTFRgwcP1rffflvWMB5TRkaGvvvuOw0aNEj33nuvXC6XXnvttXK3mT59ugYNGqSUlBTFxMSoffv2uvzyy7V06VJJRUdMrr32WknStddeG3Z6WvE4H30N1fbt22W323XiiSeW+brDhg2TYRih8ZeK/s0vvvhipaenKzY2VomJierXr5/efffdsG2L/02/+uorSQqr6cgjPGVdQ+XxePTXv/5VPXv2VFxcnBITE3XWWWdpxowZJfoeuf9kZmbqsssuU9OmTRUTE6OTTz5Zc+bMKXd8q6q80xnL+r9R/H4PHTqku+++W+3atZPb7VanTp00adIkmaZZ6vP98MMPuvTSS9W6dWu53W61bNlSQ4YMCY3HI488og4dOkiS3n777bDxLq6hvP38559/1lVXXaXWrVvL5XKpVatWuuqqq/Tzzz+X6HvkvjRz5kydeuqpiouLU0pKii677DJt3769giMIoCHgCBWABqP4lLMNGzZU+7nef/99jRs3TjExMRo7dqxatmypJUuW6IwzzlCvXr3K3C4zM1OnnXaaunfvHvrjeNasWRowYIC+/fZbnXfeeUpMTNSll16qvXv36v3339ewYcO0YcOGsFPZcnNz1a9fP61du1annHKK7rzzTuXk5GjGjBkaMmSI/vnPf+qGG2445vtYsmSJBg8eLK/Xq4suukidOnXSihUrNGDAAJ1zzjlVGptXXnlFUlFwTUlJ0YUXXqgPPvhAixcv1llnnRXW1zRNXXvttXr77bfVtGlTXXTRRWrWrJm2bdumhQsXqmvXrjr55JN1zTXXKDk5WR9//LFGjhyp3r17h56jtFPWJKl169YaPHiw/vOf/2j16tXq2bNn2PodO3boiy++0EknnaTjjz8+1H7TTTepR48eOvvss9WyZUvt2bNHn376qa688kqtX79ejz/+eOh1H374Yb311lv69ddf9fDDD4ee41hHfbxer4YOHaqvvvpK3bp10y233KL8/HzNnDlTl156qVasWKG//OUvJbb79ddfdeqppyo9PV1XXnml9u7dq+nTp2vkyJH68ssvS3wgYBWfz6ehQ4cqKytLw4YNk8Ph0EcffaT77rtPhYWFYWMlSa+++qpuuukm2e12jRgxQp07d9bu3bu1dOlSvfTSSxo7dqwGDBig3NxcPffcc+rVq5dGjRoV2v7I/aE0P/74owYPHqwDBw5oxIgROu64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7Kjt27eXOmV3Rf/9akPjxo0lSVu3bi2xrnhK++oqPpr52WefHbNvVfaB4v+vxdPpHy2axhtA3USgAtBgTJs2TV988UWpp0bt3Lkz9If+2WefXe7zjBw5UklJSXrvvfe0cuXKsHUTJ06ssU/uy+JyuXTFFVfowIEDeuihh8LW/fLLL3r++efldDp15ZVXlvs8ffv2VdeuXfXf//63xGmOkydP1i+//FLhmj744APt2bNHQ4cO1euvv67XXnutxNeMGTMUHx+vGTNmhE7Duv322yVJN9xwQ6itWDAYDB09kH6b9n7Lli0VrqvYVVddJZvNpilTpmjKlCmSVOIIlPTbdOdH//H9+eefl3kvrarUNX78eJmmqbvvvjssHOTk5ISmZR8/fnyFny9STj31VEnhp2pK0vz58zVt2rQaeY2bbrpJDodDjz/+uNauXVti/ZHXDzZu3FiGYVRqrPv166euXbvq66+/1syZM8PWzZw5U4sXL1aXLl2qdM0gAEic8gegAfn+++/13HPPKTU1VWeeeWboJqGbN2/W3LlzVVBQoJEjR2rMmDHlPk9iYqJefPFFXXnllerbt2/YfahWrlyp/v3766uvvgqdLhUJf/3rX7V48WJNnjxZP/74owYOHBi6D9WBAwc0efLk0Psri2EYev3113Xuuefq4osvDrsP1fz583Xeeedp3rx5Faqn+HS/6667rsw+iYmJuuSSS/TWW2/p3Xff1S233KLrrrtOixcv1jvvvKPOnTtr5MiRatasmbKysrRgwQKNHz8+dJPWM844Q3FxcXr22We1Z8+e0DVet9122zFP12rbtq0GDhyo+fPny+FwqGfPnqVOhHHzzTfrzTff1CWXXKIxY8aoVatWysjI0Lx58zR27FhNnz69xDaDBg3Sv//9b1100UU6//zzFRsbq7S0tHID7V133aXPPvtMH3/8sXr16qXzzz9f+fn5+ve//63du3frnnvuiYo/8K+99lo9/fTTevLJJ7Vy5Uodd9xx2rBhgz777DONHj1aH3zwQbVf47jjjtNLL72kG2+8USeeeKJGjhypzp07a8+ePfrxxx+VmJgYOoqUkJCg0047TYsXL9YVV1yhLl26hO5ddcIJJ5T6/IZh6O2339a5556rSy+9VCNHjlS3bt20fv16ffTRR2rUqJGmTJkS0f+vAOo5C2cYBIBatWXLFnPy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jRsVCATUrFmzEuuLr21q0qRJiXVVPeVv1apVCgaDYeGzuL1Xr14RrRkAUAtMU0bhLtnz1si+f61sBzfKduAX2fK3Fs0kV9GnkVEUkGJSFYxNVTAmtehxTKrMmOZFIcrdpOhIEYCoFpWBqkePHpoxY0aZ62+55ZZSt3nqqaciWVa9EQwG5fF41KRJEx04cEBbt24NHfGx2Wzy+/0qLCwMHQ1ZvHix1q9fHwoJxdscf/zxoefcsmWL9u/fH9a2bt06maap7t2769ChQwoEAvL5fKEjM1u2bNG8efP05ptvhj1vcS2GYSgYDMrn84VONZw/f742btwYdoTq+OOPL3FEaPXq1brxxhv197//XTNmzNBTTz2lV155JazPunXr1LJly1JnFazqKX/BYNEv0/z8fCUkJEgqCprff/996LTF6tS8fv36MmsGANQ8w7NX9rwM2fLWFIWovAzZvHsqtK1pcysY10bBuLaHv9qFHpuxLYtOqQNQ50VloELNue2229SlSxf169dPzZo106+//ho68nLddddp7dq1stvtoeupTjjhBDmdTk2cOFHXX3+91q9fr0ceeUTSb5NAFG9z5FGs4muqjryuZ82aNUpLS1N8fLxOPPFEJSYm6i9/+YvGjx+vrVu36sEHH9SIESM0cODAsOc9upbHH39cN9xwg9avX6/7779fksICVf/+/fXkk08qNzdXycnJ2rp1q6666irddtttGjVqlNq1a6cRI0Zo9erVYfcr++GHH9S/f/9Sx62qp/z16dNHMTExevzxx3XHHXcoMzNTf/rTn3T11VfrpJNOqnbN33//fZk1AwCqzyjcJfvepXLs/VH2PUtlz//1mNuYthgFE9IVaNRJwYSOCiZ0UiChY1FoMkreigVA/UKgqud69uypuXPn6pVXXlF+fr5atmyp/v376x//+IdatWqlBQsWqFOnTqGjRi1atNDf//53/eUvf9H06dPVv39/XXLJJZo5c2YoYKxdu1YdO3YMHcEqbjvy6FRxW3EIS0xM1BtvvKGHH35Y7777rlq0aKFx48bppptuCut/ZC2pqal6+umn9eSTT2r69Onq3bu3xowZo+nTp6t58+ah7bp3766ePXtq9uzZGj58uK644goNGTIkdEpinz59NHDgQP31r3/Ve++9J6nodMR58+bp3XffrdHxbtKkif71r3/pscce0+DB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XXedkpOTI1tsHbN792598MEHysjIUG5urlJSUnTWWWfpoosuksNR9o9w9t/yzZs3T7Nnz1Zubq7S0tI0fvz4Mn8WSNK3336r6dOnKzs7W6mpqbriiivUp0+fWqy4bpg1a5Z++OEHbd++XS6XS126dNHvfvc7tWrVqsxtFi1apJdeeimszel06r333ot0uXXOjBkzNHPmzLC2Vq1a6dlnny1zG/bdiivtd5kkDRkyRNddd12Jdvbd8q1du1affPKJNm/erH379umuu+7SqaeeGlpvmqZmzJih+fPn69ChQ+rWrZuuu+46tWzZstznrezP79pAoLKI3+/X6aefri5dumjBggUl1geDQT355JNKTk7WxIkTtW/fPk2ePFl2u13jxo0r83mff/557du3Tw8++KACgYBeeuklvfzyy7rjjjsi+XaiWteuXfXKK6+Etb3//vvKyMhQx44dy9120KBBuvTSS0PLLpcrIjXWB2PHjtXgwYNDy8cK8W+//baWL1+u//u//1NcXJxef/11/f3vf9fjjz8e6VLrlKysLJmmqQkTJig1NVVbt27Vyy+/rMLCQl111VXlbsv+W7olS5ZoypQpuv7669W5c2fNnTtXTzzxhJ599lklJSWV6L9+/Xo999xzGjdunPr06aOvv/5aTz/9tCZNmqR27dpZ8A6i19q1azV06FB17NhRgUBA06ZN08SJE/XMM8+U+zMhNjZWzz33XC1WWne1bdtWDz30UGjZZiv7ZCP23cp58sknFQwGQ8tbtmzRxIkTdcYZZ5S5Dftu2Twej9q3b69zzjlHf/vb30qs//jjj/XZZ5/plltuUfPmzTV9+nQ98cQTeuaZZ8r8fVXZn9+1hVP+LDJ27FgNHz68zB9oK1eu1LZt23Tbbbepffv2OvHEE3XppZfq888/l9/vL3Wbbdu2acWKFbrxxhvVuXNndevWTePHj9eSJUu0d+/eSL6dqOZwOJScnBz6SkhI0NKlSzVgwAAZhlHutm63O2zbuLi4Wqq67omNjQ0bq/L+eMrPz9eCBQt09dVX6/jjj1d6erpuvvlmrV+/Xhs2bKjFqqNf7969dfPNN6tXr15q0aKFTj75ZF144YX64Ycfjrkt+2/p5syZo0GDBmngwIFq06aNrr/+erlcLi1cuLDU/p9++ql69+6tESNGqE2bNrrsssuUnp6uefPm1XLl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"/>
 </div>
 </div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=843730b5">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="handling-extreme-values">Handling Extreme Values<a class="anchor-link" href="#handling-extreme-values">¶</a></h2>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=b083b65e">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=sigmoid_example">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-4">
@@ -3484,721 +4354,23 @@ a</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="c1">#from numpy</span>
-<span class="n">a</span> <span class="o">=</span> <span class="n">sorix</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
-<span class="n">a</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-4">#from numpy
-a = sorix.tensor(np.random.rand(5,5))
-a</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[8]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>Tensor(
-[[0.26103914 0.82704748 0.31740097 0.18041764 0.89844797]
- [0.60343146 0.33064018 0.55333563 0.01919862 0.17008929]
- [0.21479971 0.48801356 0.06972932 0.43100927 0.9317665 ]
- [0.90065646 0.88185773 0.69416948 0.73985093 0.67909367]
- [0.31243475 0.868807   0.72736226 0.49375667 0.51436013]], shape=(5, 5), device=cpu, requires_grad=False)</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=9717eabb">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-5">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># from pandas</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># Demonstrating stability with large values</span>
+<span class="n">X_ext</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">([</span><span class="o">-</span><span class="mf">100.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">100.0</span><span class="p">],</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">Y_ext</span> <span class="o">=</span> <span class="n">sigmoid</span><span class="p">(</span><span class="n">X_ext</span><span class="p">)</span>
+<span class="n">Y_ext</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
 
-<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
-    <span class="s1">'a'</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.464307</span><span class="p">,</span> <span class="mf">0.182403</span><span class="p">,</span> <span class="mf">0.664873</span><span class="p">,</span> <span class="mf">0.906638</span><span class="p">,</span> <span class="mf">0.725385</span><span class="p">],</span>
-    <span class="s1">'b'</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.278199</span><span class="p">,</span> <span class="mf">0.187902</span><span class="p">,</span> <span class="mf">0.887387</span><span class="p">,</span> <span class="mf">0.473387</span><span class="p">,</span> <span class="mf">0.904510</span><span class="p">],</span>
-    <span class="s1">'c'</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.793136</span><span class="p">,</span> <span class="mf">0.957675</span><span class="p">,</span> <span class="mf">0.035765</span><span class="p">,</span> <span class="mf">0.639977</span><span class="p">,</span> <span class="mf">0.622032</span><span class="p">],</span>
-    <span class="s1">'d'</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.618634</span><span class="p">,</span> <span class="mf">0.784397</span><span class="p">,</span> <span class="mf">0.841349</span><span class="p">,</span> <span class="mf">0.352944</span><span class="p">,</span> <span class="mf">0.783273</span><span class="p">],</span>
-    <span class="s1">'e'</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.729128</span><span class="p">,</span> <span class="mf">0.467162</span><span class="p">,</span> <span class="mf">0.687347</span><span class="p">,</span> <span class="mf">0.432614</span><span class="p">,</span> <span class="mf">0.980809</span><span class="p">]</span>
-<span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Logits:    </span><span class="si">{</span><span class="n">X_ext</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Probs:     </span><span class="si">{</span><span class="n">Y_ext</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="si">}</span><span class="s2"> (No NaNs!)"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Gradients: </span><span class="si">{</span><span class="n">X_ext</span><span class="o">.</span><span class="n">grad</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+<div class="clipboard-copy-txt" id="cell-4"># Demonstrating stability with large values
+X_ext = tensor([-100.0, 0.0, 100.0], requires_grad=True)
+Y_ext = sigmoid(X_ext)
+Y_ext.backward()
 
-<span class="n">t</span> <span class="o">=</span> <span class="n">sorix</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-<span class="n">t</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-5"># from pandas
-
-data = pd.DataFrame({
-    'a': [0.464307, 0.182403, 0.664873, 0.906638, 0.725385],
-    'b': [0.278199, 0.187902, 0.887387, 0.473387, 0.904510],
-    'c': [0.793136, 0.957675, 0.035765, 0.639977, 0.622032],
-    'd': [0.618634, 0.784397, 0.841349, 0.352944, 0.783273],
-    'e': [0.729128, 0.467162, 0.687347, 0.432614, 0.980809]
-})
-
-t = sorix.tensor(data)
-t</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[9]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>Tensor(
-[[0.464307 0.278199 0.793136 0.618634 0.729128]
- [0.182403 0.187902 0.957675 0.784397 0.467162]
- [0.664873 0.887387 0.035765 0.841349 0.687347]
- [0.906638 0.473387 0.639977 0.352944 0.432614]
- [0.725385 0.90451  0.622032 0.783273 0.980809]], shape=(5, 5), device=cpu, requires_grad=False)</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=66eea188">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>To access the underlying NumPy array within a Sorix tensor, you can use the <code>data</code> attribute and apply any NumPy operation directly to it.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=d31ef5e3">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-6">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">t</span><span class="o">.</span><span class="n">data</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-6">t.data</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[10]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>array([[0.464307, 0.278199, 0.793136, 0.618634, 0.729128],
-       [0.182403, 0.187902, 0.957675, 0.784397, 0.467162],
-       [0.664873, 0.887387, 0.035765, 0.841349, 0.687347],
-       [0.906638, 0.473387, 0.639977, 0.352944, 0.432614],
-       [0.725385, 0.90451 , 0.622032, 0.783273, 0.980809]])</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=b71ef7a9">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [34]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-7">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="nb">type</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-7">type(t.data)</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[34]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>numpy.ndarray</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=96410043">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="sorix-utils-to-create-tensors">Sorix utils to create tensors<a class="anchor-link" href="#sorix-utils-to-create-tensors">¶</a></h2>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=1775d901">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-8">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="n">sorix</span><span class="o">.</span><span class="n">as_tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
-<span class="n">t</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-8">t = sorix.as_tensor([1,2,3])
-t</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[11]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>Tensor(
-[1 2 3], shape=(3,), device=cpu, requires_grad=False)</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=cea5ad0d">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-9">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="n">sorix</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
-<span class="n">t</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-9">t = sorix.randn(3,4)
-t</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[12]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>Tensor(
-[[ 1.9094233   1.87395467 -0.74233853  1.2301894 ]
- [ 1.00624556 -0.39046544 -1.2465176   1.17108726]
- [-0.58068142 -0.19076851  1.62583008  0.05123753]], shape=(3, 4), device=cpu, requires_grad=False)</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=29fabddd">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-10">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="n">sorix</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
-<span class="n">t</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-10">t = sorix.zeros((3,4))
-t</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[13]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>Tensor(
-[[0. 0. 0. 0.]
- [0. 0. 0. 0.]
- [0. 0. 0. 0.]], shape=(3, 4), device=cpu, requires_grad=False)</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=f7ff24d4">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-11">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="n">sorix</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
-<span class="n">t</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-11">t = sorix.ones((3,4))
-t</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[14]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>Tensor(
-[[1. 1. 1. 1.]
- [1. 1. 1. 1.]
- [1. 1. 1. 1.]], shape=(3, 4), device=cpu, requires_grad=False)</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=ffd7800b">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-12">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="n">sorix</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-<span class="n">t</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-12">t = sorix.eye(3)
-t</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[15]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>Tensor(
-[[1. 0. 0.]
- [0. 1. 0.]
- [0. 0. 1.]], shape=(3, 3), device=cpu, requires_grad=False)</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=f83eb28f">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-13">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="n">sorix</span><span class="o">.</span><span class="n">diag</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
-<span class="n">t</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-13">t = sorix.diag([1,2,3])
-t</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[16]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>Tensor(
-[[1 0 0]
- [0 2 0]
- [0 0 3]], shape=(3, 3), device=cpu, requires_grad=False)</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=9e3fcbb2">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-14">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="n">sorix</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">,(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
-<span class="n">t</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-14">t = sorix.randint(0,10,(3,4))
-t</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[17]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>Tensor(
-[[4 4 1 4]
- [0 6 5 8]
- [6 2 7 3]], shape=(3, 4), device=cpu, requires_grad=False)</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=2db32a4b">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-15">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="n">sorix</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
-<span class="n">t</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-15">t = sorix.arange(0,10)
-t</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[18]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>Tensor(
-[0 1 2 3 4 5 6 7 8 9], shape=(10,), device=cpu, requires_grad=False)</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=0fb6cb63">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-16">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="n">sorix</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
-<span class="n">t</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-16">t = sorix.linspace(0,10,5)
-t</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[19]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>Tensor(
-[ 0.   2.5  5.   7.5 10. ], shape=(5,), device=cpu, requires_grad=False)</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=03f29430">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-17">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="n">sorix</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
-<span class="n">t</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-17">t = sorix.logspace(0,10,5)
-t</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[20]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>Tensor(
-[1.00000000e+00 3.16227766e+02 1.00000000e+05 3.16227766e+07
- 1.00000000e+10], shape=(5,), device=cpu, requires_grad=False)</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=43412162">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [21]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-18">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="n">sorix</span><span class="o">.</span><span class="n">randperm</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-<span class="n">t</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-18">t = sorix.randperm(5)
-t</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[21]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>Tensor(
-[2 4 0 1 3], shape=(5,), device=cpu, requires_grad=False)</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=fbaf2f27">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="basic-operations">Basic Operations<a class="anchor-link" href="#basic-operations">¶</a></h2>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=da7e74c4">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [22]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-19">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">sorix</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
-<span class="n">b</span> <span class="o">=</span> <span class="n">sorix</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-19">a = sorix.tensor([1,2,3])
-b = sorix.tensor([3,4,5])
-
-print(a)
-print(b)</div>
+print(f"Logits:    {X_ext.numpy()}")
+print(f"Probs:     {Y_ext.numpy()} (No NaNs!)")
+print(f"Gradients: {X_ext.grad}")</div>
 </div>
 </div>
 </div>
@@ -4210,511 +4382,10 @@ print(b)</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Tensor(
-[1 2 3], shape=(3,), device=cpu, requires_grad=False)
-Tensor(
-[3 4 5], shape=(3,), device=cpu, requires_grad=False)
+<pre>Logits:    [-100.    0.  100.]
+Probs:     [3.8e-44 5.0e-01 1.0e+00] (No NaNs!)
+Gradients: [3.8e-44 2.5e-01 0.0e+00]
 </pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=8c03423f">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [23]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-20">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
-<span class="n">c</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-20">c = a + b
-c</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[23]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>Tensor(
-[4 6 8], shape=(3,), device=cpu, requires_grad=False)</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=ae0dc8fd">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [24]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-21">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span>
-<span class="n">c</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-21">c = a - b
-c</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[24]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>Tensor(
-[-2 -2 -2], shape=(3,), device=cpu, requires_grad=False)</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=f7782668">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [25]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-22">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span>
-<span class="n">c</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-22">c = a * b
-c</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[25]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>Tensor(
-[ 3  8 15], shape=(3,), device=cpu, requires_grad=False)</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=64f7e3d2">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [26]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-23">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">a</span><span class="nd">@b</span>
-<span class="n">c</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-23">c = a@b
-c</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[26]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>Tensor(
-26, shape=(), device=cpu, requires_grad=False)</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=b6c666b0">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [27]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-24">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">a</span><span class="o">**</span><span class="mi">2</span>
-<span class="n">c</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-24">c = a**2
-c</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[27]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>Tensor(
-[1 4 9], shape=(3,), device=cpu, requires_grad=False)</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=95ea6f34">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="slicing">Slicing<a class="anchor-link" href="#slicing">¶</a></h2>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=4d727b57">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [28]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-25">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">sorix</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
-<span class="n">a</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-25">a = sorix.tensor(np.random.rand(5,5))
-a</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[28]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>Tensor(
-[[0.533261   0.54580051 0.81966961 0.16125006 0.19406496]
- [0.92803021 0.14010897 0.90195723 0.62335444 0.27689092]
- [0.00376482 0.27292441 0.234567   0.46286437 0.37391756]
- [0.22265504 0.93628789 0.11980395 0.47618568 0.81324681]
- [0.73690523 0.3150144  0.53104157 0.53582248 0.53764228]], shape=(5, 5), device=cpu, requires_grad=False)</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=a1906759">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [29]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-26">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">a</span><span class="p">[</span><span class="mi">3</span><span class="p">,:]</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-26">a[3,:]</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[29]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>Tensor(
-[0.22265504 0.93628789 0.11980395 0.47618568 0.81324681], shape=(5,), device=cpu, requires_grad=False)</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=53de44c0">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [30]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-27">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">a</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-27">a[3,3]</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[30]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>Tensor(
-0.47618568372171655, shape=(), device=cpu, requires_grad=False)</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=1c783c24">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [35]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-28">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">a</span><span class="p">[:,</span><span class="mi">3</span><span class="p">]</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-28">a[:,3]</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[35]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>Tensor(
-[0.00970981 0.45828279 0.16871779 0.93106908 0.71455981], shape=(5,), device=gpu, requires_grad=False)</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ad2e5786">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="using-gpu">Using GPU<a class="anchor-link" href="#using-gpu">¶</a></h2><p>When running on a GPU, Sorix uses <strong>CuPy</strong> arrays instead of NumPy. You can enable GPU execution by setting the <code>device</code> parameter to <code>'gpu'</code> (the default is <code>'cpu'</code>). When <code>'gpu'</code> is specified, Sorix creates CuPy-based tensors and executes all operations on the GPU.</p>
-<p>To check whether a GPU is available, you can call <code>sorix.cuda.is_available()</code>. Refer to the examples below.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=eced5473">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [32]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-29">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">device</span> <span class="o">=</span> <span class="s1">'gpu'</span> <span class="k">if</span> <span class="n">sorix</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s1">'cpu'</span>
-<span class="n">device</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-29">device = 'gpu' if sorix.cuda.is_available() else 'cpu'
-device</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>✅ GPU basic operation passed
-✅ GPU available: NVIDIA GeForce RTX 4070 Laptop GPU
-CUDA runtime version: 13000
-CuPy version: 13.6.0
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[32]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>'gpu'</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=d0abf03a">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [33]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-30">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">sorix</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
-<span class="n">b</span> <span class="o">=</span> <span class="n">sorix</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
-<span class="n">c</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
-<span class="n">c</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-30">a = sorix.tensor(np.random.rand(5,5), device=device)
-b = sorix.tensor(np.random.rand(5,5), device=device)
-c = a + b
-c</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[33]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>Tensor(
-[[1.28204074 1.52585648 1.68812989 0.2422148  1.06811271]
- [0.93670912 1.47988872 0.76452445 1.30172208 0.60486268]
- [0.90259124 1.91283999 0.38445446 1.0423669  0.58394127]
- [0.82604729 0.91417964 0.66966319 1.49362473 1.4598561 ]
- [1.39870376 0.70303495 0.84490695 1.36847297 1.04001228]], shape=(5, 5), device=gpu, requires_grad=False)</pre>
 </div>
 </div>
 </div>
@@ -4801,12 +4472,12 @@ c</div>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.expand", "navigation.path", "navigation.top", "toc.follow", "content.code.copy", "content.code.annotate", "content.tabs.link", "search.suggest", "search.highlight", "search.share"], "search": "../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.expand", "navigation.path", "navigation.top", "toc.follow", "content.code.copy", "content.code.annotate", "content.tabs.link", "search.suggest", "search.highlight", "search.share"], "search": "../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
       
-        <script src="../../javascripts/mathjax.js"></script>
+        <script src="../../../javascripts/mathjax.js"></script>
       
         <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
       

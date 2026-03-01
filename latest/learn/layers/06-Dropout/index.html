@@ -10,31 +10,31 @@
       
       
       
-        <link rel="canonical" href="https://mitchell-mirano.github.io/sorix/latest/learn/02-graph/">
+        <link rel="canonical" href="https://mitchell-mirano.github.io/sorix/latest/learn/layers/06-Dropout/">
       
       
-        <link rel="prev" href="../01-tensor/">
+        <link rel="prev" href="../05-Tanh/">
       
       
-        <link rel="next" href="../03-autograd/">
+        <link rel="next" href="../07-Module/">
       
       
         
       
       
-      <link rel="icon" href="../../assets/images/favicon.png">
+      <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
     
     
       
-        <title>Computational Graph - Sorix</title>
+        <title>Dropout - Sorix</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.618322db.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.618322db.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -53,9 +53,9 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#computational-graph" class="md-skip">
+        <a href="#dropout" class="md-skip">
           Skip to content
         </a>
       
@@ -100,7 +100,7 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="Sorix" class="md-header__button md-logo" aria-label="Sorix" data-md-component="logo">
+    <a href="../../.." title="Sorix" class="md-header__button md-logo" aria-label="Sorix" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 21.5c-1.35-.85-3.8-1.5-5.5-1.5-1.65 0-3.35.3-4.75 1.05-.1.05-.15.05-.25.05-.25 0-.5-.25-.5-.5V6c.6-.45 1.25-.75 2-1 1.11-.35 2.33-.5 3.5-.5 1.95 0 4.05.4 5.5 1.5 1.45-1.1 3.55-1.5 5.5-1.5 1.17 0 2.39.15 3.5.5.75.25 1.4.55 2 1v14.6c0 .25-.25.5-.5.5-.1 0-.15 0-.25-.05-1.4-.75-3.1-1.05-4.75-1.05-1.7 0-4.15.65-5.5 1.5M12 8v11.5c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5V7c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5m1 3.5c1.11-.68 2.6-1 4.5-1 .91 0 1.76.09 2.5.28V9.23c-.87-.15-1.71-.23-2.5-.23q-2.655 0-4.5.84zm4.5.17c-1.71 0-3.21.26-4.5.79v1.69c1.11-.65 2.6-.99 4.5-.99 1.04 0 1.88.08 2.5.24v-1.5c-.87-.16-1.71-.23-2.5-.23m2.5 2.9c-.87-.16-1.71-.24-2.5-.24-1.83 0-3.33.27-4.5.8v1.69c1.11-.66 2.6-.99 4.5-.99 1.04 0 1.88.08 2.5.24z"/></svg>
@@ -120,7 +120,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Computational Graph
+              Dropout
             
           </span>
         </div>
@@ -242,7 +242,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../.." class="md-tabs__link">
+      <a href="../../.." class="md-tabs__link">
         
   
   
@@ -264,8 +264,17 @@
   
     
     
+      
+  
+  
+  
+    
+  
+  
+    
+    
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="../01-tensor/" class="md-tabs__link">
+        <a href="../../basics/01-tensor/" class="md-tabs__link">
           
   
   
@@ -278,6 +287,9 @@
     
   
 
+    
+  
+
       
         
   
@@ -287,7 +299,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../examples/preprocessing/encoders-scalers-transformers/" class="md-tabs__link">
+        <a href="../../../examples/preprocessing/encoders-scalers-transformers/" class="md-tabs__link">
           
   
   
@@ -309,7 +321,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../api/" class="md-tabs__link">
+        <a href="../../../api/" class="md-tabs__link">
           
   
   
@@ -351,7 +363,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="Sorix" class="md-nav__button md-logo" aria-label="Sorix" data-md-component="logo">
+    <a href="../../.." title="Sorix" class="md-nav__button md-logo" aria-label="Sorix" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 21.5c-1.35-.85-3.8-1.5-5.5-1.5-1.65 0-3.35.3-4.75 1.05-.1.05-.15.05-.25.05-.25 0-.5-.25-.5-.5V6c.6-.45 1.25-.75 2-1 1.11-.35 2.33-.5 3.5-.5 1.95 0 4.05.4 5.5 1.5 1.45-1.1 3.55-1.5 5.5-1.5 1.17 0 2.39.15 3.5.5.75.25 1.4.55 2 1v14.6c0 .25-.25.5-.5.5-.1 0-.15 0-.25-.05-1.4-.75-3.1-1.05-4.75-1.05-1.7 0-4.15.65-5.5 1.5M12 8v11.5c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5V7c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5m1 3.5c1.11-.68 2.6-1 4.5-1 .91 0 1.76.09 2.5.28V9.23c-.87-.15-1.71-.23-2.5-.23q-2.655 0-4.5.84zm4.5.17c-1.71 0-3.21.26-4.5.79v1.69c1.11-.65 2.6-.99 4.5-.99 1.04 0 1.88.08 2.5.24v-1.5c-.87-.16-1.71-.23-2.5-.23m2.5 2.9c-.87-.16-1.71-.24-2.5-.24-1.83 0-3.33.27-4.5.8v1.69c1.11-.66 2.6-.99 4.5-.99 1.04 0 1.88.08 2.5.24z"/></svg>
@@ -381,7 +393,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../.." class="md-nav__link">
+      <a href="../../.." class="md-nav__link">
         
   
   
@@ -474,8 +486,73 @@
   
   
   
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Basics
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Basics
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
     <li class="md-nav__item">
-      <a href="../01-tensor/" class="md-nav__link">
+      <a href="../../basics/01-tensor/" class="md-nav__link">
         
   
   
@@ -483,6 +560,296 @@
     
   
     Tensor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../basics/02-graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Computational Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../basics/03-autograd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Autograd
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Layers
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_2" id="__nav_2_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Layers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-Linear/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linear
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-BatchNorm1d/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BatchNorm1d
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-ReLU/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ReLU
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-Sigmoid/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sigmoid
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-Tanh/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tanh
   
 
     
@@ -519,7 +886,7 @@
   <span class="md-ellipsis">
     
   
-    Computational Graph
+    Dropout
   
 
     
@@ -537,7 +904,7 @@
   <span class="md-ellipsis">
     
   
-    Computational Graph
+    Dropout
   
 
     
@@ -563,10 +930,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#example" class="md-nav__link">
+  <a href="#mathematical-definition" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Example
+        Mathematical definition
       
     </span>
   </a>
@@ -574,49 +941,43 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#the-computational-graph-of-fxy-x2-y2" class="md-nav__link">
+  <a href="#training-vs-inference" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The computational graph of $f(x,y) = x^2 + y^2$
+        Training vs Inference
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="The computational graph of $f(x,y) = x^2 + y^2$">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#foward" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Foward
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#backward" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Backward
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#matrix-example" class="md-nav__link">
+  <a href="#backward-computation-gradient" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Matrix example
+        Backward computation (gradient)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#functional-view" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functional view
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-specifics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation specifics
       
     </span>
   </a>
@@ -639,14 +1000,128 @@
   
   
     <li class="md-nav__item">
-      <a href="../03-autograd/" class="md-nav__link">
+      <a href="../07-Module/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Autograd
+    Module
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../loss/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Loss
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_3" id="__nav_2_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Loss
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../loss/01-MSELoss/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MSELoss
   
 
     
@@ -667,14 +1142,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../04-layers/" class="md-nav__link">
+      <a href="../../loss/02-BCEWithLogitsLoss/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Layers
+    BCEWithLogitsLoss
   
 
     
@@ -683,6 +1158,302 @@
   
 
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../loss/03-CrossEntropyLoss/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CrossEntropyLoss
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../optimizers/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Optimizers
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_4" id="__nav_2_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Optimizers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../optimizers/01-SGD/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SGD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../optimizers/02-SGDMomentum/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SGDMomentum
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../optimizers/03-RMSprop/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RMSprop
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../optimizers/04-Adam/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adam
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../optimizers/05-Comparison/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Optimizer Comparison
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../optimizers/06-Optimizer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Optimizer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -768,7 +1539,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/preprocessing/encoders-scalers-transformers/" class="md-nav__link">
+      <a href="../../../examples/preprocessing/encoders-scalers-transformers/" class="md-nav__link">
         
   
   
@@ -796,7 +1567,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/regression/1-linear-regression/" class="md-nav__link">
+      <a href="../../../examples/regression/1-linear-regression/" class="md-nav__link">
         
   
   
@@ -824,7 +1595,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/regression/2-logistic-regression/" class="md-nav__link">
+      <a href="../../../examples/regression/2-logistic-regression/" class="md-nav__link">
         
   
   
@@ -970,7 +1741,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/clustering/Iris-dataset/" class="md-nav__link">
+      <a href="../../../examples/clustering/Iris-dataset/" class="md-nav__link">
         
   
   
@@ -998,7 +1769,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/clustering/RandomDataset%2BGPU/" class="md-nav__link">
+      <a href="../../../examples/clustering/RandomDataset%2BGPU/" class="md-nav__link">
         
   
   
@@ -1102,7 +1873,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/nn/1-regression/" class="md-nav__link">
+      <a href="../../../examples/nn/1-regression/" class="md-nav__link">
         
   
   
@@ -1194,7 +1965,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/nn/2.1-classification-binary/" class="md-nav__link">
+      <a href="../../../examples/nn/2.1-classification-binary/" class="md-nav__link">
         
   
   
@@ -1222,7 +1993,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/nn/2.2-classification-multiclass/" class="md-nav__link">
+      <a href="../../../examples/nn/2.2-classification-multiclass/" class="md-nav__link">
         
   
   
@@ -1250,7 +2021,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/nn/3-Iris_dataset/" class="md-nav__link">
+      <a href="../../../examples/nn/3-Iris_dataset/" class="md-nav__link">
         
   
   
@@ -1278,7 +2049,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/nn/4-digit-recognizer/" class="md-nav__link">
+      <a href="../../../examples/nn/4-digit-recognizer/" class="md-nav__link">
         
   
   
@@ -1376,7 +2147,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../api/" class="md-nav__link ">
+            <a href="../../../api/" class="md-nav__link ">
               
   
   
@@ -1420,7 +2191,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/_version/" class="md-nav__link">
+      <a href="../../../api/_version/" class="md-nav__link">
         
   
   
@@ -1475,7 +2246,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../api/clustering/" class="md-nav__link ">
+            <a href="../../../api/clustering/" class="md-nav__link ">
               
   
   
@@ -1519,7 +2290,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/clustering/k_means/" class="md-nav__link">
+      <a href="../../../api/clustering/k_means/" class="md-nav__link">
         
   
   
@@ -1582,7 +2353,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../api/cuda/" class="md-nav__link ">
+            <a href="../../../api/cuda/" class="md-nav__link ">
               
   
   
@@ -1626,7 +2397,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/cuda/cuda/" class="md-nav__link">
+      <a href="../../../api/cuda/cuda/" class="md-nav__link">
         
   
   
@@ -1689,7 +2460,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../api/cupy/" class="md-nav__link ">
+            <a href="../../../api/cupy/" class="md-nav__link ">
               
   
   
@@ -1733,7 +2504,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/cupy/cupy/" class="md-nav__link">
+      <a href="../../../api/cupy/cupy/" class="md-nav__link">
         
   
   
@@ -1796,7 +2567,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../api/metrics/" class="md-nav__link ">
+            <a href="../../../api/metrics/" class="md-nav__link ">
               
   
   
@@ -1840,7 +2611,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/metrics/metrics/" class="md-nav__link">
+      <a href="../../../api/metrics/metrics/" class="md-nav__link">
         
   
   
@@ -1903,7 +2674,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../api/model_selection/" class="md-nav__link ">
+            <a href="../../../api/model_selection/" class="md-nav__link ">
               
   
   
@@ -1947,7 +2718,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/model_selection/train_test/" class="md-nav__link">
+      <a href="../../../api/model_selection/train_test/" class="md-nav__link">
         
   
   
@@ -2016,7 +2787,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../api/nn/" class="md-nav__link ">
+            <a href="../../../api/nn/" class="md-nav__link ">
               
   
   
@@ -2060,7 +2831,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/nn/init/" class="md-nav__link">
+      <a href="../../../api/nn/init/" class="md-nav__link">
         
   
   
@@ -2088,7 +2859,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/nn/layers/" class="md-nav__link">
+      <a href="../../../api/nn/layers/" class="md-nav__link">
         
   
   
@@ -2116,7 +2887,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/nn/loss/" class="md-nav__link">
+      <a href="../../../api/nn/loss/" class="md-nav__link">
         
   
   
@@ -2144,7 +2915,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/nn/net/" class="md-nav__link">
+      <a href="../../../api/nn/net/" class="md-nav__link">
         
   
   
@@ -2207,7 +2978,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../api/optim/" class="md-nav__link ">
+            <a href="../../../api/optim/" class="md-nav__link ">
               
   
   
@@ -2251,7 +3022,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/optim/optim/" class="md-nav__link">
+      <a href="../../../api/optim/optim/" class="md-nav__link">
         
   
   
@@ -2318,7 +3089,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../api/preprocessing/" class="md-nav__link ">
+            <a href="../../../api/preprocessing/" class="md-nav__link ">
               
   
   
@@ -2362,7 +3133,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/preprocessing/encoders/" class="md-nav__link">
+      <a href="../../../api/preprocessing/encoders/" class="md-nav__link">
         
   
   
@@ -2390,7 +3161,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/preprocessing/scalers/" class="md-nav__link">
+      <a href="../../../api/preprocessing/scalers/" class="md-nav__link">
         
   
   
@@ -2418,7 +3189,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/preprocessing/transformers/" class="md-nav__link">
+      <a href="../../../api/preprocessing/transformers/" class="md-nav__link">
         
   
   
@@ -2454,7 +3225,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/tensor/" class="md-nav__link">
+      <a href="../../../api/tensor/" class="md-nav__link">
         
   
   
@@ -2513,7 +3284,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../api/utils/" class="md-nav__link ">
+            <a href="../../../api/utils/" class="md-nav__link ">
               
   
   
@@ -2586,7 +3357,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../api/utils/data/" class="md-nav__link ">
+            <a href="../../../api/utils/data/" class="md-nav__link ">
               
   
   
@@ -2630,7 +3401,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/utils/data/dataloader/" class="md-nav__link">
+      <a href="../../../api/utils/data/dataloader/" class="md-nav__link">
         
   
   
@@ -2658,7 +3429,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/utils/data/dataset/" class="md-nav__link">
+      <a href="../../../api/utils/data/dataset/" class="md-nav__link">
         
   
   
@@ -2694,7 +3465,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/utils/math/" class="md-nav__link">
+      <a href="../../../api/utils/math/" class="md-nav__link">
         
   
   
@@ -2722,7 +3493,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/utils/utils/" class="md-nav__link">
+      <a href="../../../api/utils/utils/" class="md-nav__link">
         
   
   
@@ -2785,10 +3556,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#example" class="md-nav__link">
+  <a href="#mathematical-definition" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Example
+        Mathematical definition
       
     </span>
   </a>
@@ -2796,49 +3567,43 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#the-computational-graph-of-fxy-x2-y2" class="md-nav__link">
+  <a href="#training-vs-inference" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The computational graph of $f(x,y) = x^2 + y^2$
+        Training vs Inference
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="The computational graph of $f(x,y) = x^2 + y^2$">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#foward" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Foward
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#backward" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Backward
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#matrix-example" class="md-nav__link">
+  <a href="#backward-computation-gradient" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Matrix example
+        Backward computation (gradient)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#functional-view" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functional view
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-specifics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation specifics
       
     </span>
   </a>
@@ -2870,7 +3635,7 @@
   
   
     <li class="md-path__item">
-      <a href="../.." class="md-path__link">
+      <a href="../../.." class="md-path__link">
         
   <span class="md-ellipsis">
     🏡 Sorix
@@ -2887,11 +3652,37 @@
   
     
     
+      
+  
+  
+    
+    
       <li class="md-path__item">
-        <a href="../01-tensor/" class="md-path__link">
+        <a href="../../basics/01-tensor/" class="md-path__link">
           
   <span class="md-ellipsis">
     📚 Learn
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Layers
   </span>
 
         </a>
@@ -3349,33 +4140,48 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </style>
 <!-- End of mermaid configuration --><div class="jupyter-wrapper">
 <div class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=5eba7612">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=dropout_header">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="computational-graph">Computational Graph<a class="anchor-link" href="#computational-graph">¶</a></h1><p><a href="https://colab.research.google.com/github/Mitchell-Mirano/sorix/blob/main/docs/learn/02-graph.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg"/></a>
-<a href="https://github.com/Mitchell-Mirano/sorix/blob/main/docs/learn/02-graph.ipynb"><img alt="Open in GitHub" src="https://img.shields.io/badge/Open%20in-GitHub-black?logo=github"/></a>
-<a href="http://127.0.0.1:8000/learn/02-graph/"><img alt="Open in Docs" src="https://img.shields.io/badge/Open%20in-Docs-blue?logo=readthedocs"/></a></p>
-<p>Sorix constructs a <strong>directed acyclic computational graph (DAG)</strong> that records every operation applied to tensors created with the parameter <code>requires_grad=True</code>. In this graph, each node represents an <strong>elementary operation</strong>—such as addition, multiplication, exponentiation, or matrix multiplication—while the edges represent the <strong>tensors</strong> flowing between those operations.</p>
-<p>This mechanism allows Sorix to capture the complete functional dependency between the input variables and all intermediate expressions. Every time an operation is executed (e.g., <code>x + y</code>, <code>x * y</code>, <code>x**2</code>), Sorix creates a new node in the graph and connects it to the nodes corresponding to the operands involved in the computation.</p>
-<p>As a result:</p>
+<h1 id="dropout">Dropout<a class="anchor-link" href="#dropout">¶</a></h1><p><a href="https://colab.research.google.com/github/Mitchell-Mirano/sorix/blob/main/docs/learn/layers/06-Dropout.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg"/></a>
+<a href="https://github.com/Mitchell-Mirano/sorix/blob/main/docs/learn/layers/06-Dropout.ipynb"><img alt="Open in GitHub" src="https://img.shields.io/badge/Open%20in-GitHub-black?logo=github"/></a>
+<a href="http://127.0.0.1:8000/sorix/learn/layers/06-Dropout"><img alt="Open in Docs" src="https://img.shields.io/badge/Open%20in-Docs-blue?logo=readthedocs"/></a></p>
+<p>The <strong>Dropout</strong> layer implements a powerful regularization technique widely used in deep neural networks to prevent overfitting. During training, it randomly zeroes some of the elements of the input tensor with probability $p$ using samples from a Bernoulli distribution. This forces the network to learn more robust features and prevents the co-adaptation of neurons.</p>
+<h2 id="mathematical-definition">Mathematical definition<a class="anchor-link" href="#mathematical-definition">¶</a></h2><p>During training, for each element $x$ of the input tensor, the output $y$ is computed as:</p>
+<p>$$
+y = \begin{cases}
+0 &amp; \text{with probability } p, \\
+\frac{x}{1-p} &amp; \text{with probability } 1-p.
+\end{cases}
+$$</p>
+<p>The factor $\frac{1}{1-p}$ ensures that the expected value of the output remains the same as during inference:</p>
+<p>$$
+\mathbb{E}[y] = p \cdot 0 + (1-p) \cdot \frac{x}{1-p} = x.
+$$</p>
+<h2 id="training-vs-inference">Training vs Inference<a class="anchor-link" href="#training-vs-inference">¶</a></h2><p>Like all regularization layers, Dropout behaves differently depending on the model's mode:</p>
 <ul>
-<li>The graph encodes the <strong>exact sequence of algebraic transformations</strong> performed.</li>
-<li>It preserves the <strong>structural dependencies</strong> among all tensors participating in the computation.</li>
-<li>It grows dynamically <strong>only</strong> when <code>requires_grad=True</code>, avoiding unnecessary overhead when <a href="../03-autograd">automatic differentiation</a> is not required.</li>
+<li><strong>Training Mode</strong>: The mask is randomly generated and applied, and scaling is performed.</li>
+<li><strong>Evaluation Mode</strong> (<code>model.train(False)</code>): Dropout acts as an identity function ($y = x$), as scaling was already handled during training.</li>
 </ul>
+<h2 id="backward-computation-gradient">Backward computation (gradient)<a class="anchor-link" href="#backward-computation-gradient">¶</a></h2><p>The gradient is propagated through the mask used during the forward pass. If an element was zeroed out, its gradient will also be zero:</p>
+<p>$$
+\frac{\partial \mathcal{L}}{\partial x} = \frac{\partial \mathcal{L}}{\partial y} \cdot \text{mask} \cdot \frac{1}{1-p}.
+$$</p>
+<h2 id="functional-view">Functional view<a class="anchor-link" href="#functional-view">¶</a></h2><p>The Dropout layer maps from $\mathbb{R}^{N \times d}$ to $\mathbb{R}^{N \times d}$. It is a zero-parameter layer (though it has the hyperparameter $p$), meaning it does not have trainable weights like Linear or BatchNorm1d.</p>
+<h2 id="implementation-specifics">Implementation specifics<a class="anchor-link" href="#implementation-specifics">¶</a></h2><p>Sorix's Dropout implementation uses the input tensor's device to generate the random mask, ensuring that random operations are GPU-accelerated when necessary.</p>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=e52af4b3">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=dropout_install">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [47]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-1">
@@ -3399,12 +4205,12 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=080836b7">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=dropout_imports">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [48]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-2">
@@ -3417,45 +4223,27 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sorix</span><span class="w"> </span><span class="kn">import</span> <span class="n">tensor</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sorix</span><span class="w"> </span><span class="kn">import</span> <span class="n">tensor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sorix.nn</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dropout</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sorix</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-2">from sorix import tensor
-import numpy as np</div>
+<div class="clipboard-copy-txt" id="cell-2">import numpy as np
+from sorix import tensor
+from sorix.nn import Dropout
+import sorix</div>
 </div>
 </div>
 </div>
 </div>
 </div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b229a784">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="example">Example<a class="anchor-link" href="#example">¶</a></h2>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=6c31b9d0">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Defining functions to plot</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=c032d4d6">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=dropout_example">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [38]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-3">
@@ -3468,401 +4256,31 @@ import numpy as np</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">graphviz</span><span class="w"> </span><span class="kn">import</span> <span class="n">Digraph</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># Create a large batch to see the dropout statistics</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Input: </span><span class="si">{</span><span class="n">X</span><span class="o">.</span><span class="n">data</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">trace_graph</span><span class="p">(</span><span class="n">root</span><span class="p">):</span>
-    <span class="n">ops</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">edges</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">dropout</span> <span class="o">=</span> <span class="n">Dropout</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">dropout</span><span class="o">.</span><span class="n">train</span><span class="p">()</span> <span class="c1"># Default mode</span>
+<span class="n">Y_train</span> <span class="o">=</span> <span class="n">dropout</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Output (Training): </span><span class="si">{</span><span class="n">Y_train</span><span class="o">.</span><span class="n">data</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
-        <span class="n">tid</span> <span class="o">=</span> <span class="nb">id</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">_op</span> <span class="ow">and</span> <span class="n">tid</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ops</span><span class="p">:</span>
-            <span class="n">ops</span><span class="p">[</span><span class="n">tid</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span>
-
-        <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">t</span><span class="o">.</span><span class="n">_prev</span><span class="p">:</span>
-            <span class="n">edges</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">child</span><span class="p">,</span> <span class="n">t</span><span class="p">))</span>
-            <span class="n">build</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
-
-    <span class="n">build</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">ops</span><span class="p">,</span> <span class="n">edges</span>
-
-
-<span class="k">def</span><span class="w"> </span><span class="nf">tensor_label</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
-    <span class="n">arr</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="s2">"to_numpy"</span><span class="p">)</span> <span class="k">else</span> <span class="n">t</span><span class="o">.</span><span class="n">data</span>
-    <span class="k">if</span> <span class="n">arr</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
-    <span class="k">if</span> <span class="n">arr</span><span class="o">.</span><span class="n">size</span> <span class="o">&lt;=</span> <span class="mi">6</span><span class="p">:</span>
-        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
-    <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span>
-
-
-<span class="k">def</span><span class="w"> </span><span class="nf">draw_graph_ops_forward</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s2">"graph_ops"</span><span class="p">,</span> <span class="n">view</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="n">dot</span> <span class="o">=</span> <span class="n">Digraph</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="s2">"png"</span><span class="p">,</span> <span class="n">graph_attr</span><span class="o">=</span><span class="p">{</span><span class="s2">"rankdir"</span><span class="p">:</span> <span class="s2">"LR"</span><span class="p">})</span>
-
-    <span class="n">ops</span><span class="p">,</span> <span class="n">edges</span> <span class="o">=</span> <span class="n">trace_graph</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
-
-    <span class="k">for</span> <span class="n">op_id</span><span class="p">,</span> <span class="n">tensor_obj</span> <span class="ow">in</span> <span class="n">ops</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="n">label</span> <span class="o">=</span> <span class="n">tensor_obj</span><span class="o">.</span><span class="n">_op</span>
-        <span class="n">dot</span><span class="o">.</span><span class="n">node</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">op_id</span><span class="p">),</span> <span class="n">label</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="s2">"circle"</span><span class="p">,</span>
-                 <span class="n">style</span><span class="o">=</span><span class="s2">"filled"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"#F7DC6F"</span><span class="p">)</span>
-
-    <span class="k">for</span> <span class="n">parent_tensor</span><span class="p">,</span> <span class="n">child_tensor</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">:</span>
-        <span class="n">label</span> <span class="o">=</span> <span class="n">tensor_label</span><span class="p">(</span><span class="n">parent_tensor</span><span class="p">)</span>
-
-        <span class="n">edge_color</span> <span class="o">=</span> <span class="s2">"green"</span> <span class="k">if</span> <span class="n">parent_tensor</span><span class="o">.</span><span class="n">requires_grad</span> <span class="k">else</span> <span class="s2">"#888888"</span>
-
-        <span class="k">if</span> <span class="n">parent_tensor</span><span class="o">.</span><span class="n">_op</span><span class="p">:</span>
-            <span class="n">parent_node</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">parent_tensor</span><span class="p">))</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">parent_node</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"INPUT_</span><span class="si">{</span><span class="nb">id</span><span class="p">(</span><span class="n">parent_tensor</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
-            <span class="n">dot</span><span class="o">.</span><span class="n">node</span><span class="p">(</span><span class="n">parent_node</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="s2">"point"</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="s2">"0.1"</span><span class="p">)</span>
-
-
-        <span class="n">child_node</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">child_tensor</span><span class="p">))</span>
-
-        <span class="n">dot</span><span class="o">.</span><span class="n">edge</span><span class="p">(</span><span class="n">parent_node</span><span class="p">,</span> <span class="n">child_node</span><span class="p">,</span>
-                 <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">'data=</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s1">'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">edge_color</span><span class="p">)</span>
-
-    <span class="n">final_label</span> <span class="o">=</span> <span class="n">tensor_label</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
-    <span class="n">final_color</span> <span class="o">=</span> <span class="s2">"green"</span> <span class="k">if</span> <span class="n">root</span><span class="o">.</span><span class="n">requires_grad</span> <span class="k">else</span> <span class="s2">"#888888"</span>
-
-    <span class="n">final_node</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"FINAL_</span><span class="si">{</span><span class="nb">id</span><span class="p">(</span><span class="n">root</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
-    <span class="n">dot</span><span class="o">.</span><span class="n">node</span><span class="p">(</span><span class="n">final_node</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="s2">"point"</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="s2">"0.1"</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">root</span><span class="o">.</span><span class="n">_op</span><span class="p">:</span>
-        <span class="n">dot</span><span class="o">.</span><span class="n">edge</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">root</span><span class="p">)),</span> <span class="n">final_node</span><span class="p">,</span>
-                 <span class="n">label</span><span class="o">=</span><span class="n">final_label</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">final_color</span><span class="p">)</span>
-
-    <span class="n">dot</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">view</span><span class="o">=</span><span class="n">view</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">dot</span>
-
-
-<span class="k">def</span><span class="w"> </span><span class="nf">gradient_label</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""Muestra el gradiente del tensor en lugar de su valor"""</span>
-    <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">grad</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s2">"grad=None"</span>
-    
-
-    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">grad</span><span class="p">,</span> <span class="s2">"to_numpy"</span><span class="p">):</span>
-        <span class="n">grad_arr</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
-    <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">grad</span><span class="p">,</span> <span class="s2">"data"</span><span class="p">):</span>
-        <span class="n">grad_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">grad_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">grad</span><span class="p">)</span>
-    
-    <span class="k">if</span> <span class="n">grad_arr</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">"grad=</span><span class="si">{</span><span class="n">grad_arr</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span>
-    <span class="k">if</span> <span class="n">grad_arr</span><span class="o">.</span><span class="n">size</span> <span class="o">&lt;=</span> <span class="mi">6</span><span class="p">:</span>
-
-        <span class="n">grad_list</span> <span class="o">=</span> <span class="n">grad_arr</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">"grad=</span><span class="si">{</span><span class="n">grad_list</span><span class="si">}</span><span class="s2">"</span>
-    <span class="k">return</span> <span class="sa">f</span><span class="s2">"grad.shape=</span><span class="si">{</span><span class="n">grad_arr</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span>
-
-<span class="k">def</span><span class="w"> </span><span class="nf">draw_graph_ops_backward</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s2">"graph_ops"</span><span class="p">,</span> <span class="n">view</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="n">dot</span> <span class="o">=</span> <span class="n">Digraph</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="s2">"png"</span><span class="p">,</span> <span class="n">graph_attr</span><span class="o">=</span><span class="p">{</span><span class="s2">"rankdir"</span><span class="p">:</span> <span class="s2">"RL"</span><span class="p">})</span>
-    <span class="n">ops</span><span class="p">,</span> <span class="n">edges</span> <span class="o">=</span> <span class="n">trace_graph</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
-    
-
-    <span class="k">for</span> <span class="n">op_id</span><span class="p">,</span> <span class="n">tensor_obj</span> <span class="ow">in</span> <span class="n">ops</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="n">label</span> <span class="o">=</span> <span class="n">tensor_obj</span><span class="o">.</span><span class="n">_op</span>
-        <span class="n">dot</span><span class="o">.</span><span class="n">node</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">op_id</span><span class="p">),</span> <span class="n">label</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="s2">"circle"</span><span class="p">,</span>
-                 <span class="n">style</span><span class="o">=</span><span class="s2">"filled"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"#F7DC6F"</span><span class="p">)</span>
-    
-
-    <span class="k">for</span> <span class="n">parent_tensor</span><span class="p">,</span> <span class="n">child_tensor</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">:</span>
-        <span class="n">label</span> <span class="o">=</span> <span class="n">gradient_label</span><span class="p">(</span><span class="n">parent_tensor</span><span class="p">)</span>
-        
-
-        <span class="n">edge_color</span> <span class="o">=</span> <span class="s2">"green"</span> <span class="k">if</span> <span class="n">parent_tensor</span><span class="o">.</span><span class="n">grad</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">"#888888"</span>
-        
-
-        <span class="n">child_node</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">child_tensor</span><span class="p">))</span>
-        
-
-        <span class="k">if</span> <span class="n">parent_tensor</span><span class="o">.</span><span class="n">_op</span><span class="p">:</span>
-            <span class="n">parent_node</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">parent_tensor</span><span class="p">))</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">parent_node</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"INPUT_</span><span class="si">{</span><span class="nb">id</span><span class="p">(</span><span class="n">parent_tensor</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
-            <span class="n">dot</span><span class="o">.</span><span class="n">node</span><span class="p">(</span><span class="n">parent_node</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="s2">"point"</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="s2">"0.1"</span><span class="p">)</span>
-        
-
-        <span class="n">dot</span><span class="o">.</span><span class="n">edge</span><span class="p">(</span><span class="n">child_node</span><span class="p">,</span> <span class="n">parent_node</span><span class="p">,</span>
-                 <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">edge_color</span><span class="p">)</span>
-    
-
-    <span class="n">final_label</span> <span class="o">=</span> <span class="n">gradient_label</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
-    <span class="n">final_color</span> <span class="o">=</span> <span class="s2">"green"</span> <span class="k">if</span> <span class="n">root</span><span class="o">.</span><span class="n">grad</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">"#888888"</span>
-    <span class="n">final_node</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"FINAL_</span><span class="si">{</span><span class="nb">id</span><span class="p">(</span><span class="n">root</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
-    <span class="n">dot</span><span class="o">.</span><span class="n">node</span><span class="p">(</span><span class="n">final_node</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="s2">"point"</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="s2">"0.1"</span><span class="p">)</span>
-    
-    <span class="k">if</span> <span class="n">root</span><span class="o">.</span><span class="n">_op</span><span class="p">:</span>
-
-        <span class="n">dot</span><span class="o">.</span><span class="n">edge</span><span class="p">(</span><span class="n">final_node</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">root</span><span class="p">)),</span>
-                 <span class="n">label</span><span class="o">=</span><span class="n">final_label</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">final_color</span><span class="p">)</span>
-    
-    <span class="n">dot</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">view</span><span class="o">=</span><span class="n">view</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">dot</span>
+<span class="n">dropout</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span> <span class="c1"># Change to inference mode</span>
+<span class="n">Y_eval</span> <span class="o">=</span> <span class="n">dropout</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Output (Evaluation): </span><span class="si">{</span><span class="n">Y_eval</span><span class="o">.</span><span class="n">data</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-3">from graphviz import Digraph
+<div class="clipboard-copy-txt" id="cell-3"># Create a large batch to see the dropout statistics
+X = tensor(np.ones((1, 10)))
+print(f"Input: {X.data}")
 
-def trace_graph(root):
-    ops = {}
-    edges = []
+dropout = Dropout(p=0.5)
+dropout.train() # Default mode
+Y_train = dropout(X)
+print(f"Output (Training): {Y_train.data}")
 
-    def build(t):
-        tid = id(t)
-
-        if t._op and tid not in ops:
-            ops[tid] = t
-
-        for child in t._prev:
-            edges.append((child, t))
-            build(child)
-
-    build(root)
-    return ops, edges
-
-
-def tensor_label(t):
-    arr = t.numpy() if hasattr(t, "to_numpy") else t.data
-    if arr.ndim == 0:
-        return str(arr.item())
-    if arr.size &lt;= 6:
-        return str(arr.round(2))
-    return f"{arr.shape}"
-
-
-def draw_graph_ops_forward(root, filename="graph_ops", view=True):
-    dot = Digraph(format="png", graph_attr={"rankdir": "LR"})
-
-    ops, edges = trace_graph(root)
-
-    for op_id, tensor_obj in ops.items():
-        label = tensor_obj._op
-        dot.node(str(op_id), label, shape="circle",
-                 style="filled", color="#F7DC6F")
-
-    for parent_tensor, child_tensor in edges:
-        label = tensor_label(parent_tensor)
-
-        edge_color = "green" if parent_tensor.requires_grad else "#888888"
-
-        if parent_tensor._op:
-            parent_node = str(id(parent_tensor))
-        else:
-            parent_node = f"INPUT_{id(parent_tensor)}"
-            dot.node(parent_node, "", shape="point", width="0.1")
-
-
-        child_node = str(id(child_tensor))
-
-        dot.edge(parent_node, child_node,
-                 label=f'data={label}', color=edge_color)
-
-    final_label = tensor_label(root)
-    final_color = "green" if root.requires_grad else "#888888"
-
-    final_node = f"FINAL_{id(root)}"
-    dot.node(final_node, "", shape="point", width="0.1")
-
-    if root._op:
-        dot.edge(str(id(root)), final_node,
-                 label=final_label, color=final_color)
-
-    dot.render(filename, view=view)
-    return dot
-
-
-def gradient_label(t):
-    """Muestra el gradiente del tensor en lugar de su valor"""
-    if t.grad is None:
-        return "grad=None"
-    
-
-    if hasattr(t.grad, "to_numpy"):
-        grad_arr = t.grad.numpy()
-    elif hasattr(t.grad, "data"):
-        grad_arr = np.array(t.grad.data)
-    else:
-        grad_arr = np.array(t.grad)
-    
-    if grad_arr.ndim == 0:
-        return f"grad={grad_arr.item():.2f}"
-    if grad_arr.size &lt;= 6:
-
-        grad_list = grad_arr.round(2)
-        return f"grad={grad_list}"
-    return f"grad.shape={grad_arr.shape}"
-
-def draw_graph_ops_backward(root, filename="graph_ops", view=True):
-    dot = Digraph(format="png", graph_attr={"rankdir": "RL"})
-    ops, edges = trace_graph(root)
-    
-
-    for op_id, tensor_obj in ops.items():
-        label = tensor_obj._op
-        dot.node(str(op_id), label, shape="circle",
-                 style="filled", color="#F7DC6F")
-    
-
-    for parent_tensor, child_tensor in edges:
-        label = gradient_label(parent_tensor)
-        
-
-        edge_color = "green" if parent_tensor.grad is not None else "#888888"
-        
-
-        child_node = str(id(child_tensor))
-        
-
-        if parent_tensor._op:
-            parent_node = str(id(parent_tensor))
-        else:
-            parent_node = f"INPUT_{id(parent_tensor)}"
-            dot.node(parent_node, "", shape="point", width="0.1")
-        
-
-        dot.edge(child_node, parent_node,
-                 label=label, color=edge_color)
-    
-
-    final_label = gradient_label(root)
-    final_color = "green" if root.grad is not None else "#888888"
-    final_node = f"FINAL_{id(root)}"
-    dot.node(final_node, "", shape="point", width="0.1")
-    
-    if root._op:
-
-        dot.edge(final_node, str(id(root)),
-                 label=final_label, color=final_color)
-    
-    dot.render(filename, view=view)
-    return dot</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a75a2136">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="the-computational-graph-of-fxy-x2-y2">The computational graph of $f(x,y) = x^2 + y^2$<a class="anchor-link" href="#the-computational-graph-of-fxy-x2-y2">¶</a></h2><p>Where:</p>
-<ul>
-<li>x = 3</li>
-<li>y = 4</li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=664ec6e4">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="foward">Foward<a class="anchor-link" href="#foward">¶</a></h3><p>Sorix creates a computational graph</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=ad5a5b79">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [39]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-4">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">([</span><span class="mf">3.0</span><span class="p">],</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">([</span><span class="mf">4.0</span><span class="p">],</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-<span class="n">f</span> <span class="o">=</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y</span><span class="o">**</span><span class="mi">2</span>
-
-<span class="n">draw_graph_ops_forward</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s2">"graph_ops"</span><span class="p">,</span> <span class="n">view</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-4">x = tensor([3.0], requires_grad=True)
-y = tensor([4.0], requires_grad=True)
-
-f = x**2 + y**2
-
-draw_graph_ops_forward(f, "graph_ops", view=False)
-
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[39]:</div>
-<div class="jp-RenderedSVG jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="image/svg+xml" tabindex="0">
-<img alt="No description has been provided for this image" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIKICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8IS0tIEdlbmVyYXRlZCBieSBncmFwaHZpeiB2ZXJzaW9uIDIuNDMuMCAoMCkKIC0tPgo8IS0tIFRpdGxlOiAlMyBQYWdlczogMSAtLT4KPHN2ZyB3aWR0aD0iMzk4cHQiIGhlaWdodD0iMTI4cHQiCiB2aWV3Qm94PSIwLjAwIDAuMDAgMzk3Ljc5IDEyNy43MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CjxnIGlkPSJncmFwaDAiIGNsYXNzPSJncmFwaCIgdHJhbnNmb3JtPSJzY2FsZSgxIDEpIHJvdGF0ZSgwKSB0cmFuc2xhdGUoNCAxMjMuNykiPgo8dGl0bGU+JTM8L3RpdGxlPgo8cG9seWdvbiBmaWxsPSJ3aGl0ZSIgc3Ryb2tlPSJ0cmFuc3BhcmVudCIgcG9pbnRzPSItNCw0IC00LC0xMjMuNyAzOTMuNzksLTEyMy43IDM5My43OSw0IC00LDQiLz4KPCEtLSAxMjg1NjUyMjI4NDUyOTYgLS0+CjxnIGlkPSJub2RlMSIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+MTI4NTY1MjIyODQ1Mjk2PC90aXRsZT4KPGVsbGlwc2UgZmlsbD0iI2Y3ZGM2ZiIgc3Ryb2tlPSIjZjdkYzZmIiBjeD0iMjkzLjc0IiBjeT0iLTU5LjM1IiByeD0iMTguNyIgcnk9IjE4LjciLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMjkzLjc0IiB5PSItNTUuNjUiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+KzwvdGV4dD4KPC9nPgo8IS0tIEZJTkFMXzEyODU2NTIyMjg0NTI5NiAtLT4KPGcgaWQ9Im5vZGU2IiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT5GSU5BTF8xMjg1NjUyMjI4NDUyOTY8L3RpdGxlPgo8ZWxsaXBzZSBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgY3g9IjM4Ni4xOSIgY3k9Ii01OS4zNSIgcng9IjMuNiIgcnk9IjMuNiIvPgo8L2c+CjwhLS0gMTI4NTY1MjIyODQ1Mjk2JiM0NTsmZ3Q7RklOQUxfMTI4NTY1MjIyODQ1Mjk2IC0tPgo8ZyBpZD0iZWRnZTUiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPjEyODU2NTIyMjg0NTI5NiYjNDU7Jmd0O0ZJTkFMXzEyODU2NTIyMjg0NTI5NjwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iZ3JlZW4iIGQ9Ik0zMTIuNjEsLTU5LjM1QzMzMC4xNSwtNTkuMzUgMzU2LjQ4LC01OS4zNSAzNzIuMTQsLTU5LjM1Ii8+Cjxwb2x5Z29uIGZpbGw9ImdyZWVuIiBzdHJva2U9ImdyZWVuIiBwb2ludHM9IjM3Mi4zNSwtNjIuODUgMzgyLjM1LC01OS4zNSAzNzIuMzUsLTU1Ljg1IDM3Mi4zNSwtNjIuODUiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzQ3LjU5IiB5PSItNjMuMTUiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+WzI1Ll08L3RleHQ+CjwvZz4KPCEtLSAxMjg1NjUyMjI4NTA0ODAgLS0+CjxnIGlkPSJub2RlMiIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+MTI4NTY1MjIyODUwNDgwPC90aXRsZT4KPGVsbGlwc2UgZmlsbD0iI2Y3ZGM2ZiIgc3Ryb2tlPSIjZjdkYzZmIiBjeD0iMTM2LjU1IiBjeT0iLTk0LjM1IiByeD0iMjUuMiIgcnk9IjI1LjIiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMTM2LjU1IiB5PSItOTAuNjUiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+KioyPC90ZXh0Pgo8L2c+CjwhLS0gMTI4NTY1MjIyODUwNDgwJiM0NTsmZ3Q7MTI4NTY1MjIyODQ1Mjk2IC0tPgo8ZyBpZD0iZWRnZTEiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPjEyODU2NTIyMjg1MDQ4MCYjNDU7Jmd0OzEyODU2NTIyMjg0NTI5NjwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iZ3JlZW4iIGQ9Ik0xNjEuNDYsLTg4Ljk2QzE4OS40OCwtODIuNjQgMjM1LjgxLC03Mi4xOSAyNjUuMjgsLTY1LjU0Ii8+Cjxwb2x5Z29uIGZpbGw9ImdyZWVuIiBzdHJva2U9ImdyZWVuIiBwb2ludHM9IjI2Ni4zMiwtNjguODkgMjc1LjMxLC02My4yOCAyNjQuNzgsLTYyLjA3IDI2Ni4zMiwtNjguODkiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMjE4LjQiIHk9Ii04Ny4xNSIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5kYXRhPVs5Ll08L3RleHQ+CjwvZz4KPCEtLSAxMjg1NjUyMjI4NDMyODAgLS0+CjxnIGlkPSJub2RlMyIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+MTI4NTY1MjIyODQzMjgwPC90aXRsZT4KPGVsbGlwc2UgZmlsbD0iI2Y3ZGM2ZiIgc3Ryb2tlPSIjZjdkYzZmIiBjeD0iMTM2LjU1IiBjeT0iLTI1LjM1IiByeD0iMjUuMiIgcnk9IjI1LjIiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMTM2LjU1IiB5PSItMjEuNjUiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+KioyPC90ZXh0Pgo8L2c+CjwhLS0gMTI4NTY1MjIyODQzMjgwJiM0NTsmZ3Q7MTI4NTY1MjIyODQ1Mjk2IC0tPgo8ZyBpZD0iZWRnZTMiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPjEyODU2NTIyMjg0MzI4MCYjNDU7Jmd0OzEyODU2NTIyMjg0NTI5NjwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iZ3JlZW4iIGQ9Ik0xNjEuODksLTI5LjdDMTg2LjA5LC0zNC4xNSAyMjQuMjIsLTQxLjUyIDI1Ni45LC00OS4zNSAyNTkuNzIsLTUwLjAzIDI2Mi42NiwtNTAuNzcgMjY1LjU5LC01MS41NSIvPgo8cG9seWdvbiBmaWxsPSJncmVlbiIgc3Ryb2tlPSJncmVlbiIgcG9pbnRzPSIyNjQuNzQsLTU0Ljk0IDI3NS4zMSwtNTQuMjEgMjY2LjU5LC00OC4xOSAyNjQuNzQsLTU0Ljk0Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjIxOC40IiB5PSItNTMuMTUiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+ZGF0YT1bMTYuXTwvdGV4dD4KPC9nPgo8IS0tIElOUFVUXzEyODU2NTIyMjg0NDc2OCAtLT4KPGcgaWQ9Im5vZGU0IiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT5JTlBVVF8xMjg1NjUyMjI4NDQ3Njg8L3RpdGxlPgo8ZWxsaXBzZSBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgY3g9IjMuNiIgY3k9Ii05NC4zNSIgcng9IjMuNiIgcnk9IjMuNiIvPgo8L2c+CjwhLS0gSU5QVVRfMTI4NTY1MjIyODQ0NzY4JiM0NTsmZ3Q7MTI4NTY1MjIyODUwNDgwIC0tPgo8ZyBpZD0iZWRnZTIiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPklOUFVUXzEyODU2NTIyMjg0NDc2OCYjNDU7Jmd0OzEyODU2NTIyMjg1MDQ4MDwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iZ3JlZW4iIGQ9Ik03LjM0LC05NC4zNUMxOS4xNywtOTQuMzUgNjYuODYsLTk0LjM1IDEwMC42MSwtOTQuMzUiLz4KPHBvbHlnb24gZmlsbD0iZ3JlZW4iIHN0cm9rZT0iZ3JlZW4iIHBvaW50cz0iMTAxLjAyLC05Ny44NSAxMTEuMDIsLTk0LjM1IDEwMS4wMiwtOTAuODUgMTAxLjAyLC05Ny44NSIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI1OS4yIiB5PSItOTguMTUiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+ZGF0YT1bMy5dPC90ZXh0Pgo8L2c+CjwhLS0gSU5QVVRfMTI4NTY1MjIyODQyODQ4IC0tPgo8ZyBpZD0ibm9kZTUiIGNsYXNzPSJub2RlIj4KPHRpdGxlPklOUFVUXzEyODU2NTIyMjg0Mjg0ODwvdGl0bGU+CjxlbGxpcHNlIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBjeD0iMy42IiBjeT0iLTI1LjM1IiByeD0iMy42IiByeT0iMy42Ii8+CjwvZz4KPCEtLSBJTlBVVF8xMjg1NjUyMjI4NDI4NDgmIzQ1OyZndDsxMjg1NjUyMjI4NDMyODAgLS0+CjxnIGlkPSJlZGdlNCIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+SU5QVVRfMTI4NTY1MjIyODQyODQ4JiM0NTsmZ3Q7MTI4NTY1MjIyODQzMjgwPC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJncmVlbiIgZD0iTTcuMzQsLTI1LjM1QzE5LjE3LC0yNS4zNSA2Ni44NiwtMjUuMzUgMTAwLjYxLC0yNS4zNSIvPgo8cG9seWdvbiBmaWxsPSJncmVlbiIgc3Ryb2tlPSJncmVlbiIgcG9pbnRzPSIxMDEuMDIsLTI4Ljg1IDExMS4wMiwtMjUuMzUgMTAxLjAyLC0yMS44NSAxMDEuMDIsLTI4Ljg1Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjU5LjIiIHk9Ii0yOS4xNSIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5kYXRhPVs0Ll08L3RleHQ+CjwvZz4KPC9nPgo8L3N2Zz4K"/>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=c063821f">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="backward">Backward<a class="anchor-link" href="#backward">¶</a></h3><p>When <code>f_output.backward()</code> is executed, Sorix traverses the previously constructed computational graph and applies the chain rule to compute all required derivatives. The resulting partial derivatives are written into the <strong><code>.grad</code></strong> attribute of the input Tensors $x$ and $y$.</p>
-<ul>
-<li>$ \frac{\partial f}{\partial x} = 2x = 6.0 $</li>
-<li>$ \frac{\partial f}{\partial y} = 2y = 8.0 $</li>
-</ul>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=3d0f41b5">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [40]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-5">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">f</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"df/dx: </span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">grad</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"df/dy: </span><span class="si">{</span><span class="n">y</span><span class="o">.</span><span class="n">grad</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-5">
-f.backward()
-print(f"df/dx: {x.grad}")
-print(f"df/dy: {y.grad}")</div>
+dropout.eval() # Change to inference mode
+Y_eval = dropout(X)
+print(f"Output (Evaluation): {Y_eval.data}")</div>
 </div>
 </div>
 </div>
@@ -3874,221 +4292,12 @@ print(f"df/dy: {y.grad}")</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>df/dx: [6.]
-df/dy: [8.]
+<pre>Input: [[1. 1. 1. 1. 1. 1. 1. 1. 1. 1.]]
+Output (Training): [[2. 2. 0. 0. 2. 0. 0. 2. 0. 2.]]
+Output (Evaluation): [[1. 1. 1. 1. 1. 1. 1. 1. 1. 1.]]
 </pre>
 </div>
 </div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=579a172b">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [41]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-6">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">draw_graph_ops_backward</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s2">"graph_ops"</span><span class="p">,</span> <span class="n">view</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-6">draw_graph_ops_backward(f, "graph_ops", view=False)
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[41]:</div>
-<div class="jp-RenderedSVG jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="image/svg+xml" tabindex="0">
-<img alt="No description has been provided for this image" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIKICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8IS0tIEdlbmVyYXRlZCBieSBncmFwaHZpeiB2ZXJzaW9uIDIuNDMuMCAoMCkKIC0tPgo8IS0tIFRpdGxlOiAlMyBQYWdlczogMSAtLT4KPHN2ZyB3aWR0aD0iNDI5cHQiIGhlaWdodD0iMTI4cHQiCiB2aWV3Qm94PSIwLjAwIDAuMDAgNDI4Ljc5IDEyNy43MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CjxnIGlkPSJncmFwaDAiIGNsYXNzPSJncmFwaCIgdHJhbnNmb3JtPSJzY2FsZSgxIDEpIHJvdGF0ZSgwKSB0cmFuc2xhdGUoNCAxMjMuNykiPgo8dGl0bGU+JTM8L3RpdGxlPgo8cG9seWdvbiBmaWxsPSJ3aGl0ZSIgc3Ryb2tlPSJ0cmFuc3BhcmVudCIgcG9pbnRzPSItNCw0IC00LC0xMjMuNyA0MjQuNzksLTEyMy43IDQyNC43OSw0IC00LDQiLz4KPCEtLSAxMjg1NjUyMjI4NDUyOTYgLS0+CjxnIGlkPSJub2RlMSIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+MTI4NTY1MjIyODQ1Mjk2PC90aXRsZT4KPGVsbGlwc2UgZmlsbD0iI2Y3ZGM2ZiIgc3Ryb2tlPSIjZjdkYzZmIiBjeD0iMjg4Ljc0IiBjeT0iLTU5LjM1IiByeD0iMTguNyIgcnk9IjE4LjciLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMjg4Ljc0IiB5PSItNTUuNjUiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+KzwvdGV4dD4KPC9nPgo8IS0tIDEyODU2NTIyMjg1MDQ4MCAtLT4KPGcgaWQ9Im5vZGUyIiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT4xMjg1NjUyMjI4NTA0ODA8L3RpdGxlPgo8ZWxsaXBzZSBmaWxsPSIjZjdkYzZmIiBzdHJva2U9IiNmN2RjNmYiIGN4PSIxMzguNTUiIGN5PSItOTQuMzUiIHJ4PSIyNS4yIiByeT0iMjUuMiIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIxMzguNTUiIHk9Ii05MC42NSIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj4qKjI8L3RleHQ+CjwvZz4KPCEtLSAxMjg1NjUyMjI4NDUyOTYmIzQ1OyZndDsxMjg1NjUyMjI4NTA0ODAgLS0+CjxnIGlkPSJlZGdlMSIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+MTI4NTY1MjIyODQ1Mjk2JiM0NTsmZ3Q7MTI4NTY1MjIyODUwNDgwPC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJncmVlbiIgZD0iTTI3MC4xNiwtNjMuNUMyNDYuNDMsLTY5LjEgMjAzLjY2LC03OS4yMSAxNzMuNTQsLTg2LjMyIi8+Cjxwb2x5Z29uIGZpbGw9ImdyZWVuIiBzdHJva2U9ImdyZWVuIiBwb2ludHM9IjE3Mi40LC04Mi45OSAxNjMuNDcsLTg4LjcgMTc0LjAxLC04OS44MSAxNzIuNCwtODIuOTkiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMjE2LjkiIHk9Ii04Ny4xNSIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5ncmFkPVsxLl08L3RleHQ+CjwvZz4KPCEtLSAxMjg1NjUyMjI4NDMyODAgLS0+CjxnIGlkPSJub2RlMyIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+MTI4NTY1MjIyODQzMjgwPC90aXRsZT4KPGVsbGlwc2UgZmlsbD0iI2Y3ZGM2ZiIgc3Ryb2tlPSIjZjdkYzZmIiBjeD0iMTM4LjU1IiBjeT0iLTI1LjM1IiByeD0iMjUuMiIgcnk9IjI1LjIiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMTM4LjU1IiB5PSItMjEuNjUiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+KioyPC90ZXh0Pgo8L2c+CjwhLS0gMTI4NTY1MjIyODQ1Mjk2JiM0NTsmZ3Q7MTI4NTY1MjIyODQzMjgwIC0tPgo8ZyBpZD0iZWRnZTMiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPjEyODU2NTIyMjg0NTI5NiYjNDU7Jmd0OzEyODU2NTIyMjg0MzI4MDwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iZ3JlZW4iIGQ9Ik0yNzAuMywtNTQuMjVDMjY0LjQ3LC01Mi42MSAyNTcuOTIsLTUwLjgzIDI1MS45LC00OS4zNSAyMjUuODEsLTQyLjkzIDE5Ni4wOCwtMzYuNjIgMTczLjc2LC0zMi4wOSIvPgo8cG9seWdvbiBmaWxsPSJncmVlbiIgc3Ryb2tlPSJncmVlbiIgcG9pbnRzPSIxNzQuMjUsLTI4LjYxIDE2My43NSwtMzAuMDcgMTcyLjg2LC0zNS40OCAxNzQuMjUsLTI4LjYxIi8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjIxNi45IiB5PSItNTMuMTUiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+Z3JhZD1bMS5dPC90ZXh0Pgo8L2c+CjwhLS0gSU5QVVRfMTI4NTY1MjIyODQ0NzY4IC0tPgo8ZyBpZD0ibm9kZTQiIGNsYXNzPSJub2RlIj4KPHRpdGxlPklOUFVUXzEyODU2NTIyMjg0NDc2ODwvdGl0bGU+CjxlbGxpcHNlIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBjeD0iMy42IiBjeT0iLTk0LjM1IiByeD0iMy42IiByeT0iMy42Ii8+CjwvZz4KPCEtLSAxMjg1NjUyMjI4NTA0ODAmIzQ1OyZndDtJTlBVVF8xMjg1NjUyMjI4NDQ3NjggLS0+CjxnIGlkPSJlZGdlMiIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+MTI4NTY1MjIyODUwNDgwJiM0NTsmZ3Q7SU5QVVRfMTI4NTY1MjIyODQ0NzY4PC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJncmVlbiIgZD0iTTExMy4xNiwtOTQuMzVDODQuOTcsLTk0LjM1IDM5LjYyLC05NC4zNSAxNy41MywtOTQuMzUiLz4KPHBvbHlnb24gZmlsbD0iZ3JlZW4iIHN0cm9rZT0iZ3JlZW4iIHBvaW50cz0iMTcuMzMsLTkwLjg1IDcuMzMsLTk0LjM1IDE3LjMzLC05Ny44NSAxNy4zMywtOTAuODUiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iNjAuMiIgeT0iLTk4LjE1IiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPmdyYWQ9WzYuXTwvdGV4dD4KPC9nPgo8IS0tIElOUFVUXzEyODU2NTIyMjg0Mjg0OCAtLT4KPGcgaWQ9Im5vZGU1IiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT5JTlBVVF8xMjg1NjUyMjI4NDI4NDg8L3RpdGxlPgo8ZWxsaXBzZSBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgY3g9IjMuNiIgY3k9Ii0yNS4zNSIgcng9IjMuNiIgcnk9IjMuNiIvPgo8L2c+CjwhLS0gMTI4NTY1MjIyODQzMjgwJiM0NTsmZ3Q7SU5QVVRfMTI4NTY1MjIyODQyODQ4IC0tPgo8ZyBpZD0iZWRnZTQiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPjEyODU2NTIyMjg0MzI4MCYjNDU7Jmd0O0lOUFVUXzEyODU2NTIyMjg0Mjg0ODwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iZ3JlZW4iIGQ9Ik0xMTMuMTYsLTI1LjM1Qzg0Ljk3LC0yNS4zNSAzOS42MiwtMjUuMzUgMTcuNTMsLTI1LjM1Ii8+Cjxwb2x5Z29uIGZpbGw9ImdyZWVuIiBzdHJva2U9ImdyZWVuIiBwb2ludHM9IjE3LjMzLC0yMS44NSA3LjMzLC0yNS4zNSAxNy4zMywtMjguODUgMTcuMzMsLTIxLjg1Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjYwLjIiIHk9Ii0yOS4xNSIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5ncmFkPVs4Ll08L3RleHQ+CjwvZz4KPCEtLSBGSU5BTF8xMjg1NjUyMjI4NDUyOTYgLS0+CjxnIGlkPSJub2RlNiIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+RklOQUxfMTI4NTY1MjIyODQ1Mjk2PC90aXRsZT4KPGVsbGlwc2UgZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIGN4PSI0MTcuMTkiIGN5PSItNTkuMzUiIHJ4PSIzLjYiIHJ5PSIzLjYiLz4KPC9nPgo8IS0tIEZJTkFMXzEyODU2NTIyMjg0NTI5NiYjNDU7Jmd0OzEyODU2NTIyMjg0NTI5NiAtLT4KPGcgaWQ9ImVkZ2U1IiBjbGFzcz0iZWRnZSI+Cjx0aXRsZT5GSU5BTF8xMjg1NjUyMjI4NDUyOTYmIzQ1OyZndDsxMjg1NjUyMjI4NDUyOTY8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImdyZWVuIiBkPSJNNDEzLjU1LC01OS4zNUM0MDEuNTEsLTU5LjM1IDM1MC45NywtNTkuMzUgMzE4LjMsLTU5LjM1Ii8+Cjxwb2x5Z29uIGZpbGw9ImdyZWVuIiBzdHJva2U9ImdyZWVuIiBwb2ludHM9IjMxNy45OSwtNTUuODUgMzA3Ljk5LC01OS4zNSAzMTcuOTksLTYyLjg1IDMxNy45OSwtNTUuODUiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzYwLjU5IiB5PSItNjMuMTUiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+Z3JhZD1bMS5dPC90ZXh0Pgo8L2c+CjwvZz4KPC9zdmc+Cg=="/>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ab2936b3">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="matrix-example">Matrix example<a class="anchor-link" href="#matrix-example">¶</a></h2><p>Foward</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=5019972c">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [42]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-7">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-<span class="n">f</span> <span class="o">=</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">@</span> <span class="n">y</span><span class="o">**</span><span class="mi">2</span>
-
-<span class="n">draw_graph_ops_forward</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s2">"graph_ops"</span><span class="p">,</span> <span class="n">view</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-7">x = tensor(np.random.rand(2, 2).round(2), requires_grad=True)
-y = tensor(np.random.rand(2, 2).round(2), requires_grad=True)
-
-f = x**2 @ y**2
-
-draw_graph_ops_forward(f, "graph_ops", view=False)</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[42]:</div>
-<div class="jp-RenderedSVG jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="image/svg+xml" tabindex="0">
-<img alt="No description has been provided for this image" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIKICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8IS0tIEdlbmVyYXRlZCBieSBncmFwaHZpeiB2ZXJzaW9uIDIuNDMuMCAoMCkKIC0tPgo8IS0tIFRpdGxlOiAlMyBQYWdlczogMSAtLT4KPHN2ZyB3aWR0aD0iNTYzcHQiIGhlaWdodD0iMTMycHQiCiB2aWV3Qm94PSIwLjAwIDAuMDAgNTYzLjM5IDEzMi4zNSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CjxnIGlkPSJncmFwaDAiIGNsYXNzPSJncmFwaCIgdHJhbnNmb3JtPSJzY2FsZSgxIDEpIHJvdGF0ZSgwKSB0cmFuc2xhdGUoNCAxMjguMzUpIj4KPHRpdGxlPiUzPC90aXRsZT4KPHBvbHlnb24gZmlsbD0id2hpdGUiIHN0cm9rZT0idHJhbnNwYXJlbnQiIHBvaW50cz0iLTQsNCAtNCwtMTI4LjM1IDU1OS4zOSwtMTI4LjM1IDU1OS4zOSw0IC00LDQiLz4KPCEtLSAxMjg1NjUyMjc4MDIxNjAgLS0+CjxnIGlkPSJub2RlMSIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+MTI4NTY1MjI3ODAyMTYwPC90aXRsZT4KPGVsbGlwc2UgZmlsbD0iI2Y3ZGM2ZiIgc3Ryb2tlPSIjZjdkYzZmIiBjeD0iNDA0LjA0IiBjeT0iLTU5LjM1IiByeD0iMjAuMyIgcnk9IjIwLjMiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iNDA0LjA0IiB5PSItNTUuNjUiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+QDwvdGV4dD4KPC9nPgo8IS0tIEZJTkFMXzEyODU2NTIyNzgwMjE2MCAtLT4KPGcgaWQ9Im5vZGU2IiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT5GSU5BTF8xMjg1NjUyMjc4MDIxNjA8L3RpdGxlPgo8ZWxsaXBzZSBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgY3g9IjU1MS43OSIgY3k9Ii01OS4zNSIgcng9IjMuNiIgcnk9IjMuNiIvPgo8L2c+CjwhLS0gMTI4NTY1MjI3ODAyMTYwJiM0NTsmZ3Q7RklOQUxfMTI4NTY1MjI3ODAyMTYwIC0tPgo8ZyBpZD0iZWRnZTUiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPjEyODU2NTIyNzgwMjE2MCYjNDU7Jmd0O0ZJTkFMXzEyODU2NTIyNzgwMjE2MDwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iZ3JlZW4iIGQ9Ik00MjQuNCwtNTkuMzVDNDU0LjYsLTU5LjM1IDUxMi4xNSwtNTkuMzUgNTM3Ljg1LC01OS4zNSIvPgo8cG9seWdvbiBmaWxsPSJncmVlbiIgc3Ryb2tlPSJncmVlbiIgcG9pbnRzPSI1MzcuODUsLTYyLjg1IDU0Ny44NSwtNTkuMzUgNTM3Ljg1LC01NS44NSA1MzcuODUsLTYyLjg1Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjQ4Ni4xOSIgeT0iLTc4LjE1IiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPltbMC4zICYjMTYwOzAuODddPC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI0ODYuMTkiIHk9Ii02My4xNSIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj4gWzAuMTYgMC41Nl1dPC90ZXh0Pgo8L2c+CjwhLS0gMTI4NTY1MjIyODQ1NDg4IC0tPgo8ZyBpZD0ibm9kZTIiIGNsYXNzPSJub2RlIj4KPHRpdGxlPjEyODU2NTIyMjg0NTQ4ODwvdGl0bGU+CjxlbGxpcHNlIGZpbGw9IiNmN2RjNmYiIHN0cm9rZT0iI2Y3ZGM2ZiIgY3g9IjE5NS41NSIgY3k9Ii05NC4zNSIgcng9IjI1LjIiIHJ5PSIyNS4yIi8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjE5NS41NSIgeT0iLTkwLjY1IiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPioqMjwvdGV4dD4KPC9nPgo8IS0tIDEyODU2NTIyMjg0NTQ4OCYjNDU7Jmd0OzEyODU2NTIyNzgwMjE2MCAtLT4KPGcgaWQ9ImVkZ2UxIiBjbGFzcz0iZWRnZSI+Cjx0aXRsZT4xMjg1NjUyMjI4NDU0ODgmIzQ1OyZndDsxMjg1NjUyMjc4MDIxNjA8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImdyZWVuIiBkPSJNMjIwLjc4LC05MS4yOUMyNTMuNzUsLTg2Ljk4IDMxNC41NCwtNzguNDkgMzY1LjksLTY4LjM1IDM2OC42MSwtNjcuODEgMzcxLjQyLC02Ny4yMSAzNzQuMjQsLTY2LjU4Ii8+Cjxwb2x5Z29uIGZpbGw9ImdyZWVuIiBzdHJva2U9ImdyZWVuIiBwb2ludHM9IjM3NS4yOCwtNjkuOTMgMzg0LjIxLC02NC4yNCAzNzMuNjgsLTYzLjEyIDM3NS4yOCwtNjkuOTMiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzAyLjQiIHk9Ii0xMDcuMTUiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+ZGF0YT1bWzAuMSAmIzE2MDswLjkgXTwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzAyLjQiIHk9Ii05Mi4xNSIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj4gWzAuMDEgMC41OF1dPC90ZXh0Pgo8L2c+CjwhLS0gMTI4NTY1MjI3ODAxNDg4IC0tPgo8ZyBpZD0ibm9kZTMiIGNsYXNzPSJub2RlIj4KPHRpdGxlPjEyODU2NTIyNzgwMTQ4ODwvdGl0bGU+CjxlbGxpcHNlIGZpbGw9IiNmN2RjNmYiIHN0cm9rZT0iI2Y3ZGM2ZiIgY3g9IjE5NS41NSIgY3k9Ii0yNS4zNSIgcng9IjI1LjIiIHJ5PSIyNS4yIi8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjE5NS41NSIgeT0iLTIxLjY1IiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPioqMjwvdGV4dD4KPC9nPgo8IS0tIDEyODU2NTIyNzgwMTQ4OCYjNDU7Jmd0OzEyODU2NTIyNzgwMjE2MCAtLT4KPGcgaWQ9ImVkZ2UzIiBjbGFzcz0iZWRnZSI+Cjx0aXRsZT4xMjg1NjUyMjc4MDE0ODgmIzQ1OyZndDsxMjg1NjUyMjc4MDIxNjA8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImdyZWVuIiBkPSJNMjIwLjk5LC0yMy45NEMyNTQuNDcsLTIyLjc1IDMxNi4xMSwtMjMuMTkgMzY1LjksLTM4LjM1IDM3MC4wNCwtMzkuNjEgMzc0LjIzLC00MS4zOSAzNzguMjMsLTQzLjM5Ii8+Cjxwb2x5Z29uIGZpbGw9ImdyZWVuIiBzdHJva2U9ImdyZWVuIiBwb2ludHM9IjM3Ni42NiwtNDYuNTIgMzg3LjEsLTQ4LjMgMzgwLjA1LC00MC40IDM3Ni42NiwtNDYuNTIiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzAyLjQiIHk9Ii01Ny4xNSIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5kYXRhPVtbMC42NiAwLjA0XTwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzAyLjQiIHk9Ii00Mi4xNSIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj4gWzAuMjYgMC45Nl1dPC90ZXh0Pgo8L2c+CjwhLS0gSU5QVVRfMTI4NTY1MjI3NjIzMjMyIC0tPgo8ZyBpZD0ibm9kZTQiIGNsYXNzPSJub2RlIj4KPHRpdGxlPklOUFVUXzEyODU2NTIyNzYyMzIzMjwvdGl0bGU+CjxlbGxpcHNlIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBjeD0iMy42IiBjeT0iLTk0LjM1IiByeD0iMy42IiByeT0iMy42Ii8+CjwvZz4KPCEtLSBJTlBVVF8xMjg1NjUyMjc2MjMyMzImIzQ1OyZndDsxMjg1NjUyMjI4NDU0ODggLS0+CjxnIGlkPSJlZGdlMiIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+SU5QVVRfMTI4NTY1MjI3NjIzMjMyJiM0NTsmZ3Q7MTI4NTY1MjIyODQ1NDg4PC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJncmVlbiIgZD0iTTcuMjksLTk0LjM1QzIzLjU4LC05NC4zNSAxMTAuMjEsLTk0LjM1IDE1OS43NCwtOTQuMzUiLz4KPHBvbHlnb24gZmlsbD0iZ3JlZW4iIHN0cm9rZT0iZ3JlZW4iIHBvaW50cz0iMTYwLC05Ny44NSAxNzAsLTk0LjM1IDE2MCwtOTAuODUgMTYwLC05Ny44NSIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI4OC43IiB5PSItMTEzLjE1IiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPmRhdGE9W1swLjMyIDAuOTVdPC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI4OC43IiB5PSItOTguMTUiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+IFswLjEyIDAuNzZdXTwvdGV4dD4KPC9nPgo8IS0tIElOUFVUXzEyODU2NTIyMjgzNzYxNiAtLT4KPGcgaWQ9Im5vZGU1IiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT5JTlBVVF8xMjg1NjUyMjI4Mzc2MTY8L3RpdGxlPgo8ZWxsaXBzZSBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgY3g9IjMuNiIgY3k9Ii0yNS4zNSIgcng9IjMuNiIgcnk9IjMuNiIvPgo8L2c+CjwhLS0gSU5QVVRfMTI4NTY1MjIyODM3NjE2JiM0NTsmZ3Q7MTI4NTY1MjI3ODAxNDg4IC0tPgo8ZyBpZD0iZWRnZTQiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPklOUFVUXzEyODU2NTIyMjgzNzYxNiYjNDU7Jmd0OzEyODU2NTIyNzgwMTQ4ODwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iZ3JlZW4iIGQ9Ik03LjI5LC0yNS4zNUMyMy41OCwtMjUuMzUgMTEwLjIxLC0yNS4zNSAxNTkuNzQsLTI1LjM1Ii8+Cjxwb2x5Z29uIGZpbGw9ImdyZWVuIiBzdHJva2U9ImdyZWVuIiBwb2ludHM9IjE2MCwtMjguODUgMTcwLC0yNS4zNSAxNjAsLTIxLjg1IDE2MCwtMjguODUiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iODguNyIgeT0iLTQ0LjE1IiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPmRhdGE9W1swLjgxIDAuMjFdPC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI4OC43IiB5PSItMjkuMTUiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+IFswLjUxIDAuOThdXTwvdGV4dD4KPC9nPgo8L2c+Cjwvc3ZnPgo="/>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=886f0a46">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [43]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-8">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">f</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"df/dx: </span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">grad</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"df/dy: </span><span class="si">{</span><span class="n">y</span><span class="o">.</span><span class="n">grad</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-8">f.backward()
-
-print(f"df/dx: {x.grad}")
-print(f"df/dy: {y.grad}")</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>df/dx: [[0.448128 2.31895 ]
- [0.168048 1.85516 ]]
-df/dy: [[0.189216 0.049056]
- [1.509702 2.900996]]
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=7f86d7e4">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Backward</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=6472d693">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [44]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-9">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">draw_graph_ops_backward</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s2">"graph_ops"</span><span class="p">,</span> <span class="n">view</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-9">draw_graph_ops_backward(f, "graph_ops", view=False)</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[44]:</div>
-<div class="jp-RenderedSVG jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="image/svg+xml" tabindex="0">
-<img alt="No description has been provided for this image" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIKICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8IS0tIEdlbmVyYXRlZCBieSBncmFwaHZpeiB2ZXJzaW9uIDIuNDMuMCAoMCkKIC0tPgo8IS0tIFRpdGxlOiAlMyBQYWdlczogMSAtLT4KPHN2ZyB3aWR0aD0iNTcycHQiIGhlaWdodD0iMTMycHQiCiB2aWV3Qm94PSIwLjAwIDAuMDAgNTcyLjM5IDEzMi4zNSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CjxnIGlkPSJncmFwaDAiIGNsYXNzPSJncmFwaCIgdHJhbnNmb3JtPSJzY2FsZSgxIDEpIHJvdGF0ZSgwKSB0cmFuc2xhdGUoNCAxMjguMzUpIj4KPHRpdGxlPiUzPC90aXRsZT4KPHBvbHlnb24gZmlsbD0id2hpdGUiIHN0cm9rZT0idHJhbnNwYXJlbnQiIHBvaW50cz0iLTQsNCAtNCwtMTI4LjM1IDU2OC4zOSwtMTI4LjM1IDU2OC4zOSw0IC00LDQiLz4KPCEtLSAxMjg1NjUyMjc4MDIxNjAgLS0+CjxnIGlkPSJub2RlMSIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+MTI4NTY1MjI3ODAyMTYwPC90aXRsZT4KPGVsbGlwc2UgZmlsbD0iI2Y3ZGM2ZiIgc3Ryb2tlPSIjZjdkYzZmIiBjeD0iNDA4LjA0IiBjeT0iLTU5LjM1IiByeD0iMjAuMyIgcnk9IjIwLjMiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iNDA4LjA0IiB5PSItNTUuNjUiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+QDwvdGV4dD4KPC9nPgo8IS0tIDEyODU2NTIyMjg0NTQ4OCAtLT4KPGcgaWQ9Im5vZGUyIiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT4xMjg1NjUyMjI4NDU0ODg8L3RpdGxlPgo8ZWxsaXBzZSBmaWxsPSIjZjdkYzZmIiBzdHJva2U9IiNmN2RjNmYiIGN4PSIxOTcuNTUiIGN5PSItOTQuMzUiIHJ4PSIyNS4yIiByeT0iMjUuMiIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIxOTcuNTUiIHk9Ii05MC42NSIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj4qKjI8L3RleHQ+CjwvZz4KPCEtLSAxMjg1NjUyMjc4MDIxNjAmIzQ1OyZndDsxMjg1NjUyMjI4NDU0ODggLS0+CjxnIGlkPSJlZGdlMSIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+MTI4NTY1MjI3ODAyMTYwJiM0NTsmZ3Q7MTI4NTY1MjIyODQ1NDg4PC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJncmVlbiIgZD0iTTM4OC4yMiwtNjQuMjVDMzgyLjM3LC02NS42OCAzNzUuODksLTY3LjE3IDM2OS45LC02OC4zNSAzMjIuNjcsLTc3LjYzIDI2Ny41NywtODUuNDcgMjMyLjg3LC05MC4wNCIvPgo8cG9seWdvbiBmaWxsPSJncmVlbiIgc3Ryb2tlPSJncmVlbiIgcG9pbnRzPSIyMzIuMjUsLTg2LjU5IDIyMi43OCwtOTEuMzUgMjMzLjE1LC05My41MyAyMzIuMjUsLTg2LjU5Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjMwNS40IiB5PSItMTA3LjE1IiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPmdyYWQ9W1swLjcgJiMxNjA7MS4yMl08L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjMwNS40IiB5PSItOTIuMTUiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+IFswLjcgJiMxNjA7MS4yMl1dPC90ZXh0Pgo8L2c+CjwhLS0gMTI4NTY1MjI3ODAxNDg4IC0tPgo8ZyBpZD0ibm9kZTMiIGNsYXNzPSJub2RlIj4KPHRpdGxlPjEyODU2NTIyNzgwMTQ4ODwvdGl0bGU+CjxlbGxpcHNlIGZpbGw9IiNmN2RjNmYiIHN0cm9rZT0iI2Y3ZGM2ZiIgY3g9IjE5Ny41NSIgY3k9Ii0yNS4zNSIgcng9IjI1LjIiIHJ5PSIyNS4yIi8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjE5Ny41NSIgeT0iLTIxLjY1IiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPioqMjwvdGV4dD4KPC9nPgo8IS0tIDEyODU2NTIyNzgwMjE2MCYjNDU7Jmd0OzEyODU2NTIyNzgwMTQ4OCAtLT4KPGcgaWQ9ImVkZ2UzIiBjbGFzcz0iZWRnZSI+Cjx0aXRsZT4xMjg1NjUyMjc4MDIxNjAmIzQ1OyZndDsxMjg1NjUyMjc4MDE0ODg8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImdyZWVuIiBkPSJNMzkxLjEsLTQ4LjNDMzg0Ljc4LC00NC40NyAzNzcuMjcsLTQwLjU5IDM2OS45LC0zOC4zNSAzMjQuMTEsLTI0LjQzIDI2OC40MywtMjIuODUgMjMzLjIzLC0yMy42MSIvPgo8cG9seWdvbiBmaWxsPSJncmVlbiIgc3Ryb2tlPSJncmVlbiIgcG9pbnRzPSIyMzIuODksLTIwLjEyIDIyMywtMjMuOTEgMjMzLjA5LC0yNy4xMiAyMzIuODksLTIwLjEyIi8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjMwNS40IiB5PSItNTcuMTUiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+Z3JhZD1bWzAuMTIgMC4xMl08L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjMwNS40IiB5PSItNDIuMTUiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+IFsxLjQ4IDEuNDhdXTwvdGV4dD4KPC9nPgo8IS0tIElOUFVUXzEyODU2NTIyNzYyMzIzMiAtLT4KPGcgaWQ9Im5vZGU0IiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT5JTlBVVF8xMjg1NjUyMjc2MjMyMzI8L3RpdGxlPgo8ZWxsaXBzZSBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgY3g9IjMuNiIgY3k9Ii05NC4zNSIgcng9IjMuNiIgcnk9IjMuNiIvPgo8L2c+CjwhLS0gMTI4NTY1MjIyODQ1NDg4JiM0NTsmZ3Q7SU5QVVRfMTI4NTY1MjI3NjIzMjMyIC0tPgo8ZyBpZD0iZWRnZTIiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPjEyODU2NTIyMjg0NTQ4OCYjNDU7Jmd0O0lOUFVUXzEyODU2NTIyNzYyMzIzMjwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iZ3JlZW4iIGQ9Ik0xNzEuODUsLTk0LjM1QzEzMC43NCwtOTQuMzUgNDkuNjYsLTk0LjM1IDE3Ljg1LC05NC4zNSIvPgo8cG9seWdvbiBmaWxsPSJncmVlbiIgc3Ryb2tlPSJncmVlbiIgcG9pbnRzPSIxNy41LC05MC44NSA3LjUsLTk0LjM1IDE3LjUsLTk3Ljg1IDE3LjUsLTkwLjg1Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9Ijg5LjciIHk9Ii0xMTMuMTUiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+Z3JhZD1bWzAuNDUgMi4zMl08L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9Ijg5LjciIHk9Ii05OC4xNSIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj4gWzAuMTcgMS44Nl1dPC90ZXh0Pgo8L2c+CjwhLS0gSU5QVVRfMTI4NTY1MjIyODM3NjE2IC0tPgo8ZyBpZD0ibm9kZTUiIGNsYXNzPSJub2RlIj4KPHRpdGxlPklOUFVUXzEyODU2NTIyMjgzNzYxNjwvdGl0bGU+CjxlbGxpcHNlIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBjeD0iMy42IiBjeT0iLTI1LjM1IiByeD0iMy42IiByeT0iMy42Ii8+CjwvZz4KPCEtLSAxMjg1NjUyMjc4MDE0ODgmIzQ1OyZndDtJTlBVVF8xMjg1NjUyMjI4Mzc2MTYgLS0+CjxnIGlkPSJlZGdlNCIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+MTI4NTY1MjI3ODAxNDg4JiM0NTsmZ3Q7SU5QVVRfMTI4NTY1MjIyODM3NjE2PC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJncmVlbiIgZD0iTTE3MS44NSwtMjUuMzVDMTMwLjc0LC0yNS4zNSA0OS42NiwtMjUuMzUgMTcuODUsLTI1LjM1Ii8+Cjxwb2x5Z29uIGZpbGw9ImdyZWVuIiBzdHJva2U9ImdyZWVuIiBwb2ludHM9IjE3LjUsLTIxLjg1IDcuNSwtMjUuMzUgMTcuNSwtMjguODUgMTcuNSwtMjEuODUiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iODkuNyIgeT0iLTQ0LjE1IiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPmdyYWQ9W1swLjE5IDAuMDVdPC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI4OS43IiB5PSItMjkuMTUiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+IFsxLjUxIDIuOSBdXTwvdGV4dD4KPC9nPgo8IS0tIEZJTkFMXzEyODU2NTIyNzgwMjE2MCAtLT4KPGcgaWQ9Im5vZGU2IiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT5GSU5BTF8xMjg1NjUyMjc4MDIxNjA8L3RpdGxlPgo8ZWxsaXBzZSBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgY3g9IjU2MC43OSIgY3k9Ii01OS4zNSIgcng9IjMuNiIgcnk9IjMuNiIvPgo8L2c+CjwhLS0gRklOQUxfMTI4NTY1MjI3ODAyMTYwJiM0NTsmZ3Q7MTI4NTY1MjI3ODAyMTYwIC0tPgo8ZyBpZD0iZWRnZTUiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPkZJTkFMXzEyODU2NTIyNzgwMjE2MCYjNDU7Jmd0OzEyODU2NTIyNzgwMjE2MDwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iZ3JlZW4iIGQ9Ik01NTcuMTgsLTU5LjM1QzU0My4zMSwtNTkuMzUgNDc3LjU4LC01OS4zNSA0MzguNDksLTU5LjM1Ii8+Cjxwb2x5Z29uIGZpbGw9ImdyZWVuIiBzdHJva2U9ImdyZWVuIiBwb2ludHM9IjQzOC4yMywtNTUuODUgNDI4LjIzLC01OS4zNSA0MzguMjMsLTYyLjg1IDQzOC4yMywtNTUuODUiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iNDkyLjY5IiB5PSItNzguMTUiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+Z3JhZD1bWzEuIDEuXTwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iNDkyLjY5IiB5PSItNjMuMTUiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+IFsxLiAxLl1dPC90ZXh0Pgo8L2c+CjwvZz4KPC9zdmc+Cg=="/>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=4fcfc77a">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>In summary, the computational graph is the structural foundation that enables Sorix to perform <strong>precise, efficient, and fully automatic differentiation</strong> without requiring any manual derivation of gradients.</p>
 </div>
 </div>
 </div>
@@ -4173,12 +4382,12 @@ df/dy: [[0.189216 0.049056]
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.expand", "navigation.path", "navigation.top", "toc.follow", "content.code.copy", "content.code.annotate", "content.tabs.link", "search.suggest", "search.highlight", "search.share"], "search": "../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.expand", "navigation.path", "navigation.top", "toc.follow", "content.code.copy", "content.code.annotate", "content.tabs.link", "search.suggest", "search.highlight", "search.share"], "search": "../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
       
-        <script src="../../javascripts/mathjax.js"></script>
+        <script src="../../../javascripts/mathjax.js"></script>
       
         <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
       
