@@ -31,7 +31,7 @@ while IFS= read -r -d '' notebook; do
         echo -e "${RED}❌ Error: Failed to execute $notebook${NC}" >&2
         FAILED_NOTEBOOKS+=("$notebook")
     fi
-done < <(find docs/examples -name "*.ipynb" -print0)
+done < <(find docs/examples docs/learn -name "*.ipynb" -print0)
 
 echo -e "\n${BLUE}==================================================${NC}"
 echo -e "📊 Execution Summary:"

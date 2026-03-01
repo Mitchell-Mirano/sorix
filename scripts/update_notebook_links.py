@@ -51,7 +51,7 @@ def update_notebook_links(notebook_path: Path, target_branch: str):
         if is_ci:
             docs_base = 'https://mitchell-mirano.github.io/sorix'
         else:
-            docs_base = 'http://127.0.0.1:8000'
+            docs_base = 'http://127.0.0.1:8000/sorix'
         
         # Process all cells
         for cell in notebook.get('cells', []):
