@@ -73,10 +73,32 @@ nav:
   - 🏡 Sorix: index.md
   # - ✨ Features: features.md
   - 📚 Learn:
-    - Tensor: learn/01-tensor.ipynb
-    - Computational Graph: learn/02-graph.ipynb
-    - Autograd: learn/03-autograd.ipynb
-    - Layers: learn/04-layers.ipynb
+    - Basics:
+      - Tensor: learn/basics/01-tensor.ipynb
+      - Computational Graph: learn/basics/02-graph.ipynb
+      - Autograd: learn/basics/03-autograd.ipynb
+    - Layers:
+        - Overview: learn/layers/index.md
+        - Linear: learn/layers/01-Linear.ipynb
+        - BatchNorm1d: learn/layers/02-BatchNorm1d.ipynb
+        - ReLU: learn/layers/03-ReLU.ipynb
+        - Sigmoid: learn/layers/04-Sigmoid.ipynb
+        - Tanh: learn/layers/05-Tanh.ipynb
+        - Dropout: learn/layers/06-Dropout.ipynb
+        - Module: learn/layers/07-Module.ipynb
+    - Loss:
+        - Overview: learn/loss/index.md
+        - MSELoss: learn/loss/01-MSELoss.ipynb
+        - BCEWithLogitsLoss: learn/loss/02-BCEWithLogitsLoss.ipynb
+        - CrossEntropyLoss: learn/loss/03-CrossEntropyLoss.ipynb
+    - Optimizers:
+        - Overview: learn/optimizers/index.md
+        - SGD: learn/optimizers/01-SGD.ipynb
+        - SGDMomentum: learn/optimizers/02-SGDMomentum.ipynb
+        - RMSprop: learn/optimizers/03-RMSprop.ipynb
+        - Adam: learn/optimizers/04-Adam.ipynb
+        - Comparison: learn/optimizers/05-Comparison.ipynb
+        - Optimizer Class: learn/optimizers/06-Optimizer.ipynb
   - Examples:
     - Preprocessing: examples/preprocessing/encoders-scalers-transformers.ipynb
     - Linear Regression: examples/regression/1-linear-regression.ipynb

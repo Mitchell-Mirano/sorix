@@ -93,10 +93,21 @@ class ReLU(Module):
 
 
 class Sigmoid(Module):
-    """Sigmoid activation function."""
+    """Numerically stable Sigmoid activation function."""
     def __call__(self, X: Tensor) -> Tensor:
         xp = cp if X.device == 'cuda' else np
-        out = Tensor(1 / (1 + xp.exp(-X.data)), (X,), 'Sigmoid', device=X.device, requires_grad=X.requires_grad)
+        x = X.data
+        
+        # Stable Sigmoid implementation
+        # For x >= 0: 1 / (1 + exp(-x))
+        # For x < 0: exp(x) / (1 + exp(x))
+        abs_x = xp.abs(x)
+        exp_neg_abs_x = xp.exp(-abs_x)
+        denom = 1 + exp_neg_abs_x
+        
+        sigmoid_data = xp.where(x >= 0, 1 / denom, exp_neg_abs_x / denom)
+        
+        out = Tensor(sigmoid_data, (X,), 'Sigmoid', device=X.device, requires_grad=X.requires_grad)
         
         def _backward() -> None:
             if out.grad is None:
