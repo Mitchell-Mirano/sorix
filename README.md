@@ -60,28 +60,34 @@ poetry add sorix
 
 ---
 
-## ⚡ Sorix in 30 Seconds
+## ⚡ Full Pipeline: Define, Train, Save & Load
 
-Building and training a model is intuitive. Here is a complete training loop:
+Building a neural network, training it, and persisting it for later use is straightforward:
 
 ```python
 import numpy as np
-from sorix import tensor
-from sorix.nn import Linear, MSELoss
+from sorix import tensor, save, load
+from sorix.nn import Sequential, Linear, ReLU, MSELoss
 from sorix.optim import SGD
 
-# 1. Prepare data (y = 3x + 2)
+# 1. Prepare data (y = 3x^2 + 2)
 X = np.linspace(-1, 1, 100).reshape(-1, 1)
-y = 3 * X + 2 + 0.1 * np.random.randn(*X.shape)
+y = 3 * X**2 + 2 + 0.1 * np.random.randn(*X.shape)
 X_t, y_t = tensor(X), tensor(y)
 
-# 2. Define model, loss, and optimizer
-model = Linear(1, 1) # Simple y = Wx + b
-criterion = MSELoss()
-optimizer = SGD(model.parameters(), lr=0.1)
+# 2. Define a multi-layer model
+model = Sequential(
+    Linear(1, 10),
+    ReLU(),
+    Linear(10, 1)
+)
 
-# 3. Training loop
-for epoch in range(100):
+# 3. Define loss and optimizer
+criterion = MSELoss()
+optimizer = SGD(model.parameters(), lr=0.01)
+
+# 4. Training loop
+for epoch in range(1000):
     y_pred = model(X_t)
     loss = criterion(y_pred, y_t)
 
@@ -89,11 +95,16 @@ for epoch in range(100):
     loss.backward()
     optimizer.step()
 
-    if (epoch + 1) % 20 == 0:
+    if (epoch + 1) % 200 == 0:
         print(f"Epoch {epoch+1}, Loss: {loss.item():.4f}")
 
-# Learned: y = 3.00x + 2.00
-print(f"Learned: y = {model.W.item():.2f}x + {model.b.item():.2f}")
+# 5. Save the model
+save(model, "model.pkl")
+
+# 6. Load and verify
+model_loaded = load("model.pkl")
+test_val = tensor([[0.5]])
+print(f"Prediction for 0.5: {model_loaded(test_val).item():.4f}")
 ```
 
 ---
@@ -104,8 +115,9 @@ Learn Sorix through interactive notebooks. Open them directly in **Google Colab*
 
 | Topic | Documentation | Colab |
 | :--- | :--- | :--- |
-| **Tensor Basics** | [Tensors Guide](https://mitchell-mirano.github.io/sorix/latest/learn/01-tensor/) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Mitchell-Mirano/sorix/blob/main/docs/learn/01-tensor.ipynb) |
-| **Autograd Engine** | [Autograd Guide](https://mitchell-mirano.github.io/sorix/latest/learn/03-autograd/) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Mitchell-Mirano/sorix/blob/main/docs/learn/03-autograd.ipynb) |
+| **Tensor Basics** | [Tensors Guide](https://mitchell-mirano.github.io/sorix/latest/learn/basics/01-tensor/) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Mitchell-Mirano/sorix/blob/main/docs/learn/basics/01-tensor.ipynb) |
+| **Autograd Engine** | [Autograd Guide](https://mitchell-mirano.github.io/sorix/latest/learn/basics/03-autograd/) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Mitchell-Mirano/sorix/blob/main/docs/learn/basics/03-autograd.ipynb) |
+| **Module Basics** | [Module Guide](https://mitchell-mirano.github.io/sorix/latest/learn/layers/07-Module/) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Mitchell-Mirano/sorix/blob/main/docs/learn/layers/07-Module.ipynb) |
 | **Linear Regression** | [Regression Guide](https://mitchell-mirano.github.io/sorix/latest/examples/nn/1-regression/) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Mitchell-Mirano/sorix/blob/main/docs/examples/nn/1-regression.ipynb) |
 | **MNIST Classification** | [MNIST Guide](https://mitchell-mirano.github.io/sorix/latest/examples/nn/4-digit-recognizer/) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Mitchell-Mirano/sorix/blob/main/docs/examples/nn/4-digit-recognizer.ipynb) |
 
@@ -114,13 +126,13 @@ Learn Sorix through interactive notebooks. Open them directly in **Google Colab*
 ## 🛠️ Roadmap
 
 - [x] **Core Autograd Engine** (NumPy/CuPy backends)
-- [x] **Basic Layers**: Linear, ReLU, Sigmoid, Tanh, BatchNorm1D
+- [x] **Basic Layers**: Linear, ReLU, Sigmoid, Tanh, BatchNorm1D, Dropout
 - [x] **Optimizers**: SGD, Adam, RMSprop
 - [x] **GPU Acceleration** via CuPy
-- [ ] **Sequential API** (Coming soon)
+- [x] **Sequential API**
 - [ ] **Convolutional Layers** (Conv2d, MaxPool2d)
-- [ ] **Dropout & Regularization**
 - [ ] **Advanced Initializations** (Kaiming, Orthogonal)
+- [ ] **Data Loaders & Datasets**
 
 ---
 

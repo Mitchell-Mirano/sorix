@@ -50,14 +50,14 @@ class SGDMomentum(Optimizer):
     def __init__(self, parameters: List[Tensor], lr: float = 1e-3, momentum: float = 0.9) -> None:
         super().__init__(parameters, lr)
         self.momentum = momentum
-        self.vts: Dict[int, np.ndarray] = {}
+        # Initialize velocity buffers for each parameter
+        self.vts = [self.xp.zeros_like(p.data) for p in self.parameters]
 
     def step(self) -> None:
         for i, param in enumerate(self.parameters):
             if param.grad is None:
                 continue
-            if i not in self.vts:
-                self.vts[i] = self.xp.zeros_like(param.data)
+            
             self.vts[i] = self.momentum * self.vts[i] + param.grad
             param.data -= self.lr * self.vts[i]
 
@@ -69,15 +69,15 @@ class RMSprop(Optimizer):
     def __init__(self, parameters: List[Tensor], lr: float = 1e-3, decay: float = 0.9, epsilon: float = 1e-8) -> None:
         super().__init__(parameters, lr)
         self.decay = decay
-        self.vts: Dict[int, np.ndarray] = {}
         self.epsilon = epsilon
+        # Initialize square gradient buffers
+        self.vts = [self.xp.zeros_like(p.data) for p in self.parameters]
 
     def step(self) -> None:
         for i, param in enumerate(self.parameters):
             if param.grad is None:
                 continue
-            if i not in self.vts:
-                self.vts[i] = self.xp.zeros_like(param.data)
+            
             self.vts[i] = self.decay * self.vts[i] + (1 - self.decay) * param.grad ** 2
             param.data -= self.lr * param.grad / (self.xp.sqrt(self.vts[i]) + self.epsilon)
 
@@ -100,20 +100,20 @@ class Adam(Optimizer):
         self.beta1 = beta1
         self.beta2 = beta2
         self.epsilon = epsilon
-        self.vts: Dict[int, np.ndarray] = {}
-        self.rts: Dict[int, np.ndarray] = {}
         self.t = 0
+        # Initialize first and second moment buffers
+        self.vts = [self.xp.zeros_like(p.data) for p in self.parameters]
+        self.rts = [self.xp.zeros_like(p.data) for p in self.parameters]
 
     def step(self) -> None:
         self.t += 1
         for i, param in enumerate(self.parameters):
             if param.grad is None:
                 continue
-            if i not in self.vts:
-                self.vts[i] = self.xp.zeros_like(param.data)
-                self.rts[i] = self.xp.zeros_like(param.data)
+            
             self.vts[i] = self.beta1 * self.vts[i] + (1 - self.beta1) * param.grad
             self.rts[i] = self.beta2 * self.rts[i] + (1 - self.beta2) * param.grad ** 2
+            
             v_hat = self.vts[i] / (1 - self.beta1 ** self.t)
             r_hat = self.rts[i] / (1 - self.beta2 ** self.t)
 

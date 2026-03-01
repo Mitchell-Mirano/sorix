@@ -101,27 +101,33 @@ print(f"dy/dx: {x.grad}") # → 3.0
 print(f"dy/dw: {w.grad}") # → 2.0
 ```
 
-### 2. Linear Regression (Training Loop)
-Building and training models is as intuitive and powerful as in PyTorch.
+### 2. Full Training Pipeline
+Building a neural network, training it, and persisting it for later use is as intuitive as in PyTorch.
 
 ```python
 import numpy as np
-from sorix import tensor
-from sorix.nn import Linear, MSELoss
+from sorix import tensor, save, load
+from sorix.nn import Sequential, Linear, ReLU, MSELoss
 from sorix.optim import SGD
 
-# 1. Prepare data
+# 1. Prepare data (y = 3x^2 + 2)
 X = np.linspace(-1, 1, 100).reshape(-1, 1)
-y = 3 * X + 2 + 0.1 * np.random.randn(*X.shape)
+y = 3 * X**2 + 2 + 0.1 * np.random.randn(*X.shape)
 X_t, y_t = tensor(X), tensor(y)
 
-# 2. Define model, loss, and optimizer
-model = Linear(1, 1)
-criterion = MSELoss()
-optimizer = SGD(model.parameters(), lr=0.1)
+# 2. Define a multi-layer model
+model = Sequential(
+    Linear(1, 10),
+    ReLU(),
+    Linear(10, 1)
+)
 
-# 3. Training loop
-for epoch in range(100):
+# 3. Define loss and optimizer
+criterion = MSELoss()
+optimizer = SGD(model.parameters(), lr=0.01)
+
+# 4. Training loop
+for epoch in range(1000):
     y_pred = model(X_t)
     loss = criterion(y_pred, y_t)
 
@@ -129,11 +135,16 @@ for epoch in range(100):
     loss.backward()
     optimizer.step()
 
-    if (epoch + 1) % 20 == 0:
+    if (epoch + 1) % 200 == 0:
         print(f"Epoch {epoch+1}, Loss: {loss.item():.4f}")
 
-# 4. Final parameters
-print(f"Learned: y = {model.W.item():.2f}x + {model.b.item():.2f}")
+# 5. Save the model
+save(model, "model.sor")
+
+# 6. Load and verify
+model_loaded = load("model.sor")
+test_val = tensor([[0.5]])
+print(f"Prediction for 0.5: {model_loaded(test_val).item():.4f}")
 ```
 
 ---
@@ -144,9 +155,9 @@ print(f"Learned: y = {model.W.item():.2f}x + {model.b.item():.2f}")
 
 -   :material-book-open-variant:{ .lg .middle } __Learn Basics__
 
-    Understand Tensors, Graphs and Autograd.
+    Understand Tensors, Graphs, Autograd and Modules.
 
-    [:octicons-arrow-right-24: Start Learning](./learn/01-tensor.ipynb)
+    [:octicons-arrow-right-24: Start Learning](./learn/basics/01-tensor.ipynb)
 
 -   :material-code-braces:{ .lg .middle } __Examples__
 
