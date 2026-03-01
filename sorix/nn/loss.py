@@ -25,8 +25,22 @@ class BCEWithLogitsLoss:
         xp = cp if y_pred.device == 'cuda' else np
         batch_size = y_real.data.shape[0]
 
-        probs = 1 / (1 + xp.exp(-y_pred.data))
-        loss_val = -xp.mean(y_real.data * xp.log(probs + 1e-9) + (1 - y_real.data) * xp.log(1 - probs + 1e-9))
+        x = y_pred.data
+        y = y_real.data
+        abs_x = xp.abs(x)
+        exp_neg_abs_x = xp.exp(-abs_x)
+        
+        # Numerically stable element-wise loss: max(x, 0) - x*y + log(1 + exp(-abs(x)))
+        element_loss = xp.maximum(x, 0) - x * y + xp.log1p(exp_neg_abs_x)
+        loss_val = xp.mean(element_loss)
+        
+        # Stable sigmoid calculation reusing exp_neg_abs_x
+        # For x >= 0: sigma(x) = 1 / (1 + exp(-abs_x))
+        # For x < 0:  sigma(x) = exp(abs_x) / (1 + exp(abs_x)) ... no
+        # For x < 0:  sigma(x) = exp(x) / (1 + exp(x)) = exp(-abs_x) / (1 + exp(-abs_x))
+        denom = 1 + exp_neg_abs_x
+        probs = xp.where(x >= 0, 1 / denom, exp_neg_abs_x / denom)
+        
         out = Tensor(loss_val, (y_pred,), 'BCELossWithLogits', device=y_pred.device, requires_grad=y_pred.requires_grad)
         
         def _backward() -> None:
