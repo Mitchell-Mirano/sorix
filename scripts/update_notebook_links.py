@@ -49,7 +49,7 @@ def update_notebook_links(notebook_path: Path, target_branch: str):
         # Documentation base URL - use GitHub Pages in CI, localhost in local dev
         is_ci = os.environ.get('CI', '').lower() == 'true'
         if is_ci:
-            docs_base = 'https://mitchell-mirano.github.io/sorix'
+            docs_base = 'https://mitchell-mirano.github.io/sorix/latest'
         else:
             docs_base = 'http://127.0.0.1:8000/sorix'
         
@@ -96,12 +96,34 @@ def update_notebook_links(notebook_path: Path, target_branch: str):
                             new_line = new_line.replace('{{ docs_base }}', docs_base)
                             modified = True
                         
+                        # Replace hardcoded local docs links with the actual docs_base
+                        # This handles cases where the macro wasn't used
+                        local_docs_pattern = 'http://127.0.0.1:8000/sorix'
+                        if local_docs_pattern in new_line and local_docs_pattern != docs_base:
+                            new_line = new_line.replace(local_docs_pattern, docs_base)
+                            modified = True
+
+                        # Also handle the case where it might be the GH pages URL (e.g. from a previous CI run)
+                        # When running locally, revert to local URL. When in CI, ensure /latest is present.
+                        gh_docs_pattern = 'https://mitchell-mirano.github.io/sorix'
+                        if gh_docs_pattern in new_line:
+                            import re
+                            if not is_ci:
+                                # Replace GH pages URL (with or without /latest) with local docs base
+                                new_line = re.sub(r'https://mitchell-mirano\.github\.io/sorix(/latest)?', docs_base, new_line)
+                                modified = True
+                            elif 'latest' not in new_line:
+                                # We are in CI but link is missing /latest
+                                new_line = new_line.replace(gh_docs_pattern, docs_base)
+                                modified = True
+                        
                         # Also replace hardcoded Colab links (for backward compatibility)
                         if cell_type == 'markdown' and 'colab.research.google.com/github/Mitchell-Mirano/sorix/blob/' in new_line:
                             import re
+                            # Match until /docs or /examples to correctly handle branches with slashes
                             replaced_line = re.sub(
-                                r'(colab\.research\.google\.com/github/Mitchell-Mirano/sorix/blob/)[^/]+/',
-                                rf'\1{target_branch}/',
+                                r'(colab\.research\.google\.com/github/Mitchell-Mirano/sorix/blob/).+?/(docs|examples)/',
+                                rf'\1{target_branch}/\2/',
                                 new_line
                             )
                             if replaced_line != new_line:
@@ -111,9 +133,10 @@ def update_notebook_links(notebook_path: Path, target_branch: str):
                         # Replace hardcoded GitHub blob links
                         if cell_type == 'markdown' and 'github.com/Mitchell-Mirano/sorix/blob/' in new_line and 'colab' not in new_line:
                             import re
+                            # Match until /docs or /examples to correctly handle branches with slashes
                             replaced_line = re.sub(
-                                r'(github\.com/Mitchell-Mirano/sorix/blob/)[^/]+/',
-                                rf'\1{target_branch}/',
+                                r'(github\.com/Mitchell-Mirano/sorix/blob/).+?/(docs|examples)/',
+                                rf'\1{target_branch}/\2/',
                                 new_line
                             )
                             if replaced_line != new_line:
