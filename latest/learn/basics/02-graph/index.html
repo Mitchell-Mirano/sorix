@@ -4160,7 +4160,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h1 id="computational-graph">Computational Graph<a class="anchor-link" href="#computational-graph">¶</a></h1><p><a href="https://colab.research.google.com/github/Mitchell-Mirano/sorix/blob/main/docs/learn/basics/02-graph.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg"/></a>
 <a href="https://github.com/Mitchell-Mirano/sorix/blob/main/docs/learn/basics/02-graph.ipynb"><img alt="Open in GitHub" src="https://img.shields.io/badge/Open%20in-GitHub-black?logo=github"/></a>
-<a href="http://127.0.0.1:8000/sorix/learn/basics/02-graph/"><img alt="Open in Docs" src="https://img.shields.io/badge/Open%20in-Docs-blue?logo=readthedocs"/></a></p>
+<a href="https://mitchell-mirano.github.io/sorix/latest/learn/basics/02-graph/"><img alt="Open in Docs" src="https://img.shields.io/badge/Open%20in-Docs-blue?logo=readthedocs"/></a></p>
 <p>Sorix constructs a <strong>directed acyclic computational graph (DAG)</strong> that records every operation applied to tensors created with the parameter <code>requires_grad=True</code>. In this graph, each node represents an <strong>elementary operation</strong>—such as addition, multiplication, exponentiation, or matrix multiplication—while the edges represent the <strong>tensors</strong> flowing between those operations.</p>
 <p>This mechanism allows Sorix to capture the complete functional dependency between the input variables and all intermediate expressions. Every time an operation is executed (e.g., <code>x + y</code>, <code>x * y</code>, <code>x**2</code>), Sorix creates a new node in the graph and connects it to the nodes corresponding to the operands involved in the computation.</p>
 <p>As a result:</p>
@@ -4192,10 +4192,10 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </clipboard-copy>
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># Uncomment the next line and run this cell to install sorix</span>
-<span class="c1">#!pip install 'sorix @ git+https://github.com/Mitchell-Mirano/sorix.git@main'</span>
+<span class="c1">#!pip install 'sorix @ git+https://github.com/Mitchell-Mirano/sorix.git@main/docs_learn/docs_learn/docs_learn/docs_learn'</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-1"># Uncomment the next line and run this cell to install sorix
-#!pip install 'sorix @ git+https://github.com/Mitchell-Mirano/sorix.git@main'</div>
+#!pip install 'sorix @ git+https://github.com/Mitchell-Mirano/sorix.git@main/docs_learn/docs_learn/docs_learn/docs_learn'</div>
 </div>
 </div>
 </div>
