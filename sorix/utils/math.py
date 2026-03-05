@@ -51,7 +51,7 @@ def sin(X):
             if out.grad is None:
                 return
             if X.requires_grad:
-                X.grad += out.grad * xp.cos(X.data)  # d/dx sin(x) = cos(x)
+                X._accumulate_grad(out.grad * xp.cos(X.data))  # d/dx sin(x) = cos(x)
 
         out._backward = _backward
         return out
@@ -69,7 +69,7 @@ def cos(X):
             if out.grad is None:
                 return
             if X.requires_grad:
-                X.grad += -out.grad * xp.sin(X.data)  # d/dx cos(x) = -sin(x)
+                X._accumulate_grad(-out.grad * xp.sin(X.data))  # d/dx cos(x) = -sin(x)
 
         out._backward = _backward
         return out
@@ -94,7 +94,7 @@ def exp(X):
             if out.grad is None:
                 return
             if X.requires_grad:
-                X.grad += out.grad * out.data
+                X._accumulate_grad(out.grad * out.data)
 
         out._backward = _backward
         return out
@@ -112,7 +112,7 @@ def log(X):
             if out.grad is None:
                 return
             if X.requires_grad:
-                X.grad += out.grad / X.data
+                X._accumulate_grad(out.grad / X.data)
 
         out._backward = _backward
         return out
@@ -131,7 +131,7 @@ def sqrt(X):
             if out.grad is None:
                 return
             if X.requires_grad:
-                X.grad += out.grad / (2 * out.data)
+                X._accumulate_grad(out.grad / (2 * out.data))
 
         out._backward = _backward
         return out

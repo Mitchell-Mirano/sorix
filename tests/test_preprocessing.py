@@ -162,3 +162,42 @@ def test_one_hot_extra():
     encoded = np.array([[1.0, 0.0], [0.0, 1.0]])
     inv = encoder.inverse_transform(encoded)
     assert np.all(inv == [0, 1])
+
+def test_column_transformer_state_dict():
+    df = pd.DataFrame({'num': [10, 20], 'cat': ['A', 'B']})
+    ct = ColumnTransformer([
+        ('s', MinMaxScaler(), ['num']),
+        ('e', OneHotEncoder(), ['cat'])
+    ])
+    ct.fit_transform(df)
+    
+    # Save state
+    state = ct.state_dict()
+    assert 'n_features' in state
+    assert 'transformers_states' in state
+    
+    # Load into new ct
+    new_ct = ColumnTransformer([
+        ('s', MinMaxScaler(), ['num']),
+        ('e', OneHotEncoder(), ['cat'])
+    ])
+    # Should work even before fit
+    new_ct.load_state_dict(state)
+    
+    # Verify it can transform new data
+    df2 = pd.DataFrame({'num': [15], 'cat': ['A']})
+    res = new_ct.transform(df2)
+    assert res.shape == (1, 3) # [scaled_num, cat_A, cat_B]
+    assert np.allclose(res, [[0.5, 1.0, 0.0]])
+
+def test_column_transformer_get_features_names():
+    df = pd.DataFrame({'val': [1, 2], 'name': ['x', 'y']})
+    ct = ColumnTransformer([
+        ('scale', MinMaxScaler(), ['val']),
+        ('onehot', OneHotEncoder(), ['name'])
+    ])
+    ct.fit_transform(df)
+    names = ct.get_features_names()
+    assert 'scale_val' in names
+    assert 'onehot_name_x' in names
+    assert 'onehot_name_y' in names
