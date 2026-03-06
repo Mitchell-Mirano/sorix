@@ -75,9 +75,6 @@ class Module:
         def _apply(obj: Any) -> Any:
             if hasattr(obj, "to") and callable(obj.to) and obj is not self:
                 return obj.to(device)
-            
-            if isinstance(obj, Tensor):
-                return obj.to(device)
 
             if isinstance(obj, list):
                 return [_apply(v) for v in obj]

@@ -10,111 +10,200 @@ if _cupy_available:
 
 class Optimizer:
     """
-    Base class for all optimizers.
+    Base class for all optimizers with Fused architecture and param_groups support.
+    
+    Args:
+        params: Iterable of parameters or dicts defining parameter groups.
+        defaults: Dict containing default values of optimization options.
     """
-    def __init__(self, parameters: List[Tensor], lr: float = 1e-3) -> None:
-        self.parameters = parameters
-        self.lr = lr
-        self.device = parameters[0].device
-        self.xp = cp if self.device == 'cuda' else np
+    def __init__(self, params: Any, lr: float = 1e-3, weight_decay: float = 0.0) -> None:
+        self.defaults = dict(lr=lr, weight_decay=weight_decay)
+        self.param_groups: List[dict] = []
+        
+        param_groups = list(params)
+        if len(param_groups) == 0:
+            raise ValueError("optimizer got an empty parameter list")
+        if not isinstance(param_groups[0], dict):
+            param_groups = [{'params': param_groups}]
+
+        for param_group in param_groups:
+            self.add_param_group(param_group)
+
+    def add_param_group(self, param_group: dict) -> None:
+        """Adds a parameter group to the Optimizer."""
+        # Merge defaults
+        for name, default in self.defaults.items():
+            param_group.setdefault(name, default)
+            
+        params = param_group['params']
+        if isinstance(params, Tensor):
+            param_group['params'] = [params]
+        elif not isinstance(params, list):
+            param_group['params'] = list(params)
+            
+        group_params = param_group['params']
+        if not group_params:
+            return
+            
+        device = group_params[0].device
+        xp = cp if device == 'cuda' else np
+        dtype = group_params[0].data.dtype
+        
+        # 1. Create Fused Buffers for this group
+        total_size = sum(p.data.size for p in group_params)
+        param_buffer = xp.zeros(total_size, dtype=dtype)
+        grad_buffer = xp.zeros(total_size, dtype=dtype)
+        
+        # 2. Memory-Safe Linkage: Copy and immediately orphan original arrays
+        offset = 0
+        for p in group_params:
+            size = p.data.size
+            # Copy to master
+            param_buffer[offset:offset+size] = p.data.ravel()
+            if p.grad is not None:
+                grad_buffer[offset:offset+size] = p.grad.ravel()
+            
+            # Reassign as views. Old p.data/p.grad arrays 
+            # are now eligible for GC if not referenced elsewhere.
+            p.data = param_buffer[offset:offset+size].reshape(p.shape)
+            p.grad = grad_buffer[offset:offset+size].reshape(p.shape)
+            offset += size
+            
+        # Store group-specific buffers and state
+        param_group['_param_buffer'] = param_buffer
+        param_group['_grad_buffer'] = grad_buffer
+        param_group['_xp'] = xp
+        param_group['state'] = {} # For optimizer statistics (e.g. Adam moments)
+        
+        self.param_groups.append(param_group)
 
     def zero_grad(self) -> None:
-        """Sets gradients of all optimized tensors to zero."""
-        for param in self.parameters:
-            if param.grad is not None:
-                param.grad = self.xp.zeros_like(param.grad)
-    
-    def step(self) -> None:
+        """Clears the gradients of all optimized parameters."""
+        for group in self.param_groups:
+            group['_grad_buffer'].fill(0)
+
+    def state_dict(self) -> dict:
+        """Returns the state of the optimizer as a dict."""
+        # Note: We don't save the full buffers to avoid massive file sizes, 
+        # but we save the hyperparameters and state statistics.
+        return {
+            'state': [g['state'] for g in self.param_groups],
+            'param_groups': [{k: v for k, v in g.items() if not k.startswith('_') and k != 'params'} for g in self.param_groups]
+        }
+
+    def load_state_dict(self, state_dict: dict) -> None:
+        """Loads the optimizer state."""
+        for i, group in enumerate(self.param_groups):
+            group['state'].update(state_dict['state'][i])
+            # Update hyperparameters
+            for k, v in state_dict['param_groups'][i].items():
+                group[k] = v
+
+    def step(self, closure: Any = None) -> Optional[float]:
         """Performs a single optimization step."""
+        loss = None
+        if closure is not None:
+            loss = closure()
+        
+        self._perform_step()
+        return loss
+
+    def _perform_step(self):
         raise NotImplementedError
-    
 
 
 class SGD(Optimizer):
     """
-    Implements stochastic gradient descent.
+    Stochastic Gradient Descent with Momentum and Weight Decay.
     """
-    def __init__(self, parameters: List[Tensor], lr: float = 1e-3) -> None:
-        super().__init__(parameters, lr)
+    def __init__(self, params, lr=1e-3, momentum=0.0, weight_decay=0.0):
+        super().__init__(params, lr, weight_decay)
+        for group in self.param_groups:
+            if momentum > 0:
+                group['state']['v_buffer'] = group['_xp'].zeros_like(group['_param_buffer'])
+            group.setdefault('momentum', momentum) # Ensure momentum is set in group
 
-    def step(self) -> None:
-        for param in self.parameters:
-            if param.grad is not None:
-                param.data -= self.lr * param.grad
-
-
-class SGDMomentum(Optimizer):
-    """
-    Implements SGD with momentum.
-    """
-    def __init__(self, parameters: List[Tensor], lr: float = 1e-3, momentum: float = 0.9) -> None:
-        super().__init__(parameters, lr)
-        self.momentum = momentum
-        # Initialize velocity buffers for each parameter
-        self.vts = [self.xp.zeros_like(p.data) for p in self.parameters]
-
-    def step(self) -> None:
-        for i, param in enumerate(self.parameters):
-            if param.grad is None:
-                continue
+    def _perform_step(self):
+        for group in self.param_groups:
+            xp = group['_xp']
+            p_buf = group['_param_buffer']
+            g_buf = group['_grad_buffer']
             
-            self.vts[i] = self.momentum * self.vts[i] + param.grad
-            param.data -= self.lr * self.vts[i]
+            # 1. Apply Weight Decay (L2 Regularization)
+            if group['weight_decay'] != 0:
+                g_buf += group['weight_decay'] * p_buf
+            
+            # 2. Update logic
+            if 'v_buffer' in group['state']:
+                v_buf = group['state']['v_buffer']
+                # Correct momentum implementation (PyTorch style)
+                v_buf[:] = group['momentum'] * v_buf + g_buf
+                p_buf -= group['lr'] * v_buf
+            else:
+                p_buf -= group['lr'] * g_buf
+
+
+class SGDMomentum(SGD):
+    """
+    Backward compatibility alias for SGD with momentum.
+    """
+    def __init__(self, params, lr=1e-3, momentum=0.9, weight_decay=0.0):
+        super().__init__(params, lr, momentum=momentum, weight_decay=weight_decay)
 
 
 class RMSprop(Optimizer):
-    """
-    Implements RMSprop algorithm.
-    """
-    def __init__(self, parameters: List[Tensor], lr: float = 1e-3, decay: float = 0.9, epsilon: float = 1e-8) -> None:
-        super().__init__(parameters, lr)
-        self.decay = decay
-        self.epsilon = epsilon
-        # Initialize square gradient buffers
-        self.vts = [self.xp.zeros_like(p.data) for p in self.parameters]
+    def __init__(self, params, lr=1e-3, alpha=0.99, eps=1e-8, weight_decay=0.0, decay=None):
+        # Support both 'alpha' (PyTorch style) and 'decay' (Sorix legacy style)
+        actual_alpha = decay if decay is not None else alpha
+        super().__init__(params, lr, weight_decay)
+        for group in self.param_groups:
+            group['state']['v_buffer'] = group['_xp'].zeros_like(group['_param_buffer'])
+            group.setdefault('alpha', actual_alpha)
+            group.setdefault('eps', eps)
 
-    def step(self) -> None:
-        for i, param in enumerate(self.parameters):
-            if param.grad is None:
-                continue
+    def _perform_step(self):
+        for group in self.param_groups:
+            xp = group['_xp']
+            p_buf = group['_param_buffer']
+            g_buf = group['_grad_buffer']
+            v_buf = group['state']['v_buffer']
             
-            self.vts[i] = self.decay * self.vts[i] + (1 - self.decay) * param.grad ** 2
-            param.data -= self.lr * param.grad / (self.xp.sqrt(self.vts[i]) + self.epsilon)
-
+            if group['weight_decay'] != 0:
+                # We need to use a temporary here if g_buf is used again
+                g_buf += group['weight_decay'] * p_buf
+                
+            v_buf[:] = group['alpha'] * v_buf + (1 - group['alpha']) * (g_buf ** 2)
+            p_buf -= group['lr'] * g_buf / (xp.sqrt(v_buf) + group['eps'])
 
 
 class Adam(Optimizer):
-    """
-    Implements Adam algorithm.
+    def __init__(self, params, lr=1e-3, betas=(0.9, 0.999), eps=1e-8, weight_decay=0.0):
+        super().__init__(params, lr, weight_decay)
+        for group in self.param_groups:
+            group['state']['t'] = 0
+            group['state']['exp_avg'] = group['_xp'].zeros_like(group['_param_buffer'])
+            group['state']['exp_avg_sq'] = group['_xp'].zeros_like(group['_param_buffer'])
+            group.setdefault('betas', betas)
+            group.setdefault('eps', eps)
 
-    Examples:
-        ```python
-        optimizer = Adam(model.parameters(), lr=1e-3)
-        optimizer.zero_grad()
-        loss.backward()
-        optimizer.step()
-        ```
-    """
-    def __init__(self, parameters: List[Tensor], lr: float = 1e-3, beta1: float = 0.9, beta2: float = 0.999, epsilon: float = 1e-8) -> None:
-        super().__init__(parameters, lr)
-        self.beta1 = beta1
-        self.beta2 = beta2
-        self.epsilon = epsilon
-        self.t = 0
-        # Initialize first and second moment buffers
-        self.vts = [self.xp.zeros_like(p.data) for p in self.parameters]
-        self.rts = [self.xp.zeros_like(p.data) for p in self.parameters]
-
-    def step(self) -> None:
-        self.t += 1
-        for i, param in enumerate(self.parameters):
-            if param.grad is None:
-                continue
+    def _perform_step(self):
+        for group in self.param_groups:
+            xp = group['_xp']
+            p_buf = group['_param_buffer']
+            g_buf = group['_grad_buffer']
+            state = group['state']
             
-            self.vts[i] = self.beta1 * self.vts[i] + (1 - self.beta1) * param.grad
-            self.rts[i] = self.beta2 * self.rts[i] + (1 - self.beta2) * param.grad ** 2
+            state['t'] += 1
+            if group['weight_decay'] != 0:
+                g_buf += group['weight_decay'] * p_buf
+                
+            b1, b2 = group['betas']
             
-            v_hat = self.vts[i] / (1 - self.beta1 ** self.t)
-            r_hat = self.rts[i] / (1 - self.beta2 ** self.t)
-
-            param.data -= self.lr * v_hat / (self.xp.sqrt(r_hat) + self.epsilon)
+            state['exp_avg'][:] = b1 * state['exp_avg'] + (1 - b1) * g_buf
+            state['exp_avg_sq'][:] = b2 * state['exp_avg_sq'] + (1 - b2) * (g_buf ** 2)
+            
+            bias_correction1 = 1 - b1 ** state['t']
+            bias_correction2 = 1 - b2 ** state['t']
+            
+            step_size = group['lr'] * (xp.sqrt(bias_correction2) / bias_correction1)
+            p_buf -= step_size * state['exp_avg'] / (xp.sqrt(state['exp_avg_sq']) + group['eps'])

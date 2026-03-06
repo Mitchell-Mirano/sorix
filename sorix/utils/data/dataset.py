@@ -1,3 +1,5 @@
+import numpy as np
+
 class Dataset:
     def __init__(self, X, y=None):
         if y is not None and len(X) != len(y):

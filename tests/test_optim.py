@@ -80,3 +80,74 @@ def test_optimization_loop():
     # x_new = x - 0.1 * 2x = 0.8x
     # x_50 = 10 * (0.8^50) approx 0
     assert abs(x.data[0]) < 1e-3
+
+def test_param_groups():
+    """Test if we can use different learning rates for different parameters."""
+    p1 = tensor([10.0], requires_grad=True)
+    p2 = tensor([10.0], requires_grad=True)
+    p1.grad = np.array([1.0])
+    p2.grad = np.array([1.0])
+    
+    # Define groups with different LRs
+    optim = SGD([
+        {'params': [p1], 'lr': 0.1},
+        {'params': [p2], 'lr': 0.5}
+    ])
+    
+    optim.step()
+    
+    # p1 = 10 - 0.1 * 1 = 9.9
+    # p2 = 10 - 0.5 * 1 = 9.5
+    assert np.allclose(p1.data, [9.9])
+    assert np.allclose(p2.data, [9.5])
+
+def test_weight_decay():
+    """Test if weight decay correctly penalizes large weights."""
+    p = tensor([10.0], requires_grad=True)
+    p.grad = np.array([0.0]) # No gradient
+    
+    # With weight decay, p should still decrease: p_new = p - lr * (grad + wd*p)
+    # p_new = 10 - 0.1 * (0 + 0.1 * 10) = 10 - 0.1 * 1 = 9.9
+    optim = SGD([p], lr=0.1, weight_decay=0.1)
+    optim.step()
+    
+    assert np.allclose(p.data, [9.9])
+
+def test_optimizer_state_dict():
+    """Test serialization and reloading of optimizer state."""
+    p = tensor([10.0], requires_grad=True)
+    p.grad = np.array([2.0])
+    
+    optim = Adam([p], lr=0.1)
+    optim.step() # Increment step t=1
+    
+    # Save state
+    state = optim.state_dict()
+    
+    # Create new optimizer and load state
+    new_p = tensor([10.0], requires_grad=True)
+    new_p.grad = np.array([2.0])
+    new_optim = Adam([new_p], lr=1.0) # Different default LR
+    
+    new_optim.load_state_dict(state)
+    
+    # Verify LR was updated and step t was preserved
+    assert new_optim.param_groups[0]['lr'] == 0.1
+    assert new_optim.param_groups[0]['state']['t'] == 1
+    
+    # Verify that moments were preserved (exp_avg should not be zero)
+    assert not np.all(new_optim.param_groups[0]['state']['exp_avg'] == 0)
+
+def test_step_closure():
+    """Test if the optimizer supports closures."""
+    p = tensor([10.0], requires_grad=True)
+    p.grad = np.array([2.0])
+    optim = SGD([p], lr=0.1)
+    
+    def closure():
+        optim.zero_grad()
+        return 42.0
+        
+    loss = optim.step(closure)
+    assert loss == 42.0
+

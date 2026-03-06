@@ -649,7 +649,8 @@ class Tensor:
                 grad = out.grad
                 if not keepdims and axis is not None:
                     grad = xp.expand_dims(grad, axis=axis)
-                self._accumulate_grad(grad * xp.ones_like(self.data) / self.data.size)
+                n = self.data.size / (out.data.size if out.data.size > 0 else 1)
+                self._accumulate_grad(grad * xp.ones_like(self.data) / n)
         out._backward = _backward
         return out
     
