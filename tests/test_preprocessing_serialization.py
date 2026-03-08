@@ -9,7 +9,7 @@ def test_scaler_save_load(tmp_path):
     # Test MinMaxScaler
     data = np.array([[1], [2], [3], [4], [5]]).astype(float)
     scaler = MinMaxScaler().fit(data)
-    path = os.path.join(tmp_path, "minmax.pkl")
+    path = os.path.join(tmp_path, "minmax.sor")
     
     # Save whole object (falls back to pickle)
     sorix.save(scaler, path)
@@ -32,7 +32,7 @@ def test_scaler_save_load(tmp_path):
 def test_encoder_save_load(tmp_path):
     df = pd.DataFrame({'color': ['red', 'blue', 'green', 'red']})
     encoder = OneHotEncoder().fit(df)
-    path = os.path.join(tmp_path, "encoder.pkl")
+    path = os.path.join(tmp_path, "encoder.sor")
     
     sorix.save(encoder, path)
     loaded_encoder = sorix.load(path)
@@ -60,7 +60,7 @@ def test_column_transformer_save_load(tmp_path):
     ])
     
     ct.fit_transform(df)
-    path = os.path.join(tmp_path, "ct.pkl")
+    path = os.path.join(tmp_path, "ct.sor")
     
     sorix.save(ct, path)
     loaded_ct = sorix.load(path)
