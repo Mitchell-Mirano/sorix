@@ -702,6 +702,10 @@ class Tensor:
         out._backward = _backward
         return out
 
+    def view(self, *shape: Any) -> Tensor:
+        """Alias for reshape, implemented to mimic PyTorch's view method."""
+        return self.reshape(*shape)
+
     def transpose(self, *axes: Any) -> Tensor:
         """Transposes the tensor axes."""
         global _autograd_enabled
