@@ -18,7 +18,7 @@ class DataLoader:
         self, 
         dataset: Any, 
         batch_size: int = 16, 
-        shuffle: bool = True,
+        shuffle: bool = False,
         collate_fn: Optional[Callable] = None
     ):
         self.dataset = dataset
