@@ -71,7 +71,6 @@ theme:
 # ====================================================================
 nav:
   - 🏡 Sorix: index.md
-  # - ✨ Features: features.md
   - 📚 Learn:
     - Basics:
       - Tensor: learn/basics/01-tensor.ipynb
@@ -117,6 +116,9 @@ nav:
         - Multiclass: examples/nn/2.2-classification-multiclass.ipynb
         - Iris Dataset: examples/nn/3-Iris_dataset.ipynb
         - MNIST Dataset: examples/nn/4-digit-recognizer.ipynb
+    - Benchmarks:
+      - Overview: examples/benchmarks/index.md
+      - Detailed Comparison (Notebook): examples/benchmarks/mnist_comparison.ipynb
   - API Reference: api/
 
 
@@ -134,6 +136,8 @@ markdown_extensions:
   - pymdownx.tabbed:
       alternate_style: true
   
+  - admonition
+  - pymdownx.details
   - pymdownx.blocks.admonition:
       types: 
         - note

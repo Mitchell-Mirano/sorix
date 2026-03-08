@@ -59,6 +59,13 @@ docs = [
     "pymdown-extensions>=10.17.1",
 ]
 test = ["pytest>=9.0.1", "pytest-cov"]
+benchmark = [
+    "torch>=2.0",
+    "tensorflow>=2.15",
+    "scikit-learn>=1.2",
+    "pandas>=2.0",
+    "cupy-cuda13x>=13.0",
+]
 
 [tool.setuptools.packages.find]
 include = ["sorix*"] # Incluye sorix y sus subpaquetes

@@ -30,6 +30,23 @@ Inspired by the **PyTorch API**, Sorix maintains a clear and intuitive interface
 
 ---
 
+## 📊 Benchmark Performance
+
+Sorix outpaces the giants in resource efficiency while matching them in speed.
+
+| Library | CPU Size | GPU Size | Training (CPU) | Accuracy |
+| :--- | :--- | :--- | :--- | :--- |
+| **Sorix** | **54 MB** | **238 MB** | **6.8s** | **97.0%** |
+| PyTorch | 737 MB | 6.8 GB | 5.1s | 97.4% |
+| TensorFlow | 1.4 GB | 2.0 GB | 17.8s | 97.1% |
+
+!!! tip
+    **Sorix is ~28x smaller** than PyTorch for GPU support and **~13x smaller** on CPU, making it the perfect choice for serverless and edge computing.
+
+👉 [**Full Benchmark Report**](./examples/benchmarks/index.md)
+
+---
+
 ## 📦 Installation
 
 <div class="grid" markdown="1">
@@ -161,7 +178,7 @@ print(f"Prediction for 0.5: {model_loaded(test_val).item():.4f}")
 
 -   :material-code-braces:{ .lg .middle } __Examples__
 
-    Real-world models: Linear/Logistic Regression, MNIST, and more.
+    Real-world models: Regression, MNIST, and benchmarks.
 
     [:octicons-arrow-right-24: View Examples](./examples/nn/1-regression.ipynb)
 
@@ -170,6 +187,12 @@ print(f"Prediction for 0.5: {model_loaded(test_val).item():.4f}")
     Detailed documentation for every class and method.
 
     [:octicons-arrow-right-24: Browse API](./api/tensor.md)
+
+-   :material-chart-bar:{ .lg .middle } __Benchmarks__
+
+    See how Sorix performs against PyTorch and TensorFlow.
+
+    [:octicons-arrow-right-24: View Benchmarks](./benchmarks.md)
 
 </div>
 
