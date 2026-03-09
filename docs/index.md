@@ -192,7 +192,7 @@ print(f"Prediction for 0.5: {model_loaded(test_val).item():.4f}")
 
     See how Sorix performs against PyTorch and TensorFlow.
 
-    [:octicons-arrow-right-24: View Benchmarks](./benchmarks.md)
+    [:octicons-arrow-right-24: View Benchmarks](./examples/benchmarks/index.md)
 
 </div>
 

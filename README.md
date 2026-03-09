@@ -49,7 +49,7 @@ Sorix outpaces the giants in resource efficiency while matching them in speed. I
 
 > **💡 Tip**: **Sorix is ~28x smaller** than PyTorch for GPU support and **~13x smaller** on CPU, making it the perfect choice for serverless environments (like AWS Lambda) and edge computing.
 
-👉 [**Full Benchmark Report**](https://mitchell-mirano.github.io/sorix/examples/benchmarks/)
+👉 [**Full Benchmark Report**](https://github.com/Mitchell-Mirano/sorix/blob/main/docs/examples/benchmarks/index.md)
 
 ---
 
@@ -147,8 +147,8 @@ Learn Sorix through interactive notebooks. Open them directly in **Google Colab*
 - [x] **GPU Acceleration** via CuPy
 - [x] **Sequential API**
 - [ ] **Convolutional Layers** (Conv2d, MaxPool2d)
-- [ ] **Advanced Initializations** (Kaiming, Orthogonal)
-- [ ] **Data Loaders & Datasets**
+- [x] **Advanced Initializations** (Kaiming, Orthogonal)
+- [x] **Data Loaders & Datasets**
 
 ---
 
