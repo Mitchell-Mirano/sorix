@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://mitchell-mirano.github.io/sorix/latest/learn/layers/02-BatchNorm1d/">
+        <link rel="canonical" href="https://mitchell-mirano.github.io/sorix/latest/learn/data/01-dataset-dataloader/">
       
       
-        <link rel="prev" href="../01-Linear/">
+        <link rel="prev" href="../">
       
       
-        <link rel="next" href="../03-ReLU/">
+        <link rel="next" href="../../layers/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>BatchNorm1d - Sorix</title>
+        <title>Dataset and DataLoader - Sorix</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#batchnorm1d" class="md-skip">
+        <a href="#dataset-and-dataloader" class="md-skip">
           Skip to content
         </a>
       
@@ -120,7 +120,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              BatchNorm1d
+              Dataset and DataLoader
             
           </span>
         </div>
@@ -643,8 +643,10 @@
                 
   
   
+    
   
   
+  
     
     
       
@@ -666,17 +668,15 @@
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" checked>
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../data/" class="md-nav__link ">
+            <a href="../" class="md-nav__link ">
               
   
   
@@ -700,7 +700,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -711,156 +711,6 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../data/01-dataset-dataloader/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Dataset and DataLoader
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-    
-  
-  
-  
-    
-    
-      
-        
-          
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-        
-          
-          
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" checked>
-        
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
-              
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Layers
-  
-
-    
-  </span>
-  
-  
-
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_2_3" id="__nav_2_3_label" tabindex="">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_2_3">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Layers
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../01-Linear/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Linear
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
               
             
               
@@ -886,7 +736,7 @@
   <span class="md-ellipsis">
     
   
-    BatchNorm1d
+    Dataset and DataLoader
   
 
     
@@ -904,7 +754,7 @@
   <span class="md-ellipsis">
     
   
-    BatchNorm1d
+    Dataset and DataLoader
   
 
     
@@ -930,10 +780,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#mathematical-definition" class="md-nav__link">
+  <a href="#1-tensors-by-default-and-transforms" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Mathematical definition
+        1. Tensors by Default and Transforms
       
     </span>
   </a>
@@ -941,10 +791,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#normalization-step" class="md-nav__link">
+  <a href="#2-working-with-csv-data" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Normalization step
+        2. Working with CSV Data
       
     </span>
   </a>
@@ -952,10 +802,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#learnable-affine-transformation" class="md-nav__link">
+  <a href="#3-working-with-images" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Learnable affine transformation
+        3. Working with Images
       
     </span>
   </a>
@@ -963,10 +813,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#running-statistics-and-inference-mode" class="md-nav__link">
+  <a href="#4-custom-collate-function" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Running statistics and inference mode
+        4. Custom Collate Function
       
     </span>
   </a>
@@ -974,54 +824,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#functional-view" class="md-nav__link">
+  <a href="#summary" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Functional view
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#parameterization-and-gradients" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Parameterization and gradients
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#multi-device-support" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Multi-device support
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#parameter-interface" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Parameter interface
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#statistical-interpretation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Statistical interpretation
+        Summary
       
     </span>
   </a>
@@ -1037,6 +843,100 @@
 
               
             
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../layers/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Layers
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_3" id="__nav_2_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Layers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
               
                 
   
@@ -1044,7 +944,63 @@
   
   
     <li class="md-nav__item">
-      <a href="../03-ReLU/" class="md-nav__link">
+      <a href="../../layers/01-Linear/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linear
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../layers/02-BatchNorm1d/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BatchNorm1d
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../layers/03-ReLU/" class="md-nav__link">
         
   
   
@@ -1072,7 +1028,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../04-Sigmoid/" class="md-nav__link">
+      <a href="../../layers/04-Sigmoid/" class="md-nav__link">
         
   
   
@@ -1100,7 +1056,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../05-Tanh/" class="md-nav__link">
+      <a href="../../layers/05-Tanh/" class="md-nav__link">
         
   
   
@@ -1128,7 +1084,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../06-Dropout/" class="md-nav__link">
+      <a href="../../layers/06-Dropout/" class="md-nav__link">
         
   
   
@@ -1156,7 +1112,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../07-Module/" class="md-nav__link">
+      <a href="../../layers/07-Module/" class="md-nav__link">
         
   
   
@@ -3821,10 +3777,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#mathematical-definition" class="md-nav__link">
+  <a href="#1-tensors-by-default-and-transforms" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Mathematical definition
+        1. Tensors by Default and Transforms
       
     </span>
   </a>
@@ -3832,10 +3788,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#normalization-step" class="md-nav__link">
+  <a href="#2-working-with-csv-data" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Normalization step
+        2. Working with CSV Data
       
     </span>
   </a>
@@ -3843,10 +3799,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#learnable-affine-transformation" class="md-nav__link">
+  <a href="#3-working-with-images" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Learnable affine transformation
+        3. Working with Images
       
     </span>
   </a>
@@ -3854,10 +3810,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#running-statistics-and-inference-mode" class="md-nav__link">
+  <a href="#4-custom-collate-function" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Running statistics and inference mode
+        4. Custom Collate Function
       
     </span>
   </a>
@@ -3865,54 +3821,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#functional-view" class="md-nav__link">
+  <a href="#summary" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Functional view
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#parameterization-and-gradients" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Parameterization and gradients
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#multi-device-support" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Multi-device support
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#parameter-interface" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Parameter interface
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#statistical-interpretation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Statistical interpretation
+        Summary
       
     </span>
   </a>
@@ -3991,7 +3903,7 @@
         <a href="../" class="md-path__link">
           
   <span class="md-ellipsis">
-    Layers
+    Data Handling
   </span>
 
         </a>
@@ -4449,125 +4361,22 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </style>
 <!-- End of mermaid configuration --><div class="jupyter-wrapper">
 <div class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=3126ec69">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=intro">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="batchnorm1d">BatchNorm1d<a class="anchor-link" href="#batchnorm1d">¶</a></h1><p><a href="https://colab.research.google.com/github/Mitchell-Mirano/sorix/blob/main/docs/learn/layers/02-BatchNorm1d.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg"/></a>
-<a href="https://github.com/Mitchell-Mirano/sorix/blob/main/docs/learn/layers/02-BatchNorm1d.ipynb"><img alt="Open in GitHub" src="https://img.shields.io/badge/Open%20in-GitHub-black?logo=github"/></a>
-<a href="https://mitchell-mirano.github.io/sorix/latest/learn/layers/02-BatchNorm1d"><img alt="Open in Docs" src="https://img.shields.io/badge/Open%20in-Docs-blue?logo=readthedocs"/></a></p>
-<p>The <strong>BatchNorm1d</strong> layer implements <em>batch normalization</em>, a technique designed to stabilize and accelerate the training of deep neural networks by reducing internal covariate shift. This is achieved by normalizing intermediate activations across the batch dimension and subsequently applying a learnable affine transformation.</p>
-<h2 id="mathematical-definition">Mathematical definition<a class="anchor-link" href="#mathematical-definition">¶</a></h2><p>Let $ \mathbf{X} \in \mathbb{R}^{N \times d} $
-be an input tensor representing a batch of $N$ samples, where each sample has $d$ features. Batch normalization operates <strong>feature-wise</strong>, normalizing each feature independently across the batch.</p>
-<p>During training, the batch-wise mean and variance are computed as</p>
-<p>$$
-\boldsymbol{\mu}_B
-=
-\frac{1}{N}
-\sum_{i=1}^{N}
-\mathbf{x}_i
-\;\in\;
-\mathbb{R}^{1 \times d},
-$$</p>
-<p>$$
-\boldsymbol{\sigma}_B^2
-=
-\frac{1}{N}
-\sum_{i=1}^{N}
-(\mathbf{x}_i - \boldsymbol{\mu}_B)^2
-\;\in\;
-\mathbb{R}^{1 \times d},
-$$</p>
-<p>where $\mathbf{x}_i \in \mathbb{R}^{1 \times d}$ denotes the $i$-th sample in the batch.</p>
-<h2 id="normalization-step">Normalization step<a class="anchor-link" href="#normalization-step">¶</a></h2><p>Each input sample is normalized using the batch statistics:</p>
-<p>$$
-\widehat{\mathbf{X}}
-=
-\frac{\mathbf{X} - \boldsymbol{\mu}_B}
-{\sqrt{\boldsymbol{\sigma}_B^2 + \varepsilon}},
-\quad
-\widehat{\mathbf{X}} \in \mathbb{R}^{N \times d},
-$$</p>
-<p>where $\varepsilon &gt; 0$ is a small constant introduced for numerical stability.</p>
-<h2 id="learnable-affine-transformation">Learnable affine transformation<a class="anchor-link" href="#learnable-affine-transformation">¶</a></h2><p>To preserve the representational capacity of the network, batch normalization introduces two learnable parameters:</p>
-<ul>
-<li>Scale parameter:
-$
-\boldsymbol{\gamma} \in \mathbb{R}^{1 \times d}
-$</li>
-<li>Shift parameter:
-$
-\boldsymbol{\beta} \in \mathbb{R}^{1 \times d}
-$</li>
-</ul>
-<p>The final output of the layer is given by</p>
-<p>$$
-\mathbf{Y}
-=
-\boldsymbol{\gamma} \odot \widehat{\mathbf{X}}
-+
-\boldsymbol{\beta},
-\quad
-\mathbf{Y} \in \mathbb{R}^{N \times d},
-$$</p>
-<p>where $\odot$ denotes element-wise multiplication applied <strong>column-wise</strong>, i.e., independently to each feature.</p>
-<h2 id="running-statistics-and-inference-mode">Running statistics and inference mode<a class="anchor-link" href="#running-statistics-and-inference-mode">¶</a></h2><p>In addition to batch statistics, BatchNorm1d maintains <em>running estimates</em> of the mean and variance:</p>
-<p>$$
-\boldsymbol{\mu}_{\text{run}} \in \mathbb{R}^{1 \times d},
-\quad
-\boldsymbol{\sigma}^2_{\text{run}} \in \mathbb{R}^{1 \times d}.
-$$</p>
-<p>These statistics are updated during training using an exponential moving average:</p>
-<p>$$
-\boldsymbol{\mu}_{\text{run}}
-\leftarrow
-\alpha \boldsymbol{\mu}_{\text{run}}
-+
-(1 - \alpha)\boldsymbol{\mu}_B,
-$$</p>
-<p>$$
-\boldsymbol{\sigma}^2_{\text{run}}
-\leftarrow
-\alpha \boldsymbol{\sigma}^2_{\text{run}}
-+
-(1 - \alpha)\boldsymbol{\sigma}^2_B,
-$$</p>
-<p>where $\alpha \in (0,1)$ is the momentum parameter controlling the update rate.</p>
-<p>During inference (evaluation mode), normalization is performed using these accumulated running statistics instead of the batch statistics, ensuring deterministic behavior:</p>
-<p>$$
-\widehat{\mathbf{X}}
-=
-\frac{\mathbf{X} - \boldsymbol{\mu}_{\text{run}}}
-{\sqrt{\boldsymbol{\sigma}^2_{\text{run}} + \varepsilon}}.
-$$</p>
-<h2 id="functional-view">Functional view<a class="anchor-link" href="#functional-view">¶</a></h2><p>The BatchNorm1d layer realizes the mapping</p>
-<p>$$
-\text{BatchNorm1d}:\;
-\mathbb{R}^{N \times d}
-\;\longrightarrow\;
-\mathbb{R}^{N \times d},
-$$</p>
-<p>where normalization and affine reparameterization are applied independently to each feature across the batch.</p>
-<h2 id="parameterization-and-gradients">Parameterization and gradients<a class="anchor-link" href="#parameterization-and-gradients">¶</a></h2><p>The learnable parameters $\boldsymbol{\gamma}$ and $\boldsymbol{\beta}$ are represented as <code>tensor</code> objects with <code>requires_grad=True</code>. Gradients are computed with respect to these parameters, as well as with respect to the input tensor $\mathbf{X}$, during backpropagation:</p>
-<p>$$
-\frac{\partial \mathcal{L}}{\partial \boldsymbol{\gamma}}, \quad
-\frac{\partial \mathcal{L}}{\partial \boldsymbol{\beta}}, \quad
-\frac{\partial \mathcal{L}}{\partial \mathbf{X}}.
-$$</p>
-<p>The running statistics are treated as buffers and do not participate in gradient computation.</p>
-<h2 id="multi-device-support">Multi-device support<a class="anchor-link" href="#multi-device-support">¶</a></h2><p>BatchNorm1d is device-aware and supports execution on CPU and GPU backends. Learnable parameters are stored as tensors on the selected device, while running statistics are maintained as NumPy or CuPy arrays and transferred consistently when changing devices via the <code>to(device)</code> method.</p>
-<h2 id="parameter-interface">Parameter interface<a class="anchor-link" href="#parameter-interface">¶</a></h2><p>The trainable parameters of the layer are exposed through the <code>parameters()</code> method, which returns</p>
-<p>$$
-\{\boldsymbol{\gamma}, \boldsymbol{\beta}\}.
-$$</p>
-<h2 id="statistical-interpretation">Statistical interpretation<a class="anchor-link" href="#statistical-interpretation">¶</a></h2><p>From a statistical perspective, BatchNorm1d performs a feature-wise standardization of the input distribution, followed by a learned affine transformation. This can be interpreted as dynamically re-centering and re-scaling the feature space, which improves numerical conditioning and facilitates optimization in deep networks.</p>
+<h1 id="dataset-and-dataloader">Dataset and DataLoader<a class="anchor-link" href="#dataset-and-dataloader">¶</a></h1><p><a href="https://colab.research.google.com/github/Mitchell-Mirano/sorix/blob/main/docs/learn/data/01-dataset-dataloader.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg"/></a>
+<a href="https://github.com/Mitchell-Mirano/sorix/blob/main/docs/learn/data/01-dataset-dataloader.ipynb"><img alt="Open in GitHub" src="https://img.shields.io/badge/Open%20in-GitHub-black?logo=github"/></a>
+<a href="https://mitchell-mirano.github.io/sorix/latest/learn/data/01-dataset-dataloader/"><img alt="Open in Docs" src="https://img.shields.io/badge/Open%20in-Docs-blue?logo=readthedocs"/></a></p>
+<p>Efficiently managing data is essential for training neural networks. Sorix provides the <code>Dataset</code> and <code>DataLoader</code> classes to simplify the process of loading, batching, and shuffling data.</p>
+<p>Sorix's Data API is designed to be <strong>API-compatible with PyTorch</strong>, making it easy for users to migrate their knowledge.</p>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=a519189b">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=1ea9d6d1">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -4585,10 +4394,10 @@ $$</p>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># Uncomment the next line and run this cell to install sorix</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="c1">#Uncomment the next line and run this cell to install sorix</span>
 <span class="c1">#!pip install 'sorix @ git+https://github.com/Mitchell-Mirano/sorix.git@main'</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-1"># Uncomment the next line and run this cell to install sorix
+<div class="clipboard-copy-txt" id="cell-1">#Uncomment the next line and run this cell to install sorix
 #!pip install 'sorix @ git+https://github.com/Mitchell-Mirano/sorix.git@main'</div>
 </div>
 </div>
@@ -4596,7 +4405,7 @@ $$</p>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=db4bbeb2">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=setup">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -4614,20 +4423,33 @@ $$</p>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sorix</span><span class="w"> </span><span class="kn">import</span> <span class="n">tensor</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sorix.nn</span><span class="w"> </span><span class="kn">import</span> <span class="n">BatchNorm1d</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sorix</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sorix.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dataset</span><span class="p">,</span> <span class="n">DataLoader</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-2">from sorix import tensor
-from sorix.nn import BatchNorm1d
-import numpy as np</div>
+<div class="clipboard-copy-txt" id="cell-2">import sorix
+from sorix.utils.data import Dataset, DataLoader
+import numpy as np
+import pandas as pd</div>
 </div>
 </div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=transformation-intro">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="1-tensors-by-default-and-transforms">1. Tensors by Default and Transforms<a class="anchor-link" href="#1-tensors-by-default-and-transforms">¶</a></h2><p>In Sorix, the <code>DataLoader</code> automatically converts your batches into <code>sorix.tensor</code> objects. Additionally, the <code>Dataset</code> class supports <code>transform</code> and <code>target_transform</code> functions, allowing you to modify your data on-the-fly.</p>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c42553a6">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=transforms-example">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -4645,22 +4467,43 @@ import numpy as np</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># number of samples and features</span>
-<span class="n">samples</span> <span class="o">=</span> <span class="mi">8</span>
-<span class="n">features</span> <span class="o">=</span> <span class="mi">3</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># A simple transform to normalize data</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">normalize</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">/</span> <span class="mf">255.0</span>
 
-<span class="c1"># input tensor X ∈ ℝ^(samples × features)</span>
-<span class="n">X</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">features</span><span class="p">))</span>
-<span class="n">X</span>
+<span class="c1"># Create data</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">127</span><span class="p">,</span> <span class="mi">255</span><span class="p">],</span> <span class="p">[</span><span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">192</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+
+<span class="c1"># Dataset with transform</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">Dataset</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">normalize</span><span class="p">)</span>
+
+<span class="c1"># DataLoader automatically gives you Tensors</span>
+<span class="n">loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">bx</span><span class="p">,</span> <span class="n">by</span> <span class="ow">in</span> <span class="n">loader</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Batch X type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">bx</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Batch X data (normalized):</span><span class="se">\n</span><span class="si">{</span><span class="n">bx</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Batch y: </span><span class="si">{</span><span class="n">by</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-3"># number of samples and features
-samples = 8
-features = 3
+<div class="clipboard-copy-txt" id="cell-3"># A simple transform to normalize data
+def normalize(x):
+    return x / 255.0
 
-# input tensor X ∈ ℝ^(samples × features)
-X = tensor(np.random.randn(samples, features))
-X
-</div>
+# Create data
+X = np.array([[0, 127, 255], [64, 128, 192]], dtype=np.float32)
+y = np.array([0, 1])
+
+# Dataset with transform
+dataset = Dataset(X, y, transform=normalize)
+
+# DataLoader automatically gives you Tensors
+loader = DataLoader(dataset, batch_size=2)
+
+for bx, by in loader:
+    print(f"Batch X type: {type(bx)}")
+    print(f"Batch X data (normalized):\n{bx}")
+    print(f"Batch y: {by}")</div>
 </div>
 </div>
 </div>
@@ -4669,24 +4512,33 @@ X
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[3]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>tensor([[-0.1959598 ,  1.0823746 ,  1.75001994],
-        [ 0.4677872 ,  0.23240611, -0.19775919],
-        [-0.37402197,  0.54613741,  1.467251  ],
-        [ 1.04344405,  0.09966056,  0.96543649],
-        [ 1.69365704,  1.08564601,  0.55255937],
-        [-0.4844303 ,  2.05398494, -0.31964716],
-        [-0.36600777,  0.19889107,  0.85111335],
-        [-0.65121821,  0.09950883,  0.16552597]], dtype=sorix.float64)</pre>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Batch X type: &lt;class 'sorix.tensor.Tensor'&gt;
+Batch X data (normalized):
+tensor([[0.        , 0.49803922, 1.        ],
+        [0.2509804 , 0.5019608 , 0.7529412 ]])
+Batch y: tensor([0, 1])
+</pre>
 </div>
 </div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=csv-loading">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="2-working-with-csv-data">2. Working with CSV Data<a class="anchor-link" href="#2-working-with-csv-data">¶</a></h2><p>One of the most common tasks is loading data from a CSV file. You can easily integrate <code>pandas</code> with the <code>Dataset</code> class.</p>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=99b51c57">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=csv-example">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -4704,18 +4556,49 @@ X
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">bn</span> <span class="o">=</span> <span class="n">BatchNorm1d</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># Create a dummy CSV for this example</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">'feature1'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span>
+    <span class="s1">'feature2'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span>
+    <span class="s1">'label'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="p">})</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">'data.csv'</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
-<span class="c1"># γ ∈ ℝ^(1 × features), β ∈ ℝ^(1 × features)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">bn</span><span class="o">.</span><span class="n">gamma</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">bn</span><span class="o">.</span><span class="n">beta</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CSVDataset</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">csv_file</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">csv_file</span><span class="p">)</span>
+        <span class="c1"># Extract features and labels</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[[</span><span class="s1">'feature1'</span><span class="p">,</span> <span class="s1">'feature2'</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s1">'label'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="n">csv_ds</span> <span class="o">=</span> <span class="n">CSVDataset</span><span class="p">(</span><span class="s1">'data.csv'</span><span class="p">)</span>
+<span class="n">csv_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">csv_ds</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">bx</span><span class="p">,</span> <span class="n">by</span> <span class="ow">in</span> <span class="n">csv_loader</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"CSV Batch shape: </span><span class="si">{</span><span class="n">bx</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-4">bn = BatchNorm1d(features)
+<div class="clipboard-copy-txt" id="cell-4"># Create a dummy CSV for this example
+df = pd.DataFrame({
+    'feature1': np.random.rand(10),
+    'feature2': np.random.rand(10),
+    'label': np.random.randint(0, 2, 10)
+})
+df.to_csv('data.csv', index=False)
 
-# γ ∈ ℝ^(1 × features), β ∈ ℝ^(1 × features)
-print(bn.gamma)
-print(bn.beta)
-</div>
+class CSVDataset(Dataset):
+    def __init__(self, csv_file):
+        self.df = pd.read_csv(csv_file)
+        # Extract features and labels
+        X = self.df[['feature1', 'feature2']].values
+        y = self.df['label'].values.reshape(-1, 1)
+        super().__init__(X, y)
+
+csv_ds = CSVDataset('data.csv')
+csv_loader = DataLoader(csv_ds, batch_size=5)
+
+for bx, by in csv_loader:
+    print(f"CSV Batch shape: {bx.shape}")</div>
 </div>
 </div>
 </div>
@@ -4727,16 +4610,27 @@ print(bn.beta)
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>tensor([[1., 1., 1.]], requires_grad=True)
-tensor([[0., 0., 0.]], requires_grad=True)
+<pre>CSV Batch shape: sorix.Size([5, 2])
+CSV Batch shape: sorix.Size([5, 2])
 </pre>
 </div>
 </div>
 </div>
 </div>
 </div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=image-loading">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="3-working-with-images">3. Working with Images<a class="anchor-link" href="#3-working-with-images">¶</a></h2><p>For image datasets, you typically load the pixel data and apply augmentations using the <code>transform</code> argument.</p>
+</div>
+</div>
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=ce5c7408">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=image-example">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -4754,14 +4648,41 @@ tensor([[0., 0., 0.]], requires_grad=True)
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># forward pass (training mode)</span>
-<span class="n">Y</span> <span class="o">=</span> <span class="n">bn</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-<span class="n">Y</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ImageDataset</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_images</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># In a real scenario, this would be a list of file paths</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">image_data</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_images</span><span class="p">)]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">num_images</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">image_data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">to_float</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">img</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span> <span class="o">/</span> <span class="mf">255.0</span>
+
+<span class="n">image_ds</span> <span class="o">=</span> <span class="n">ImageDataset</span><span class="p">(</span><span class="n">num_images</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">to_float</span><span class="p">)</span>
+<span class="n">image_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">image_ds</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">images</span><span class="p">,</span> <span class="n">labels</span> <span class="ow">in</span> <span class="n">image_loader</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Image batch shape: </span><span class="si">{</span><span class="n">images</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Image data range: [</span><span class="si">{</span><span class="n">images</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">images</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">]"</span><span class="p">)</span>
+    <span class="k">break</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-5"># forward pass (training mode)
-Y = bn(X)
-Y
-</div>
+<div class="clipboard-copy-txt" id="cell-5">class ImageDataset(Dataset):
+    def __init__(self, num_images, transform=None):
+        # In a real scenario, this would be a list of file paths
+        self.image_data = [np.random.randint(0, 256, (3, 32, 32), dtype=np.uint8) for _ in range(num_images)]
+        self.labels = np.random.randint(0, 10, num_images)
+        super().__init__(self.image_data, self.labels, transform=transform)
+
+def to_float(img):
+    return img.astype(np.float32) / 255.0
+
+image_ds = ImageDataset(num_images=20, transform=to_float)
+image_loader = DataLoader(image_ds, batch_size=4, shuffle=True)
+
+for images, labels in image_loader:
+    print(f"Image batch shape: {images.shape}")
+    print(f"Image data range: [{images.data.min():.2f}, {images.data.max():.2f}]")
+    break</div>
 </div>
 </div>
 </div>
@@ -4770,24 +4691,30 @@ Y
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[5]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>tensor([[-0.42762623,  0.63096347,  1.56510833],
-        [ 0.41307907, -0.68495153, -1.21709899],
-        [-0.65316068, -0.19923503,  1.16120123],
-        [ 1.14220894, -0.89046722,  0.44440949],
-        [ 1.965772  ,  0.63602824, -0.14534411],
-        [-0.79300442,  2.13520349, -1.39120375],
-        [-0.64300985, -0.73683928,  0.28111033],
-        [-1.00425883, -0.89070213, -0.69818254]], dtype=sorix.float64, requires_grad=True)</pre>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Image batch shape: sorix.Size([4, 3, 32, 32])
+Image data range: [0.00, 1.00]
+</pre>
 </div>
 </div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=custom-collate">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="4-custom-collate-function">4. Custom Collate Function<a class="anchor-link" href="#4-custom-collate-function">¶</a></h2><p>Sometimes you need complex logic when merging samples into a batch. Just like in PyTorch, you can provide a <code>collate_fn</code> to the <code>DataLoader</code>.</p>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c0e38d44">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=collate-example">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -4805,14 +4732,37 @@ Y
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># running statistics after the forward pass</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">bn</span><span class="o">.</span><span class="n">running_mean</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">bn</span><span class="o">.</span><span class="n">running_var</span><span class="p">)</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">my_collate</span><span class="p">(</span><span class="n">samples</span><span class="p">):</span>
+    <span class="c1"># samples is a list of what Dataset[idx] returns</span>
+    <span class="n">batch_x</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">batch_y</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">:</span>
+        <span class="n">batch_x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">batch_y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    
+    <span class="c1"># Custom logic: maybe pad sequences, or add metadata</span>
+    <span class="k">return</span> <span class="n">sorix</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">batch_x</span><span class="p">),</span> <span class="n">sorix</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">batch_y</span><span class="p">)</span>
+
+<span class="n">custom_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">collate_fn</span><span class="o">=</span><span class="n">my_collate</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">bx</span><span class="p">,</span> <span class="n">by</span> <span class="ow">in</span> <span class="n">custom_loader</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Custom collate worked!"</span><span class="p">)</span>
+    <span class="k">break</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-6"># running statistics after the forward pass
-print(bn.running_mean)
-print(bn.running_var)
-</div>
+<div class="clipboard-copy-txt" id="cell-6">def my_collate(samples):
+    # samples is a list of what Dataset[idx] returns
+    batch_x = []
+    batch_y = []
+    for x, y in samples:
+        batch_x.append(x)
+        batch_y.append(y)
+    
+    # Custom logic: maybe pad sequences, or add metadata
+    return sorix.tensor(batch_x), sorix.tensor(batch_y)
+
+custom_loader = DataLoader(dataset, batch_size=2, collate_fn=my_collate)
+for bx, by in custom_loader:
+    print("Custom collate worked!")
+    break</div>
 </div>
 </div>
 </div>
@@ -4824,64 +4774,25 @@ print(bn.running_var)
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>tensor([[0.01416563, 0.06748262, 0.06543125]], dtype=sorix.float64)
-tensor([[0.97123647, 0.94767946, 0.95601229]], dtype=sorix.float64)
+<pre>Custom collate worked!
 </pre>
 </div>
 </div>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=5cbcbc3c">
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=summary">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-7">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># inference mode</span>
-<span class="n">bn</span><span class="o">.</span><span class="n">training</span> <span class="o">=</span> <span class="kc">False</span>
-<span class="n">Y_eval</span> <span class="o">=</span> <span class="n">bn</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-<span class="n">Y_eval</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-7"># inference mode
-bn.training = False
-Y_eval = bn(X)
-Y_eval
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[7]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>tensor([[-0.2132131 ,  1.04252576,  1.72289921],
-        [ 0.46028728,  0.16941408, -0.26917585],
-        [-0.39389179,  0.49168775,  1.43369961],
-        [ 1.04440307,  0.03305409,  0.92047295],
-        [ 1.70417057,  1.04588624,  0.49820627],
-        [-0.5059225 ,  2.0405914 , -0.39383577],
-        [-0.38575982,  0.13498648,  0.8035499 ],
-        [-0.67516127,  0.03289823,  0.10237105]], dtype=sorix.float64, requires_grad=True)</pre>
-</div>
-</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="summary">Summary<a class="anchor-link" href="#summary">¶</a></h2><ul>
+<li><strong>PyTorch API Parity</strong>: <code>Dataset</code> supports transforms, and <code>DataLoader</code> supports batching, shuffling, and custom collation.</li>
+<li><strong>Automatic Tensors</strong>: <code>DataLoader</code> yields <code>sorix.tensor</code> objects by default.</li>
+<li><strong>Practical Applications</strong>: Easily handle CSVs, Images, and custom data formats by extending the <code>Dataset</code> class.</li>
+</ul>
 </div>
 </div>
 </div>
