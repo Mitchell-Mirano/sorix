@@ -88,3 +88,37 @@ def test_train_test_split_no_labels():
     # No shuffle, so it should be sequential
     assert X_train.index[0] == 0
     assert X_test.index[0] == 7
+
+def test_dataset_no_y():
+    """Test Dataset when only X is provided."""
+    X = np.array([[10, 20], [30, 40]])
+    ds = Dataset(X)
+    
+    assert len(ds) == 2
+    assert np.array_equal(ds[0], [10, 20])
+    
+    # Check setitem without y
+    ds[0] = np.array([1, 2])
+    assert np.array_equal(ds.X[0], [1, 2])
+
+def test_dataset_invalid_lengths():
+    """Test Dataset raises error if X and y have different lengths."""
+    X = np.array([[1], [2]])
+    y = np.array([0, 1, 2]) # Different length
+    
+    with pytest.raises(ValueError, match="same length"):
+        Dataset(X, y)
+
+def test_dataset_set_label_non_item():
+    """Test Dataset.__setitem__ for label where y is not item-like (multiple elements)."""
+    X = np.zeros((3, 2))
+    y = np.zeros((3, 2)) # multi-dimensional labels
+    ds = Dataset(X, y)
+    
+    val_x = np.ones((2,))
+    val_y = np.ones((2,))
+    ds[0] = (val_x, val_y)
+    
+    assert np.all(ds.X[0] == 1)
+    assert np.all(ds.y[0] == 1)
+

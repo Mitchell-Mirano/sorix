@@ -71,12 +71,14 @@ theme:
 # ====================================================================
 nav:
   - 🏡 Sorix: index.md
-  # - ✨ Features: features.md
   - 📚 Learn:
     - Basics:
       - Tensor: learn/basics/01-tensor.ipynb
       - Computational Graph: learn/basics/02-graph.ipynb
       - Autograd: learn/basics/03-autograd.ipynb
+    - Data Handling:
+      - Overview: learn/data/index.md
+      - Dataset & DataLoader: learn/data/01-dataset-dataloader.ipynb
     - Layers:
         - Overview: learn/layers/index.md
         - Linear: learn/layers/01-Linear.ipynb
@@ -114,6 +116,9 @@ nav:
         - Multiclass: examples/nn/2.2-classification-multiclass.ipynb
         - Iris Dataset: examples/nn/3-Iris_dataset.ipynb
         - MNIST Dataset: examples/nn/4-digit-recognizer.ipynb
+    - Benchmarks:
+      - Overview: examples/benchmarks/index.md
+      - Detailed Comparison (Notebook): examples/benchmarks/mnist_comparison.ipynb
   - API Reference: api/
 
 
@@ -131,6 +136,8 @@ markdown_extensions:
   - pymdownx.tabbed:
       alternate_style: true
   
+  - admonition
+  - pymdownx.details
   - pymdownx.blocks.admonition:
       types: 
         - note

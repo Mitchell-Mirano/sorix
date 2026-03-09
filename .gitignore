@@ -177,3 +177,10 @@ poetry.toml
 
 docs/examples/data/
 *.sor
+*.csv
+*.sor 
+*.pt
+*.pth
+*.keras
+*.h5
+*.onnx

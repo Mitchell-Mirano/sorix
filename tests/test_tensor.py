@@ -360,4 +360,174 @@ def test_tensor_gpu_ops_if_available():
         # Power
         p = a**2
         p.sum().backward()
+
+def test_tensor_shape_ops_autograd():
+    """Test reshape, transpose, and flatten with autograd."""
+    a = tensor([[1.0, 2.0], [3.0, 4.0]], requires_grad=True)
+    
+    # Reshape
+    b = a.reshape(4, 1)
+    loss = (b * tensor([[10.0], [20.0], [30.0], [40.0]])).sum()
+    loss.backward()
+    assert np.allclose(a.grad, [[10, 20], [30, 40]])
+    a.grad = None
+    
+    # Transpose
+    c = a.transpose(1, 0)
+    loss_c = (c * tensor([[1.0, 2.0], [3.0, 4.0]])).sum()
+    loss_c.backward()
+    assert np.allclose(a.grad, [[1, 3], [2, 4]])
+    a.grad = None
+    
+    # .T property
+    d = a.T
+    loss_d = (d * tensor([[1.0, 3.0], [2.0, 4.0]])).sum()
+    loss_d.backward()
+    assert np.allclose(a.grad, [[1, 2], [3, 4]])
+    a.grad = None
+    
+    # Flatten
+    e = a.flatten()
+    loss_e = (e * tensor([1.0, 2.0, 3.0, 4.0])).sum()
+    loss_e.backward()
+    assert np.allclose(a.grad, [[1, 2], [3, 4]])
+
+def test_tensor_reductions_autograd():
+    """Test sum and mean with autograd and axes."""
+    a = tensor([[1.0, 2.0], [3.0, 4.0]], requires_grad=True)
+    
+    # Sum over axis 0
+    b = a.sum(axis=0) # [4, 6]
+    loss = (b * tensor([1.0, 2.0])).sum()
+    loss.backward()
+    assert np.allclose(a.grad, [[1, 2], [1, 2]])
+    a.grad = None
+    
+    # Mean with keepdims
+    c = a.mean(axis=1, keepdims=True) # [[1.5], [3.5]]
+    loss_c = (c * tensor([[10.0], [20.0]])).sum()
+    loss_c.backward()
+    # d_loss/d_c = [10, 20] -> d_loss/d_a = [5, 5], [10, 10]
+    assert np.allclose(a.grad, [[5, 5], [10, 10]])
+
+def test_tensor_advanced_math():
+    """Test sqrt, log, exp with autograd via sorix.utils.math."""
+    from sorix.utils import math
+    x = tensor([1.0, 4.0, 0.5], requires_grad=True)
+    
+    # Sqrt
+    y = math.sqrt(x)
+    y.sum().backward()
+    # d/dx(sqrt(x)) = 1/(2*sqrt(x))
+    # 1/2, 1/4, 1/(2*sqrt(0.5))
+    assert np.allclose(x.grad[:2], [0.5, 0.25])
+    x.grad = None
+    
+    # Log (x+1 to avoid log(0))
+    z = math.log(x + 1)
+    z.sum().backward()
+    # d/dx(log(x+1)) = 1/(x+1)
+    assert np.allclose(x.grad, [1/2, 1/5, 1/1.5])
+    x.grad = None
+    
+    # Exp
+    w = math.exp(x)
+    w.sum().backward()
+    # d/dx(exp(x)) = exp(x)
+    assert np.allclose(x.grad, np.exp([1.0, 4.0, 0.5]))
+
+def test_no_grad_context():
+    """Test no_grad disables tracking."""
+    a = tensor([1.0], requires_grad=True)
+    with no_grad():
+        b = a * 2
+        c = a + 2
+        d = a - 2
+        e = a / 2
+        f = a.sum()
+        g = a.mean()
+        assert not any([b.requires_grad, c.requires_grad, d.requires_grad, e.requires_grad, f.requires_grad, g.requires_grad])
+    
+    assert (a * 2).requires_grad == True
+
+def test_tensor_init_edge_cases():
+    """Test initializing from Tensor and dtypes."""
+    a = tensor([1.2, 3.4])
+    b = tensor(a) # Copy from tensor
+    assert np.array_equal(a.data, b.data)
+    assert a is not b # Should be a copy
+    
+    # Repr with multiline
+    long_t = tensor(np.arange(100))
+    r = repr(long_t)
+    assert "\n" in r or "..." in r # Formatting check
+
+def test_tensor_indexing_advanced():
+    """Test __getitem__ with more types."""
+    t = tensor([[1, 2], [3, 4]], requires_grad=True)
+    
+    # Tuple indexing
+    assert t[0, 1].item() == 2
+    
+    # Mask indexing (if supported, sorix likely supports it via numpy)
+    mask = t > 2
+    res = t[mask]
+    assert np.array_equal(res.numpy(), [3, 4])
+
+def test_tensor_reshape_transpose_extra():
+    # Empty tensor reshape if allowed
+    # (Checking if it hits some branches)
+    z = tensor([])
+    assert z.size == 0
+    with pytest.raises(Exception):
+        # Using a tuple as a single argument for shape
+        z.reshape((2, 2))
+
+def test_in_place_ops():
+    """Test add_, sub_, mul_, div_."""
+    a = tensor([10.0, 20.0])
+    a.add_(5.0)
+    assert np.array_equal(a.data, [15.0, 25.0])
+    a.sub_(tensor([5.0, 5.0]))
+    assert np.array_equal(a.data, [10.0, 20.0])
+    a.mul_(2.0)
+    assert np.array_equal(a.data, [20.0, 40.0])
+    a.div_(10.0)
+    assert np.array_equal(a.data, [2.0, 4.0])
+
+def test_reverse_math():
+    """Test __radd__, __rsub__, __rmul__, __rtruediv__."""
+    a = tensor([2.0, 4.0], requires_grad=True)
+    
+    # 10 + a
+    b = 10 + a
+    assert np.array_equal(b.data, [12.0, 14.0])
+    
+    # 10 - a
+    c = 10 - a
+    c.sum().backward()
+    assert np.array_equal(c.data, [8.0, 6.0])
+    assert np.array_equal(a.grad, [-1.0, -1.0])
+    a.grad = None
+    
+    # 10 * a
+    d = 10 * a
+    assert np.array_equal(d.data, [20.0, 40.0])
+    
+    # 10 / a
+    e = 10 / a
+    e.sum().backward()
+    # -10/a^2 = -10/4, -10/16
+    assert np.allclose(a.grad, [-2.5, -10/16.0])
+
+def test_tensor_device_movement():
+    """Test cpu() and to() movement."""
+    a = tensor([1, 2])
+    # to same device should be a no-op but returns self
+    b = a.to('cpu')
+    assert a is b
+    
+    # test dummy cuda move if not available
+    c = a.cpu()
+    assert c is a
     # Wait, let's check how sorix handles initialization of grad in backward.

@@ -516,10 +516,10 @@ class Tensor:
         if grad is None:
             return
         if self.grad is None:
-            xp = cp if self.device.type == 'cuda' else np
-            d_name = self.dtype.name if isinstance(self.dtype, DType) else str(self.dtype)
-            self.grad = xp.zeros_like(self.data, dtype=d_name)
-        self.grad += grad
+            # Avoid full allocation copy via += by directly assigning a copy
+            self.grad = grad.copy()
+        else:
+            self.grad += grad
 
     def __matmul__(self, other: Union[Tensor, np.ndarray]) -> Tensor:
         return self.matmul(other)
@@ -649,7 +649,8 @@ class Tensor:
                 grad = out.grad
                 if not keepdims and axis is not None:
                     grad = xp.expand_dims(grad, axis=axis)
-                self._accumulate_grad(grad * xp.ones_like(self.data) / self.data.size)
+                n = self.data.size / (out.data.size if out.data.size > 0 else 1)
+                self._accumulate_grad(grad * xp.ones_like(self.data) / n)
         out._backward = _backward
         return out
     
@@ -700,6 +701,10 @@ class Tensor:
         
         out._backward = _backward
         return out
+
+    def view(self, *shape: Any) -> Tensor:
+        """Alias for reshape, implemented to mimic PyTorch's view method."""
+        return self.reshape(*shape)
 
     def transpose(self, *axes: Any) -> Tensor:
         """Transposes the tensor axes."""
