@@ -264,6 +264,13 @@ class Dropout(Module):
     """
     During training, randomly zeroes some of the elements of the input tensor 
     with probability p using samples from a Bernoulli distribution.
+    
+    This implementation uses **Inverted Dropout**, meaning that the output is scaled
+    by 1/(1-p) during training. This ensures that the expected value of the activations
+    remains constant, allowing the layer to act as an identity function during inference.
+    
+    Args:
+        p (float): Probability of an element to be zeroed. Default: 0.5
     """
     def __init__(self, p: float = 0.5) -> None:
         super().__init__()
