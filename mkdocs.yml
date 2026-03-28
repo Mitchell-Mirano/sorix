@@ -101,6 +101,18 @@ nav:
         - Adam: learn/optimizers/04-Adam.ipynb
         - Comparison: learn/optimizers/05-Comparison.ipynb
         - Optimizer Class: learn/optimizers/06-Optimizer.ipynb
+    - Preprocessing:
+        - Overview: learn/preprocessing/index.md
+        - Scalers: learn/preprocessing/01-Scalers.ipynb
+        - Encoders: learn/preprocessing/02-Encoders.ipynb
+        - ColumnTransformer: learn/preprocessing/03-ColumnTransformer.ipynb
+    - Model Selection:
+        - Overview: learn/model_selection/index.md
+        - Train-Test Split: learn/model_selection/01-TrainTestSplit.ipynb
+    - Metrics:
+        - Overview: learn/metrics/index.md
+        - Regression: learn/metrics/01-Regression.ipynb
+        - Classification: learn/metrics/02-Classification.ipynb
   - Examples:
     - Preprocessing: examples/preprocessing/encoders-scalers-transformers.ipynb
     - Linear Regression: examples/regression/1-linear-regression.ipynb
