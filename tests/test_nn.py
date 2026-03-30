@@ -50,10 +50,7 @@ def test_activations():
     relu = ReLU()
     out_relu = relu(x)
     assert np.array_equal(out_relu.data, [0.0, 0.0, 1.0])
-    out_relu.backward()
-    # grad is [0, 0, 1] + 1 if it's root? No, backwards adds 1 to root node's grad.
-    # Actually, relu(x) creates a child. out_relu.grad = [1, 1, 1]
-    # x.grad = [0, 0, 1]
+    out_relu.sum().backward()
     assert np.array_equal(x.grad, [0.0, 0.0, 1.0])
     
     x.grad = None
@@ -62,7 +59,7 @@ def test_activations():
     out_sig = sig(x)
     expected_sig = 1 / (1 + np.exp(-x_data))
     assert np.allclose(out_sig.data, expected_sig)
-    out_sig.backward()
+    out_sig.sum().backward()
     assert np.allclose(x.grad, expected_sig * (1 - expected_sig))
 
     x.grad = None
@@ -71,7 +68,7 @@ def test_activations():
     out_tanh = tanh(x)
     expected_tanh = np.tanh(x_data)
     assert np.allclose(out_tanh.data, expected_tanh)
-    out_tanh.backward()
+    out_tanh.sum().backward()
     assert np.allclose(x.grad, 1 - expected_tanh**2)
 
 def test_neural_network_parameters():

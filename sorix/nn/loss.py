@@ -45,35 +45,94 @@ class BCEWithLogitsLoss:
         
         def _backward() -> None:
             if y_pred.requires_grad:
-                y_pred.grad += out.grad * (probs - y_real.data) / batch_size
+                y_pred._accumulate_grad(out.grad * (probs - y_real.data) / batch_size)
         out._backward = _backward
         return out
 
     
 class CrossEntropyLoss:
+    """Computes the cross entropy loss between input and target.
+
+    This criterion is useful when training a classification problem with C classes.
+    If provided, the optional argument `weight` should be a 1D Tensor assigning 
+    weight to each of the classes. This is particularly useful for unbalanced 
+    training sets.
+
+    The input is expected to contain raw, unnormalized scores for each class.
+    y_pred has to be a Tensor of size (minibatch, C).
+
+    The targets are expected to be class indices in the range [0, C-1] or 
+    one-hot encoded values.
+
+    The loss can be described as:
+    L = - (1 / sum(w_yi)) * sum(w_yi * log(exp(x_i, yi) / sum(exp(x_i, j))))
+
+    Attributes:
+        weight (Optional[Tensor]): A manual rescaling weight given to each class.
+            If given, has to be a Tensor of size C.
+        one_hot (bool): Whether the target labels are one-hot encoded.
     """
-    This criterion computes the cross entropy loss between input and target.
-    """
-    def __init__(self, one_hot: bool = False) -> None:
+
+    def __init__(self, weight: Optional[Tensor] = None, one_hot: bool = False) -> None:
+        """Initializes the CrossEntropyLoss.
+
+        Args:
+            weight (Optional[Tensor], optional): A manual rescaling weight given to each class.
+                If given, has to be a Tensor of size C. Defaults to None.
+            one_hot (bool, optional): Whether the target is one-hot encoded. Defaults to False.
+        """
+        self.weight = weight
         self.one_hot = one_hot
         self.xp = np
 
     def __call__(self, y_pred: Tensor, y_real: Tensor) -> Tensor:
+        """Computes the cross entropy loss.
+
+        Args:
+            y_pred (Tensor): Predicted logits of shape (N, C).
+            y_real (Tensor): Target labels of shape (N,) or (N, C).
+
+        Returns:
+            Tensor: Computed loss.
+        """
         self.xp = cp if y_pred.device == 'cuda' else np
+        batch_size = y_real.data.shape[0]
 
         # Step 1: Stable Softmax
-        exp_logits = self.xp.exp(y_pred.data - self.xp.max(y_pred.data, axis=-1, keepdims=True))
+        max_logits = self.xp.max(y_pred.data, axis=-1, keepdims=True)
+        exp_logits = self.xp.exp(y_pred.data - max_logits)
         probs = exp_logits / self.xp.sum(exp_logits, axis=-1, keepdims=True)
-        batch_size = y_real.data.shape[0]
 
         # Step 2: Calculate loss
         if self.one_hot:
             log_probs = self.xp.log(probs + 1e-9)
-            loss_val = -self.xp.mean(self.xp.sum(y_real.data * log_probs, axis=-1))
+            individual_losses = -self.xp.sum(y_real.data * log_probs, axis=-1)
+            
+            if self.weight is not None:
+                # Apply weight to each sample based on target distribution (expected to be one-hot)
+                w_data = self.weight.data
+                weight_per_sample = self.xp.sum(y_real.data * w_data, axis=-1)
+                weighted_losses = individual_losses * weight_per_sample
+                sum_weights = self.xp.sum(weight_per_sample)
+                loss_val = self.xp.sum(weighted_losses) / (sum_weights + 1e-9)
+            else:
+                loss_val = self.xp.mean(individual_losses)
+                weight_per_sample = None
+                sum_weights = batch_size
         else:
-            Y_indices = y_real.data.flatten().astype(int)
-            correct_log_probs = -self.xp.log(probs[self.xp.arange(batch_size), Y_indices] + 1e-9)
-            loss_val = self.xp.mean(correct_log_probs)
+            y_indices = y_real.data.flatten().astype(int)
+            correct_log_probs = -self.xp.log(probs[self.xp.arange(batch_size), y_indices] + 1e-9)
+            
+            if self.weight is not None:
+                w_data = self.weight.data
+                weight_per_sample = w_data[y_indices]
+                weighted_losses = correct_log_probs * weight_per_sample
+                sum_weights = self.xp.sum(weight_per_sample)
+                loss_val = self.xp.sum(weighted_losses) / (sum_weights + 1e-9)
+            else:
+                loss_val = self.xp.mean(correct_log_probs)
+                weight_per_sample = None
+                sum_weights = batch_size
         
         # Step 3: Create loss Tensor for backpropagation
         out = Tensor(loss_val, (y_pred,), 'CrossEntropyLoss', device=y_pred.device, requires_grad=y_pred.requires_grad)
@@ -82,14 +141,19 @@ class CrossEntropyLoss:
         def _backward() -> None:
             if y_pred.requires_grad:
                 if self.one_hot:
-                    Y_one_hot = y_real.data
+                    y_one_hot = y_real.data
                 else:
-                    Y_one_hot = self.xp.zeros_like(probs)
-                    Y_one_hot[self.xp.arange(batch_size), y_real.data.flatten().astype(int)] = 1
+                    y_one_hot = self.xp.zeros_like(probs)
+                    y_one_hot[self.xp.arange(batch_size), y_real.data.flatten().astype(int)] = 1
                 
-                # Combined derivative
-                grad_combined = (probs - Y_one_hot) / batch_size
-                y_pred.grad += out.grad * grad_combined
+                # Combined derivative: (probs - target) / divisor
+                # If weighted, the divisor is sum(weights) and it's multiplied by weight_per_sample
+                if weight_per_sample is not None:
+                    grad_combined = (weight_per_sample[:, None] * (probs - y_one_hot)) / (sum_weights + 1e-9)
+                else:
+                    grad_combined = (probs - y_one_hot) / batch_size
+                
+                y_pred._accumulate_grad(out.grad * grad_combined)
             
         out._backward = _backward
         return out

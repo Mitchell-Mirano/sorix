@@ -9,8 +9,7 @@ def test_optimizer_zero_grad():
     
     optimizer = SGD(params, lr=0.1)
     optimizer.zero_grad()
-    
-    assert np.all(params[0].grad == 0.0)
+    assert np.all(params[0].grad.data == 0.0)
 
 def test_sgd_step():
     param = tensor([10.0], requires_grad=True)

@@ -1,6 +1,7 @@
-from sorix.tensor import Tensor, tensor
+from sorix.tensor import Tensor, tensor, is_grad_enabled
 import numpy as np
 from sorix.cupy.cupy import _cupy_available
+import pickle
 
 if _cupy_available:
     try:
@@ -12,6 +13,13 @@ else:
     cp = None
 
 
+def manual_seed(seed: int):
+    """Sets the seed for generating random numbers on both CPU and GPU (if available)."""
+    np.random.seed(seed)
+    if _cupy_available and (cp is not None):
+        cp.random.seed(seed)
+
+
 def sigmoid(X) -> Tensor | np.ndarray:
     if isinstance(X, Tensor):
         return X.sigmoid()
@@ -20,7 +28,9 @@ def sigmoid(X) -> Tensor | np.ndarray:
     return 1 / (1 + xp.exp(-X))
 
 
-def softmax(X, axis=-1) -> Tensor | np.ndarray:
+def softmax(X, axis=-1, dim=None) -> Tensor | np.ndarray:
+    if dim is not None:
+        axis = dim
     if isinstance(X, Tensor):
         return X.softmax(axis=axis)
     
@@ -29,7 +39,9 @@ def softmax(X, axis=-1) -> Tensor | np.ndarray:
     return exp_logits / xp.sum(exp_logits, axis=axis, keepdims=True)
 
 
-def argmax(X, axis=1, keepdims=True) -> Tensor | np.ndarray:
+def argmax(X, axis=1, dim=None, keepdims=True) -> Tensor | np.ndarray:
+    if dim is not None:
+        axis = dim
 
     if isinstance(X, Tensor):
         xp = cp if X.device == 'cuda' and _cupy_available else np
@@ -225,8 +237,76 @@ def full_like(*args,device='cpu',requires_grad=False):
 
     return tensor(xp.full_like(*args),device=device,requires_grad=requires_grad)
 
-import pickle
+def cat(tensors, axis=0, dim=0):
+    """
+    Concatenate a sequence of tensors along a specified axis/dim.
+    """
+    if dim != 0 and axis == 0:
+        axis = dim
+    if not isinstance(tensors, (list, tuple)):
+        tensors = [tensors]
+    
+    # Check if any input requires_grad
+    requires_grad = any(isinstance(t, Tensor) and t.requires_grad for t in tensors)
+    
+    # Find a reference tensor for device
+    ref_tensor = None
+    for t in tensors:
+        if isinstance(t, Tensor):
+            ref_tensor = t
+            break
+    
+    device = ref_tensor.device if ref_tensor else 'cpu'
+    xp = cp if device == 'cuda' else np
+    
+    # Extract data parts
+    data_list = [t.data if isinstance(t, Tensor) else t for t in tensors]
+    out_data = xp.concatenate(data_list, axis=axis)
+    
+    if not is_grad_enabled() or not requires_grad:
+        return Tensor(out_data, device=device, requires_grad=False)
+    
+    out = Tensor(out_data, [t for t in tensors if isinstance(t, Tensor)], 'cat', device=device, requires_grad=True)
+    
+    def _backward():
+        if out.grad is None:
+            return
+            
+        start_idx = 0
+        for t in tensors:
+            length = t.shape[axis]
+            if not isinstance(t, Tensor):
+                start_idx += length
+                continue
+                
+            if t.requires_grad:
+                slc = [slice(None)] * out.ndim
+                slc[axis] = slice(start_idx, start_idx + length)
+                t._accumulate_grad(out.grad[tuple(slc)])
+            
+            start_idx += length
 
+    out._backward = _backward
+    return out
+
+def stack(tensors, axis=0, dim=None):
+    """
+    Concatenates a sequence of tensors along a new dimension.
+    """
+    if dim is not None:
+        axis = dim
+    
+    # Convert all to tensors or at least expand them
+    expanded = []
+    for t in tensors:
+        if isinstance(t, Tensor):
+            expanded.append(t.unsqueeze(axis))
+        else:
+            expanded.append(np.expand_dims(t, axis))
+            
+    return cat(expanded, axis=axis)
+
+    
 def save(obj, f):
     """
     Saves an object to a file using pickle. 
@@ -247,4 +327,3 @@ def load(f):
             return pickle.load(file)
     else:
         return pickle.load(f)
-

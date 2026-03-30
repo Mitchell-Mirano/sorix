@@ -184,3 +184,4 @@ docs/examples/data/
 *.keras
 *.h5
 *.onnx
+*.agents

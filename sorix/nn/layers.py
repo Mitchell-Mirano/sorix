@@ -1,7 +1,7 @@
 from __future__ import annotations
 import numpy as np
 from typing import Optional, Union, Any
-from sorix.tensor import Tensor, tensor, float32, _autograd_enabled
+from sorix.tensor import Tensor, tensor, float32, is_grad_enabled
 from sorix.cupy.cupy import _cupy_available
 
 if _cupy_available:
@@ -39,7 +39,7 @@ class Linear(Module):
             raise Exception('Cupy is not available')
         
         self.device = device
-        xp = cp if device == 'cuda' else np
+        xp = self.xp
         
         if init not in ['he', 'xavier']:
             raise ValueError(f'Invalid initialization method: {init}. Valid methods are "he" and "xavier"')
@@ -56,7 +56,7 @@ class Linear(Module):
                         device=self.device, requires_grad=True, dtype=float32) if self.bias else None
 
     def __call__(self, X: Tensor) -> Tensor:
-        xp = cp if self.device == 'cuda' else np
+        xp = self.xp
         X_data = X.data
         W_data = self.W.data
         out_data = X_data @ W_data
@@ -65,7 +65,7 @@ class Linear(Module):
             
         requires_grad = X.requires_grad or self.W.requires_grad or (self.bias and self.b.requires_grad)
         
-        if not _autograd_enabled or not requires_grad:
+        if not is_grad_enabled() or not requires_grad:
             return Tensor(out_data, device=self.device, requires_grad=False)
             
         deps = [X, self.W]
@@ -77,13 +77,30 @@ class Linear(Module):
         def _backward() -> None:
             if out.grad is None:
                 return
-            grad_out = out.grad
-            if X.requires_grad:
-                X._accumulate_grad(grad_out @ W_data.T)
-            if self.W.requires_grad:
-                self.W._accumulate_grad(X_data.T @ grad_out)
-            if self.bias and self.b.requires_grad:
-                self.b._accumulate_grad(xp.sum(grad_out, axis=0, keepdims=True))
+
+            tracking = is_grad_enabled()
+
+            if tracking:
+                # Higher-order mode: use Tensor ops so the backward graph is
+                # preserved and second-order derivatives can be computed.
+                grad_out = out.grad if isinstance(out.grad, Tensor) else Tensor(out.grad, device=self.device)
+                if X.requires_grad:
+                    X._accumulate_grad(grad_out @ self.W.T)
+                if self.W.requires_grad:
+                    self.W._accumulate_grad(X.T @ grad_out)
+                if self.bias and self.b.requires_grad:
+                    self.b._accumulate_grad(grad_out.sum(axis=0, keepdims=True))
+            else:
+                # FAST PATH: raw numpy/cupy ops for standard training (no second-order)
+                grad_out_data = out.grad.data if isinstance(out.grad, Tensor) else out.grad
+                X_data = X.data
+                W_data = self.W.data
+                if X.requires_grad:
+                    X._accumulate_grad(grad_out_data @ W_data.T)
+                if self.W.requires_grad:
+                    self.W._accumulate_grad(X_data.T @ grad_out_data)
+                if self.bias and self.b.requires_grad:
+                    self.b._accumulate_grad(grad_out_data.sum(axis=0, keepdims=True))
 
         out._backward = _backward
         return out
@@ -108,13 +125,15 @@ class Linear(Module):
 class ReLU(Module):
     """Rectified Linear Unit activation function."""
     def __call__(self, X: Tensor) -> Tensor:
-        xp = cp if X.device == 'cuda' else np
+        xp = X.xp
         out = Tensor(xp.maximum(0, X.data), (X,), 'ReLU', device=X.device, requires_grad=X.requires_grad)
         
         def _backward() -> None:
             if out.grad is None:
                 return
             if X.requires_grad:
+                # ReLU is not strictly differentiable at 0, but we use subgradient 0.
+                # Since out.grad is a Tensor, multiplying by a mask works if it's broadastable.
                 X._accumulate_grad(out.grad * (X.data > 0))
         out._backward = _backward
         return out
@@ -123,7 +142,7 @@ class ReLU(Module):
 class Sigmoid(Module):
     """Numerically stable Sigmoid activation function."""
     def __call__(self, X: Tensor) -> Tensor:
-        xp = cp if X.device == 'cuda' else np
+        xp = X.xp
         x = X.data
         
         # Stable Sigmoid implementation
@@ -141,7 +160,11 @@ class Sigmoid(Module):
             if out.grad is None:
                 return
             if X.requires_grad:
-                X._accumulate_grad(out.grad * out.data * (1 - out.data))
+                if is_grad_enabled():
+                    X._accumulate_grad(out.grad * out * (1 - out))
+                else:
+                    # FAST PATH: use raw data
+                    X._accumulate_grad(out.grad.data * out.data * (1 - out.data))
         out._backward = _backward
         return out
     
@@ -149,14 +172,20 @@ class Sigmoid(Module):
 class Tanh(Module):
     """Hyperbolic tangent activation function."""
     def __call__(self, X: Tensor) -> Tensor:
-        xp = cp if X.device == 'cuda' else np
+        xp = X.xp
         out = Tensor(xp.tanh(X.data), (X,), 'Tanh', device=X.device, requires_grad=X.requires_grad)
         
         def _backward() -> None:
             if out.grad is None:
                 return
             if X.requires_grad:
-                X._accumulate_grad(out.grad * (1 - out.data**2))
+                if is_grad_enabled():
+                    # Higher-order mode: use Tensor ops to preserve the graph
+                    X._accumulate_grad(out.grad * (1 - out ** 2))
+                else:
+                    # FAST PATH: raw data
+                    g = out.grad.data if isinstance(out.grad, Tensor) else out.grad
+                    X._accumulate_grad(g * (1 - out.data ** 2))
         out._backward = _backward
         return out
 
@@ -173,7 +202,7 @@ class BatchNorm1d(Module):
     ) -> None:
         super().__init__()
         self.device = device
-        xp = cp if device == 'cuda' else np
+        xp = self.xp
         
         self.gamma = tensor(xp.ones((1, num_features)), requires_grad=True, dtype=float32)
         self.beta = tensor(xp.zeros((1, num_features)), requires_grad=True, dtype=float32)
@@ -190,7 +219,7 @@ class BatchNorm1d(Module):
             self.to(self.device)
 
     def __call__(self, X: Tensor) -> Tensor:
-        xp = cp if self.device == 'cuda' else np
+        xp = self.xp
         X_data = X.data
         N = X_data.shape[0]
 
@@ -223,7 +252,7 @@ class BatchNorm1d(Module):
         
         requires_grad = X.requires_grad or self.gamma.requires_grad or self.beta.requires_grad
         
-        if not _autograd_enabled or not requires_grad:
+        if not is_grad_enabled() or not requires_grad:
             return Tensor(out_data, device=self.device, requires_grad=False)
             
         out = Tensor(out_data, [X, self.gamma, self.beta], 'BatchNorm1d', device=self.device, requires_grad=True)
@@ -231,28 +260,42 @@ class BatchNorm1d(Module):
         def _backward() -> None:
             if out.grad is None:
                 return
-            grad_out = out.grad
+            
+            # FAST PATH: use raw data to skip Tensor overhead
+            tracking = is_grad_enabled()
+            grad_out_data = out.grad.data
+            gamma_data = self.gamma.data
             
             # Gradients w.r.t gamma and beta
             if self.gamma.requires_grad:
-                self.gamma._accumulate_grad(xp.sum(grad_out * X_norm_data, axis=0, keepdims=True))
+                grad_gamma = (grad_out_data * X_norm_data).sum(axis=0, keepdims=True)
+                self.gamma._accumulate_grad(grad_gamma if not tracking else Tensor(grad_gamma, device=self.device))
             if self.beta.requires_grad:
-                self.beta._accumulate_grad(xp.sum(grad_out, axis=0, keepdims=True))
+                grad_beta = grad_out_data.sum(axis=0, keepdims=True)
+                self.beta._accumulate_grad(grad_beta if not tracking else Tensor(grad_beta, device=self.device))
                 
             # Gradient w.r.t X
             if X.requires_grad:
                 if self.training:
                     # Analytical derivative of BatchNorm during training
-                    grad_X_norm = grad_out * self.gamma.data
-                    grad_var = xp.sum(grad_X_norm * X_centered_data * -0.5 * (std_inv ** 3), axis=0, keepdims=True)
-                    grad_mean = xp.sum(grad_X_norm * -std_inv, axis=0, keepdims=True) + grad_var * xp.mean(-2.0 * X_centered_data, axis=0, keepdims=True)
-                    
-                    grad_X = (grad_X_norm * std_inv) + (grad_var * 2.0 * X_centered_data / N) + (grad_mean / N)
-                    X._accumulate_grad(grad_X)
+                    if tracking:
+                        grad_X_norm = out.grad * self.gamma
+                        grad_var = (grad_X_norm * X_centered_data * -0.5 * (std_inv ** 3)).sum(axis=0, keepdims=True)
+                        grad_mean = (grad_X_norm * -std_inv).sum(axis=0, keepdims=True) + grad_var * xp.mean(-2.0 * X_centered_data, axis=0, keepdims=True)
+                        grad_X = (grad_X_norm * std_inv) + (grad_var * 2.0 * X_centered_data / N) + (grad_mean / N)
+                        X._accumulate_grad(grad_X)
+                    else:
+                        grad_X_norm_data = grad_out_data * gamma_data
+                        grad_var_data = (grad_X_norm_data * X_centered_data * -0.5 * (std_inv ** 3)).sum(axis=0, keepdims=True)
+                        grad_mean_data = (grad_X_norm_data * -std_inv).sum(axis=0, keepdims=True) + grad_var_data * xp.mean(-2.0 * X_centered_data, axis=0, keepdims=True)
+                        grad_X_data = (grad_X_norm_data * std_inv) + (grad_var_data * 2.0 * X_centered_data / N) + (grad_mean_data / N)
+                        X._accumulate_grad(grad_X_data)
                 else:
                     # Analytical derivative during evaluation modes uses fixed mean/var
-                    grad_X = grad_out * self.gamma.data * std_inv
-                    X._accumulate_grad(grad_X)
+                    if tracking:
+                        X._accumulate_grad(out.grad * self.gamma * std_inv)
+                    else:
+                        X._accumulate_grad(grad_out_data * gamma_data * std_inv)
 
         out._backward = _backward
         return out
@@ -264,6 +307,13 @@ class Dropout(Module):
     """
     During training, randomly zeroes some of the elements of the input tensor 
     with probability p using samples from a Bernoulli distribution.
+    
+    This implementation uses **Inverted Dropout**, meaning that the output is scaled
+    by 1/(1-p) during training. This ensures that the expected value of the activations
+    remains constant, allowing the layer to act as an identity function during inference.
+    
+    Args:
+        p (float): Probability of an element to be zeroed. Default: 0.5
     """
     def __init__(self, p: float = 0.5) -> None:
         super().__init__()
@@ -273,7 +323,7 @@ class Dropout(Module):
         if not self.training or self.p == 0:
             return X
         
-        xp = cp if X.device == 'cuda' else np
+        xp = X.xp
         if self.p >= 1.0:
             return Tensor(xp.zeros_like(X.data), device=X.device, requires_grad=X.requires_grad)
 

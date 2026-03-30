@@ -36,9 +36,9 @@ Sorix outpaces the giants in resource efficiency while matching them in speed.
 
 | Library | CPU Size | GPU Size | Training (CPU) | Accuracy |
 | :--- | :--- | :--- | :--- | :--- |
-| **Sorix** | **54 MB** | **238 MB** | **6.8s** | **97.0%** |
-| PyTorch | 737 MB | 6.8 GB | 5.1s | 97.4% |
-| TensorFlow | 1.4 GB | 2.0 GB | 17.8s | 97.1% |
+| **Sorix** | **54 MB** | **238 MB** | **7.3s** | **97.2%** |
+| PyTorch | 737 MB | 6.8 GB | 9.21s | 97.4% |
+| TensorFlow | 1.4 GB | 2.0 GB | 17.14s | 96.8% |
 
 !!! tip
     **Sorix is ~28x smaller** than PyTorch for GPU support and **~13x smaller** on CPU, making it the perfect choice for serverless and edge computing.

@@ -13,8 +13,7 @@ def test_tensor_initialization():
 
     t_grad = tensor(data, requires_grad=True)
     assert t_grad.requires_grad == True
-    assert t_grad.grad is not None
-    assert np.all(t_grad.grad == 0)
+    assert t_grad.grad is None
 
 def test_basic_arithmetic_autograd():
     """Test +, -, *, / and their gradients."""
@@ -23,7 +22,7 @@ def test_basic_arithmetic_autograd():
     
     # Addition
     c = a + b
-    c.backward()
+    c.sum().backward()
     assert np.array_equal(c.data, [6.0, 8.0])
     assert np.array_equal(a.grad, [1.0, 1.0])
     assert np.array_equal(b.grad, [1.0, 1.0])
@@ -32,7 +31,7 @@ def test_basic_arithmetic_autograd():
     
     # Subtraction
     d = a - b
-    d.backward()
+    d.sum().backward()
     assert np.array_equal(d.data, [-2.0, -2.0])
     assert np.array_equal(a.grad, [1.0, 1.0])
     assert np.array_equal(b.grad, [-1.0, -1.0])
@@ -41,7 +40,7 @@ def test_basic_arithmetic_autograd():
 
     # Multiplication
     e = a * b
-    e.backward()
+    e.sum().backward()
     assert np.array_equal(e.data, [8.0, 15.0])
     assert np.array_equal(a.grad, [4.0, 5.0]) # de/da = b
     assert np.array_equal(b.grad, [2.0, 3.0]) # de/db = a
@@ -50,7 +49,7 @@ def test_basic_arithmetic_autograd():
     
     # Division
     f = a / b
-    f.backward()
+    f.sum().backward()
     assert np.allclose(f.data, [0.5, 0.6])
     assert np.allclose(a.grad, [1/4.0, 1/5.0]) # df/da = 1/b
     assert np.allclose(b.grad, [-2.0/16.0, -3.0/25.0]) # df/db = -a/b^2
@@ -65,7 +64,7 @@ def test_matmul_autograd():
     b = tensor(b_data, requires_grad=True)
     
     c = a @ b
-    c.backward()
+    c.sum().backward()
     
     expected_c = a_data @ b_data
     assert np.array_equal(c.data, expected_c)
@@ -84,7 +83,7 @@ def test_nonlinear_functions():
     
     # Tanh
     y = x.tanh()
-    y.backward()
+    y.sum().backward()
     expected_y = np.tanh(x.data)
     assert np.allclose(y.data, expected_y)
     # dy/dx = 1 - tanh^2
@@ -94,7 +93,7 @@ def test_nonlinear_functions():
     x.grad = None
     # Sigmoid
     z = x.sigmoid()
-    z.backward()
+    z.sum().backward()
     expected_z = 1 / (1 + np.exp(-x.data))
     assert np.allclose(z.data, expected_z)
     # dz/dx = s * (1 - s)
@@ -125,7 +124,7 @@ def test_broadcasting_autograd():
     b = tensor([10.0, 20.0], requires_grad=True)            # (2,) -> broadcast to (2, 2)
     
     c = a + b
-    c.backward()
+    c.sum().backward()
     
     assert np.array_equal(a.grad, np.ones((2, 2)))
     # b is broadcasted, so its gradient should be the sum over the broadcasted dimension
@@ -177,21 +176,21 @@ def test_tensor_reshape_transpose():
     # Reshape
     b = a.reshape(3, 2)
     assert b.shape == (3, 2)
-    b.backward()
+    b.sum().backward()
     assert a.grad.shape == (2, 3)
     
     a.grad = None
     # Flatten
     c = a.flatten()
     assert c.shape == (6,)
-    c.backward()
+    c.sum().backward()
     assert a.grad.shape == (2, 3)
     
     a.grad = None
     # Transpose
     d = a.transpose(1, 0)
     assert d.shape == (3, 2)
-    d.backward()
+    d.sum().backward()
     assert a.grad.shape == (2, 3)
     
     # T property
@@ -307,8 +306,8 @@ def test_tensor_radd_rsub_rmul_rtruediv_rmatmul():
     assert z.shape == (2, 2)
 
 def test_tensor_backward_no_grad_root():
-    a = tensor([1.0, 2.0], requires_grad=False)
-    a.backward() # Should initialize a.grad to ones
+    a = tensor([1.0, 2.0], requires_grad=True)
+    a.sum().backward() # Should initialize a.grad to ones
     assert np.array_equal(a.grad, [1.0, 1.0])
 
 def test_tensor_to_gpu_error():
@@ -324,7 +323,7 @@ def test_tensor_broadcasting_complex():
     a = tensor(np.ones((2, 1, 4)), requires_grad=True)
     b = tensor(np.ones((1, 3, 4)), requires_grad=True)
     c = a + b # (2, 3, 4)
-    c.backward()
+    c.sum().backward()
     assert a.grad.shape == (2, 1, 4)
     assert b.grad.shape == (1, 3, 4)
     assert np.all(a.grad == 3.0)
@@ -478,7 +477,7 @@ def test_tensor_reshape_transpose_extra():
     # Empty tensor reshape if allowed
     # (Checking if it hits some branches)
     z = tensor([])
-    assert z.size == 0
+    assert z.numel == 0
     with pytest.raises(Exception):
         # Using a tuple as a single argument for shape
         z.reshape((2, 2))
