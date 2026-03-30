@@ -477,7 +477,7 @@ def test_tensor_reshape_transpose_extra():
     # Empty tensor reshape if allowed
     # (Checking if it hits some branches)
     z = tensor([])
-    assert z.size == 0
+    assert z.numel == 0
     with pytest.raises(Exception):
         # Using a tuple as a single argument for shape
         z.reshape((2, 2))

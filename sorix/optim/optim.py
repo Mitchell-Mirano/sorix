@@ -86,15 +86,11 @@ class Optimizer:
         self.param_groups.append(param_group)
 
     def zero_grad(self) -> None:
-        """Clears the gradients of all optimized parameters."""
+        """Clears the gradients of all optimized parameters using contiguous buffers."""
         for group in self.param_groups:
+            # Buffer fill is fast on CPU/GPU as it's a single bulk operation
             group['_grad_buffer'].fill(0)
-            for p in group['params']:
-                if p.grad is not None:
-                    if isinstance(p.grad, Tensor):
-                        p.grad.data.fill(0)
-                    else:
-                        p.grad.fill(0)
+            # No need for per-parameter loops as p.grad.data is a view of this buffer
 
     def state_dict(self) -> dict:
         """Returns the state of the optimizer as a dict."""
@@ -124,7 +120,9 @@ class Optimizer:
         return loss
 
     def _sync_grad_buffers(self):
-        """Ensures that grad_buffer matches p.grad values."""
+        """Ensures that grad_buffer matches p.grad values (safety fallback)."""
+        # (Self-correction: With in-place accumulation, this is mostly a safeguard 
+        # for edge cases where p.grad might have been swapped manually)
         for group in self.param_groups:
             g_buf = group['_grad_buffer']
             offset = 0
@@ -132,8 +130,11 @@ class Optimizer:
                 size = p.data.size
                 if p.grad is not None:
                     g_data = p.grad.data if isinstance(p.grad, Tensor) else p.grad
-                    # Explicit copy to buffer to handle any case where memory wasn't shared
-                    g_buf[offset:offset+size] = g_data.ravel()
+                    
+                    # We only copy if they don't point to the same memory
+                    if g_data.base is not g_buf and not np.shares_memory(g_data, g_buf[offset:offset+size]):
+                         g_buf[offset:offset+size] = g_data.ravel()
+                         
                 offset += size
 
     def _perform_step(self):
@@ -167,11 +168,7 @@ class SGD(Optimizer):
                 v_buf[:] = group['momentum'] * v_buf + g_buf
                 p_buf -= group['lr'] * v_buf
             else:
-                if xp.max(xp.abs(g_buf)) > 0:
-                    # g_buf has gradients!
-                    p_buf -= group['lr'] * g_buf
-                else:
-                    pass # g_buf is zero, nothing to do
+                p_buf -= group['lr'] * g_buf
 
 
 class SGDMomentum(SGD):

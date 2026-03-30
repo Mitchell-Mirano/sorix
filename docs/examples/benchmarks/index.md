@@ -56,15 +56,15 @@ The following table summarizes the training and inference times. For inference, 
 
 | Framework | Device | Train Batch | **Train Time (5 Epochs)** | Test Batch | **Inference Time** | Accuracy |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Sorix** | **CPU** | 128 | **6.80s** | 4096 | **0.035s** | **0.970** |
-| PyTorch | CPU | 128 | 5.08s | 4096 | 0.024s | 0.974 |
-| TensorFlow | CPU | 128 | 17.78s | 4096 | 0.201s | 0.971 |
-| **Sorix** | **GPU** | 128 | **6.74s** | 1024 | **0.019s** | **0.964** |
-| PyTorch | GPU | 128 | 4.17s | 1024 | 0.023s | 0.976 |
-| TensorFlow | GPU | 128 | 6.39s | 1024 | 0.487s | 0.974 |
+| **Sorix** | **CPU** | 128 | **7.36s** | 4096 | **0.032s** | **0.972** |
+| PyTorch | CPU | 128 | 9.21s | 4096 | 0.048s | 0.974 |
+| TensorFlow | CPU | 128 | 17.14s | 4096 | 0.186s | 0.968 |
+| **Sorix** | **GPU** | 128 | **6.21s** | 1024 | **0.015s** | **0.976** |
+| PyTorch | GPU | 128 | 4.04s | 1024 | 0.025s | 0.976 |
+| TensorFlow | GPU | 128 | 8.98s | 1024 | 1.703s | 0.975 |
 
 !!! important
-    **Sorix is significantly faster than TensorFlow** (approx. 2x faster in training) and stays extremely close to PyTorch's performance in CPU training, all while being a fraction of their size.
+    **Sorix is faster than PyTorch and TensorFlow in CPU training** and maintains a significant lead in inference speed across all devices, all while being a fraction of their size.
 
 ### 2. Exported Model Size (Weights only)
 

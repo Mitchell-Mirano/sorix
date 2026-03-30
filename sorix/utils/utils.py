@@ -13,6 +13,13 @@ else:
     cp = None
 
 
+def manual_seed(seed: int):
+    """Sets the seed for generating random numbers on both CPU and GPU (if available)."""
+    np.random.seed(seed)
+    if _cupy_available and (cp is not None):
+        cp.random.seed(seed)
+
+
 def sigmoid(X) -> Tensor | np.ndarray:
     if isinstance(X, Tensor):
         return X.sigmoid()
@@ -21,7 +28,9 @@ def sigmoid(X) -> Tensor | np.ndarray:
     return 1 / (1 + xp.exp(-X))
 
 
-def softmax(X, axis=-1) -> Tensor | np.ndarray:
+def softmax(X, axis=-1, dim=None) -> Tensor | np.ndarray:
+    if dim is not None:
+        axis = dim
     if isinstance(X, Tensor):
         return X.softmax(axis=axis)
     
@@ -30,7 +39,9 @@ def softmax(X, axis=-1) -> Tensor | np.ndarray:
     return exp_logits / xp.sum(exp_logits, axis=axis, keepdims=True)
 
 
-def argmax(X, axis=1, keepdims=True) -> Tensor | np.ndarray:
+def argmax(X, axis=1, dim=None, keepdims=True) -> Tensor | np.ndarray:
+    if dim is not None:
+        axis = dim
 
     if isinstance(X, Tensor):
         xp = cp if X.device == 'cuda' and _cupy_available else np
@@ -226,10 +237,12 @@ def full_like(*args,device='cpu',requires_grad=False):
 
     return tensor(xp.full_like(*args),device=device,requires_grad=requires_grad)
 
-def cat(tensors, axis=0):
+def cat(tensors, axis=0, dim=0):
     """
-    Concatenate a sequence of tensors along a specified axis.
+    Concatenate a sequence of tensors along a specified axis/dim.
     """
+    if dim != 0 and axis == 0:
+        axis = dim
     if not isinstance(tensors, (list, tuple)):
         tensors = [tensors]
     
@@ -275,6 +288,23 @@ def cat(tensors, axis=0):
 
     out._backward = _backward
     return out
+
+def stack(tensors, axis=0, dim=None):
+    """
+    Concatenates a sequence of tensors along a new dimension.
+    """
+    if dim is not None:
+        axis = dim
+    
+    # Convert all to tensors or at least expand them
+    expanded = []
+    for t in tensors:
+        if isinstance(t, Tensor):
+            expanded.append(t.unsqueeze(axis))
+        else:
+            expanded.append(np.expand_dims(t, axis))
+            
+    return cat(expanded, axis=axis)
 
     
 def save(obj, f):
