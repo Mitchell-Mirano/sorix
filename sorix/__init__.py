@@ -6,8 +6,9 @@ neural network layers, optimizers, and metrics, designed to feel familiar
 to users of other modern deep learning frameworks while remaining simple 
 and easy to understand.
 """
-from .tensor import (Tensor, tensor, no_grad,
+from .tensor import (Tensor, tensor, no_grad, is_grad_enabled, get_xp,
                      float32, float64, int32, int64, bool_)
+from .autograd import grad
 from .cuda import cuda
 from .utils.utils import sigmoid, softmax, argmax
 from .utils.utils import (as_tensor, from_numpy,
@@ -15,7 +16,7 @@ from .utils.utils import (as_tensor, from_numpy,
                           arange, linspace, logspace,
                           rand, randn, randint, randperm,
                           zeros_like, ones_like, empty_like, full_like,
-                          save, load
+                          save, load, cat
                           )
 
 

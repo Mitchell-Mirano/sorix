@@ -76,6 +76,7 @@ nav:
       - Tensor: learn/basics/01-tensor.ipynb
       - Computational Graph: learn/basics/02-graph.ipynb
       - Autograd: learn/basics/03-autograd.ipynb
+      - Functional Autograd: learn/basics/04-functional-autograd.ipynb
     - Data Handling:
       - Overview: learn/data/index.md
       - Dataset & DataLoader: learn/data/01-dataset-dataloader.ipynb
@@ -131,6 +132,8 @@ nav:
     - Benchmarks:
       - Overview: examples/benchmarks/index.md
       - Detailed Comparison (Notebook): examples/benchmarks/mnist_comparison.ipynb
+    - PDE:
+      - Heat Equation (PINN): examples/pde/heat_equation_pinn.ipynb
   - API Reference: api/
 
 

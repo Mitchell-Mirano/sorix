@@ -1,6 +1,7 @@
-from sorix.tensor import Tensor, tensor
+from sorix.tensor import Tensor, tensor, is_grad_enabled
 import numpy as np
 from sorix.cupy.cupy import _cupy_available
+import pickle
 
 if _cupy_available:
     try:
@@ -225,8 +226,57 @@ def full_like(*args,device='cpu',requires_grad=False):
 
     return tensor(xp.full_like(*args),device=device,requires_grad=requires_grad)
 
-import pickle
+def cat(tensors, axis=0):
+    """
+    Concatenate a sequence of tensors along a specified axis.
+    """
+    if not isinstance(tensors, (list, tuple)):
+        tensors = [tensors]
+    
+    # Check if any input requires_grad
+    requires_grad = any(isinstance(t, Tensor) and t.requires_grad for t in tensors)
+    
+    # Find a reference tensor for device
+    ref_tensor = None
+    for t in tensors:
+        if isinstance(t, Tensor):
+            ref_tensor = t
+            break
+    
+    device = ref_tensor.device if ref_tensor else 'cpu'
+    xp = cp if device == 'cuda' else np
+    
+    # Extract data parts
+    data_list = [t.data if isinstance(t, Tensor) else t for t in tensors]
+    out_data = xp.concatenate(data_list, axis=axis)
+    
+    if not is_grad_enabled() or not requires_grad:
+        return Tensor(out_data, device=device, requires_grad=False)
+    
+    out = Tensor(out_data, [t for t in tensors if isinstance(t, Tensor)], 'cat', device=device, requires_grad=True)
+    
+    def _backward():
+        if out.grad is None:
+            return
+            
+        start_idx = 0
+        for t in tensors:
+            length = t.shape[axis]
+            if not isinstance(t, Tensor):
+                start_idx += length
+                continue
+                
+            if t.requires_grad:
+                slc = [slice(None)] * out.ndim
+                slc[axis] = slice(start_idx, start_idx + length)
+                t._accumulate_grad(out.grad[tuple(slc)])
+            
+            start_idx += length
 
+    out._backward = _backward
+    return out
+
+    
 def save(obj, f):
     """
     Saves an object to a file using pickle. 
@@ -247,4 +297,3 @@ def load(f):
             return pickle.load(file)
     else:
         return pickle.load(f)
-
