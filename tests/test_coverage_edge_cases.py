@@ -14,7 +14,7 @@ import sorix.cupy.cupy as sorix_cupy
 
 def test_cuda_is_available_mock():
     # Mocking cupy to test cuda.is_available branches
-    with patch('sorix.cupy.cupy._cupy_available', True):
+    with patch('sorix.cuda.cuda._cupy_available', True):
         with patch('cupy.cuda.runtime.getDeviceCount', return_value=1):
             with patch('cupy.cuda.runtime.getDeviceProperties', return_value={'name': b'Mock GPU'}):
                 with patch('cupy.cuda.runtime.runtimeGetVersion', return_value=11000):
@@ -26,12 +26,12 @@ def test_cuda_is_available_mock():
                                      assert cuda.is_available(verbose=True) == True
 
 def test_cuda_not_available_no_gpus():
-    with patch('sorix.cupy.cupy._cupy_available', True):
+    with patch('sorix.cuda.cuda._cupy_available', True):
         with patch('cupy.cuda.runtime.getDeviceCount', return_value=0):
             assert cuda.is_available(verbose=True) == False
 
 def test_cuda_not_available_exception():
-    with patch('sorix.cupy.cupy._cupy_available', True):
+    with patch('sorix.cuda.cuda._cupy_available', True):
         with patch('cupy.cuda.runtime.getDeviceCount', side_effect=Exception("CUDA error")):
             assert cuda.is_available(verbose=True) == False
 
@@ -77,18 +77,19 @@ def test_cat_edge_cases():
     # Cat with mixed inputs
     t1 = tensor([1.0, 2.0], requires_grad=True)
     n1 = np.array([3.0, 4.0])
-    res = utils.cat([t1, n1], axis=0)
-    assert np.array_equal(res.data, [1, 2, 3, 4])
+    res = utils.cat([t1, n1], dim=0)
+    assert np.array_equal(res.data, [1.0, 2.0, 3.0, 4.0])
     assert res.requires_grad == True
     
     # Defaults to ones_like in backward
     res.sum().backward()
     assert np.array_equal(t1.grad, [1.0, 1.0])
 
-def test_cat_single_input():
+def test_cat_single_input_fails():
     t1 = tensor([1, 2])
-    res = utils.cat(t1) # Should handle non-list input
-    assert np.array_equal(res.data, [1, 2])
+    # Now should fail like PyTorch
+    with pytest.raises(TypeError, match="must be tuple or list"):
+        utils.cat(t1)
 
 def test_save_load_file_object():
     t = tensor([1, 2, 3])

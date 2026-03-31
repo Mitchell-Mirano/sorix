@@ -24,13 +24,16 @@ bool = bool_
 
 from .autograd import grad
 from .cuda import cuda
-from .utils.utils import sigmoid, softmax, argmax
+from .utils.utils import sigmoid, softmax, argmax, argmin
 from .utils.utils import (as_tensor, from_numpy,
                           zeros, ones, full, eye, diag, empty,
                           arange, linspace, logspace,
                           rand, randn, randint, randperm,
                           zeros_like, ones_like, empty_like, full_like,
-                          save, load, cat, stack, manual_seed
+                          save, load, cat, stack, manual_seed,
+                          reshape, transpose, squeeze, unsqueeze,
+                          flatten, t, clamp, unbind, split, chunk,
+                          repeat, permute, where, gather
                           )
 
 
@@ -40,7 +43,11 @@ from . import optim
 
 
 from .utils.math import (sin, cos, tanh, exp, log, sqrt, mean, sum,
-                          add, sub, mul, div, matmul, pow)
+                          add, sub, mul, div, matmul, pow,
+                          abs as absolute, sign, round, floor, ceil)
+
+# Aliases
+abs = absolute
 
 try:
     from ._version import version as __version__

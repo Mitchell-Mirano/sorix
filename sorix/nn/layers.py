@@ -263,7 +263,7 @@ class BatchNorm1d(Module):
             
             # FAST PATH: use raw data to skip Tensor overhead
             tracking = is_grad_enabled()
-            grad_out_data = out.grad.data
+            grad_out_data = out.grad.data if isinstance(out.grad, Tensor) else out.grad
             gamma_data = self.gamma.data
             
             # Gradients w.r.t gamma and beta
