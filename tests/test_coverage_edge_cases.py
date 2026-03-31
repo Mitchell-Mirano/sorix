@@ -14,7 +14,7 @@ import sorix.cupy.cupy as sorix_cupy
 
 def test_cuda_is_available_mock():
     # Mocking cupy to test cuda.is_available branches
-    with patch('sorix.cupy.cupy._cupy_available', True):
+    with patch('sorix.cuda.cuda._cupy_available', True):
         with patch('cupy.cuda.runtime.getDeviceCount', return_value=1):
             with patch('cupy.cuda.runtime.getDeviceProperties', return_value={'name': b'Mock GPU'}):
                 with patch('cupy.cuda.runtime.runtimeGetVersion', return_value=11000):
@@ -26,12 +26,12 @@ def test_cuda_is_available_mock():
                                      assert cuda.is_available(verbose=True) == True
 
 def test_cuda_not_available_no_gpus():
-    with patch('sorix.cupy.cupy._cupy_available', True):
+    with patch('sorix.cuda.cuda._cupy_available', True):
         with patch('cupy.cuda.runtime.getDeviceCount', return_value=0):
             assert cuda.is_available(verbose=True) == False
 
 def test_cuda_not_available_exception():
-    with patch('sorix.cupy.cupy._cupy_available', True):
+    with patch('sorix.cuda.cuda._cupy_available', True):
         with patch('cupy.cuda.runtime.getDeviceCount', side_effect=Exception("CUDA error")):
             assert cuda.is_available(verbose=True) == False
 
