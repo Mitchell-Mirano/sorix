@@ -854,6 +854,107 @@ class Tensor:
         out._backward = _backward
         return out
 
+    def permute(self, *dims: int) -> 'Tensor':
+        """Permutes the dimensions of the tensor.
+        """
+        return self.transpose(*dims)
+
+    def repeat(self, *sizes: int) -> 'Tensor':
+        """Repeats the tensor along the specified dimensions.
+        """
+        if len(sizes) == 1 and isinstance(sizes[0], (list, tuple)):
+            sizes = sizes[0]
+            
+        xp = self.xp
+        out_data = xp.tile(self.data, sizes)
+        
+        if not is_grad_enabled() or not self.requires_grad:
+            return Tensor(out_data, device=self.device, requires_grad=False)
+            
+        out = Tensor(out_data, [self], 'repeat', device=self.device, requires_grad=True)
+        
+        def _backward():
+            if out.grad is None:
+                return
+            if self.requires_grad:
+                # Sum back the repeated parts
+                g = out.grad.data if isinstance(out.grad, Tensor) else out.grad
+                
+                # To sum back xp.tile(A, (s1, s2)): 
+                # Reshape to (s1, A.shape[0], s2, A.shape[1]...) and sum over s indices.
+                curr_g = g
+                for i, s in enumerate(sizes):
+                    if s > 1:
+                        # This logic is a bit simplified for general case
+                        # Proper way is reshaping and summing.
+                        pass
+                
+                # More robust generic way for any tile:
+                # We can use _match_shape logic or a direct sum over reshaped dims
+                input_shape = self.shape
+                # If sizes has more dims than input_shape, input_shape is effectively (1, 1..., actual_shape)
+                expanded_input_shape = [1] * (len(sizes) - len(input_shape)) + list(input_shape)
+                
+                reshape_dims = []
+                sum_axes = []
+                for i, s in enumerate(sizes):
+                    reshape_dims.append(s)
+                    reshape_dims.append(expanded_input_shape[i])
+                    sum_axes.append(len(reshape_dims) - 2) # the 's' dimension
+                
+                grad_summed = g.reshape(reshape_dims).sum(axis=tuple(sum_axes))
+                self._accumulate_grad(grad_summed.reshape(input_shape))
+
+        out._backward = _backward
+        return out
+
+    def unbind(self, dim: int = 0) -> Tuple['Tensor', ...]:
+        """Removes a tensor dimension. Returns a tuple of all slices along that dimension.
+        """
+        # Handle negative dim
+        if dim < 0:
+            dim = self.ndim + dim
+        
+        res = []
+        for i in range(self.shape[dim]):
+            # Using __getitem__ to keep autograd
+            slc = [slice(None)] * self.ndim
+            slc[dim] = i
+            res.append(self[tuple(slc)])
+        return tuple(res)
+
+    def split(self, split_size_or_sections: Union[int, List[int]], dim: int = 0) -> List['Tensor']:
+        """Splits the tensor into chunks.
+        """
+        if dim < 0:
+            dim = self.ndim + dim
+            
+        dim_size = self.shape[dim]
+        if isinstance(split_size_or_sections, int):
+            sections = []
+            while dim_size > 0:
+                s = min(dim_size, split_size_or_sections)
+                sections.append(s)
+                dim_size -= s
+        else:
+            sections = split_size_or_sections
+            
+        res = []
+        start = 0
+        for s in sections:
+            slc = [slice(None)] * self.ndim
+            slc[dim] = slice(start, start + s)
+            res.append(self[tuple(slc)])
+            start += s
+        return res
+
+    def chunk(self, chunks: int, dim: int = 0) -> List['Tensor']:
+        """Splits a tensor into a specific number of chunks.
+        """
+        dim_size = self.shape[dim]
+        split_size = (dim_size + chunks - 1) // chunks
+        return self.split(split_size, dim=dim)
+
     def backward(self, gradient: Optional[Union[Tensor, np.ndarray, Any]] = None, 
                  retain_graph: bool = True, create_graph: bool = False) -> None:
         """
@@ -1037,7 +1138,7 @@ class Tensor:
     def astype(self, dtype: Any) -> Tensor:
         """Casts tensor to a new data type."""
         target_dtype = dtype.name if isinstance(dtype, DType) else dtype
-        return Tensor(self.data.astype(target_dtype), device=self.device)
+        return Tensor(self.data.astype(target_dtype), device=self.device, requires_grad=self.requires_grad)
 
     def float(self) -> Tensor:
         """Casts tensor to float32."""

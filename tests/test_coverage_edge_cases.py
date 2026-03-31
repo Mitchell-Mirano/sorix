@@ -77,18 +77,19 @@ def test_cat_edge_cases():
     # Cat with mixed inputs
     t1 = tensor([1.0, 2.0], requires_grad=True)
     n1 = np.array([3.0, 4.0])
-    res = utils.cat([t1, n1], axis=0)
-    assert np.array_equal(res.data, [1, 2, 3, 4])
+    res = utils.cat([t1, n1], dim=0)
+    assert np.array_equal(res.data, [1.0, 2.0, 3.0, 4.0])
     assert res.requires_grad == True
     
     # Defaults to ones_like in backward
     res.sum().backward()
     assert np.array_equal(t1.grad, [1.0, 1.0])
 
-def test_cat_single_input():
+def test_cat_single_input_fails():
     t1 = tensor([1, 2])
-    res = utils.cat(t1) # Should handle non-list input
-    assert np.array_equal(res.data, [1, 2])
+    # Now should fail like PyTorch
+    with pytest.raises(TypeError, match="must be tuple or list"):
+        utils.cat(t1)
 
 def test_save_load_file_object():
     t = tensor([1, 2, 3])

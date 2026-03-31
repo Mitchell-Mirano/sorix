@@ -176,15 +176,82 @@ def sqrt(X):
         xp = cp if (cp is not None and isinstance(X, cp.ndarray)) else np
         return xp.sqrt(X)
     
+def abs(X):
+    """Computes the absolute value of each element in input.
+    """
+    if isinstance(X, Tensor):
+        xp = get_xp(X)
+        if not is_grad_enabled() or not X.requires_grad:
+            return Tensor(xp.abs(X.data), device=X.device, requires_grad=False)
+        
+        out = Tensor(xp.abs(X.data), (X,), 'abs', device=X.device, requires_grad=True)
+        
+        def _backward():
+            if out.grad is None:
+                return
+            if X.requires_grad:
+                g = out.grad.data if isinstance(out.grad, Tensor) else out.grad
+                X._accumulate_grad(g * xp.sign(X.data))
+        
+        out._backward = _backward
+        return out
+    else:
+        xp = cp if (cp is not None and isinstance(X, cp.ndarray)) else np
+        return xp.abs(X)
+
+def sign(X):
+    """Returns a new tensor with the signs of the elements of input.
+    """
+    if isinstance(X, Tensor):
+        xp = get_xp(X)
+        return Tensor(xp.sign(X.data), device=X.device, requires_grad=False)
+    else:
+        xp = cp if (cp is not None and isinstance(X, cp.ndarray)) else np
+        return xp.sign(X)
+
+def round(X):
+    """Rounds elements of input to the nearest integer.
+    """
+    if isinstance(X, Tensor):
+        xp = get_xp(X)
+        return Tensor(xp.round(X.data), device=X.device, requires_grad=False)
+    else:
+        xp = cp if (cp is not None and isinstance(X, cp.ndarray)) else np
+        return xp.round(X)
+
+def floor(X):
+    """Returns a new tensor with the floor of the elements of input.
+    """
+    if isinstance(X, Tensor):
+        xp = get_xp(X)
+        return Tensor(xp.floor(X.data), device=X.device, requires_grad=False)
+    else:
+        xp = cp if (cp is not None and isinstance(X, cp.ndarray)) else np
+        return xp.floor(X)
+
+def ceil(X):
+    """Returns a new tensor with the ceil of the elements of input.
+    """
+    if isinstance(X, Tensor):
+        xp = get_xp(X)
+        return Tensor(xp.ceil(X.data), device=X.device, requires_grad=False)
+    else:
+        xp = cp if (cp is not None and isinstance(X, cp.ndarray)) else np
+        return xp.ceil(X)
+
 def mean(X, axis=None, keepdims=False):
+    """Computes the mean value of all elements in the input tensor.
+    """
     if isinstance(X, Tensor):
         return X.mean(axis=axis, keepdims=keepdims)
     else:
         xp = cp if (cp is not None and isinstance(X, cp.ndarray)) else np
         return xp.mean(X, axis=axis, keepdims=keepdims)
     
-
+ 
 def sum(X, axis=None, keepdims=False):
+    """Computes the sum of all elements in the input tensor.
+    """
     if isinstance(X, Tensor):
         return X.sum(axis=axis, keepdims=keepdims)
     else:
