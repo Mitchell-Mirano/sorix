@@ -61,12 +61,20 @@ class Optimizer:
             # Copy to master
             param_buffer[offset:offset+size] = p.data.ravel()
             if p.grad is not None:
-                grad_buffer[offset:offset+size] = p.grad.ravel()
+                # p.grad might be a Tensor or an array during transition
+                g_data = p.grad.data if isinstance(p.grad, Tensor) else p.grad
+                grad_buffer[offset:offset+size] = g_data.ravel()
             
-            # Reassign as views. Old p.data/p.grad arrays 
+            # Reassign as views wrapped in Tensors. Old p.data/p.grad arrays 
             # are now eligible for GC if not referenced elsewhere.
             p.data = param_buffer[offset:offset+size].reshape(p.shape)
-            p.grad = grad_buffer[offset:offset+size].reshape(p.shape)
+            # p.grad is now always a Tensor linked to the buffer
+            # Create a view that shares memory with the master buffer
+            grad_view = grad_buffer[offset:offset+size].reshape(p.shape)
+            p.grad = Tensor(grad_view, device=p.device)
+            # Store a reference to the view for easy sync check if needed
+            p._grad_buffer_view = grad_view
+            
             offset += size
             
         # Store group-specific buffers and state
@@ -78,9 +86,11 @@ class Optimizer:
         self.param_groups.append(param_group)
 
     def zero_grad(self) -> None:
-        """Clears the gradients of all optimized parameters."""
+        """Clears the gradients of all optimized parameters using contiguous buffers."""
         for group in self.param_groups:
+            # Buffer fill is fast on CPU/GPU as it's a single bulk operation
             group['_grad_buffer'].fill(0)
+            # No need for per-parameter loops as p.grad.data is a view of this buffer
 
     def state_dict(self) -> dict:
         """Returns the state of the optimizer as a dict."""
@@ -99,14 +109,33 @@ class Optimizer:
             for k, v in state_dict['param_groups'][i].items():
                 group[k] = v
 
-    def step(self, closure: Any = None) -> Optional[float]:
+    def step(self, closure: Optional[Callable] = None) -> Optional[float]:
         """Performs a single optimization step."""
         loss = None
         if closure is not None:
             loss = closure()
         
+        self._sync_grad_buffers()
         self._perform_step()
         return loss
+
+    def _sync_grad_buffers(self):
+        """Ensures that grad_buffer matches p.grad values (safety fallback)."""
+        # (Self-correction: With in-place accumulation, this is mostly a safeguard 
+        # for edge cases where p.grad might have been swapped manually)
+        for group in self.param_groups:
+            g_buf = group['_grad_buffer']
+            offset = 0
+            for p in group['params']:
+                size = p.data.size
+                if p.grad is not None:
+                    g_data = p.grad.data if isinstance(p.grad, Tensor) else p.grad
+                    
+                    # We only copy if they don't point to the same memory
+                    if g_data.base is not g_buf and not np.shares_memory(g_data, g_buf[offset:offset+size]):
+                         g_buf[offset:offset+size] = g_data.ravel()
+                         
+                offset += size
 
     def _perform_step(self):
         raise NotImplementedError
@@ -136,7 +165,6 @@ class SGD(Optimizer):
             # 2. Update logic
             if 'v_buffer' in group['state']:
                 v_buf = group['state']['v_buffer']
-                # Correct momentum implementation (PyTorch style)
                 v_buf[:] = group['momentum'] * v_buf + g_buf
                 p_buf -= group['lr'] * v_buf
             else:

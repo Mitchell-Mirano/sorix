@@ -2,7 +2,7 @@ import pytest
 import numpy as np
 from sorix import tensor, Tensor
 from sorix.nn import Module, Linear, Sequential
-import sorix.nn.init as init
+from sorix.nn import init
 
 def test_basic_inits():
     t = tensor(np.empty((100, 100)))
@@ -88,3 +88,4 @@ def test_gpu_init_if_available():
         init.xavier_normal_(t)
         assert isinstance(t.data, cp.ndarray)
         assert not cp.all(t.data == 1)
+

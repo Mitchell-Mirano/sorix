@@ -1,4 +1,5 @@
 from __future__ import annotations
+import numpy as np
 from typing import List, Dict, Any, Iterator, Optional, Union, Set
 from sorix.tensor import Tensor, tensor
 
@@ -63,6 +64,16 @@ class Module:
         _gather_params(self)
         return params
 
+    @property
+    def xp(self) -> Any:
+        """Returns the appropriate array module (numpy or cupy) for the module's device."""
+        if hasattr(self, 'device') and self.device == 'cuda':
+            from sorix.cupy.cupy import _cupy_available
+            if _cupy_available:
+                import cupy as cp
+                return cp
+        return np
+
     def to(self, device: str) -> Module:
         """
         Moves all model parameters and buffers to the specified device.
@@ -101,12 +112,16 @@ class Module:
         """Sets the module in training mode."""
         self.training = True
         def _apply(obj: Any) -> None:
-            if hasattr(obj, "training"):
+            if hasattr(obj, "train") and callable(obj.train) and obj is not self:
+                obj.train()
+            elif hasattr(obj, "training"):
                 obj.training = True
+            
             if isinstance(obj, (list, tuple)):
                 for o in obj: _apply(o)
             elif isinstance(obj, dict):
                 for v in obj.values(): _apply(v)
+
         for k, v in self.__dict__.items():
             if not k.startswith('_'):
                 _apply(v)
@@ -115,18 +130,22 @@ class Module:
         """Sets the module in evaluation mode."""
         self.training = False
         def _apply(obj: Any) -> None:
-            if hasattr(obj, "training"):
+            if hasattr(obj, "eval") and callable(obj.eval) and obj is not self:
+                obj.eval()
+            elif hasattr(obj, "training"):
                 obj.training = False
+                
             if isinstance(obj, (list, tuple)):
                 for o in obj: _apply(o)
             elif isinstance(obj, dict):
                 for v in obj.values(): _apply(v)
+
         for k, v in self.__dict__.items():
             if not k.startswith('_'):
                 _apply(v)
 
-    def __call__(self, x: Tensor) -> Tensor:
-        return self.forward(x)
+    def __call__(self, *args: Any, **kwargs: Any) -> Tensor:
+        return self.forward(*args, **kwargs)
     
     def state_dict(self) -> Dict[str, Tensor]:
         """
@@ -257,5 +276,88 @@ class Sequential(Module):
 
     def __iter__(self) -> Iterator[Module]:
         return iter(self._modules.values())
+
+
+class ModuleList(Module):
+    """
+    Holds submodules in a list.
+    ModuleList can be indexed like a regular Python list, but modules it contains 
+    are properly registered, and will be visible by all Module methods.
+    
+    Examples:
+        ```python
+        self.layers = nn.ModuleList([nn.Linear(10, 10) for i in range(5)])
+        ```
+    """
+    def __init__(self, modules: Optional[List[Module]] = None) -> None:
+        super().__init__()
+        self._items: List[Module] = []
+        if modules is not None:
+            self.extend(modules)
+
+    def append(self, module: Module) -> ModuleList:
+        self._items.append(module)
+        return self
+
+    def extend(self, modules: List[Module]) -> ModuleList:
+        self._items.extend(modules)
+        return self
+
+    def parameters(self) -> List[Tensor]:
+        params = []
+        for m in self._items:
+            params.extend(m.parameters())
+        return params
+
+    def train(self) -> None:
+        self.training = True
+        for m in self._items:
+            m.train()
+
+    def eval(self) -> None:
+        self.training = False
+        for m in self._items:
+            m.eval()
+
+    def to(self, device: str) -> ModuleList:
+        super().to(device)
+        for m in self._items:
+            m.to(device)
+        return self
+
+    def state_dict(self) -> Dict[str, Tensor]:
+        state = {}
+        for i, m in enumerate(self._items):
+            sub_state = m.state_dict()
+            for k, v in sub_state.items():
+                state[f"{i}.{k}"] = v
+        return state
+
+    def load_state_dict(self, state_dict: Dict[str, Tensor]) -> None:
+        for i, m in enumerate(self._items):
+            prefix = f"{i}."
+            sub_sd = {k[len(prefix):]: v for k, v in state_dict.items() if k.startswith(prefix)}
+            if sub_sd:
+                m.load_state_dict(sub_sd)
+
+    def __getitem__(self, idx: Union[int, slice]) -> Union[Module, ModuleList]:
+        if isinstance(idx, slice):
+            return ModuleList(self._items[idx])
+        return self._items[idx]
+
+    def __len__(self) -> int:
+        return len(self._items)
+
+    def __iter__(self) -> Iterator[Module]:
+        return iter(self._items)
+
+    def __repr__(self) -> str:
+        res = "ModuleList(\n"
+        for i, m in enumerate(self._items):
+            mod_str = repr(m)
+            mod_str = _add_indent(mod_str, 2)
+            res += f"  ({i}): {mod_str}\n"
+        res += ")"
+        return res
 
 

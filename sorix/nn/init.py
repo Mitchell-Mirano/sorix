@@ -1,30 +1,28 @@
 from __future__ import annotations
 import numpy as np
 from typing import Tuple, Union, Any, Optional
+from sorix.tensor import Tensor, get_xp
 from sorix.cupy.cupy import _cupy_available
 
 if _cupy_available:
     import cupy as cp
 
-def _get_xp(tensor: Any) -> Any:
-    """Returns numpy or cupy depending on tensor device."""
-    return cp if tensor.device == 'cuda' else np
 
 def uniform_(tensor: Any, a: float = 0.0, b: float = 1.0) -> Any:
     """Fills the input tensor with values drawn from the uniform distribution U(a, b)."""
-    xp = _get_xp(tensor)
+    xp = get_xp(tensor)
     tensor.data = xp.random.uniform(a, b, size=tensor.shape)
     return tensor
 
 def normal_(tensor: Any, mean: float = 0.0, std: float = 1.0) -> Any:
     """Fills the input tensor with values drawn from the normal distribution N(mean, std^2)."""
-    xp = _get_xp(tensor)
+    xp = get_xp(tensor)
     tensor.data = xp.random.normal(mean, std, size=tensor.shape)
     return tensor
 
 def constant_(tensor: Any, val: float) -> Any:
     """Fills the input tensor with the value val."""
-    xp = _get_xp(tensor)
+    xp = get_xp(tensor)
     tensor.data = xp.full(tensor.shape, val)
     return tensor
 
@@ -38,21 +36,21 @@ def ones_(tensor: Any) -> Any:
 
 def xavier_uniform_(tensor: Any, gain: float = 1.0) -> Any:
     """Fills the input tensor with values according to the Xavier uniform initialization."""
-    xp = _get_xp(tensor)
+    xp = get_xp(tensor)
     fan_in, fan_out = _calculate_fan_in_and_fan_out(tensor)
     std = gain * xp.sqrt(6.0 / (fan_in + fan_out))
     return uniform_(tensor, -std, std)
 
 def xavier_normal_(tensor: Any, gain: float = 1.0) -> Any:
     """Fills the input tensor with values according to the Xavier normal initialization."""
-    xp = _get_xp(tensor)
+    xp = get_xp(tensor)
     fan_in, fan_out = _calculate_fan_in_and_fan_out(tensor)
     std = gain * xp.sqrt(2.0 / (fan_in + fan_out))
     return normal_(tensor, 0.0, std)
 
 def kaiming_uniform_(tensor: Any, a: float = 0, mode: str = 'fan_in', nonlinearity: str = 'leaky_relu') -> Any:
     """Fills the input tensor with values according to the Kaiming uniform initialization."""
-    xp = _get_xp(tensor)
+    xp = get_xp(tensor)
     fan = _calculate_correct_fan(tensor, mode)
     gain = _calculate_gain(nonlinearity, a)
     std = gain / xp.sqrt(fan)
@@ -61,7 +59,7 @@ def kaiming_uniform_(tensor: Any, a: float = 0, mode: str = 'fan_in', nonlineari
 
 def kaiming_normal_(tensor: Any, a: float = 0, mode: str = 'fan_in', nonlinearity: str = 'leaky_relu') -> Any:
     """Fills the input tensor with values according to the Kaiming normal initialization."""
-    xp = _get_xp(tensor)
+    xp = get_xp(tensor)
     fan = _calculate_correct_fan(tensor, mode)
     gain = _calculate_gain(nonlinearity, a)
     std = gain / xp.sqrt(fan)
