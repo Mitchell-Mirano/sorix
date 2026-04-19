@@ -39,9 +39,11 @@ def softmax(X, axis=-1, dim=None) -> Tensor | np.ndarray:
     return exp_logits / xp.sum(exp_logits, axis=axis, keepdims=True)
 
 
-def argmax(X, axis=1, dim=None, keepdims=True) -> Tensor | np.ndarray:
+def argmax(X, axis=1, dim=None, keepdims=True, keepdim=None) -> Tensor | np.ndarray:
     if dim is not None:
         axis = dim
+    if keepdim is not None:
+        keepdims = keepdim
 
     if isinstance(X, Tensor):
         xp = cp if X.device == 'cuda' and _cupy_available else np
@@ -50,7 +52,11 @@ def argmax(X, axis=1, dim=None, keepdims=True) -> Tensor | np.ndarray:
         xp = cp if (cp is not None and isinstance(X, cp.ndarray)) else np
         return X.argmax(axis=axis, keepdims=keepdims)
     
-def argmin(X, axis=1, keepdims=True) -> Tensor | np.ndarray:
+def argmin(X, axis=1, dim=None, keepdims=True, keepdim=None) -> Tensor | np.ndarray:
+    if dim is not None:
+        axis = dim
+    if keepdim is not None:
+        keepdims = keepdim
 
     if isinstance(X, Tensor):
         xp = cp if X.device == 'cuda' and _cupy_available else np

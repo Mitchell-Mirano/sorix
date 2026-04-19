@@ -128,7 +128,8 @@ nav:
         - Binary: examples/nn/2.1-classification-binary.ipynb
         - Multiclass: examples/nn/2.2-classification-multiclass.ipynb
         - Iris Dataset: examples/nn/3-Iris_dataset.ipynb
-        - MNIST Dataset: examples/nn/4-digit-recognizer.ipynb
+        - MNIST Dataset: examples/nn/4-mnist-cpu.ipynb
+        - MNIST CNN: examples/nn/5-mnist-cnn.ipynb
     - Benchmarks:
       - Overview: examples/benchmarks/index.md
       - Detailed Comparison (Notebook): examples/benchmarks/mnist_comparison.ipynb

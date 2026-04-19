@@ -28,7 +28,7 @@ def test_dataset_extra():
     X = np.array([[1, 2]])
     y = np.array([0])
     ds = Dataset(X, y)
-    ds[0] = (np.array([3, 4]), np.array([1]))
+    ds[0] = (np.array([3, 4]), 1)
     assert np.all(ds.X[0] == [3, 4])
     assert "Dataset" in str(ds)
     assert "Dataset" in repr(ds)

@@ -53,13 +53,17 @@ def test_confusion_matrix():
     ])
     assert np.array_equal(cm, expected)
 
+import warnings
+
 def test_reports_run_without_error():
     y_true = np.array([0, 1, 0, 1])
     y_pred = np.array([0, 1, 1, 1])
     
     # Just check if they return strings and don't crash
-    reg_rep = regression_report(tensor(y_true), tensor(y_pred))
-    class_rep = classification_report(tensor(y_true), tensor(y_pred))
+    with warnings.catch_warnings():
+        warnings.simplefilter('ignore', RuntimeWarning)
+        reg_rep = regression_report(tensor(y_true), tensor(y_pred))
+        class_rep = classification_report(tensor(y_true), tensor(y_pred))
     
     assert isinstance(reg_rep, str)
     assert isinstance(class_rep, str)
@@ -112,5 +116,7 @@ def test_mape_zeros():
     from sorix.metrics import mean_absolute_percentage_error
     y_true = tensor([1.0, 0.0]) 
     y_pred = tensor([1.0, 1.0])
-    val = mean_absolute_percentage_error(y_true, y_pred)
+    with warnings.catch_warnings():
+        warnings.simplefilter('ignore', RuntimeWarning)
+        val = mean_absolute_percentage_error(y_true, y_pred)
     assert np.isinf(val) or np.isnan(val) or isinstance(val, float)
