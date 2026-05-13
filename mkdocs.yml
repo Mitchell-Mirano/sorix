@@ -89,6 +89,9 @@ nav:
         - Tanh: learn/layers/05-Tanh.ipynb
         - Dropout: learn/layers/06-Dropout.ipynb
         - Module: learn/layers/07-Module.ipynb
+        - Conv2d: learn/layers/08-Conv2d.ipynb
+        - MaxPool2d: learn/layers/09-MaxPool2d.ipynb
+        - LeakyReLU: learn/layers/10-LeakyReLU.ipynb
     - Loss:
         - Overview: learn/loss/index.md
         - MSELoss: learn/loss/01-MSELoss.ipynb
