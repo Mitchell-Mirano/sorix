@@ -266,6 +266,24 @@ class Tensor:
         
         out._backward = _backward
         return out
+
+    def __setitem__(self, key: Any, value: Any) -> None:
+        """Permite asignación directa por slicing (in-place).
+
+        Args:
+            key: Índice o slice del tensor a modificar.
+            value: Valor a asignar (puede ser un escalar, arreglo numpy o Tensor).
+
+        Raises:
+            RuntimeError: Si el tensor requiere gradientes (requires_grad=True).
+        """
+        if self.requires_grad:
+            raise RuntimeError(
+                "a leaf Variable that requires grad is being used in an in-place operation."
+            )
+        if isinstance(value, Tensor):
+            value = value.data
+        self.data[key] = value
     
     def __len__(self) -> int:
         if self.data.ndim == 0:
