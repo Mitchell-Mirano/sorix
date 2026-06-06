@@ -64,4 +64,6 @@ res = scipy.optimize.minimize(
 print(f"Optimal parameters: {res.x}")  # Output: [2.0, 3.0]
 ```
 
+For a detailed walkthrough, implementation guidelines, and a complete example of input-space optimization (inverse design) with physical bounds, check out the **[SciPy Optimization Bridge](07-ScipyBridge.ipynb)** notebook.
+
 Detailed mathematical descriptions and implementation examples for each optimizer are provided in the notebooks linked above.

@@ -105,6 +105,7 @@ nav:
         - Adam: learn/optimizers/04-Adam.ipynb
         - Comparison: learn/optimizers/05-Comparison.ipynb
         - Optimizer Class: learn/optimizers/06-Optimizer.ipynb
+        - SciPy Bridge: learn/optimizers/07-ScipyBridge.ipynb
     - Preprocessing:
         - Overview: learn/preprocessing/index.md
         - Scalers: learn/preprocessing/01-Scalers.ipynb
