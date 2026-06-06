@@ -796,9 +796,9 @@ class Tensor:
             shape = shape[0]
             
         if not is_grad_enabled():
-            return Tensor(self.data.reshape(*shape), device=self.device, requires_grad=False)
+            return Tensor(self.data.reshape(shape), device=self.device, requires_grad=False)
         
-        out = Tensor(self.data.reshape(*shape), [self], 'reshape', device=self.device, requires_grad=self.requires_grad)
+        out = Tensor(self.data.reshape(shape), [self], 'reshape', device=self.device, requires_grad=self.requires_grad)
         
         def _backward() -> None:
             if out.grad is None:
