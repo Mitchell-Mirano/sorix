@@ -50,7 +50,7 @@ def test_grad_isolation():
     y = x * x
     
     # Manual backward
-    y.backward()
+    y.backward(retain_graph=True)
     assert x.grad.item() == 4.0
     
     # Functional grad

@@ -29,4 +29,39 @@ For a side-by-side comparison of these algorithms on non-convex landscapes, see 
 
 If you want to implement your own optimization algorithm, check out the **[Optimizer Base Class](06-Optimizer.ipynb)** documentation.
 
+---
+
+### SciPy Optimization Bridge (`ScipyBridge`)
+
+For complex mathematical optimization or constrained optimization tasks (such as inverse design), you can bridge `sorix` with SciPy's optimizers using the `ScipyBridge` class.
+
+`ScipyBridge` flattens/unflattens target tensors, automatically manages CPU-GPU device copies (for model compatibility on CUDA), and computes exact analytical gradients via `sorix` autograd to pass to SciPy's gradient evaluator (`jac=True`).
+
+**Example Usage**:
+```python
+from sorix import tensor
+from sorix.optim import ScipyBridge
+import scipy.optimize
+
+# 1. Define variables to optimize
+x = tensor([0.0, 0.0], requires_grad=True)
+
+# 2. Define objective loss function
+def loss_fn():
+    return (x[0] - 2.0)**2 + (x[1] - 3.0)**2 + 5.0
+
+# 3. Initialize bridge
+bridge = ScipyBridge(x, loss_fn)
+
+# 4. Run optimization using SciPy's L-BFGS-B optimizer
+res = scipy.optimize.minimize(
+    bridge.objective,
+    bridge.get_x(),
+    jac=True,
+    method='L-BFGS-B'
+)
+
+print(f"Optimal parameters: {res.x}")  # Output: [2.0, 3.0]
+```
+
 Detailed mathematical descriptions and implementation examples for each optimizer are provided in the notebooks linked above.
