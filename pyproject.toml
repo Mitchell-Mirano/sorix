@@ -58,7 +58,7 @@ docs = [
     "mkdocstrings-python>=1.19.0",
     "pymdown-extensions>=10.17.1",
 ]
-test = ["pytest>=9.0.1", "pytest-cov", "cupy-cuda13x>=13.0"]
+test = ["pytest>=9.0.1", "pytest-cov", "cupy-cuda13x>=13.0", "scipy"]
 benchmark = [
     "torch>=2.0",
     "tensorflow>=2.15",

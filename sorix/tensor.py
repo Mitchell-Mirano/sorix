@@ -974,7 +974,7 @@ class Tensor:
         return self.split(split_size, dim=dim)
 
     def backward(self, gradient: Optional[Union[Tensor, np.ndarray, Any]] = None, 
-                 retain_graph: bool = True, create_graph: bool = False) -> None:
+                 retain_graph: Optional[bool] = None, create_graph: bool = False) -> None:
         """
         Computes the gradient of current tensor w.r.t. graph leaves.
         
@@ -988,6 +988,9 @@ class Tensor:
             create_graph: If True, graph of the gradient will be constructed, 
                          allowing to compute higher-order derivative products.
         """
+        if retain_graph is None:
+            retain_graph = create_graph
+
         topo: List[Tensor] = []
         visited: Set[int] = set()
 
@@ -1287,6 +1290,31 @@ class Tensor:
 
     def __abs__(self) -> Tensor:
         return self.abs()
+
+    def clamp(self, min: Optional[Union[float, int]] = None, max: Optional[Union[float, int]] = None) -> Tensor:
+        """Clamps the tensor elements and returns a new Tensor.
+        
+        Args:
+            min: Lower-bound of the range to clamp to.
+            max: Upper-bound of the range to clamp to.
+        """
+        from sorix.utils.utils import clamp
+        return clamp(self, min=min, max=max)
+
+    def clamp_(self, min: Optional[Union[float, int]] = None, max: Optional[Union[float, int]] = None) -> Tensor:
+        """Clamps the tensor elements in-place and returns the tensor itself.
+        
+        Args:
+            min: Lower-bound of the range to clamp to.
+            max: Upper-bound of the range to clamp to.
+        """
+        if self.requires_grad:
+            raise RuntimeError(
+                "a leaf Variable that requires grad is being used in an in-place operation."
+            )
+        xp = self.xp
+        self.data = xp.clip(self.data, a_min=min, a_max=max)
+        return self
 
 def tensor(
     data: TensorData, 

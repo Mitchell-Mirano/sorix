@@ -3116,6 +3116,7 @@ test = [
     { name = "cupy-cuda13x" },
     { name = "pytest" },
     { name = "pytest-cov" },
+    { name = "scipy" },
 ]
 
 [package.metadata]
@@ -3160,6 +3161,7 @@ test = [
     { name = "cupy-cuda13x", specifier = ">=13.0" },
     { name = "pytest", specifier = ">=9.0.1" },
     { name = "pytest-cov" },
+    { name = "scipy" },
 ]
 
 [[package]]
