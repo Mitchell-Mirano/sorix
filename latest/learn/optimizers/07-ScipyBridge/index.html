@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://mitchell-mirano.github.io/sorix/latest/learn/metrics/02-Classification/">
+        <link rel="canonical" href="https://mitchell-mirano.github.io/sorix/latest/learn/optimizers/07-ScipyBridge/">
       
       
-        <link rel="prev" href="../01-Regression/">
+        <link rel="prev" href="../06-Optimizer/">
       
       
-        <link rel="next" href="../../../examples/preprocessing/encoders-scalers-transformers/">
+        <link rel="next" href="../../preprocessing/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Classification Metrics - Sorix</title>
+        <title>SciPy Optimization Bridge - Sorix</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#classification-metrics" class="md-skip">
+        <a href="#scipy-optimization-bridge" class="md-skip">
           Skip to content
         </a>
       
@@ -120,7 +120,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Classification Metrics
+              SciPy Optimization Bridge
             
           </span>
         </div>
@@ -1339,8 +1339,10 @@
                 
   
   
+    
   
   
+  
     
     
       
@@ -1374,17 +1376,15 @@
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" checked>
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../optimizers/" class="md-nav__link ">
+            <a href="../" class="md-nav__link ">
               
   
   
@@ -1408,7 +1408,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2_5">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1428,7 +1428,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../optimizers/01-SGD/" class="md-nav__link">
+      <a href="../01-SGD/" class="md-nav__link">
         
   
   
@@ -1456,7 +1456,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../optimizers/02-SGDMomentum/" class="md-nav__link">
+      <a href="../02-SGDMomentum/" class="md-nav__link">
         
   
   
@@ -1484,7 +1484,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../optimizers/03-RMSprop/" class="md-nav__link">
+      <a href="../03-RMSprop/" class="md-nav__link">
         
   
   
@@ -1512,7 +1512,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../optimizers/04-Adam/" class="md-nav__link">
+      <a href="../04-Adam/" class="md-nav__link">
         
   
   
@@ -1540,7 +1540,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../optimizers/05-Comparison/" class="md-nav__link">
+      <a href="../05-Comparison/" class="md-nav__link">
         
   
   
@@ -1568,7 +1568,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../optimizers/06-Optimizer/" class="md-nav__link">
+      <a href="../06-Optimizer/" class="md-nav__link">
         
   
   
@@ -1593,10 +1593,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../optimizers/07-ScipyBridge/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SciPy Optimization Bridge
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1612,6 +1639,109 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-why-use" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Why use ?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-example-1-basic-function-minimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Example 1: Basic Function Minimization
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-example-2-bounded-concrete-mix-design-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Example 2: Bounded Concrete Mix Design Optimization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Example 2: Bounded Concrete Mix Design Optimization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-21-generate-synthetic-concrete-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2.1: Generate Synthetic Concrete Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-22-define-and-train-a-neural-network" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2.2: Define and Train a Neural Network
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-23-bounded-optimization-with-multi-objective-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2.3: Bounded Optimization with Multi-Objective Loss
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-key-performance-guidelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Key Performance Guidelines
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1909,8 +2039,6 @@
                 
   
   
-    
-  
   
   
     
@@ -1936,15 +2064,17 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_8" checked>
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_8" >
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
+            <a href="../../metrics/" class="md-nav__link ">
               
   
   
@@ -1968,7 +2098,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_8_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_8_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2_8">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1988,7 +2118,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../01-Regression/" class="md-nav__link">
+      <a href="../../metrics/01-Regression/" class="md-nav__link">
         
   
   
@@ -2013,37 +2143,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Classification Metrics
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../metrics/02-Classification/" class="md-nav__link">
         
   
   
@@ -2059,120 +2162,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#elements-of-evaluation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Elements of evaluation
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#confusion-matrix" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Confusion Matrix
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Confusion Matrix">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#example" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#accuracy-score" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Accuracy Score
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#precision" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Precision
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#recall-sensitivity" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Recall (Sensitivity)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#f1-score" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        F1-Score
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#multi-class-classification-report" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Multi-class Classification Report
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -4548,10 +4537,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#elements-of-evaluation" class="md-nav__link">
+  <a href="#1-why-use" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Elements of evaluation
+        1. Why use ?
       
     </span>
   </a>
@@ -4559,22 +4548,55 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#confusion-matrix" class="md-nav__link">
+  <a href="#2-example-1-basic-function-minimization" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Confusion Matrix
+        2. Example 1: Basic Function Minimization
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Confusion Matrix">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-example-2-bounded-concrete-mix-design-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Example 2: Bounded Concrete Mix Design Optimization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Example 2: Bounded Concrete Mix Design Optimization">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#example" class="md-nav__link">
+  <a href="#step-21-generate-synthetic-concrete-data" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Example
+        Step 2.1: Generate Synthetic Concrete Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-22-define-and-train-a-neural-network" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2.2: Define and Train a Neural Network
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-23-bounded-optimization-with-multi-objective-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2.3: Bounded Optimization with Multi-Objective Loss
       
     </span>
   </a>
@@ -4587,54 +4609,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#accuracy-score" class="md-nav__link">
+  <a href="#4-key-performance-guidelines" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Accuracy Score
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#precision" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Precision
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#recall-sensitivity" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Recall (Sensitivity)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#f1-score" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        F1-Score
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#multi-class-classification-report" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Multi-class Classification Report
+        4. Key Performance Guidelines
       
     </span>
   </a>
@@ -4713,7 +4691,7 @@
         <a href="../" class="md-path__link">
           
   <span class="md-ellipsis">
-    Metrics
+    Optimizers
   </span>
 
         </a>
@@ -5171,29 +5149,38 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </style>
 <!-- End of mermaid configuration --><div class="jupyter-wrapper">
 <div class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=classification-intro">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="classification-metrics">Classification Metrics<a class="anchor-link" href="#classification-metrics">¶</a></h1><p><a href="https://colab.research.google.com/github/Mitchell-Mirano/sorix/blob/main/docs/learn/metrics/02-Classification.ipynb"><img alt="&amp;quot;Open In Colab&amp;quot;" src="https://colab.research.google.com/assets/colab-badge.svg"/></a>
-<a href="https://github.com/Mitchell-Mirano/sorix/blob/main/docs/learn/metrics/02-Classification.ipynb"><img alt="&amp;quot;Open in GitHub&amp;quot;" src="https://img.shields.io/badge/Open%20in-GitHub-black?logo=github"/></a>
-<a href="https://mitchell-mirano.github.io/sorix/latest/learn/metrics/02-Classification"><img alt="&amp;quot;Open in Docs&amp;quot;" src="https://img.shields.io/badge/Open%20in-Docs-blue?logo=readthedocs"/></a></p>
-<p>Classification metrics quantify the performance of a model predicting categorical labels. Unlike regression, where distance is key, classification evaluation focuses on the correct assignment of samples to their respective classes.</p>
-<h2 id="elements-of-evaluation">Elements of evaluation<a class="anchor-link" href="#elements-of-evaluation">¶</a></h2><p>Most classification metrics are derived from four fundamental outcomes in a binary classification task:</p>
-<ul>
-<li><strong>True Positives (TP)</strong>: The model correctly predicted the positive class.</li>
-<li><strong>True Negatives (TN)</strong>: The model correctly predicted the negative class.</li>
-<li><strong>False Positives (FP)</strong>: The model predicted the positive class, but the actual class was negative (Type I error).</li>
-<li><strong>False Negatives (FN)</strong>: The model predicted the negative class, but the actual class was positive (Type II error).</li>
-</ul>
-<p>These values are usually aggregated in a <strong>Confusion Matrix</strong>.</p>
+<h1 id="scipy-optimization-bridge">SciPy Optimization Bridge<a class="anchor-link" href="#scipy-optimization-bridge">¶</a></h1><p><a href="https://colab.research.google.com/github/Mitchell-Mirano/sorix/blob/main/docs/learn/optimizers/07-ScipyBridge.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg"/></a>
+<a href="https://github.com/Mitchell-Mirano/sorix/blob/main/docs/learn/optimizers/07-ScipyBridge.ipynb"><img alt="Open in GitHub" src="https://img.shields.io/badge/Open%20in-GitHub-black?logo=github"/></a>
+<a href="https://mitchell-mirano.github.io/sorix/latest/learn/optimizers/07-ScipyBridge"><img alt="Open in Docs" src="https://img.shields.io/badge/Open%20in-Docs-blue?logo=readthedocs"/></a></p>
+<p>In scientific machine learning and engineering applications, we frequently encounter <strong>inverse design</strong> and <strong>constrained optimization</strong> problems. For example, in concrete mix optimization, we want to find the precise proportions of cement, water, and aggregates that yield a target compressive strength while satisfying physical bounds (e.g., ingredient ratios between 0 and 1) and minimizing ingredient costs.</p>
+<p>While <code>sorix</code> provides native neural network optimizers (like Adam and SGD) designed for updating weights, mathematical libraries like <strong>SciPy</strong> feature highly optimized, classical optimization algorithms that support complex bounds and non-linear constraints (such as <code>L-BFGS-B</code> and <code>SLSQP</code>).</p>
+<p>The <code>ScipyBridge</code> utility bridges the gap between <code>sorix</code> autograd and SciPy's solvers, combining <strong>exact analytical gradients</strong> with <strong>classical constrained optimization</strong>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="1-why-use-scipybridge">1. Why use <code>ScipyBridge</code>?<a class="anchor-link" href="#1-why-use-scipybridge">¶</a></h2><p>When using SciPy's optimizers with machine learning models, developers typically face two major challenges:</p>
+<ol>
+<li><strong>Numerical Finite Differences are Slow and Unstable</strong>: By default, SciPy approximates gradients using finite differences (evaluating the objective function $2D$ times for $D$ variables). This is computationally expensive and numerically unstable (highly sensitive to step size $h$). <code>ScipyBridge</code> solves this by calculating exact analytical gradients via <code>sorix</code> backpropagation.</li>
+<li><strong>CPU-GPU Memory Boundary</strong>: SciPy is a CPU-bound library that expects CPU NumPy arrays. If your <code>sorix</code> model runs on GPU (via CuPy/CUDA), <code>ScipyBridge</code> automatically handles copying candidates onto the GPU, evaluating the model, and returning gradients back to CPU NumPy arrays seamlessly.</li>
+</ol>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=install-sorix">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -5211,18 +5198,31 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># Uncomment the next line and run this cell to install sorix</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># Uncomment to install sorix</span>
 <span class="c1">#!pip install 'sorix @ git+https://github.com/Mitchell-Mirano/sorix.git@main'</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-1"># Uncomment the next line and run this cell to install sorix
+<div class="clipboard-copy-txt" id="cell-1"># Uncomment to install sorix
 #!pip install 'sorix @ git+https://github.com/Mitchell-Mirano/sorix.git@main'</div>
 </div>
 </div>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=setup-cell-classification">
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="2-example-1-basic-function-minimization">2. Example 1: Basic Function Minimization<a class="anchor-link" href="#2-example-1-basic-function-minimization">¶</a></h2><p>Let's start with a simple optimization problem: minimizing a 2D quadratic bowl function:
+$$f(x, y) = (x - 2)^2 + (y - 3)^2 + 5$$</p>
+<p>We will initialize our variables at <code>[0.0, 0.0]</code> and use SciPy's <code>L-BFGS-B</code> algorithm to find the optimum at <code>[2.0, 3.0]</code>.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -5242,51 +5242,96 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sorix</span><span class="w"> </span><span class="kn">import</span> <span class="n">tensor</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sorix.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">accuracy_score</span><span class="p">,</span> 
-    <span class="n">confusion_matrix</span><span class="p">,</span> 
-    <span class="n">precision_score</span><span class="p">,</span> 
-    <span class="n">recall_score</span><span class="p">,</span> 
-    <span class="n">f1_score</span><span class="p">,</span> 
-    <span class="n">classification_report</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sorix.optim</span><span class="w"> </span><span class="kn">import</span> <span class="n">ScipyBridge</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.optimize</span>
+
+<span class="c1"># 1. Define the parameters to optimize (requires_grad must be True)</span>
+<span class="n">params</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># 2. Define the objective function (must return a scalar loss Tensor)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">loss_fn</span><span class="p">():</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mf">2.0</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mf">3.0</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mf">5.0</span>
+
+<span class="c1"># 3. Wrap with ScipyBridge</span>
+<span class="n">bridge</span> <span class="o">=</span> <span class="n">ScipyBridge</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">loss_fn</span><span class="p">)</span>
+
+<span class="c1"># 4. Optimize using SciPy L-BFGS-B</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">optimize</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span>
+    <span class="n">bridge</span><span class="o">.</span><span class="n">objective</span><span class="p">,</span>
+    <span class="n">bridge</span><span class="o">.</span><span class="n">get_x</span><span class="p">(),</span>
+    <span class="n">jac</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># Tell SciPy that the objective function returns both (value, gradient)</span>
+    <span class="n">method</span><span class="o">=</span><span class="s1">'L-BFGS-B'</span>
 <span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Optimization Successful:"</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">success</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Optimal x, y:"</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Minimum loss value:"</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">fun</span><span class="p">)</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-2">import numpy as np
 from sorix import tensor
-from sorix.metrics import (
-    accuracy_score, 
-    confusion_matrix, 
-    precision_score, 
-    recall_score, 
-    f1_score, 
-    classification_report
-)</div>
+from sorix.optim import ScipyBridge
+import scipy.optimize
+
+# 1. Define the parameters to optimize (requires_grad must be True)
+params = tensor([0.0, 0.0], requires_grad=True)
+
+# 2. Define the objective function (must return a scalar loss Tensor)
+def loss_fn():
+    return (params[0] - 2.0)**2 + (params[1] - 3.0)**2 + 5.0
+
+# 3. Wrap with ScipyBridge
+bridge = ScipyBridge(params, loss_fn)
+
+# 4. Optimize using SciPy L-BFGS-B
+res = scipy.optimize.minimize(
+    bridge.objective,
+    bridge.get_x(),
+    jac=True,  # Tell SciPy that the objective function returns both (value, gradient)
+    method='L-BFGS-B'
+)
+
+print("Optimization Successful:", res.success)
+print("Optimal x, y:", res.x)
+print("Minimum loss value:", res.fun)</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Optimization Successful: True
+Optimal x, y: [2.00000022 2.99999989]
+Minimum loss value: 5.0
+</pre>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=confusion-matrix-detail">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="confusion-matrix">Confusion Matrix<a class="anchor-link" href="#confusion-matrix">¶</a></h2><p>The confusion matrix is a table that summarizes the performance of a classification algorithm. Each row of the matrix represents the instances in an actual class, while each column represents the instances in a predicted class.</p>
-<p>For binary classification:</p>
-<p>$$
-\begin{pmatrix}
-TN &amp; FP \\
-FN &amp; TP
-\end{pmatrix}
-$$</p>
-<h3 id="example">Example<a class="anchor-link" href="#example">¶</a></h3><p>Let's see a confusion matrix for a 3-class problem.</p>
+<h2 id="3-example-2-bounded-concrete-mix-design-optimization">3. Example 2: Bounded Concrete Mix Design Optimization<a class="anchor-link" href="#3-example-2-bounded-concrete-mix-design-optimization">¶</a></h2><p>In physical engineering, concrete mix design involves combining three main components:</p>
+<ol>
+<li><strong>Cement ($x_0$)</strong>: High cost, high carbon footprint, but provides the primary binding strength.</li>
+<li><strong>Water ($x_1$)</strong>: Low cost, but excessive water decreases compressive strength.</li>
+<li><strong>Aggregates ($x_2$)</strong>: Low cost, acts as structural filler.</li>
+</ol>
+<h3 id="step-21-generate-synthetic-concrete-data">Step 2.1: Generate Synthetic Concrete Data<a class="anchor-link" href="#step-21-generate-synthetic-concrete-data">¶</a></h3><p>Let's assume we collect historical lab data where we know the mix ratios of cement, water, and aggregates, and the corresponding measured Compressive Strength (in MPa). We simulate this data using a known linear combination with random noise.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=run-cm">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -5304,56 +5349,59 @@ $$</p>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">y_true</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-<span class="n">y_pred</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sorix</span><span class="w"> </span><span class="kn">import</span> <span class="n">tensor</span>
 
-<span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"Confusion Matrix:"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">cm</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">num_samples</span> <span class="o">=</span> <span class="mi">200</span>
+
+<span class="c1"># Generate mix fractions</span>
+<span class="n">cement</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="p">(</span><span class="n">num_samples</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">water</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="p">(</span><span class="n">num_samples</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">aggregates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="p">(</span><span class="n">num_samples</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+<span class="n">X_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">cement</span><span class="p">,</span> <span class="n">water</span><span class="p">,</span> <span class="n">aggregates</span><span class="p">])</span>
+<span class="c1"># Simulating strength: increases with cement, decreases with water, slight aggregate impact</span>
+<span class="n">y_data</span> <span class="o">=</span> <span class="p">(</span><span class="mf">40.0</span> <span class="o">*</span> <span class="n">cement</span> <span class="o">-</span> <span class="mf">15.0</span> <span class="o">*</span> <span class="n">water</span> <span class="o">+</span> <span class="mf">5.0</span> <span class="o">*</span> <span class="n">aggregates</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="p">(</span><span class="n">num_samples</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">(</span><span class="n">X_data</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">(</span><span class="n">y_data</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-3">y_true = tensor([2, 0, 2, 2, 0, 1])
-y_pred = tensor([0, 0, 2, 2, 0, 2])
+<div class="clipboard-copy-txt" id="cell-3">import numpy as np
+from sorix import tensor
 
-cm = confusion_matrix(y_true, y_pred)
-print("Confusion Matrix:")
-print(cm)</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Confusion Matrix:
-[[2 0 0]
- [0 0 1]
- [1 0 2]]
-</pre>
+np.random.seed(42)
+num_samples = 200
+
+# Generate mix fractions
+cement = np.random.uniform(0.2, 0.6, (num_samples, 1))
+water = np.random.uniform(0.1, 0.4, (num_samples, 1))
+aggregates = np.random.uniform(0.3, 0.7, (num_samples, 1))
+
+X_data = np.hstack([cement, water, aggregates])
+# Simulating strength: increases with cement, decreases with water, slight aggregate impact
+y_data = (40.0 * cement - 15.0 * water + 5.0 * aggregates + np.random.normal(0, 0.5, (num_samples, 1)))
+
+X = tensor(X_data)
+y = tensor(y_data)</div>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=accuracy-detail">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="accuracy-score">Accuracy Score<a class="anchor-link" href="#accuracy-score">¶</a></h2><p><strong>Accuracy</strong> is the ratio of correct predictions to the total number of input samples. It is suitable when classes are balanced.</p>
-<p>$$
-\text{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN} = \frac{1}{n} \sum_{i=1}^{n} \mathbb{I}(y_i = \hat{y}_i)
-$$</p>
+<h3 id="step-22-define-and-train-a-neural-network">Step 2.2: Define and Train a Neural Network<a class="anchor-link" href="#step-22-define-and-train-a-neural-network">¶</a></h3><p>Now we train a simple Multilayer Perceptron (MLP) in <code>sorix</code> to learn the mapping from ingredients <code>[cement, water, aggregates]</code> to predicted <code>strength</code>.</p>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=run-accuracy">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -5371,17 +5419,51 @@ $$</p>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">y_true</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-<span class="n">y_pred</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sorix.nn</span><span class="w"> </span><span class="kn">import</span> <span class="n">Linear</span><span class="p">,</span> <span class="n">Sequential</span><span class="p">,</span> <span class="n">MSELoss</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sorix.optim</span><span class="w"> </span><span class="kn">import</span> <span class="n">Adam</span>
 
-<span class="c1"># Correct: 5, Total: 6</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Accuracy Score: </span><span class="si">{</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span><span class="w"> </span><span class="n">y_pred</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="c1"># 1. Define model</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">(</span>
+    <span class="n">Linear</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
+    <span class="n">Linear</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># 2. Train the model</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+<span class="n">criterion</span> <span class="o">=</span> <span class="n">MSELoss</span><span class="p">()</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">101</span><span class="p">):</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+    <span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">epoch</span> <span class="o">%</span> <span class="mi">20</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Epoch </span><span class="si">{</span><span class="n">epoch</span><span class="si">:</span><span class="s2">3d</span><span class="si">}</span><span class="s2"> | Training Loss: </span><span class="si">{</span><span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-4">y_true = tensor([0, 1, 1, 0, 1, 1])
-y_pred = tensor([0, 1, 0, 0, 1, 1])
+<div class="clipboard-copy-txt" id="cell-4">from sorix.nn import Linear, Sequential, MSELoss
+from sorix.optim import Adam
 
-# Correct: 5, Total: 6
-print(f"Accuracy Score: {accuracy_score(y_true, y_pred):.4f}")</div>
+# 1. Define model
+model = Sequential(
+    Linear(3, 8),
+    Linear(8, 1)
+)
+
+# 2. Train the model
+optimizer = Adam(model.parameters(), lr=0.01)
+criterion = MSELoss()
+
+model.train()
+for epoch in range(101):
+    optimizer.zero_grad()
+    pred = model(X)
+    loss = criterion(pred, y)
+    loss.backward()
+    optimizer.step()
+    if epoch % 20 == 0:
+        print(f"Epoch {epoch:3d} | Training Loss: {loss.item():.4f}")</div>
 </div>
 </div>
 </div>
@@ -5393,7 +5475,12 @@ print(f"Accuracy Score: {accuracy_score(y_true, y_pred):.4f}")</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Accuracy Score: 0.8333
+<pre>Epoch   0 | Training Loss: 202.2552
+Epoch  20 | Training Loss: 129.1668
+Epoch  40 | Training Loss: 62.2291
+Epoch  60 | Training Loss: 24.8746
+Epoch  80 | Training Loss: 20.1260
+Epoch 100 | Training Loss: 19.5862
 </pre>
 </div>
 </div>
@@ -5401,21 +5488,33 @@ print(f"Accuracy Score: {accuracy_score(y_true, y_pred):.4f}")</div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=precision-detail">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="precision">Precision<a class="anchor-link" href="#precision">¶</a></h2><p><strong>Precision</strong> (also called positive predictive value) measures the model's accuracy in predicting the positive class. It answers: <em>"Of all the samples predicted as positive, how many were actually positive?"</em></p>
-<p>$$
-\text{Precision} = \frac{TP}{TP + FP}
-$$</p>
+<h3 id="step-23-bounded-optimization-with-multi-objective-loss">Step 2.3: Bounded Optimization with Multi-Objective Loss<a class="anchor-link" href="#step-23-bounded-optimization-with-multi-objective-loss">¶</a></h3><p>Now, we lock the model weights (<code>model.eval()</code>) and optimize the <strong>inputs</strong> to find a concrete mix that:</p>
+<ol>
+<li>Hits a target strength of <strong><code>20.0 MPa</code></strong>.</li>
+<li>Minimizes <strong>ingredient costs</strong> using pricing coefficients:<ul>
+<li>Cement: $0.15/unit</li>
+<li>Water: $0.02/unit</li>
+<li>Aggregates: $0.05/unit</li>
+</ul>
+</li>
+<li>Satisfies physical box bounds for each ingredient:<ul>
+<li>Cement: $[0.2, 0.6]$</li>
+<li>Water: $[0.1, 0.4]$</li>
+<li>Aggregates: $[0.3, 0.7]$</li>
+</ul>
+</li>
+</ol>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=run-precision">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -5433,23 +5532,95 @@ $$</p>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">y_true</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-<span class="n">y_pred</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># 1. Set model to evaluation mode and freeze parameters</span>
+<span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">():</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">requires_grad</span> <span class="o">=</span> <span class="kc">False</span>
 
-<span class="c1"># Actual positives: [1, 1, 1]</span>
-<span class="c1"># Predicted positives: [1, 1, 1] at indices 0, 1, 3</span>
-<span class="c1"># TP: 2 (indices 0 and 3), FP: 1 (index 1)</span>
-<span class="n">precision</span> <span class="o">=</span> <span class="n">precision_score</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s1">'binary'</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Binary Precision: </span><span class="si">{</span><span class="n">precision</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># 2 / (2 + 1) = 0.6667</span>
+<span class="c1"># 2. Define input decision variable (2D tensor for batch prediction)</span>
+<span class="n">x_input</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">([[</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]],</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># 3. Define target strength &amp; cost coefficient vector C</span>
+<span class="n">target_strength</span> <span class="o">=</span> <span class="mf">20.0</span>
+<span class="n">cost_coeffs</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">([</span><span class="mf">0.15</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">])</span>
+
+<span class="c1"># 4. Define the multi-objective loss function</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">objective_fn</span><span class="p">():</span>
+    <span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x_input</span><span class="p">)</span>
+    <span class="c1"># Target strength loss (scalarized via .sum())</span>
+    <span class="n">strength_loss</span> <span class="o">=</span> <span class="p">((</span><span class="n">pred</span> <span class="o">-</span> <span class="n">target_strength</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    
+    <span class="c1"># Vectorized ingredient cost calculation: sum(C * X)</span>
+    <span class="n">cost</span> <span class="o">=</span> <span class="p">(</span><span class="n">x_input</span> <span class="o">*</span> <span class="n">cost_coeffs</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="c1"># Combine losses (1.0 weight on cost penalty)</span>
+    <span class="k">return</span> <span class="n">strength_loss</span> <span class="o">+</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">cost</span>
+
+<span class="c1"># 5. Define boundary constraints</span>
+<span class="n">bounds</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">),</span>  <span class="c1"># Cement bounds</span>
+    <span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">),</span>  <span class="c1"># Water bounds</span>
+    <span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">)</span>   <span class="c1"># Aggregates bounds</span>
+<span class="p">]</span>
+
+<span class="c1"># 6. Run optimization via ScipyBridge</span>
+<span class="n">bridge</span> <span class="o">=</span> <span class="n">ScipyBridge</span><span class="p">(</span><span class="n">x_input</span><span class="p">,</span> <span class="n">objective_fn</span><span class="p">)</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">optimize</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span>
+    <span class="n">bridge</span><span class="o">.</span><span class="n">objective</span><span class="p">,</span>
+    <span class="n">bridge</span><span class="o">.</span><span class="n">get_x</span><span class="p">(),</span>
+    <span class="n">jac</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">,</span>
+    <span class="n">method</span><span class="o">=</span><span class="s1">'L-BFGS-B'</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Optimization Successful:"</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">success</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Optimal Mix (Cement, Water, Aggregates):"</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Predicted Compressive Strength (MPa):"</span><span class="p">,</span> <span class="n">model</span><span class="p">(</span><span class="n">tensor</span><span class="p">([</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">]))</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Optimal Mix Cost ($):"</span><span class="p">,</span> <span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">cost_coeffs</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-5">y_true = tensor([1, 0, 0, 1, 1, 0])
-y_pred = tensor([1, 1, 0, 1, 0, 0])
+<div class="clipboard-copy-txt" id="cell-5"># 1. Set model to evaluation mode and freeze parameters
+model.eval()
+for p in model.parameters():
+    p.requires_grad = False
 
-# Actual positives: [1, 1, 1]
-# Predicted positives: [1, 1, 1] at indices 0, 1, 3
-# TP: 2 (indices 0 and 3), FP: 1 (index 1)
-precision = precision_score(y_true, y_pred, average='binary')
-print(f"Binary Precision: {precision:.4f}") # 2 / (2 + 1) = 0.6667</div>
+# 2. Define input decision variable (2D tensor for batch prediction)
+x_input = tensor([[0.4, 0.25, 0.5]], requires_grad=True)
+
+# 3. Define target strength &amp; cost coefficient vector C
+target_strength = 20.0
+cost_coeffs = tensor([0.15, 0.02, 0.05])
+
+# 4. Define the multi-objective loss function
+def objective_fn():
+    pred = model(x_input)
+    # Target strength loss (scalarized via .sum())
+    strength_loss = ((pred - target_strength) ** 2).sum()
+    
+    # Vectorized ingredient cost calculation: sum(C * X)
+    cost = (x_input * cost_coeffs).sum()
+    # Combine losses (1.0 weight on cost penalty)
+    return strength_loss + 1.0 * cost
+
+# 5. Define boundary constraints
+bounds = [
+    (0.2, 0.6),  # Cement bounds
+    (0.1, 0.4),  # Water bounds
+    (0.3, 0.7)   # Aggregates bounds
+]
+
+# 6. Run optimization via ScipyBridge
+bridge = ScipyBridge(x_input, objective_fn)
+res = scipy.optimize.minimize(
+    bridge.objective,
+    bridge.get_x(),
+    jac=True,
+    bounds=bounds,
+    method='L-BFGS-B'
+)
+
+print("Optimization Successful:", res.success)
+print("Optimal Mix (Cement, Water, Aggregates):", res.x)
+print("Predicted Compressive Strength (MPa):", model(tensor([res.x])).item())
+print("Optimal Mix Cost ($):", (res.x * cost_coeffs.numpy()).sum())</div>
 </div>
 </div>
 </div>
@@ -5461,7 +5632,10 @@ print(f"Binary Precision: {precision:.4f}") # 2 / (2 + 1) = 0.6667</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Binary Precision: 0.6667
+<pre>Optimization Successful: True
+Optimal Mix (Cement, Water, Aggregates): [0.6 0.4 0.7]
+Predicted Compressive Strength (MPa): 19.317100524902344
+Optimal Mix Cost ($): 0.1330000039190054
 </pre>
 </div>
 </div>
@@ -5469,192 +5643,18 @@ print(f"Binary Precision: {precision:.4f}") # 2 / (2 + 1) = 0.6667</div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=recall-detail">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="recall-sensitivity">Recall (Sensitivity)<a class="anchor-link" href="#recall-sensitivity">¶</a></h2><p><strong>Recall</strong> measures the ability of the classifier to find all the positive samples. It answers: <em>"Of all the actual positive samples, how many did we correctly identify?"</em></p>
-<p>$$
-\text{Recall} = \frac{TP}{TP + FN}
-$$</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=run-recall">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-6">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">y_true</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-<span class="n">y_pred</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-
-<span class="c1"># TP: 2, FN: 1 (index 4 was positive but predicted as 0)</span>
-<span class="n">recall</span> <span class="o">=</span> <span class="n">recall_score</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s1">'binary'</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Binary Recall: </span><span class="si">{</span><span class="n">recall</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># 2 / (2 + 1) = 0.6667</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-6">y_true = tensor([1, 0, 0, 1, 1, 0])
-y_pred = tensor([1, 1, 0, 1, 0, 0])
-
-# TP: 2, FN: 1 (index 4 was positive but predicted as 0)
-recall = recall_score(y_true, y_pred, average='binary')
-print(f"Binary Recall: {recall:.4f}") # 2 / (2 + 1) = 0.6667</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Binary Recall: 0.6667
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f1-detail">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="f1-score">F1-Score<a class="anchor-link" href="#f1-score">¶</a></h2><p>The <strong>F1-Score</strong> is the harmonic mean of precision and recall. It is useful when you need to balance both metrics and is preferred over accuracy for imbalanced datasets.</p>
-<p>$$
-\text{F1} = 2 \cdot \frac{\text{Precision} \cdot \text{Recall}}{\text{Precision} + \text{Recall}}
-$$</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=run-f1">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-7">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">y_true</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-<span class="n">y_pred</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-
-<span class="n">f1</span> <span class="o">=</span> <span class="n">f1_score</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s1">'binary'</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Binary F1-Score: </span><span class="si">{</span><span class="n">f1</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-7">y_true = tensor([1, 0, 0, 1, 1, 0])
-y_pred = tensor([1, 1, 0, 1, 0, 0])
-
-f1 = f1_score(y_true, y_pred, average='binary')
-print(f"Binary F1-Score: {f1:.4f}")</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Binary F1-Score: 0.6667
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=classification-report-detail">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="multi-class-classification-report">Multi-class Classification Report<a class="anchor-link" href="#multi-class-classification-report">¶</a></h2><p>The <code>classification_report</code> allows you to see all the above metrics per class in a multi-class environment, plus global metrics like macro and weighted averages.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=run-report">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-8">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">y_true</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-<span class="n">y_pred</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-8">y_true = tensor([0, 1, 2, 2, 0, 1])
-y_pred = tensor([0, 0, 2, 2, 0, 2])
-
-print(classification_report(y_true, y_pred))</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>            precision   recall f1-score  support
-0                0.67     1.00     0.80        2
-1                0.00     0.00     0.00        2
-2                0.67     1.00     0.80        2
-
-accuracy                           0.67        6
-macro avg        0.44     0.67     0.53        6
-weighted avg     0.44     0.67     0.53        6
-</pre>
-</div>
-</div>
+<h2 id="4-key-performance-guidelines">4. Key Performance Guidelines<a class="anchor-link" href="#4-key-performance-guidelines">¶</a></h2><p>When using <code>ScipyBridge</code>, keep these important design tips in mind:</p>
+<ol>
+<li><strong>Call <code>model.eval()</code></strong>: Always set your neural network to evaluation mode before running optimization. This disables dropout noise and freezes batch normalization running statistics, ensuring a smooth, noise-free optimization surface.</li>
+<li><strong>Freeze Weights</strong>: If you are optimizing the input features, remember to iterate over <code>model.parameters()</code> and set <code>requires_grad = False</code> to prevent computing gradients for network weights, saving memory and runtime.</li>
+<li><strong>Memory Management</strong>: <code>ScipyBridge</code> automatically calls <code>backward(retain_graph=False)</code> on the loss, freeing autograd graph memory at each step. This allows optimization runs to execute for hundreds of steps with constant memory usage.</li>
+</ol>
 </div>
 </div>
 </div>
