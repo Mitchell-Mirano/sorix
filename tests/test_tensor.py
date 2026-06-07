@@ -529,4 +529,26 @@ def test_tensor_device_movement():
     # test dummy cuda move if not available
     c = a.cpu()
     assert c is a
-    # Wait, let's check how sorix handles initialization of grad in backward.
+
+def test_tensor_setitem():
+    """Test __setitem__ indexing assignment (in-place) behavior."""
+    # 1. Normal list assignment
+    t = tensor([1.0, 2.0, 3.0])
+    t[1] = 5.0
+    assert np.array_equal(t.data, [1.0, 5.0, 3.0])
+    
+    # 2. Slice assignment
+    t_slice = tensor([1.0, 2.0, 3.0])
+    t_slice[0:2] = [10.0, 20.0]
+    assert np.array_equal(t_slice.data, [10.0, 20.0, 3.0])
+
+    # 3. Value as Tensor assignment
+    t_val_tensor = tensor([1.0, 2.0, 3.0])
+    val = tensor(5.0)
+    t_val_tensor[1] = val
+    assert np.array_equal(t_val_tensor.data, [1.0, 5.0, 3.0])
+
+    # 4. Error raising when requires_grad=True
+    t_grad = tensor([1.0, 2.0, 3.0], requires_grad=True)
+    with pytest.raises(RuntimeError, match="a leaf Variable that requires grad is being used in an in-place operation"):
+        t_grad[1] = 5.0

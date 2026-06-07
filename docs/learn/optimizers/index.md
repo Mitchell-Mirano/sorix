@@ -24,6 +24,7 @@ Sorix provides several popular optimization algorithms:
 - **[SGD with Momentum](02-SGDMomentum.ipynb)**: Accelerates SGD in the relevant direction and dampens oscillations.
 - **[RMSprop](03-RMSprop.ipynb)**: Adapts the learning rate based on a moving average of squared gradients.
 - **[Adam](04-Adam.ipynb)**: Combines the benefits of AdaGrad and RMSProp, widely used due to its efficiency and low memory requirements.
+- **[SciPy Bridge](07-ScipyBridge.ipynb)**: Bridges `sorix` autograd with SciPy's optimizers for constrained optimization and inverse design.
 
 For a side-by-side comparison of these algorithms on non-convex landscapes, see the **[Optimizer Comparison](05-Comparison.ipynb)** guide.
 

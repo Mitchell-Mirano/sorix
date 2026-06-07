@@ -185,3 +185,4 @@ docs/examples/data/
 *.h5
 *.onnx
 *.agents
+scratch/

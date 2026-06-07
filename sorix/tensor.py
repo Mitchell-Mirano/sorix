@@ -266,6 +266,24 @@ class Tensor:
         
         out._backward = _backward
         return out
+
+    def __setitem__(self, key: Any, value: Any) -> None:
+        """Permite asignación directa por slicing (in-place).
+
+        Args:
+            key: Índice o slice del tensor a modificar.
+            value: Valor a asignar (puede ser un escalar, arreglo numpy o Tensor).
+
+        Raises:
+            RuntimeError: Si el tensor requiere gradientes (requires_grad=True).
+        """
+        if self.requires_grad:
+            raise RuntimeError(
+                "a leaf Variable that requires grad is being used in an in-place operation."
+            )
+        if isinstance(value, Tensor):
+            value = value.data
+        self.data[key] = value
     
     def __len__(self) -> int:
         if self.data.ndim == 0:
@@ -778,9 +796,9 @@ class Tensor:
             shape = shape[0]
             
         if not is_grad_enabled():
-            return Tensor(self.data.reshape(*shape), device=self.device, requires_grad=False)
+            return Tensor(self.data.reshape(shape), device=self.device, requires_grad=False)
         
-        out = Tensor(self.data.reshape(*shape), [self], 'reshape', device=self.device, requires_grad=self.requires_grad)
+        out = Tensor(self.data.reshape(shape), [self], 'reshape', device=self.device, requires_grad=self.requires_grad)
         
         def _backward() -> None:
             if out.grad is None:
@@ -956,7 +974,7 @@ class Tensor:
         return self.split(split_size, dim=dim)
 
     def backward(self, gradient: Optional[Union[Tensor, np.ndarray, Any]] = None, 
-                 retain_graph: bool = True, create_graph: bool = False) -> None:
+                 retain_graph: Optional[bool] = None, create_graph: bool = False) -> None:
         """
         Computes the gradient of current tensor w.r.t. graph leaves.
         
@@ -970,6 +988,9 @@ class Tensor:
             create_graph: If True, graph of the gradient will be constructed, 
                          allowing to compute higher-order derivative products.
         """
+        if retain_graph is None:
+            retain_graph = create_graph
+
         topo: List[Tensor] = []
         visited: Set[int] = set()
 
@@ -1269,6 +1290,31 @@ class Tensor:
 
     def __abs__(self) -> Tensor:
         return self.abs()
+
+    def clamp(self, min: Optional[Union[float, int]] = None, max: Optional[Union[float, int]] = None) -> Tensor:
+        """Clamps the tensor elements and returns a new Tensor.
+        
+        Args:
+            min: Lower-bound of the range to clamp to.
+            max: Upper-bound of the range to clamp to.
+        """
+        from sorix.utils.utils import clamp
+        return clamp(self, min=min, max=max)
+
+    def clamp_(self, min: Optional[Union[float, int]] = None, max: Optional[Union[float, int]] = None) -> Tensor:
+        """Clamps the tensor elements in-place and returns the tensor itself.
+        
+        Args:
+            min: Lower-bound of the range to clamp to.
+            max: Upper-bound of the range to clamp to.
+        """
+        if self.requires_grad:
+            raise RuntimeError(
+                "a leaf Variable that requires grad is being used in an in-place operation."
+            )
+        xp = self.xp
+        self.data = xp.clip(self.data, a_min=min, a_max=max)
+        return self
 
 def tensor(
     data: TensorData, 

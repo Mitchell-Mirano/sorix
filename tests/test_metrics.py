@@ -114,3 +114,118 @@ def test_mape_zeros():
     y_pred = tensor([1.0, 1.0])
     val = mean_absolute_percentage_error(y_true, y_pred)
     assert np.isinf(val) or np.isnan(val) or isinstance(val, float)
+
+def test_confusion_matrix_with_labels():
+    # Scenario: class '1' not present in data, but labels specifies [0, 1]
+    y_true = [0, 0, 0]
+    y_pred = [0, 0, 0]
+    
+    # Without labels, it should be 1x1
+    cm_no_labels = confusion_matrix(y_true, y_pred)
+    assert cm_no_labels.shape == (1, 1)
+    assert cm_no_labels[0, 0] == 3
+    
+    # With labels [0, 1], it should be 2x2
+    cm_labels = confusion_matrix(y_true, y_pred, labels=[0, 1])
+    assert cm_labels.shape == (2, 2)
+    assert np.array_equal(cm_labels, np.array([[3, 0], [0, 0]]))
+
+    # With reordered labels [1, 0]
+    cm_reordered = confusion_matrix(y_true, y_pred, labels=[1, 0])
+    assert cm_reordered.shape == (2, 2)
+    assert np.array_equal(cm_reordered, np.array([[0, 0], [0, 3]]))
+
+
+def test_zero_division_behavior():
+    from sorix.metrics import precision_score, recall_score, f1_score
+    # Precision division by zero (no positive predictions)
+    y_true = [1, 1, 0]
+    y_pred = [0, 0, 0]
+    
+    # Should default to warning and return 0.0
+    with pytest.warns(RuntimeWarning, match="Division by zero"):
+        p_warn = precision_score(y_true, y_pred, zero_division="warn")
+    assert p_warn == 0.0
+
+    # Explicit zero_division = 0.0
+    p_zero = precision_score(y_true, y_pred, zero_division=0.0)
+    assert p_zero == 0.0
+
+    # Explicit zero_division = 1.0
+    p_one = precision_score(y_true, y_pred, zero_division=1.0)
+    assert p_one == 1.0
+
+    # Recall division by zero (no positive ground truth for a class)
+    # e.g. class 1 has no positive ground truths, and we predict class 1 for one sample.
+    # If we look at class 1: true_pos = 0, actual_pos = 0.
+    y_true = [0, 0]
+    y_pred = [0, 1]
+    
+    with pytest.warns(RuntimeWarning, match="Division by zero"):
+        r_warn = recall_score(y_true, y_pred, labels=[0, 1], average=None, zero_division="warn")
+    assert np.array_equal(r_warn, np.array([0.5, 0.0]))
+
+    r_one = recall_score(y_true, y_pred, labels=[0, 1], average=None, zero_division=1.0)
+    assert np.array_equal(r_one, np.array([0.5, 1.0]))
+
+
+def test_classification_report_advanced():
+    y_true = [0, 1, 0, 1]
+    y_pred = [0, 1, 1, 1]
+    
+    # 1. output_dict=True
+    rep_dict = classification_report(y_true, y_pred, output_dict=True)
+    assert isinstance(rep_dict, dict)
+    assert "accuracy" in rep_dict
+    assert "macro avg" in rep_dict
+    assert "weighted avg" in rep_dict
+    assert "0" in rep_dict
+    assert "1" in rep_dict
+    
+    # Check structure
+    assert "precision" in rep_dict["0"]
+    assert "recall" in rep_dict["0"]
+    assert "f1-score" in rep_dict["0"]
+    assert "support" in rep_dict["0"]
+    assert rep_dict["0"]["support"] == 2
+    
+    # 2. target_names
+    rep_names = classification_report(y_true, y_pred, target_names=["Negativo", "Positivo"], output_dict=True)
+    assert "Negativo" in rep_names
+    assert "Positivo" in rep_names
+    assert rep_names["Negativo"]["support"] == 2
+
+    # Check target_names validation
+    with pytest.raises(ValueError, match="length of target_names does not match"):
+        classification_report(y_true, y_pred, target_names=["OnlyOne"])
+
+    # 3. labels filtering
+    rep_filtered = classification_report(y_true, y_pred, labels=[1], output_dict=True)
+    assert "1" in rep_filtered
+    assert "0" not in rep_filtered
+
+
+def test_f1_score_macro_averaging_exact():
+    from sorix.metrics import f1_score
+    # Calculate a case where macro F1 is the mean of F1 scores of individual classes.
+    # Class 0: y_true_0 = [1, 1, 0], y_pred_0 = [1, 0, 0]
+    # TP_0 = 1, FP_0 = 0, FN_0 = 1. Precision_0 = 1.0, Recall_0 = 0.5. F1_0 = 2/3 = 0.666...
+    # Class 1: y_true_1 = [0, 0, 1], y_pred_1 = [0, 1, 1]
+    # TP_1 = 1, FP_1 = 1, FN_1 = 0. Precision_1 = 0.5, Recall_1 = 1.0. F1_1 = 2/3 = 0.666...
+    # Mean of F1_0 and F1_1 is 2/3 = 0.666...
+    # Wait, if we use the old formula:
+    # Macro Precision: (1.0 + 0.5) / 2 = 0.75
+    # Macro Recall: (0.5 + 1.0) / 2 = 0.75
+    # Old Macro F1: 2 * 0.75 * 0.75 / (0.75 + 0.75) = 0.75
+    # Correct Macro F1: (0.666... + 0.666...) / 2 = 0.666...
+    
+    y_true = [0, 0, 1, 1] # 2 of class 0, 2 of class 1
+    y_pred = [0, 1, 1, 1] # predictions: 1 of class 0, 3 of class 1
+    
+    # Class 0: TP=1, FP=0, FN=1. P=1.0, R=0.5. F1 = 2/3
+    # Class 1: TP=2, FP=1, FN=0. P=2/3, R=1.0. F1 = 4/5 = 0.8
+    # Correct Macro F1: (2/3 + 4/5) / 2 = (10/15 + 12/15) / 2 = 22/30 = 0.7333333333333333
+    
+    val_macro = f1_score(y_true, y_pred, average='macro')
+    assert np.isclose(val_macro, (2/3 + 4/5) / 2)
+

@@ -139,6 +139,35 @@ class ReLU(Module):
         return out
 
 
+class LeakyReLU(Module):
+    """
+    Leaky Rectified Linear Unit activation function.
+    
+    Attributes:
+        negative_slope (float): Controls the angle of a negative slope. Default: 0.01
+    """
+    def __init__(self, negative_slope: float = 0.01) -> None:
+        super().__init__()
+        self.negative_slope = negative_slope
+
+    def __call__(self, X: Tensor) -> Tensor:
+        xp = X.xp
+        x = X.data
+        # f(x) = max(0, x) + negative_slope * min(0, x)
+        out_data = xp.where(x > 0, x, x * self.negative_slope)
+        out = Tensor(out_data, (X,), 'LeakyReLU', device=X.device, requires_grad=X.requires_grad)
+        
+        def _backward() -> None:
+            if out.grad is None:
+                return
+            if X.requires_grad:
+                # f'(x) = 1 if x > 0 else negative_slope
+                mask = xp.where(X.data > 0, 1.0, self.negative_slope)
+                X._accumulate_grad(out.grad * mask)
+        out._backward = _backward
+        return out
+
+
 class Sigmoid(Module):
     """Numerically stable Sigmoid activation function."""
     def __call__(self, X: Tensor) -> Tensor:

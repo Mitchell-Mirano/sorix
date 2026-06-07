@@ -11,7 +11,7 @@ def grad(
     outputs: Union[Tensor, List[Tensor], Tuple[Tensor, ...]],
     inputs: Union[Tensor, List[Tensor], Tuple[Tensor, ...]],
     grad_outputs: Optional[Union[Tensor, List[Tensor], Tuple[Tensor, ...], Any]] = None,
-    retain_graph: bool = True,
+    retain_graph: Optional[bool] = None,
     create_graph: bool = False,
     allow_unused: bool = False
 ) -> Tuple[Tensor, ...]:
@@ -20,7 +20,7 @@ def grad(
     
     Args:
         outputs: Tensors of which the gradient is to be computed.
-        inputs: Tensors w.r.t. which the gradient will be computed.
+        inputs: Tensors w.r.t which the gradient will be computed.
         grad_outputs: The "vector" in the vector-Jacobian product. 
             Should be the same size as outputs.
         retain_graph: If False, the graph used to compute the grads will be freed.
@@ -70,6 +70,9 @@ def grad(
     saved_prev  = {id(node): node._prev for node in topo}
     for node in topo:
         node.grad = None
+
+    if retain_graph is None:
+        retain_graph = create_graph
 
     prev_grad_enabled = is_grad_enabled()
     set_grad_enabled(create_graph)

@@ -24,8 +24,8 @@ All tests were performed on a high-end workstation to measure peak performance a
     - **Test Set**: 8,400 images
 - **Model Architecture (MLP)**:
     ```python
-    import sorix
-    from sorix.nn import Module, Linear, BatchNorm1d, ReLU, Dropout
+    from sorix.nn import Module, Linear, BatchNorm1d, ReLU, Dropout, CrossEntropyLoss
+    from sorix.optim import RMSprop
     
     class SorixModel(Module):
         def __init__(self):
@@ -42,6 +42,7 @@ All tests were performed on a high-end workstation to measure peak performance a
             x = self.dropout(x); x = self.linear3(x)
             return x
 
+    model = SorixModel()
     loss_fn = CrossEntropyLoss()
     optimizer = RMSprop(model.parameters(), lr=1e-3, alpha=0.99)
     ```
