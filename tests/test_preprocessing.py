@@ -200,4 +200,64 @@ def test_column_transformer_get_features_names():
     names = ct.get_features_names()
     assert 'scale_val' in names
     assert 'onehot_name_x' in names
+    assert 'onehot_name_x' in names
     assert 'onehot_name_y' in names
+
+def test_scalers_sklearn_properties():
+    """Test compatibility properties mapping to scikit-learn names."""
+    data = np.array([[1.0, 10.0], [3.0, 20.0], [5.0, 30.0]])
+
+    # 1. StandardScaler
+    ss = StandardScaler()
+    assert ss.mean_ is None
+    assert ss.scale_ is None
+    assert ss.var_ is None
+
+    ss.fit(data)
+    # mean should be [3.0, 20.0]
+    # std should be [1.63299316, 8.16496581]
+    assert np.allclose(ss.mean_, [3.0, 20.0])
+    assert np.allclose(ss.scale_, [np.std(data[:, 0]), np.std(data[:, 1])])
+    assert np.allclose(ss.var_, [np.var(data[:, 0]), np.var(data[:, 1])])
+
+    # test setters
+    ss.mean_ = np.array([4.0, 40.0])
+    assert np.array_equal(ss.mean, [4.0, 40.0])
+    ss.scale_ = np.array([2.0, 4.0])
+    assert np.array_equal(ss.std, [2.0, 4.0])
+    ss.var_ = np.array([9.0, 16.0])
+    assert np.allclose(ss.std, [3.0, 4.0])
+
+    # 2. MinMaxScaler
+    mms = MinMaxScaler()
+    assert mms.data_min_ is None
+    assert mms.data_max_ is None
+    assert mms.data_range_ is None
+    assert mms.scale_ is None
+    assert mms.min_ is None
+
+    mms.fit(data)
+    assert np.array_equal(mms.data_min_, [1.0, 10.0])
+    assert np.array_equal(mms.data_max_, [5.0, 30.0])
+    assert np.array_equal(mms.data_range_, [4.0, 20.0])
+    assert np.allclose(mms.scale_, [1/4.0, 1/20.0])
+    assert np.allclose(mms.min_, [-1/4.0, -10/20.0])
+
+    # test setters
+    mms.data_min_ = np.array([2.0, 2.0])
+    assert np.array_equal(mms.min, [2.0, 2.0])
+    mms.data_max_ = np.array([8.0, 8.0])
+    assert np.array_equal(mms.max, [8.0, 8.0])
+
+    # 3. RobustScaler
+    rs = RobustScaler()
+    assert rs.center_ is None
+    assert rs.scale_ is None
+
+    rs.fit(data)
+    assert np.array_equal(rs.center_, [3.0, 20.0])
+    assert np.array_equal(rs.scale_, [2.0, 10.0]) # q3 - q1
+
+    # test setters
+    rs.center_ = np.array([4.0, 40.0])
+    assert np.array_equal(rs.median, [4.0, 40.0])

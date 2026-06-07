@@ -78,6 +78,44 @@ class MinMaxScaler(BaseScaler):
         X = self.prepros(X)
         return X * (self.max - self.min) + self.min
 
+    @property
+    def data_min_(self) -> Optional[np.ndarray]:
+        return self.min
+
+    @data_min_.setter
+    def data_min_(self, value: Optional[np.ndarray]) -> None:
+        self.min = value
+
+    @property
+    def data_max_(self) -> Optional[np.ndarray]:
+        return self.max
+
+    @data_max_.setter
+    def data_max_(self, value: Optional[np.ndarray]) -> None:
+        self.max = value
+
+    @property
+    def data_range_(self) -> Optional[np.ndarray]:
+        return self.max - self.min if (self.max is not None and self.min is not None) else None
+
+    @property
+    def scale_(self) -> Optional[np.ndarray]:
+        if self.min is None or self.max is None:
+            return None
+        denom = self.max - self.min
+        denom_safe = denom.copy()
+        denom_safe[denom_safe == 0] = 1e-9
+        return 1.0 / denom_safe
+
+    @property
+    def min_(self) -> Optional[np.ndarray]:
+        if self.min is None or self.max is None:
+            return None
+        denom = self.max - self.min
+        denom_safe = denom.copy()
+        denom_safe[denom_safe == 0] = 1e-9
+        return -self.min / denom_safe
+
 
 class StandardScaler(BaseScaler):
     """Standardizes by removing the mean and scaling to unit variance."""
@@ -103,6 +141,33 @@ class StandardScaler(BaseScaler):
     def inverse_transform(self, X):
         X = self.prepros(X)
         return X * self.std + self.mean
+
+    @property
+    def mean_(self) -> Optional[np.ndarray]:
+        return self.mean
+
+    @mean_.setter
+    def mean_(self, value: Optional[np.ndarray]) -> None:
+        self.mean = value
+
+    @property
+    def scale_(self) -> Optional[np.ndarray]:
+        return self.std
+
+    @scale_.setter
+    def scale_(self, value: Optional[np.ndarray]) -> None:
+        self.std = value
+
+    @property
+    def var_(self) -> Optional[np.ndarray]:
+        return self.std ** 2 if self.std is not None else None
+
+    @var_.setter
+    def var_(self, value: Optional[np.ndarray]) -> None:
+        if value is not None:
+            self.std = np.sqrt(value)
+        else:
+            self.std = None
 
 
 class RobustScaler(BaseScaler):
@@ -131,3 +196,15 @@ class RobustScaler(BaseScaler):
     def inverse_transform(self, X):
         X = self.prepros(X)
         return X * (self.q3 - self.q1) + self.median
+
+    @property
+    def center_(self) -> Optional[np.ndarray]:
+        return self.median
+
+    @center_.setter
+    def center_(self, value: Optional[np.ndarray]) -> None:
+        self.median = value
+
+    @property
+    def scale_(self) -> Optional[np.ndarray]:
+        return self.q3 - self.q1 if (self.q3 is not None and self.q1 is not None) else None

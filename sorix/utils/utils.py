@@ -236,9 +236,11 @@ def randperm(n, device='cpu', requires_grad=False, dtype=None):
     xp = cp if device == 'cuda' and _cupy_available else np
     return tensor(xp.random.permutation(n), device=device, requires_grad=requires_grad, dtype=dtype)
 
-def zeros_like(input, device='cpu', requires_grad=False, dtype=None):
+def zeros_like(input, device=None, requires_grad=False, dtype=None):
     """Returns a tensor filled with the scalar value 0, with the same size as 'input'.
     """
+    if device is None:
+        device = input.device if isinstance(input, Tensor) else 'cpu'
     data = input.data if isinstance(input, Tensor) else input
     if device == 'cuda' and not _cupy_available:
         raise Exception('Cupy is not available')
@@ -246,9 +248,11 @@ def zeros_like(input, device='cpu', requires_grad=False, dtype=None):
     xp = cp if device == 'cuda' and _cupy_available else np
     return tensor(xp.zeros_like(data), device=device, requires_grad=requires_grad, dtype=dtype)
 
-def ones_like(input, device='cpu', requires_grad=False, dtype=None):
+def ones_like(input, device=None, requires_grad=False, dtype=None):
     """Returns a tensor filled with the scalar value 1, with the same size as 'input'.
     """
+    if device is None:
+        device = input.device if isinstance(input, Tensor) else 'cpu'
     data = input.data if isinstance(input, Tensor) else input
     if device == 'cuda' and not _cupy_available:
         raise Exception('Cupy is not available')
@@ -256,9 +260,11 @@ def ones_like(input, device='cpu', requires_grad=False, dtype=None):
     xp = cp if device == 'cuda' and _cupy_available else np
     return tensor(xp.ones_like(data), device=device, requires_grad=requires_grad, dtype=dtype)
 
-def empty_like(input, device='cpu', requires_grad=False, dtype=None):
+def empty_like(input, device=None, requires_grad=False, dtype=None):
     """Returns an uninitialized tensor with the same size as 'input'.
     """
+    if device is None:
+        device = input.device if isinstance(input, Tensor) else 'cpu'
     data = input.data if isinstance(input, Tensor) else input
     if device == 'cuda' and not _cupy_available:
         raise Exception('Cupy is not available')
@@ -266,9 +272,11 @@ def empty_like(input, device='cpu', requires_grad=False, dtype=None):
     xp = cp if device == 'cuda' and _cupy_available else np
     return tensor(xp.empty_like(data), device=device, requires_grad=requires_grad, dtype=dtype)
 
-def full_like(input, fill_value, device='cpu', requires_grad=False, dtype=None):
+def full_like(input, fill_value, device=None, requires_grad=False, dtype=None):
     """Returns a tensor with the same size as 'input' filled with 'fill_value'.
     """
+    if device is None:
+        device = input.device if isinstance(input, Tensor) else 'cpu'
     data = input.data if isinstance(input, Tensor) else input
     if device == 'cuda' and not _cupy_available:
         raise Exception('Cupy is not available')

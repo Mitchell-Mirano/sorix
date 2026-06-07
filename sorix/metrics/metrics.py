@@ -98,30 +98,65 @@ def accuracy_score(Y_true: Any, Y_pred: Any) -> float:
     return acc.item() if hasattr(acc, 'item') else float(acc)
 
 
-def confusion_matrix(y_true: Any, y_pred: Any) -> np.ndarray:
-    """
-    Computes confusion matrix to evaluate the accuracy of a classification.
+def _handle_zero_division(
+    numerator: Union[int, float],
+    denominator: Union[int, float],
+    zero_division: Union[str, int, float] = "warn"
+) -> float:
+    """Helper function to handle division by zero in metric calculation.
 
-    Examples:
-        ```python
-        y_true = [2, 0, 2, 2, 0, 1]
-        y_pred = [0, 0, 2, 2, 0, 2]
-        cm = confusion_matrix(y_true, y_pred)
-        # array([[2, 0, 0],
-        #        [0, 0, 1],
-        #        [1, 0, 2]])
-        ```
+    Args:
+        numerator: The numerator of the division.
+        denominator: The denominator of the division.
+        zero_division: Value to return when division by zero occurs.
+            Can be 0, 1, 0.0, 1.0, or "warn".
+
+    Returns:
+        float: Result of division or the zero_division value.
+    """
+    if denominator == 0:
+        if zero_division == "warn":
+            import warnings
+            warnings.warn("Division by zero in metric calculation.", RuntimeWarning, stacklevel=2)
+            return 0.0
+        return float(zero_division)
+    return float(numerator / denominator)
+
+
+def confusion_matrix(
+    y_true: Any,
+    y_pred: Any,
+    *,
+    labels: Optional[List[Any]] = None
+) -> np.ndarray:
+    """Computes confusion matrix to evaluate the accuracy of a classification.
+
+    Args:
+        y_true: Ground truth (correct) target values.
+        y_pred: Estimated targets as returned by a classifier.
+        labels: List of labels to index the matrix. This may be used to select
+            a subset of labels or reorder the labels. If None, all labels that
+            appear at least once in y_true or y_pred are used in sorted order.
+
+    Returns:
+        np.ndarray: Confusion matrix of shape (n_classes, n_classes).
     """
     y_true_data, y_pred_data = _get_classification_data(y_true, y_pred)
     
-    classes = np.unique(y_true_data)
-    cm = np.zeros((len(classes), len(classes)))
-
-    for i, c1 in enumerate(classes):
-        for j, c2 in enumerate(classes):
-            cm[i, j] = np.sum((y_true_data == c1) & (y_pred_data == c2))
-    cm = cm.astype(int)
-
+    if labels is not None:
+        classes = np.array(labels)
+    else:
+        classes = np.unique(np.concatenate([y_true_data, y_pred_data]))
+    
+    n_classes = len(classes)
+    cm = np.zeros((n_classes, n_classes), dtype=int)
+    
+    if n_classes > 0:
+        class_to_idx = {c: idx for idx, c in enumerate(classes)}
+        for t, p in zip(y_true_data, y_pred_data):
+            if t in class_to_idx and p in class_to_idx:
+                cm[class_to_idx[t], class_to_idx[p]] += 1
+                
     return cm
 
 
@@ -147,120 +182,278 @@ def _get_classification_data(y_true: Any, y_pred: Any) -> Tuple[np.ndarray, np.n
         
     return y_true_out, y_pred_out
 
-def precision_score(y_true: Any, y_pred: Any, average: str = 'binary', pos_label: Union[int, str] = 1) -> Union[float, np.ndarray]:
-    """Computes the precision - the ability of the classifier not to label as positive a sample that is negative."""
+def precision_score(
+    y_true: Any,
+    y_pred: Any,
+    *,
+    labels: Optional[List[Any]] = None,
+    average: Optional[str] = 'binary',
+    pos_label: Union[int, str] = 1,
+    zero_division: Union[str, int, float] = "warn"
+) -> Union[float, np.ndarray]:
+    """Computes the precision.
+
+    The precision is the ratio ``tp / (tp + fp)`` where ``tp`` is the number of
+    true positives and ``fp`` the number of false positives. The precision is
+    intuitively the ability of the classifier not to label as positive a sample
+    that is negative.
+
+    Args:
+        y_true: Ground truth (correct) target values.
+        y_pred: Estimated targets as returned by a classifier.
+        labels: List of labels to include when average is not 'binary'.
+        average: This parameter determines the type of averaging performed on the data.
+            Can be 'binary', 'macro', 'weighted', or None.
+        pos_label: The class to report if average='binary'.
+        zero_division: Sets the value to return when there is a zero division.
+            Can be 0, 1, or "warn".
+
+    Returns:
+        Union[float, np.ndarray]: Precision of the positive class or precision for each class.
+    """
     y_true_data, y_pred_data = _get_classification_data(y_true, y_pred)
-    classes = np.unique(y_true_data)
     
+    if labels is not None:
+        classes = np.array(labels)
+    else:
+        classes = np.unique(y_true_data)
+
     if average == 'binary':
         true_pos = np.sum((y_true_data == pos_label) & (y_pred_data == pos_label))
         pred_pos = np.sum(y_pred_data == pos_label)
-        return true_pos / pred_pos if pred_pos > 0 else 0.0
-    
+        return _handle_zero_division(true_pos, pred_pos, zero_division)
+
     precisions = []
     supports = []
     for c in classes:
         true_pos = np.sum((y_true_data == c) & (y_pred_data == c))
         pred_pos = np.sum(y_pred_data == c)
-        precisions.append(true_pos / pred_pos if pred_pos > 0 else 0.0)
+        precisions.append(_handle_zero_division(true_pos, pred_pos, zero_division))
         supports.append(np.sum(y_true_data == c))
-        
+
     if average == 'macro':
-        return np.mean(precisions)
+        return np.mean(precisions) if len(precisions) > 0 else 0.0
     elif average == 'weighted':
-        return np.average(precisions, weights=supports)
+        sum_supports = np.sum(supports)
+        return np.average(precisions, weights=supports) if sum_supports > 0 else 0.0
+    
     return np.array(precisions)
 
-def recall_score(y_true: Any, y_pred: Any, average: str = 'binary', pos_label: Union[int, str] = 1) -> Union[float, np.ndarray]:
-    """Computes the recall - the ability of the classifier to find all the positive samples."""
+
+def recall_score(
+    y_true: Any,
+    y_pred: Any,
+    *,
+    labels: Optional[List[Any]] = None,
+    average: Optional[str] = 'binary',
+    pos_label: Union[int, str] = 1,
+    zero_division: Union[str, int, float] = "warn"
+) -> Union[float, np.ndarray]:
+    """Computes the recall.
+
+    The recall is the ratio ``tp / (tp + fn)`` where ``tp`` is the number of
+    true positives and ``fn`` the number of false negatives. The recall is
+    intuitively the ability of the classifier to find all the positive samples.
+
+    Args:
+        y_true: Ground truth (correct) target values.
+        y_pred: Estimated targets as returned by a classifier.
+        labels: List of labels to include when average is not 'binary'.
+        average: This parameter determines the type of averaging performed on the data.
+            Can be 'binary', 'macro', 'weighted', or None.
+        pos_label: The class to report if average='binary'.
+        zero_division: Sets the value to return when there is a zero division.
+            Can be 0, 1, or "warn".
+
+    Returns:
+        Union[float, np.ndarray]: Recall of the positive class or recall for each class.
+    """
     y_true_data, y_pred_data = _get_classification_data(y_true, y_pred)
-    classes = np.unique(y_true_data)
     
+    if labels is not None:
+        classes = np.array(labels)
+    else:
+        classes = np.unique(y_true_data)
+
     if average == 'binary':
         true_pos = np.sum((y_true_data == pos_label) & (y_pred_data == pos_label))
         actual_pos = np.sum(y_true_data == pos_label)
-        return true_pos / actual_pos if actual_pos > 0 else 0.0
-    
+        return _handle_zero_division(true_pos, actual_pos, zero_division)
+
     recalls = []
     supports = []
     for c in classes:
         true_pos = np.sum((y_true_data == c) & (y_pred_data == c))
         actual_pos = np.sum(y_true_data == c)
-        recalls.append(true_pos / actual_pos if actual_pos > 0 else 0.0)
+        recalls.append(_handle_zero_division(true_pos, actual_pos, zero_division))
         supports.append(actual_pos)
-        
+
     if average == 'macro':
-        return np.mean(recalls)
+        return np.mean(recalls) if len(recalls) > 0 else 0.0
     elif average == 'weighted':
-        return np.average(recalls, weights=supports)
+        sum_supports = np.sum(supports)
+        return np.average(recalls, weights=supports) if sum_supports > 0 else 0.0
+    
     return np.array(recalls)
 
-def f1_score(y_true: Any, y_pred: Any, average: str = 'binary', pos_label: Union[int, str] = 1) -> Union[float, np.ndarray]:
-    """Computes the F1 score, also known as balanced F-score or F-measure."""
-    p = precision_score(y_true, y_pred, average=average, pos_label=pos_label)
-    r = recall_score(y_true, y_pred, average=average, pos_label=pos_label)
-    
-    if isinstance(p, (np.ndarray, list)):
-        p_arr = np.array(p)
-        r_arr = np.array(r)
-        denom = p_arr + r_arr
-        denom[denom == 0] = 1e-9
-        return 2 * p_arr * r_arr / denom
-    
-    return 2 * p * r / (p + r) if (p + r) > 0 else 0.0
 
-def classification_report(y_true: Any, y_pred: Any) -> str:
-    """
-    Builds a text report showing the main classification metrics.
+def f1_score(
+    y_true: Any,
+    y_pred: Any,
+    *,
+    labels: Optional[List[Any]] = None,
+    average: Optional[str] = 'binary',
+    pos_label: Union[int, str] = 1,
+    zero_division: Union[str, int, float] = "warn"
+) -> Union[float, np.ndarray]:
+    """Computes the F1 score, also known as balanced F-score or F-measure.
+
+    The F1 score can be interpreted as a weighted average of the precision and
+    recall, where an F1 score reaches its best value at 1 and worst score at 0.
+    The relative contribution of precision and recall to the F1 score are equal.
+
+    Args:
+        y_true: Ground truth (correct) target values.
+        y_pred: Estimated targets as returned by a classifier.
+        labels: List of labels to include when average is not 'binary'.
+        average: This parameter determines the type of averaging performed on the data.
+            Can be 'binary', 'macro', 'weighted', or None.
+        pos_label: The class to report if average='binary'.
+        zero_division: Sets the value to return when there is a zero division.
+            Can be 0, 1, or "warn".
+
+    Returns:
+        Union[float, np.ndarray]: F1 score of the positive class or F1 score for each class.
     """
     y_true_data, y_pred_data = _get_classification_data(y_true, y_pred)
-    classes = sorted(np.unique(y_true_data))
-    report = {}
+    
+    if labels is not None:
+        classes = np.array(labels)
+    else:
+        classes = np.unique(y_true_data)
 
-    total_true = len(y_true_data)
+    if average == 'binary':
+        tp = np.sum((y_true_data == pos_label) & (y_pred_data == pos_label))
+        fp = np.sum((y_true_data != pos_label) & (y_pred_data == pos_label))
+        fn = np.sum((y_true_data == pos_label) & (y_pred_data != pos_label))
+        return _handle_zero_division(2 * tp, 2 * tp + fp + fn, zero_division)
 
-    # Metrics per class
+    f1s = []
+    supports = []
     for c in classes:
-        true_pos = np.sum((y_true_data == c) & (y_pred_data == c))
-        pred_pos = np.sum(y_pred_data == c)
-        actual_pos = np.sum(y_true_data == c)
+        tp = np.sum((y_true_data == c) & (y_pred_data == c))
+        fp = np.sum((y_true_data != c) & (y_pred_data == c))
+        fn = np.sum((y_true_data == c) & (y_pred_data != c))
+        f1s.append(_handle_zero_division(2 * tp, 2 * tp + fp + fn, zero_division))
+        supports.append(np.sum(y_true_data == c))
 
-        precision = true_pos / pred_pos if pred_pos > 0 else 0.0
-        recall = true_pos / actual_pos if actual_pos > 0 else 0.0
-        f1 = (2 * precision * recall / (precision + recall)
-              if (precision + recall) > 0 else 0.0)
+    if average == 'macro':
+        return np.mean(f1s) if len(f1s) > 0 else 0.0
+    elif average == 'weighted':
+        sum_supports = np.sum(supports)
+        return np.average(f1s, weights=supports) if sum_supports > 0 else 0.0
+        
+    return np.array(f1s)
 
-        report[c] = {
-            "precision": precision,
-            "recall": recall,
-            "f1": f1,
-            "support": actual_pos
+def classification_report(
+    y_true: Any,
+    y_pred: Any,
+    *,
+    labels: Optional[List[Any]] = None,
+    target_names: Optional[List[str]] = None,
+    output_dict: bool = False,
+    zero_division: Union[str, int, float] = "warn"
+) -> Union[str, Dict[str, Any]]:
+    """Builds a text report showing the main classification metrics.
+
+    Args:
+        y_true: Ground truth (correct) target values.
+        y_pred: Estimated targets as returned by a classifier.
+        labels: Optional list of label indices to include in the report.
+        target_names: Optional list of display names matching the labels.
+        output_dict: If True, return the report as a nested dictionary.
+        zero_division: Sets the value to return when there is a zero division.
+            Can be 0, 1, or "warn".
+
+    Returns:
+        Union[str, Dict[str, Any]]: A formatted string report or a dictionary.
+    """
+    y_true_data, y_pred_data = _get_classification_data(y_true, y_pred)
+    
+    if labels is not None:
+        classes = list(labels)
+    else:
+        classes = sorted(list(np.unique(y_true_data)))
+
+    if target_names is not None:
+        if len(target_names) != len(classes):
+            raise ValueError("length of target_names does not match number of labels.")
+        display_names = [str(name) for name in target_names]
+    else:
+        display_names = [str(c) for c in classes]
+
+    precisions = precision_score(y_true_data, y_pred_data, labels=classes, average=None, zero_division=zero_division)
+    recalls = recall_score(y_true_data, y_pred_data, labels=classes, average=None, zero_division=zero_division)
+    f1s = f1_score(y_true_data, y_pred_data, labels=classes, average=None, zero_division=zero_division)
+    support = np.array([np.sum(y_true_data == c) for c in classes], dtype=int)
+    
+    total_support = int(np.sum(support))
+    accuracy = accuracy_score(y_true_data, y_pred_data)
+
+    macro_precision = float(np.mean(precisions)) if len(precisions) > 0 else 0.0
+    macro_recall = float(np.mean(recalls)) if len(recalls) > 0 else 0.0
+    macro_f1 = float(np.mean(f1s)) if len(f1s) > 0 else 0.0
+
+    if total_support > 0:
+        weighted_precision = float(np.average(precisions, weights=support))
+        weighted_recall = float(np.average(recalls, weights=support))
+        weighted_f1 = float(np.average(f1s, weights=support))
+    else:
+        weighted_precision = 0.0
+        weighted_recall = 0.0
+        weighted_f1 = 0.0
+
+    if output_dict:
+        report_dict = {}
+        for idx, name in enumerate(display_names):
+            report_dict[name] = {
+                "precision": float(precisions[idx]),
+                "recall": float(recalls[idx]),
+                "f1-score": float(f1s[idx]),
+                "support": int(support[idx])
+            }
+        report_dict["accuracy"] = float(accuracy)
+        report_dict["macro avg"] = {
+            "precision": macro_precision,
+            "recall": macro_recall,
+            "f1-score": macro_f1,
+            "support": total_support
         }
-
-    # Macro average
-    macro_precision = np.mean([report[c]["precision"] for c in classes])
-    macro_recall = np.mean([report[c]["recall"] for c in classes])
-    macro_f1 = np.mean([report[c]["f1"] for c in classes])
-
-    # Weighted average
-    weights = np.array([report[c]["support"] for c in classes])
-    weighted_precision = np.average([report[c]["precision"] for c in classes], weights=weights)
-    weighted_recall = np.average([report[c]["recall"] for c in classes], weights=weights)
-    weighted_f1 = np.average([report[c]["f1"] for c in classes], weights=weights)
+        report_dict["weighted avg"] = {
+            "precision": weighted_precision,
+            "recall": weighted_recall,
+            "f1-score": weighted_f1,
+            "support": total_support
+        }
+        return report_dict
 
     header = f"{'':<12}{'precision':>9}{'recall':>9}{'f1-score':>9}{'support':>9}"
     lines = [header]
     
-    for c in classes:
-        lines.append(f"{str(c):<12}{report[c]['precision']:>9.2f}{report[c]['recall']:>9.2f}{report[c]['f1']:>9.2f}{report[c]['support']:>9}")
+    for idx, name in enumerate(display_names):
+        lines.append(
+            f"{name:<12}"
+            f"{precisions[idx]:>9.2f}"
+            f"{recalls[idx]:>9.2f}"
+            f"{f1s[idx]:>9.2f}"
+            f"{support[idx]:>9}"
+        )
     
     lines.append("")
     
-    accuracy = np.sum(y_true_data == y_pred_data) / total_true
-    lines.append(f"{'accuracy':<12}{'':>9}{'':>9}{accuracy:>9.2f}{total_true:>9}")
-    
-    lines.append(f"{'macro avg':<12}{macro_precision:>9.2f}{macro_recall:>9.2f}{macro_f1:>9.2f}{total_true:>9}")
-    lines.append(f"{'weighted avg':<12}{weighted_precision:>9.2f}{weighted_recall:>9.2f}{weighted_f1:>9.2f}{total_true:>9}")
+    lines.append(f"{'accuracy':<12}{'':>9}{'':>9}{accuracy:>9.2f}{total_support:>9}")
+    lines.append(f"{'macro avg':<12}{macro_precision:>9.2f}{macro_recall:>9.2f}{macro_f1:>9.2f}{total_support:>9}")
+    lines.append(f"{'weighted avg':<12}{weighted_precision:>9.2f}{weighted_recall:>9.2f}{weighted_f1:>9.2f}{total_support:>9}")
 
     return "\n".join(lines)
 

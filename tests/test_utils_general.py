@@ -111,18 +111,29 @@ def test_random_ops():
 def test_like_ops():
     x = tensor([[1, 2], [3, 4]])
     
-    zl = utils.zeros_like(x.data)
+    # 1. Test passing raw numpy array (should default to cpu)
+    zl_arr = utils.zeros_like(x.data)
+    assert zl_arr.shape == (2, 2)
+    assert zl_arr.device == 'cpu'
+    assert np.all(zl_arr.data == 0)
+
+    # 2. Test passing Tensor with device=None (should infer device)
+    zl = utils.zeros_like(x)
     assert zl.shape == (2, 2)
+    assert zl.device == 'cpu'
     assert np.all(zl.data == 0)
     
-    ol = utils.ones_like(x.data)
+    ol = utils.ones_like(x)
     assert ol.shape == (2, 2)
+    assert ol.device == 'cpu'
     assert np.all(ol.data == 1)
     
-    fl = utils.full_like(x.data, 5)
+    fl = utils.full_like(x, 5)
+    assert fl.device == 'cpu'
     assert np.all(fl.data == 5)
     
-    el = utils.empty_like(x.data)
+    el = utils.empty_like(x)
+    assert el.device == 'cpu'
     assert el.shape == (2, 2)
 
 def test_gpu_logic_if_available():
@@ -148,3 +159,12 @@ def test_gpu_logic_if_available():
         ol = utils.ones_like(x.data, device='cuda')
         assert ol.device == 'cuda'
         assert isinstance(ol.data, cp.ndarray)
+
+        # Test device inference on GPU (device=None)
+        ol_inferred = utils.ones_like(x)
+        assert ol_inferred.device == 'cuda'
+        assert isinstance(ol_inferred.data, cp.ndarray)
+
+        zl_inferred = utils.zeros_like(x)
+        assert zl_inferred.device == 'cuda'
+        assert isinstance(zl_inferred.data, cp.ndarray)
