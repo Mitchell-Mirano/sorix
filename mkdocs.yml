@@ -71,6 +71,7 @@ theme:
 # ====================================================================
 nav:
   - 🏡 Sorix: index.md
+  - ⚡ Performance: performance.md
   - 📚 Learn:
     - Basics:
       - Tensor: learn/basics/01-tensor.ipynb
