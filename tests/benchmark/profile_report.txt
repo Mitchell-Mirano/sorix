@@ -1,0 +1,1690 @@
+--- Profiling report for bench_matmul ---
+Wall‑time: 0.004386s
+memory_profiler not available
+CPU stats:
+         21 function calls in 0.004 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.004    0.004 /home/mitchellmirano/Desktop/MitchellProjects/sorix/tests/benchmark/test_tensor_perf.py:21(bench_matmul)
+        1    0.000    0.000    0.004    0.004 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:615(__matmul__)
+        1    0.004    0.004    0.004    0.004 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:505(matmul)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:171(__init__)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.any}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:233(<genexpr>)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:1270(__hash__)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:15(__init__)
+        5    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:130(is_grad_enabled)
+        2    0.000    0.000    0.000    0.000 {built-in method builtins.id}
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.getattr}
+
+
+
+--- End of report ---
+
+--- Profiling report for bench_matmul ---
+Wall‑time: 0.042163s
+memory_profiler not available
+CPU stats:
+         42 function calls in 0.042 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.042    0.042 /home/mitchellmirano/Desktop/MitchellProjects/sorix/tests/benchmark/test_tensor_perf.py:21(bench_matmul)
+        1    0.000    0.000    0.042    0.042 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:615(__matmul__)
+        1    0.042    0.042    0.042    0.042 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:505(matmul)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:171(__init__)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+        1    0.000    0.000    0.000    0.000 <frozen os>:811(getenv)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/_creation/from_data.py:56(asarray)
+        1    0.000    0.000    0.000    0.000 <frozen _collections_abc>:808(get)
+        1    0.000    0.000    0.000    0.000 {built-in method cupy._core.core.array}
+        1    0.000    0.000    0.000    0.000 <frozen os>:712(__getitem__)
+        4    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:1390(_handle_fromlist)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.any}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:233(<genexpr>)
+        1    0.000    0.000    0.000    0.000 <frozen os>:794(encode)
+       10    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:15(__init__)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:1270(__hash__)
+        1    0.000    0.000    0.000    0.000 {method '__exit__' of 'cupy.cuda.device.Device' objects}
+        4    0.000    0.000    0.000    0.000 {built-in method builtins.hasattr}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:130(is_grad_enabled)
+        1    0.000    0.000    0.000    0.000 {method 'encode' of 'str' objects}
+        2    0.000    0.000    0.000    0.000 {built-in method builtins.id}
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.getattr}
+
+
+
+--- End of report ---
+
+--- Profiling report for bench_add ---
+Wall‑time: 0.000508s
+memory_profiler not available
+CPU stats:
+         21 function calls in 0.000 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/tests/benchmark/test_tensor_perf.py:26(bench_add)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:406(__add__)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:368(add)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:171(__init__)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:233(<genexpr>)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.any}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:1270(__hash__)
+        5    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:15(__init__)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:130(is_grad_enabled)
+        2    0.000    0.000    0.000    0.000 {built-in method builtins.id}
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.getattr}
+
+
+
+--- End of report ---
+
+--- Profiling report for bench_add ---
+Wall‑time: 0.000966s
+memory_profiler not available
+CPU stats:
+         164 function calls in 0.001 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.001    0.001 /home/mitchellmirano/Desktop/MitchellProjects/sorix/tests/benchmark/test_tensor_perf.py:26(bench_add)
+        1    0.000    0.000    0.001    0.001 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:406(__add__)
+        1    0.000    0.000    0.001    0.001 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:368(add)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:511(_compile_module_with_cache)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:542(_compile_with_cache_cuda)
+        1    0.000    0.000    0.000    0.000 {method 'load' of 'cupy.cuda.function.Module' objects}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:321(_hash_hexdigest)
+        2    0.000    0.000    0.000    0.000 {built-in method _hashlib.openssl_sha1}
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:32(__str__)
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:342(_name_get)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:171(__init__)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/string.py:104(substitute)
+        1    0.000    0.000    0.000    0.000 {method 'sub' of 're.Pattern' objects}
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:326(_name_includes_bit_suffix)
+        3    0.000    0.000    0.000    0.000 <frozen _collections_abc>:808(get)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:270(_get_bool_env_variable)
+        1    0.000    0.000    0.000    0.000 <frozen genericpath>:48(isdir)
+        1    0.000    0.000    0.000    0.000 {built-in method _io.open}
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/numerictypes.py:475(issubdtype)
+        2    0.000    0.000    0.000    0.000 {built-in method posix.stat}
+        2    0.000    0.000    0.000    0.000 <frozen posixpath>:72(join)
+        5    0.000    0.000    0.000    0.000 {method 'encode' of 'str' objects}
+        3    0.000    0.000    0.000    0.000 <frozen os>:712(__getitem__)
+        7    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/string.py:110(convert)
+        8    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/numerictypes.py:293(issubclass_)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/_creation/from_data.py:56(asarray)
+        1    0.000    0.000    0.000    0.000 {built-in method cupy._core.core.array}
+        3    0.000    0.000    0.000    0.000 <frozen os>:794(encode)
+        1    0.000    0.000    0.000    0.000 {method 'read' of '_io.BufferedReader' objects}
+       20    0.000    0.000    0.000    0.000 {built-in method builtins.issubclass}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:504(get_cache_dir)
+        1    0.000    0.000    0.000    0.000 {method '__exit__' of '_io._IOBase' objects}
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.any}
+       14    0.000    0.000    0.000    0.000 {method 'group' of 're.Match' objects}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:233(<genexpr>)
+       10    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
+        1    0.000    0.000    0.000    0.000 <frozen genericpath>:16(exists)
+        2    0.000    0.000    0.000    0.000 {method 'hexdigest' of '_hashlib.HASH' objects}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:1270(__hash__)
+        1    0.000    0.000    0.000    0.000 {method 'get' of 'dict' objects}
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:23(_kind_name)
+        1    0.000    0.000    0.000    0.000 {method '__exit__' of 'cupy.cuda.device.Device' objects}
+       14    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/multiarray.py:588(can_cast)
+        2    0.000    0.000    0.000    0.000 <frozen posixpath>:42(_get_sep)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:15(__init__)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:130(is_grad_enabled)
+        2    0.000    0.000    0.000    0.000 {method 'startswith' of 'str' objects}
+        4    0.000    0.000    0.000    0.000 {built-in method posix.fspath}
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.len}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:150(_get_nvrtc_version)
+        2    0.000    0.000    0.000    0.000 {method 'endswith' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 {built-in method _stat.S_ISDIR}
+        2    0.000    0.000    0.000    0.000 {built-in method builtins.id}
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.getattr}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/string.py:87(__init__)
+
+
+
+--- End of report ---
+
+--- Profiling report for bench_mul ---
+Wall‑time: 0.000473s
+memory_profiler not available
+CPU stats:
+         21 function calls in 0.000 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/tests/benchmark/test_tensor_perf.py:31(bench_mul)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:499(__mul__)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:459(mul)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:171(__init__)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.any}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:233(<genexpr>)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:1270(__hash__)
+        5    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:15(__init__)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:130(is_grad_enabled)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.getattr}
+        2    0.000    0.000    0.000    0.000 {built-in method builtins.id}
+
+
+
+--- End of report ---
+
+--- Profiling report for bench_mul ---
+Wall‑time: 0.000888s
+memory_profiler not available
+CPU stats:
+         164 function calls in 0.001 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.001    0.001 /home/mitchellmirano/Desktop/MitchellProjects/sorix/tests/benchmark/test_tensor_perf.py:31(bench_mul)
+        1    0.000    0.000    0.001    0.001 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:499(__mul__)
+        1    0.000    0.000    0.001    0.001 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:459(mul)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:511(_compile_module_with_cache)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:542(_compile_with_cache_cuda)
+        1    0.000    0.000    0.000    0.000 {method 'load' of 'cupy.cuda.function.Module' objects}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:321(_hash_hexdigest)
+        2    0.000    0.000    0.000    0.000 {built-in method _hashlib.openssl_sha1}
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:32(__str__)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:171(__init__)
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:342(_name_get)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/string.py:104(substitute)
+        1    0.000    0.000    0.000    0.000 {method 'sub' of 're.Pattern' objects}
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:326(_name_includes_bit_suffix)
+        1    0.000    0.000    0.000    0.000 {built-in method _io.open}
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/numerictypes.py:475(issubdtype)
+        3    0.000    0.000    0.000    0.000 <frozen _collections_abc>:808(get)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:270(_get_bool_env_variable)
+        2    0.000    0.000    0.000    0.000 <frozen posixpath>:72(join)
+        1    0.000    0.000    0.000    0.000 <frozen genericpath>:48(isdir)
+        5    0.000    0.000    0.000    0.000 {method 'encode' of 'str' objects}
+        2    0.000    0.000    0.000    0.000 {built-in method posix.stat}
+        3    0.000    0.000    0.000    0.000 <frozen os>:712(__getitem__)
+        7    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/string.py:110(convert)
+        8    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/numerictypes.py:293(issubclass_)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/_creation/from_data.py:56(asarray)
+        1    0.000    0.000    0.000    0.000 {built-in method cupy._core.core.array}
+        1    0.000    0.000    0.000    0.000 {method 'read' of '_io.BufferedReader' objects}
+       20    0.000    0.000    0.000    0.000 {built-in method builtins.issubclass}
+        1    0.000    0.000    0.000    0.000 {method '__exit__' of '_io._IOBase' objects}
+        3    0.000    0.000    0.000    0.000 <frozen os>:794(encode)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:504(get_cache_dir)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.any}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:233(<genexpr>)
+       14    0.000    0.000    0.000    0.000 {method 'group' of 're.Match' objects}
+        1    0.000    0.000    0.000    0.000 <frozen genericpath>:16(exists)
+        2    0.000    0.000    0.000    0.000 {method 'hexdigest' of '_hashlib.HASH' objects}
+       10    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:1270(__hash__)
+        1    0.000    0.000    0.000    0.000 {method 'get' of 'dict' objects}
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:23(_kind_name)
+        2    0.000    0.000    0.000    0.000 <frozen posixpath>:42(_get_sep)
+       14    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/multiarray.py:588(can_cast)
+        1    0.000    0.000    0.000    0.000 {method '__exit__' of 'cupy.cuda.device.Device' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:15(__init__)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:150(_get_nvrtc_version)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:130(is_grad_enabled)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.len}
+        4    0.000    0.000    0.000    0.000 {built-in method posix.fspath}
+        2    0.000    0.000    0.000    0.000 {built-in method builtins.id}
+        2    0.000    0.000    0.000    0.000 {method 'startswith' of 'str' objects}
+        2    0.000    0.000    0.000    0.000 {method 'endswith' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.getattr}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/string.py:87(__init__)
+        1    0.000    0.000    0.000    0.000 {built-in method _stat.S_ISDIR}
+
+
+
+--- End of report ---
+
+--- Profiling report for bench_sigmoid ---
+Wall‑time: 0.011072s
+memory_profiler not available
+CPU stats:
+         19 function calls in 0.011 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.011    0.011 /home/mitchellmirano/Desktop/MitchellProjects/sorix/tests/benchmark/test_tensor_perf.py:36(bench_sigmoid)
+        1    0.011    0.011    0.011    0.011 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:642(sigmoid)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:171(__init__)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:15(__init__)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/backend.py:20(get_xp)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.any}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:233(<genexpr>)
+        4    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:1270(__hash__)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:130(is_grad_enabled)
+        2    0.000    0.000    0.000    0.000 {built-in method builtins.getattr}
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.id}
+
+
+
+--- End of report ---
+
+--- Profiling report for bench_sigmoid ---
+Wall‑time: 0.002811s
+memory_profiler not available
+CPU stats:
+         571 function calls in 0.003 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.003    0.003 /home/mitchellmirano/Desktop/MitchellProjects/sorix/tests/benchmark/test_tensor_perf.py:36(bench_sigmoid)
+        1    0.001    0.001    0.003    0.003 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:642(sigmoid)
+        4    0.000    0.000    0.001    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:511(_compile_module_with_cache)
+        4    0.000    0.000    0.001    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:542(_compile_with_cache_cuda)
+        8    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:321(_hash_hexdigest)
+        8    0.000    0.000    0.000    0.000 {built-in method _hashlib.openssl_sha1}
+        4    0.000    0.000    0.000    0.000 {method 'load' of 'cupy.cuda.function.Module' objects}
+       14    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:32(__str__)
+       14    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:342(_name_get)
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/string.py:104(substitute)
+        4    0.000    0.000    0.000    0.000 {method 'sub' of 're.Pattern' objects}
+       14    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:326(_name_includes_bit_suffix)
+       12    0.000    0.000    0.000    0.000 <frozen _collections_abc>:808(get)
+        8    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:270(_get_bool_env_variable)
+       14    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/numerictypes.py:475(issubdtype)
+        8    0.000    0.000    0.000    0.000 <frozen posixpath>:72(join)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:171(__init__)
+       20    0.000    0.000    0.000    0.000 {method 'encode' of 'str' objects}
+        4    0.000    0.000    0.000    0.000 {built-in method _io.open}
+       12    0.000    0.000    0.000    0.000 <frozen os>:712(__getitem__)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+       28    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/string.py:110(convert)
+        8    0.000    0.000    0.000    0.000 {built-in method posix.stat}
+        4    0.000    0.000    0.000    0.000 <frozen genericpath>:48(isdir)
+       28    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/numerictypes.py:293(issubclass_)
+        4    0.000    0.000    0.000    0.000 {method 'read' of '_io.BufferedReader' objects}
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:504(get_cache_dir)
+        4    0.000    0.000    0.000    0.000 {method '__exit__' of '_io._IOBase' objects}
+       12    0.000    0.000    0.000    0.000 <frozen os>:794(encode)
+       70    0.000    0.000    0.000    0.000 {built-in method builtins.issubclass}
+        4    0.000    0.000    0.000    0.000 <frozen genericpath>:16(exists)
+       56    0.000    0.000    0.000    0.000 {method 'group' of 're.Match' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/_creation/from_data.py:56(asarray)
+       67    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/multiarray.py:588(can_cast)
+        8    0.000    0.000    0.000    0.000 <frozen posixpath>:42(_get_sep)
+        8    0.000    0.000    0.000    0.000 {method 'hexdigest' of '_hashlib.HASH' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/backend.py:20(get_xp)
+        1    0.000    0.000    0.000    0.000 {built-in method cupy._core.core.array}
+        4    0.000    0.000    0.000    0.000 {method 'get' of 'dict' objects}
+       24    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
+       14    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:23(_kind_name)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.any}
+       16    0.000    0.000    0.000    0.000 {built-in method posix.fspath}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:1270(__hash__)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:233(<genexpr>)
+        8    0.000    0.000    0.000    0.000 {method 'startswith' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 {method '__exit__' of 'cupy.cuda.device.Device' objects}
+        8    0.000    0.000    0.000    0.000 {method 'endswith' of 'str' objects}
+        4    0.000    0.000    0.000    0.000 {built-in method builtins.len}
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:150(_get_nvrtc_version)
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/string.py:87(__init__)
+        4    0.000    0.000    0.000    0.000 {built-in method _stat.S_ISDIR}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:15(__init__)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:130(is_grad_enabled)
+        2    0.000    0.000    0.000    0.000 {built-in method builtins.getattr}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/multiarray.py:650(min_scalar_type)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.id}
+
+
+
+--- End of report ---
+
+--- Profiling report for bench_softmax ---
+Wall‑time: 0.000751s
+memory_profiler not available
+CPU stats:
+         30 function calls in 0.001 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.001    0.001 /home/mitchellmirano/Desktop/MitchellProjects/sorix/tests/benchmark/test_tensor_perf.py:41(bench_softmax)
+        1    0.001    0.001    0.001    0.001 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:666(softmax)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/fromnumeric.py:69(_wrapreduction)
+        2    0.000    0.000    0.000    0.000 {method 'reduce' of 'numpy.ufunc' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/fromnumeric.py:3052(max)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/fromnumeric.py:2338(sum)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:171(__init__)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/backend.py:20(get_xp)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.any}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:233(<genexpr>)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:1270(__hash__)
+        5    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:15(__init__)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:130(is_grad_enabled)
+        2    0.000    0.000    0.000    0.000 {built-in method builtins.getattr}
+        2    0.000    0.000    0.000    0.000 {method 'items' of 'dict' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/fromnumeric.py:2333(_sum_dispatcher)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/fromnumeric.py:3047(_max_dispatcher)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.id}
+
+
+
+--- End of report ---
+
+--- Profiling report for bench_softmax ---
+Wall‑time: 0.085104s
+memory_profiler not available
+CPU stats:
+         523 function calls (522 primitive calls) in 0.085 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.085    0.085 /home/mitchellmirano/Desktop/MitchellProjects/sorix/tests/benchmark/test_tensor_perf.py:41(bench_softmax)
+        1    0.000    0.000    0.085    0.085 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:666(softmax)
+        2    0.000    0.000    0.084    0.042 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:511(_compile_module_with_cache)
+        2    0.000    0.000    0.084    0.042 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:542(_compile_with_cache_cuda)
+        1    0.000    0.000    0.073    0.073 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:328(compile_using_nvrtc)
+        1    0.000    0.000    0.073    0.073 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:331(_compile)
+        1    0.000    0.000    0.073    0.073 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:726(compile)
+        1    0.073    0.073    0.073    0.073 {built-in method cupy_backends.cuda.libs.nvrtc.compileProgram}
+        1    0.010    0.010    0.010    0.010 {method 'read' of '_io.BufferedReader' objects}
+        3    0.000    0.000    0.000    0.000 {built-in method _io.open}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/tempfile.py:538(NamedTemporaryFile)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/tempfile.py:578(opener)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/tempfile.py:244(_mkstemp_inner)
+        2    0.000    0.000    0.000    0.000 {built-in method posix.open}
+        2    0.000    0.000    0.000    0.000 {method 'load' of 'cupy.cuda.function.Module' objects}
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:321(_hash_hexdigest)
+        4    0.000    0.000    0.000    0.000 {built-in method _hashlib.openssl_sha1}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/tempfile.py:949(__exit__)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/tempfile.py:953(cleanup)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/tempfile.py:885(__init__)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/tempfile.py:895(_rmtree)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/_statistics/order.py:47(amax)
+        1    0.000    0.000    0.000    0.000 {method 'max' of 'cupy._core.core._ndarray_base' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/shutil.py:714(rmtree)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/tempfile.py:361(mkdtemp)
+        3    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/shutil.py:638(_rmtree_safe_fd)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/_math/sumprod.py:11(sum)
+        1    0.000    0.000    0.000    0.000 {method 'sum' of 'cupy._core.core._ndarray_base' objects}
+        3    0.000    0.000    0.000    0.000 {built-in method builtins.next}
+        8    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:32(__str__)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/tempfile.py:153(__next__)
+        5    0.000    0.000    0.000    0.000 {built-in method posix.stat}
+        8    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:342(_name_get)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:171(__init__)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/shutil.py:814(move)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/string.py:104(substitute)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+        2    0.000    0.000    0.000    0.000 <frozen genericpath>:16(exists)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/tempfile.py:490(__getattr__)
+        8    0.000    0.000    0.000    0.000 <frozen posixpath>:72(join)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/tempfile.py:142(rng)
+        2    0.000    0.000    0.000    0.000 {method 'sub' of 're.Pattern' objects}
+        8    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:326(_name_includes_bit_suffix)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/tempfile.py:114(_sanitize_params)
+        5    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:270(_get_bool_env_variable)
+        7    0.000    0.000    0.000    0.000 <frozen _collections_abc>:808(get)
+        3    0.000    0.000    0.000    0.000 <frozen genericpath>:48(isdir)
+        1    0.000    0.000    0.000    0.000 {built-in method posix.rename}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/random.py:119(__init__)
+        8    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/numerictypes.py:475(issubdtype)
+        3    0.000    0.000    0.000    0.000 {method '__exit__' of '_io._IOBase' objects}
+        7    0.000    0.000    0.000    0.000 <frozen os>:712(__getitem__)
+       11    0.000    0.000    0.000    0.000 {method 'encode' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/random.py:128(seed)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/random.py:458(choices)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/tempfile.py:517(__exit__)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/functools.py:36(update_wrapper)
+       14    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/string.py:110(convert)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/tempfile.py:498(func_wrapper)
+        1    0.000    0.000    0.000    0.000 {built-in method posix.unlink}
+        2    0.000    0.000    0.000    0.000 {method 'write' of '_io.BufferedRandom' objects}
+        1    0.000    0.000    0.000    0.000 {built-in method posix.mkdir}
+       31    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/_creation/from_data.py:56(asarray)
+        1    0.000    0.000    0.000    0.000 {function Random.seed at 0x7f0b18c579c0}
+       16    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/numerictypes.py:293(issubclass_)
+       15    0.000    0.000    0.000    0.000 {built-in method builtins.getattr}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/tempfile.py:85(_infer_return_type)
+        1    0.000    0.000    0.000    0.000 {built-in method cupy._core.core.array}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:705(__init__)
+        7    0.000    0.000    0.000    0.000 <frozen os>:794(encode)
+        2    0.000    0.000    0.000    0.000 {built-in method builtins.any}
+        1    0.000    0.000    0.000    0.000 {built-in method posix.rmdir}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:233(_is_cudadevrt_needed)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/weakref.py:592(detach)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/tempfile.py:314(gettempdir)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:504(get_cache_dir)
+        2    0.000    0.000    0.000    0.000 <frozen posixpath>:373(abspath)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:720(__del__)
+        1    0.000    0.000    0.000    0.000 {built-in method posix.lstat}
+       40    0.000    0.000    0.000    0.000 {built-in method builtins.issubclass}
+        4    0.000    0.000    0.000    0.000 {method 'hexdigest' of '_hashlib.HASH' objects}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/tempfile.py:230(_get_candidate_names)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/weakref.py:568(__init__)
+        1    0.000    0.000    0.000    0.000 {built-in method cupy_backends.cuda.libs.nvrtc.createProgram}
+        8    0.000    0.000    0.000    0.000 <frozen posixpath>:42(_get_sep)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/tempfile.py:484(__init__)
+       28    0.000    0.000    0.000    0.000 {method 'group' of 're.Match' objects}
+      2/1    0.000    0.000    0.000    0.000 {method 'format' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 {built-in method posix.scandir}
+        1    0.000    0.000    0.000    0.000 <frozen abc>:117(__instancecheck__)
+        1    0.000    0.000    0.000    0.000 {built-in method cupy_backends.cuda.libs.nvrtc.getCUBIN}
+        3    0.000    0.000    0.000    0.000 {method 'get' of 'dict' objects}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/tempfile.py:447(cleanup)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/tempfile.py:511(__enter__)
+       27    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/multiarray.py:588(can_cast)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/backend.py:20(get_xp)
+        8    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:23(_kind_name)
+        1    0.000    0.000    0.000    0.000 {method '__exit__' of 'cupy.cuda.device.Device' objects}
+       19    0.000    0.000    0.000    0.000 {built-in method posix.fspath}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:234(<genexpr>)
+       10    0.000    0.000    0.000    0.000 {method 'startswith' of 'str' objects}
+        2    0.000    0.000    0.000    0.000 {built-in method posix.getpid}
+       16    0.000    0.000    0.000    0.000 {built-in method math.floor}
+       16    0.000    0.000    0.000    0.000 {method 'random' of '_random.Random' objects}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:233(<genexpr>)
+        2    0.000    0.000    0.000    0.000 {built-in method posix._path_normpath}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/tempfile.py:943(__repr__)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/functools.py:66(wraps)
+        2    0.000    0.000    0.000    0.000 {built-in method cupy._core._fusion_thread_local.is_fusing}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:1270(__hash__)
+        1    0.000    0.000    0.000    0.000 {built-in method _abc._abc_instancecheck}
+        5    0.000    0.000    0.000    0.000 {built-in method builtins.setattr}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:15(__init__)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/tempfile.py:441(__init__)
+        8    0.000    0.000    0.000    0.000 {method 'endswith' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/tempfile.py:472(__del__)
+        4    0.000    0.000    0.000    0.000 {built-in method sys.audit}
+        1    0.000    0.000    0.000    0.000 {built-in method cupy_backends.cuda.libs.nvrtc.destroyProgram}
+        1    0.000    0.000    0.000    0.000 {built-in method posix.fstat}
+        1    0.000    0.000    0.000    0.000 <frozen os>:856(fsdecode)
+        3    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:150(_get_nvrtc_version)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.hasattr}
+        2    0.000    0.000    0.000    0.000 {method 'join' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 {built-in method posix.close}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:130(is_grad_enabled)
+        3    0.000    0.000    0.000    0.000 {built-in method builtins.len}
+        1    0.000    0.000    0.000    0.000 {method 'is_dir' of 'posix.DirEntry' objects}
+        1    0.000    0.000    0.000    0.000 {cupy._util.is_shutting_down}
+        1    0.000    0.000    0.000    0.000 <frozen genericpath>:123(samestat)
+        1    0.000    0.000    0.000    0.000 {method '_set_mapping' of 'cupy.cuda.function.Module' objects}
+        1    0.000    0.000    0.000    0.000 {method '__enter__' of '_io._IOBase' objects}
+        1    0.000    0.000    0.000    0.000 {method 'pop' of 'dict' objects}
+        3    0.000    0.000    0.000    0.000 {method 'pop' of 'list' objects}
+        1    0.000    0.000    0.000    0.000 {method 'update' of 'dict' objects}
+        1    0.000    0.000    0.000    0.000 {method 'release' of '_thread.lock' objects}
+        1    0.000    0.000    0.000    0.000 {method 'acquire' of '_thread.lock' objects}
+        1    0.000    0.000    0.000    0.000 {method 'write' of '_io.TextIOWrapper' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/tempfile.py:946(__enter__)
+        2    0.000    0.000    0.000    0.000 {method 'append' of 'list' objects}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/string.py:87(__init__)
+        2    0.000    0.000    0.000    0.000 {built-in method _stat.S_ISDIR}
+        1    0.000    0.000    0.000    0.000 {method '__exit__' of 'posix.ScandirIterator' objects}
+        1    0.000    0.000    0.000    0.000 {method 'close' of '_io.BufferedRandom' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/tempfile.py:302(_gettempdir)
+        1    0.000    0.000    0.000    0.000 <frozen codecs>:189(__init__)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.id}
+
+
+
+--- End of report ---
+
+--- Profiling report for bench_matmul ---
+Wall‑time: 0.004553s
+memory_profiler not available
+CPU stats:
+         21 function calls in 0.005 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.004    0.004 /home/mitchellmirano/Desktop/MitchellProjects/sorix/tests/benchmark/test_tensor_perf.py:21(bench_matmul)
+        1    0.000    0.000    0.004    0.004 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:615(__matmul__)
+        1    0.004    0.004    0.004    0.004 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:505(matmul)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:171(__init__)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:233(<genexpr>)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.any}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:15(__init__)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:1270(__hash__)
+        5    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
+        2    0.000    0.000    0.000    0.000 {built-in method builtins.id}
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.getattr}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:130(is_grad_enabled)
+
+
+
+--- End of report ---
+
+--- Profiling report for bench_matmul ---
+Wall‑time: 0.053898s
+memory_profiler not available
+CPU stats:
+         318 function calls (315 primitive calls) in 0.054 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.054    0.054 /home/mitchellmirano/Desktop/MitchellProjects/sorix/tests/benchmark/test_tensor_perf.py:21(bench_matmul)
+        1    0.000    0.000    0.054    0.054 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:615(__matmul__)
+        1    0.029    0.029    0.054    0.054 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:505(matmul)
+        4    0.000    0.000    0.025    0.006 <frozen importlib._bootstrap>:1390(_handle_fromlist)
+      4/1    0.000    0.000    0.025    0.025 <frozen importlib._bootstrap>:480(_call_with_frames_removed)
+        1    0.000    0.000    0.025    0.025 {built-in method builtins.__import__}
+        1    0.000    0.000    0.025    0.025 <frozen importlib._bootstrap>:1349(_find_and_load)
+        1    0.000    0.000    0.025    0.025 <frozen importlib._bootstrap>:1304(_find_and_load_unlocked)
+        1    0.000    0.000    0.024    0.024 <frozen importlib._bootstrap>:911(_load_unlocked)
+        1    0.000    0.000    0.024    0.024 <frozen importlib._bootstrap>:806(module_from_spec)
+        1    0.000    0.000    0.024    0.024 <frozen importlib._bootstrap_external>:1315(create_module)
+        1    0.024    0.024    0.024    0.024 {built-in method _imp.create_dynamic}
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:1240(_find_spec)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/_pytest/assertion/rewrite.py:102(find_spec)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/_pytest/assertion/rewrite.py:199(_early_rewrite_bailout)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:1323(exec_module)
+        1    0.000    0.000    0.000    0.000 {built-in method _imp.exec_dynamic}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/pathlib/_abc.py:222(with_suffix)
+        3    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/pathlib/_local.py:346(name)
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/pathlib/_local.py:307(_tail)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:171(__init__)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:1548(find_spec)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:416(__enter__)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:1519(_get_spec)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/_pytest/pathlib.py:419(fnmatch_ex)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:1621(find_spec)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/pathlib/_abc.py:194(stem)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:304(acquire)
+        3    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/pathlib/_local.py:257(_parse_path)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/pathlib/_local.py:354(with_name)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:162(__enter__)
+        3    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/pathlib/_local.py:277(_raw_path)
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/pathlib/_local.py:117(__init__)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/_creation/from_data.py:56(asarray)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/pathlib/_local.py:245(_from_parsed_parts)
+        2    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:145(_path_stat)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:426(_get_module_lock)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:124(setdefault)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/fnmatch.py:19(fnmatch)
+        2    0.000    0.000    0.000    0.000 {built-in method posix.stat}
+        1    0.000    0.000    0.000    0.000 {built-in method cupy._core.core.array}
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:733(_init_module_attrs)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:1616(_get_spec)
+        1    0.000    0.000    0.000    0.000 <frozen posixpath>:72(join)
+        1    0.000    0.000    0.000    0.000 <frozen os>:811(getenv)
+        1    0.000    0.000    0.000    0.000 <frozen _collections_abc>:808(get)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:420(__exit__)
+       12    0.000    0.000    0.000    0.000 {built-in method sys.intern}
+       26    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/fnmatch.py:64(fnmatchcase)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:830(spec_from_file_location)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:164(_path_isfile)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/pathlib/_local.py:252(_from_parsed_string)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:372(release)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:74(__new__)
+        1    0.000    0.000    0.000    0.000 <frozen os>:712(__getitem__)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/pathlib/_abc.py:130(with_segments)
+        2    0.000    0.000    0.000    0.000 <frozen posixpath>:176(dirname)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:155(_path_is_mode_type)
+        4    0.000    0.000    0.000    0.000 {method 'rpartition' of 'str' objects}
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/pathlib/_local.py:107(__new__)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/_pytest/assertion/rewrite.py:259(_is_marked_for_rewrite)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/pathlib/_local.py:237(_format_parsed_parts)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:232(__init__)
+        6    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:1226(__exit__)
+        6    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:1222(__enter__)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:632(cached)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:645(parent)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:131(_path_join)
+        3    0.000    0.000    0.000    0.000 {built-in method posix._path_splitroot_ex}
+       13    0.000    0.000    0.000    0.000 {method 'startswith' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:982(find_spec)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:1128(find_spec)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:82(remove)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/pluggy/_tracing.py:68(__call__)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:233(<genexpr>)
+       17    0.000    0.000    0.000    0.000 {built-in method posix.fspath}
+        1    0.000    0.000    0.000    0.000 <frozen os>:794(encode)
+        7    0.000    0.000    0.000    0.000 {built-in method builtins.getattr}
+        4    0.000    0.000    0.000    0.000 {method 'split' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:15(__init__)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.any}
+        2    0.000    0.000    0.000    0.000 {method 'match' of 're.Pattern' objects}
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:639(_get_cached)
+        3    0.000    0.000    0.000    0.000 <frozen posixpath>:42(_get_sep)
+        6    0.000    0.000    0.000    0.000 {built-in method builtins.hasattr}
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:79(__init__)
+        8    0.000    0.000    0.000    0.000 {method 'append' of 'list' objects}
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:445(cb)
+        5    0.000    0.000    0.000    0.000 {built-in method __new__ of type object at 0x14a70e0}
+       10    0.000    0.000    0.000    0.000 {built-in method builtins.len}
+        1    0.000    0.000    0.000    0.000 {built-in method _imp.is_builtin}
+        4    0.000    0.000    0.000    0.000 <frozen posixpath>:53(normcase)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:173(__exit__)
+        8    0.000    0.000    0.000    0.000 {built-in method _imp.acquire_lock}
+        8    0.000    0.000    0.000    0.000 {built-in method _imp.release_lock}
+        1    0.000    0.000    0.000    0.000 {method '__exit__' of 'cupy.cuda.device.Device' objects}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:1270(__hash__)
+        5    0.000    0.000    0.000    0.000 {method 'endswith' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:190(_path_abspath)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/_pytest/stash.py:79(__getitem__)
+        4    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:491(_verbose_message)
+        3    0.000    0.000    0.000    0.000 {method 'get' of 'dict' objects}
+        1    0.000    0.000    0.000    0.000 {built-in method _imp.find_frozen}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/pluggy/_tracing.py:42(_processmessage)
+        3    0.000    0.000    0.000    0.000 {method 'rfind' of 'str' objects}
+        2    0.000    0.000    0.000    0.000 {method '__exit__' of '_thread.RLock' objects}
+        2    0.000    0.000    0.000    0.000 {method 'join' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/_distutils_hack/__init__.py:101(find_spec)
+        1    0.000    0.000    0.000    0.000 <frozen posixpath>:131(splitdrive)
+        1    0.000    0.000    0.000    0.000 {method 'encode' of 'str' objects}
+        2    0.000    0.000    0.000    0.000 {built-in method _thread.get_ident}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/_virtualenv.py:50(find_spec)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.setattr}
+        2    0.000    0.000    0.000    0.000 {method 'extend' of 'list' objects}
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:1497(_path_importer_cache)
+        2    0.000    0.000    0.000    0.000 {method 'rstrip' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:185(_path_isabs)
+        1    0.000    0.000    0.000    0.000 {built-in method _weakref._remove_dead_weakref}
+        1    0.000    0.000    0.000    0.000 {built-in method _thread.allocate_lock}
+        1    0.000    0.000    0.000    0.000 {method 'copy' of 'list' objects}
+        1    0.000    0.000    0.000    0.000 {method 'remove' of 'list' objects}
+        2    0.000    0.000    0.000    0.000 {method 'pop' of 'list' objects}
+        1    0.000    0.000    0.000    0.000 {method 'pop' of 'dict' objects}
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:599(__init__)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:130(is_grad_enabled)
+        2    0.000    0.000    0.000    0.000 {built-in method builtins.id}
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:412(__init__)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:1304(__init__)
+        2    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:653(has_location)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:158(__init__)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:71(_relax_case)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/typing.py:2383(cast)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/pathlib/_local.py:289(drive)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/pathlib/_local.py:298(root)
+
+
+
+--- End of report ---
+
+--- Profiling report for bench_add ---
+Wall‑time: 0.000534s
+memory_profiler not available
+CPU stats:
+         21 function calls in 0.000 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/tests/benchmark/test_tensor_perf.py:26(bench_add)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:406(__add__)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:368(add)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:171(__init__)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:233(<genexpr>)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.any}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:1270(__hash__)
+        5    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:15(__init__)
+        2    0.000    0.000    0.000    0.000 {built-in method builtins.id}
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.getattr}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:130(is_grad_enabled)
+
+
+
+--- End of report ---
+
+--- Profiling report for bench_add ---
+Wall‑time: 0.013150s
+memory_profiler not available
+CPU stats:
+         1155 function calls in 0.013 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.013    0.013 /home/mitchellmirano/Desktop/MitchellProjects/sorix/tests/benchmark/test_tensor_perf.py:26(bench_add)
+        1    0.000    0.000    0.013    0.013 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:406(__add__)
+        1    0.001    0.001    0.013    0.013 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:368(add)
+        1    0.000    0.000    0.008    0.008 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:511(_compile_module_with_cache)
+        1    0.000    0.000    0.008    0.008 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:542(_compile_with_cache_cuda)
+        1    0.000    0.000    0.008    0.008 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:466(_preprocess)
+        1    0.000    0.000    0.008    0.008 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:726(compile)
+        1    0.008    0.008    0.008    0.008 {built-in method cupy_backends.cuda.libs.nvrtc.compileProgram}
+        2    0.000    0.000    0.004    0.002 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/ctypes/__init__.py:345(__init__)
+        2    0.000    0.000    0.004    0.002 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/ctypes/__init__.py:382(_load_library)
+        2    0.004    0.002    0.004    0.002 {built-in method _ctypes.dlopen}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/_environment.py:503(_get_include_dir_from_conda_or_wheel)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/importlib/metadata/__init__.py:954(distribution)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/importlib/metadata/__init__.py:393(from_name)
+        1    0.000    0.000    0.000    0.000 {method 'load' of 'cupy.cuda.function.Module' objects}
+        2    0.000    0.000    0.000    0.000 {built-in method builtins.next}
+       14    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/importlib/metadata/__init__.py:890(<genexpr>)
+       12    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/importlib/metadata/__init__.py:756(search)
+       42    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/ctypes/__init__.py:409(__getattr__)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:191(_get_extra_include_dir_opts)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:321(_hash_hexdigest)
+        2    0.000    0.000    0.000    0.000 {built-in method _hashlib.openssl_sha1}
+       42    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/ctypes/__init__.py:416(__getitem__)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/importlib/metadata/__init__.py:765(lookup)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/importlib/metadata/__init__.py:775(__init__)
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/importlib/metadata/__init__.py:427(<genexpr>)
+       12    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/importlib/metadata/__init__.py:759(mtime)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/importlib/metadata/__init__.py:742(children)
+       27    0.000    0.000    0.000    0.000 <frozen posixpath>:72(join)
+        2    0.000    0.000    0.000    0.000 {built-in method builtins.__build_class__}
+       12    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/importlib/metadata/__init__.py:804(search)
+        2    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:1572(find_distributions)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:171(__init__)
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:32(__str__)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/importlib/metadata/__init__.py:871(find_distributions)
+       14    0.000    0.000    0.000    0.000 {built-in method posix.stat}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/importlib/metadata/__init__.py:749(zip_children)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/zipfile/_path/__init__.py:309(__init__)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/zipfile/_path/__init__.py:146(make)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/importlib/metadata/__init__.py:886(_search_paths)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+       24    0.000    0.000    0.000    0.000 <frozen codecs>:322(decode)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/zipfile/_path/__init__.py:88(__init__)
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:342(_name_get)
+       24    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/importlib/metadata/_collections.py:20(__missing__)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/importlib/metadata/__init__.py:844(__init__)
+       40    0.000    0.000    0.000    0.000 {built-in method builtins.setattr}
+        3    0.000    0.000    0.000    0.000 {method 'sub' of 're.Pattern' objects}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/zipfile/__init__.py:1344(__init__)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/string.py:104(substitute)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/importlib/metadata/__init__.py:411(discover)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/importlib/metadata/__init__.py:851(normalize)
+       95    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
+       24    0.000    0.000    0.000    0.000 {built-in method _codecs.utf_8_decode}
+        3    0.000    0.000    0.000    0.000 {built-in method _io.open}
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:326(_name_includes_bit_suffix)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:202(_get_arch)
+       18    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/importlib/metadata/__init__.py:443(<genexpr>)
+       30    0.000    0.000    0.000    0.000 <frozen posixpath>:42(_get_sep)
+       41    0.000    0.000    0.000    0.000 {built-in method builtins.getattr}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/re/__init__.py:183(sub)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/_creation/from_data.py:56(asarray)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:705(__init__)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:270(_get_bool_env_variable)
+       86    0.000    0.000    0.000    0.000 {method 'startswith' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 {method 'join' of 'str' objects}
+       24    0.000    0.000    0.000    0.000 <frozen codecs>:312(__init__)
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/numerictypes.py:475(issubdtype)
+        3    0.000    0.000    0.000    0.000 <frozen _collections_abc>:808(get)
+        1    0.000    0.000    0.000    0.000 <frozen posixpath>:176(dirname)
+        5    0.000    0.000    0.000    0.000 {method 'encode' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 {built-in method cupy._core.core.array}
+        7    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/string.py:110(convert)
+        1    0.000    0.000    0.000    0.000 {built-in method cupy_backends.cuda.libs.nvrtc.createProgram}
+        3    0.000    0.000    0.000    0.000 <frozen os>:712(__getitem__)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/importlib/metadata/__init__.py:691(__init__)
+        1    0.000    0.000    0.000    0.000 <frozen genericpath>:48(isdir)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:158(_get_cupy_cache_key)
+        8    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:497(<genexpr>)
+        3    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:1390(_handle_fromlist)
+        8    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/numerictypes.py:293(issubclass_)
+        2    0.000    0.000    0.000    0.000 {built-in method posix.listdir}
+       60    0.000    0.000    0.000    0.000 {built-in method posix.fspath}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/ctypes/__init__.py:349(_FuncPtr)
+       48    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/_environment.py:67(_log)
+       31    0.000    0.000    0.000    0.000 {method 'endswith' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:720(__del__)
+       26    0.000    0.000    0.000    0.000 {built-in method builtins.issubclass}
+        2    0.000    0.000    0.000    0.000 <frozen posixpath>:166(basename)
+       24    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/importlib/metadata/__init__.py:866(__bool__)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:168(_get_max_compute_capability)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:504(get_cache_dir)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/re/__init__.py:330(_compile)
+       24    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/importlib/metadata/_collections.py:24(<lambda>)
+        3    0.000    0.000    0.000    0.000 <frozen os>:794(encode)
+        2    0.000    0.000    0.000    0.000 <frozen abc>:117(__instancecheck__)
+       16    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/contextlib.py:450(__exit__)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/importlib/metadata/__init__.py:694(path)
+        1    0.000    0.000    0.000    0.000 <frozen posixpath>:373(abspath)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.min}
+        1    0.000    0.000    0.000    0.000 {method 'read' of '_io.BufferedReader' objects}
+       14    0.000    0.000    0.000    0.000 {method 'group' of 're.Match' objects}
+        3    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:150(_get_nvrtc_version)
+        2    0.000    0.000    0.000    0.000 {method 'hexdigest' of '_hashlib.HASH' objects}
+        1    0.000    0.000    0.000    0.000 {method '__exit__' of '_io._IOBase' objects}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/importlib/metadata/__init__.py:440(_discover_resolvers)
+        1    0.000    0.000    0.000    0.000 <frozen genericpath>:16(exists)
+       24    0.000    0.000    0.000    0.000 <frozen codecs>:263(__init__)
+        4    0.000    0.000    0.000    0.000 {built-in method builtins.vars}
+        2    0.000    0.000    0.000    0.000 {method 'cache_clear' of 'functools._lru_cache_wrapper' objects}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/zipfile/__init__.py:1999(__del__)
+        1    0.000    0.000    0.000    0.000 {method '__exit__' of 'cupy.cuda.device.Device' objects}
+       16    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/contextlib.py:444(__init__)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/importlib/metadata/__init__.py:858(legacy_normalize)
+        2    0.000    0.000    0.000    0.000 {built-in method _abc._abc_instancecheck}
+        1    0.000    0.000    0.000    0.000 {built-in method cupy_backends.cuda.libs.nvrtc.getPTX}
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.any}
+        1    0.000    0.000    0.000    0.000 {method 'splitlines' of 'str' objects}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:233(<genexpr>)
+        3    0.000    0.000    0.000    0.000 {method 'rfind' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:215(_get_arch_for_options_for_nvrtc)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:1270(__hash__)
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:23(_kind_name)
+       16    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/contextlib.py:447(__enter__)
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/importlib/metadata/_collections.py:23(freeze)
+        3    0.000    0.000    0.000    0.000 {built-in method builtins.hasattr}
+       12    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/importlib/metadata/__init__.py:736(__init__)
+        3    0.000    0.000    0.000    0.000 {method 'get' of 'dict' objects}
+        4    0.000    0.000    0.000    0.000 {method 'replace' of 'str' objects}
+        2    0.000    0.000    0.000    0.000 {method 'update' of 'dict' objects}
+        1    0.000    0.000    0.000    0.000 {built-in method posix._path_normpath}
+        6    0.000    0.000    0.000    0.000 {method 'lower' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 {built-in method cupy_backends.cuda.libs.nvrtc.destroyProgram}
+       14    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/multiarray.py:588(can_cast)
+        4    0.000    0.000    0.000    0.000 {built-in method from_iterable}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/_environment.py:73(get_cuda_path)
+        2    0.000    0.000    0.000    0.000 {built-in method builtins.len}
+        1    0.000    0.000    0.000    0.000 {method 'decode' of 'bytes' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:15(__init__)
+        1    0.000    0.000    0.000    0.000 {cupy._util.is_shutting_down}
+        1    0.000    0.000    0.000    0.000 {built-in method cupy_backends.cuda.libs.nvrtc.getVersion}
+        1    0.000    0.000    0.000    0.000 {method 'format' of 'str' objects}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/_environment.py:274(get_preload_config)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/zipfile/__init__.py:765(_check_compression)
+        1    0.000    0.000    0.000    0.000 {method 'rstrip' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/string.py:87(__init__)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/zipfile/__init__.py:2003(close)
+        2    0.000    0.000    0.000    0.000 {built-in method builtins.iter}
+        2    0.000    0.000    0.000    0.000 {built-in method builtins.id}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:130(is_grad_enabled)
+        1    0.000    0.000    0.000    0.000 {built-in method _stat.S_ISDIR}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:194(<genexpr>)
+
+
+
+--- End of report ---
+
+--- Profiling report for bench_mul ---
+Wall‑time: 0.000526s
+memory_profiler not available
+CPU stats:
+         21 function calls in 0.000 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/tests/benchmark/test_tensor_perf.py:31(bench_mul)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:499(__mul__)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:459(mul)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:171(__init__)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:233(<genexpr>)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.any}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:1270(__hash__)
+        5    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:15(__init__)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:130(is_grad_enabled)
+        2    0.000    0.000    0.000    0.000 {built-in method builtins.id}
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.getattr}
+
+
+
+--- End of report ---
+
+--- Profiling report for bench_mul ---
+Wall‑time: 0.000917s
+memory_profiler not available
+CPU stats:
+         164 function calls in 0.001 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.001    0.001 /home/mitchellmirano/Desktop/MitchellProjects/sorix/tests/benchmark/test_tensor_perf.py:31(bench_mul)
+        1    0.000    0.000    0.001    0.001 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:499(__mul__)
+        1    0.000    0.000    0.001    0.001 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:459(mul)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:511(_compile_module_with_cache)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:542(_compile_with_cache_cuda)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:321(_hash_hexdigest)
+        1    0.000    0.000    0.000    0.000 {method 'load' of 'cupy.cuda.function.Module' objects}
+        2    0.000    0.000    0.000    0.000 {built-in method _hashlib.openssl_sha1}
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:32(__str__)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/string.py:104(substitute)
+        1    0.000    0.000    0.000    0.000 {method 'sub' of 're.Pattern' objects}
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:342(_name_get)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:171(__init__)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:326(_name_includes_bit_suffix)
+        1    0.000    0.000    0.000    0.000 {built-in method _io.open}
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/numerictypes.py:475(issubdtype)
+        5    0.000    0.000    0.000    0.000 {method 'encode' of 'str' objects}
+        3    0.000    0.000    0.000    0.000 <frozen _collections_abc>:808(get)
+        1    0.000    0.000    0.000    0.000 <frozen genericpath>:48(isdir)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:270(_get_bool_env_variable)
+        2    0.000    0.000    0.000    0.000 {built-in method posix.stat}
+        2    0.000    0.000    0.000    0.000 <frozen posixpath>:72(join)
+        7    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/string.py:110(convert)
+        3    0.000    0.000    0.000    0.000 <frozen os>:712(__getitem__)
+        8    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/numerictypes.py:293(issubclass_)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/_creation/from_data.py:56(asarray)
+        1    0.000    0.000    0.000    0.000 {method 'read' of '_io.BufferedReader' objects}
+        1    0.000    0.000    0.000    0.000 {built-in method cupy._core.core.array}
+       20    0.000    0.000    0.000    0.000 {built-in method builtins.issubclass}
+        3    0.000    0.000    0.000    0.000 <frozen os>:794(encode)
+        1    0.000    0.000    0.000    0.000 {method '__exit__' of '_io._IOBase' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:504(get_cache_dir)
+       14    0.000    0.000    0.000    0.000 {method 'group' of 're.Match' objects}
+        1    0.000    0.000    0.000    0.000 <frozen genericpath>:16(exists)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.any}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:233(<genexpr>)
+        2    0.000    0.000    0.000    0.000 {method 'hexdigest' of '_hashlib.HASH' objects}
+       10    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:23(_kind_name)
+        2    0.000    0.000    0.000    0.000 <frozen posixpath>:42(_get_sep)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:1270(__hash__)
+        1    0.000    0.000    0.000    0.000 {method 'get' of 'dict' objects}
+        1    0.000    0.000    0.000    0.000 {method '__exit__' of 'cupy.cuda.device.Device' objects}
+       14    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/multiarray.py:588(can_cast)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:15(__init__)
+        4    0.000    0.000    0.000    0.000 {built-in method posix.fspath}
+        2    0.000    0.000    0.000    0.000 {method 'endswith' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.len}
+        2    0.000    0.000    0.000    0.000 {method 'startswith' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/string.py:87(__init__)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:130(is_grad_enabled)
+        2    0.000    0.000    0.000    0.000 {built-in method builtins.id}
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.getattr}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:150(_get_nvrtc_version)
+        1    0.000    0.000    0.000    0.000 {built-in method _stat.S_ISDIR}
+
+
+
+--- End of report ---
+
+--- Profiling report for bench_sigmoid ---
+Wall‑time: 0.010973s
+memory_profiler not available
+CPU stats:
+         19 function calls in 0.011 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.011    0.011 /home/mitchellmirano/Desktop/MitchellProjects/sorix/tests/benchmark/test_tensor_perf.py:36(bench_sigmoid)
+        1    0.011    0.011    0.011    0.011 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:642(sigmoid)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:171(__init__)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/backend.py:20(get_xp)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:15(__init__)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:233(<genexpr>)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.any}
+        4    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:1270(__hash__)
+        2    0.000    0.000    0.000    0.000 {built-in method builtins.getattr}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:130(is_grad_enabled)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.id}
+
+
+
+--- End of report ---
+
+--- Profiling report for bench_sigmoid ---
+Wall‑time: 0.002627s
+memory_profiler not available
+CPU stats:
+         571 function calls in 0.003 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.003    0.003 /home/mitchellmirano/Desktop/MitchellProjects/sorix/tests/benchmark/test_tensor_perf.py:36(bench_sigmoid)
+        1    0.001    0.001    0.003    0.003 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:642(sigmoid)
+        4    0.000    0.000    0.001    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:511(_compile_module_with_cache)
+        4    0.000    0.000    0.001    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:542(_compile_with_cache_cuda)
+        8    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:321(_hash_hexdigest)
+        8    0.000    0.000    0.000    0.000 {built-in method _hashlib.openssl_sha1}
+        4    0.000    0.000    0.000    0.000 {method 'load' of 'cupy.cuda.function.Module' objects}
+       14    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:32(__str__)
+       14    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:342(_name_get)
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/string.py:104(substitute)
+        4    0.000    0.000    0.000    0.000 {method 'sub' of 're.Pattern' objects}
+       14    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:326(_name_includes_bit_suffix)
+       14    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/numerictypes.py:475(issubdtype)
+       20    0.000    0.000    0.000    0.000 {method 'encode' of 'str' objects}
+        4    0.000    0.000    0.000    0.000 {built-in method _io.open}
+       12    0.000    0.000    0.000    0.000 <frozen _collections_abc>:808(get)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:171(__init__)
+        8    0.000    0.000    0.000    0.000 <frozen posixpath>:72(join)
+        8    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:270(_get_bool_env_variable)
+       28    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/string.py:110(convert)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+        8    0.000    0.000    0.000    0.000 {built-in method posix.stat}
+       12    0.000    0.000    0.000    0.000 <frozen os>:712(__getitem__)
+        4    0.000    0.000    0.000    0.000 <frozen genericpath>:48(isdir)
+        4    0.000    0.000    0.000    0.000 {method 'read' of '_io.BufferedReader' objects}
+       28    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/numerictypes.py:293(issubclass_)
+       12    0.000    0.000    0.000    0.000 <frozen os>:794(encode)
+        4    0.000    0.000    0.000    0.000 {method '__exit__' of '_io._IOBase' objects}
+       70    0.000    0.000    0.000    0.000 {built-in method builtins.issubclass}
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:504(get_cache_dir)
+       56    0.000    0.000    0.000    0.000 {method 'group' of 're.Match' objects}
+        4    0.000    0.000    0.000    0.000 <frozen genericpath>:16(exists)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/_creation/from_data.py:56(asarray)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/backend.py:20(get_xp)
+        8    0.000    0.000    0.000    0.000 {method 'hexdigest' of '_hashlib.HASH' objects}
+        8    0.000    0.000    0.000    0.000 <frozen posixpath>:42(_get_sep)
+        1    0.000    0.000    0.000    0.000 {built-in method cupy._core.core.array}
+       67    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/multiarray.py:588(can_cast)
+        4    0.000    0.000    0.000    0.000 {method 'get' of 'dict' objects}
+       24    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
+       14    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:23(_kind_name)
+       16    0.000    0.000    0.000    0.000 {built-in method posix.fspath}
+        8    0.000    0.000    0.000    0.000 {method 'startswith' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.any}
+        4    0.000    0.000    0.000    0.000 {built-in method builtins.len}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:233(<genexpr>)
+        8    0.000    0.000    0.000    0.000 {method 'endswith' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 {method '__exit__' of 'cupy.cuda.device.Device' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:1270(__hash__)
+        2    0.000    0.000    0.000    0.000 {built-in method builtins.getattr}
+        4    0.000    0.000    0.000    0.000 {built-in method _stat.S_ISDIR}
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/string.py:87(__init__)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:15(__init__)
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:150(_get_nvrtc_version)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:130(is_grad_enabled)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/multiarray.py:650(min_scalar_type)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.id}
+
+
+
+--- End of report ---
+
+--- Profiling report for bench_softmax ---
+Wall‑time: 0.001446s
+memory_profiler not available
+CPU stats:
+         30 function calls in 0.001 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.001    0.001 /home/mitchellmirano/Desktop/MitchellProjects/sorix/tests/benchmark/test_tensor_perf.py:41(bench_softmax)
+        1    0.001    0.001    0.001    0.001 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:666(softmax)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/fromnumeric.py:69(_wrapreduction)
+        2    0.000    0.000    0.000    0.000 {method 'reduce' of 'numpy.ufunc' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/fromnumeric.py:3052(max)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/fromnumeric.py:2338(sum)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:171(__init__)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/backend.py:20(get_xp)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.any}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:233(<genexpr>)
+        5    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
+        2    0.000    0.000    0.000    0.000 {built-in method builtins.getattr}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:1270(__hash__)
+        2    0.000    0.000    0.000    0.000 {method 'items' of 'dict' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:15(__init__)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:130(is_grad_enabled)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.id}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/fromnumeric.py:2333(_sum_dispatcher)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/fromnumeric.py:3047(_max_dispatcher)
+
+
+
+--- End of report ---
+
+--- Profiling report for bench_softmax ---
+Wall‑time: 0.011800s
+memory_profiler not available
+CPU stats:
+         307 function calls in 0.012 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.012    0.012 /home/mitchellmirano/Desktop/MitchellProjects/sorix/tests/benchmark/test_tensor_perf.py:41(bench_softmax)
+        1    0.000    0.000    0.012    0.012 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:666(softmax)
+        1    0.000    0.000    0.011    0.011 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/_statistics/order.py:47(amax)
+        1    0.011    0.011    0.011    0.011 {method 'max' of 'cupy._core.core._ndarray_base' objects}
+        2    0.000    0.000    0.001    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:511(_compile_module_with_cache)
+        2    0.000    0.000    0.001    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:542(_compile_with_cache_cuda)
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:321(_hash_hexdigest)
+        4    0.000    0.000    0.000    0.000 {built-in method _hashlib.openssl_sha1}
+        2    0.000    0.000    0.000    0.000 {method 'load' of 'cupy.cuda.function.Module' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/_math/sumprod.py:11(sum)
+        1    0.000    0.000    0.000    0.000 {method 'sum' of 'cupy._core.core._ndarray_base' objects}
+       10    0.000    0.000    0.000    0.000 {method 'encode' of 'str' objects}
+        8    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:32(__str__)
+        8    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:342(_name_get)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/string.py:104(substitute)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:171(__init__)
+        2    0.000    0.000    0.000    0.000 {method 'sub' of 're.Pattern' objects}
+        2    0.000    0.000    0.000    0.000 {built-in method _io.open}
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+        8    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:326(_name_includes_bit_suffix)
+        8    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/numerictypes.py:475(issubdtype)
+        6    0.000    0.000    0.000    0.000 <frozen _collections_abc>:808(get)
+        4    0.000    0.000    0.000    0.000 <frozen posixpath>:72(join)
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:270(_get_bool_env_variable)
+        2    0.000    0.000    0.000    0.000 <frozen genericpath>:48(isdir)
+        4    0.000    0.000    0.000    0.000 {built-in method posix.stat}
+       14    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/string.py:110(convert)
+        6    0.000    0.000    0.000    0.000 <frozen os>:712(__getitem__)
+        2    0.000    0.000    0.000    0.000 {method 'read' of '_io.BufferedReader' objects}
+       16    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/numerictypes.py:293(issubclass_)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/_creation/from_data.py:56(asarray)
+       40    0.000    0.000    0.000    0.000 {built-in method builtins.issubclass}
+        2    0.000    0.000    0.000    0.000 {method '__exit__' of '_io._IOBase' objects}
+        6    0.000    0.000    0.000    0.000 <frozen os>:794(encode)
+        1    0.000    0.000    0.000    0.000 {built-in method cupy._core.core.array}
+       28    0.000    0.000    0.000    0.000 {method 'group' of 're.Match' objects}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:504(get_cache_dir)
+        2    0.000    0.000    0.000    0.000 <frozen genericpath>:16(exists)
+        4    0.000    0.000    0.000    0.000 {method 'hexdigest' of '_hashlib.HASH' objects}
+        4    0.000    0.000    0.000    0.000 <frozen posixpath>:42(_get_sep)
+       14    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/backend.py:20(get_xp)
+        2    0.000    0.000    0.000    0.000 {method 'get' of 'dict' objects}
+       27    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/multiarray.py:588(can_cast)
+        1    0.000    0.000    0.000    0.000 {method '__exit__' of 'cupy.cuda.device.Device' objects}
+        8    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:23(_kind_name)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.any}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:233(<genexpr>)
+        2    0.000    0.000    0.000    0.000 {built-in method cupy._core._fusion_thread_local.is_fusing}
+        8    0.000    0.000    0.000    0.000 {built-in method posix.fspath}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:1270(__hash__)
+        4    0.000    0.000    0.000    0.000 {method 'startswith' of 'str' objects}
+        4    0.000    0.000    0.000    0.000 {method 'endswith' of 'str' objects}
+        2    0.000    0.000    0.000    0.000 {built-in method builtins.getattr}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:15(__init__)
+        2    0.000    0.000    0.000    0.000 {built-in method builtins.len}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/string.py:87(__init__)
+        2    0.000    0.000    0.000    0.000 {built-in method _stat.S_ISDIR}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:150(_get_nvrtc_version)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:130(is_grad_enabled)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.id}
+
+
+
+--- End of report ---
+
+--- Profiling report for bench_matmul ---
+Wall‑time: 0.004170s
+memory_profiler not available
+CPU stats:
+         21 function calls in 0.004 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.004    0.004 /home/mitchellmirano/Desktop/MitchellProjects/sorix/tests/benchmark/test_tensor_perf.py:21(bench_matmul)
+        1    0.000    0.000    0.004    0.004 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:620(__matmul__)
+        1    0.004    0.004    0.004    0.004 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:505(matmul)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:171(__init__)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.any}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:233(<genexpr>)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:1301(__hash__)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:15(__init__)
+        5    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:130(is_grad_enabled)
+        2    0.000    0.000    0.000    0.000 {built-in method builtins.id}
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.getattr}
+
+
+
+--- End of report ---
+
+--- Profiling report for bench_matmul ---
+Wall‑time: 0.042227s
+memory_profiler not available
+CPU stats:
+         42 function calls in 0.042 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.042    0.042 /home/mitchellmirano/Desktop/MitchellProjects/sorix/tests/benchmark/test_tensor_perf.py:21(bench_matmul)
+        1    0.000    0.000    0.042    0.042 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:620(__matmul__)
+        1    0.042    0.042    0.042    0.042 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:505(matmul)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:171(__init__)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/_creation/from_data.py:56(asarray)
+        1    0.000    0.000    0.000    0.000 <frozen os>:811(getenv)
+        1    0.000    0.000    0.000    0.000 {built-in method cupy._core.core.array}
+        1    0.000    0.000    0.000    0.000 <frozen _collections_abc>:808(get)
+        1    0.000    0.000    0.000    0.000 <frozen os>:712(__getitem__)
+        4    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:1390(_handle_fromlist)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.any}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:233(<genexpr>)
+        1    0.000    0.000    0.000    0.000 <frozen os>:794(encode)
+       10    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:15(__init__)
+        1    0.000    0.000    0.000    0.000 {method '__exit__' of 'cupy.cuda.device.Device' objects}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:1301(__hash__)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:130(is_grad_enabled)
+        4    0.000    0.000    0.000    0.000 {built-in method builtins.hasattr}
+        1    0.000    0.000    0.000    0.000 {method 'encode' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.getattr}
+        2    0.000    0.000    0.000    0.000 {built-in method builtins.id}
+
+
+
+--- End of report ---
+
+--- Profiling report for bench_add ---
+Wall‑time: 0.000497s
+memory_profiler not available
+CPU stats:
+         21 function calls in 0.000 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/tests/benchmark/test_tensor_perf.py:26(bench_add)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:406(__add__)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:368(add)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:171(__init__)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.any}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:233(<genexpr>)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:1301(__hash__)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:15(__init__)
+        5    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:130(is_grad_enabled)
+        2    0.000    0.000    0.000    0.000 {built-in method builtins.id}
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.getattr}
+
+
+
+--- End of report ---
+
+--- Profiling report for bench_add ---
+Wall‑time: 0.000955s
+memory_profiler not available
+CPU stats:
+         164 function calls in 0.001 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.001    0.001 /home/mitchellmirano/Desktop/MitchellProjects/sorix/tests/benchmark/test_tensor_perf.py:26(bench_add)
+        1    0.000    0.000    0.001    0.001 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:406(__add__)
+        1    0.000    0.000    0.001    0.001 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:368(add)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:511(_compile_module_with_cache)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:542(_compile_with_cache_cuda)
+        1    0.000    0.000    0.000    0.000 {method 'load' of 'cupy.cuda.function.Module' objects}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:321(_hash_hexdigest)
+        2    0.000    0.000    0.000    0.000 {built-in method _hashlib.openssl_sha1}
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:32(__str__)
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:342(_name_get)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:171(__init__)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/string.py:104(substitute)
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:326(_name_includes_bit_suffix)
+        1    0.000    0.000    0.000    0.000 {method 'sub' of 're.Pattern' objects}
+        3    0.000    0.000    0.000    0.000 <frozen _collections_abc>:808(get)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:270(_get_bool_env_variable)
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/numerictypes.py:475(issubdtype)
+        3    0.000    0.000    0.000    0.000 <frozen os>:712(__getitem__)
+        1    0.000    0.000    0.000    0.000 {built-in method _io.open}
+        1    0.000    0.000    0.000    0.000 <frozen genericpath>:48(isdir)
+        2    0.000    0.000    0.000    0.000 <frozen posixpath>:72(join)
+        5    0.000    0.000    0.000    0.000 {method 'encode' of 'str' objects}
+        2    0.000    0.000    0.000    0.000 {built-in method posix.stat}
+        7    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/string.py:110(convert)
+        3    0.000    0.000    0.000    0.000 <frozen os>:794(encode)
+        8    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/numerictypes.py:293(issubclass_)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/_creation/from_data.py:56(asarray)
+        1    0.000    0.000    0.000    0.000 {built-in method cupy._core.core.array}
+        1    0.000    0.000    0.000    0.000 {method 'read' of '_io.BufferedReader' objects}
+       20    0.000    0.000    0.000    0.000 {built-in method builtins.issubclass}
+        1    0.000    0.000    0.000    0.000 {method '__exit__' of '_io._IOBase' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:504(get_cache_dir)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.any}
+        1    0.000    0.000    0.000    0.000 <frozen genericpath>:16(exists)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:233(<genexpr>)
+       14    0.000    0.000    0.000    0.000 {method 'group' of 're.Match' objects}
+       10    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
+        2    0.000    0.000    0.000    0.000 {method 'hexdigest' of '_hashlib.HASH' objects}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:1301(__hash__)
+        1    0.000    0.000    0.000    0.000 {method 'get' of 'dict' objects}
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:23(_kind_name)
+        1    0.000    0.000    0.000    0.000 {method '__exit__' of 'cupy.cuda.device.Device' objects}
+        2    0.000    0.000    0.000    0.000 <frozen posixpath>:42(_get_sep)
+       14    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/multiarray.py:588(can_cast)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:15(__init__)
+        2    0.000    0.000    0.000    0.000 {method 'endswith' of 'str' objects}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:130(is_grad_enabled)
+        4    0.000    0.000    0.000    0.000 {built-in method posix.fspath}
+        2    0.000    0.000    0.000    0.000 {method 'startswith' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:150(_get_nvrtc_version)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.len}
+        1    0.000    0.000    0.000    0.000 {built-in method _stat.S_ISDIR}
+        2    0.000    0.000    0.000    0.000 {built-in method builtins.id}
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.getattr}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/string.py:87(__init__)
+
+
+
+--- End of report ---
+
+--- Profiling report for bench_mul ---
+Wall‑time: 0.000517s
+memory_profiler not available
+CPU stats:
+         21 function calls in 0.000 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/tests/benchmark/test_tensor_perf.py:31(bench_mul)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:499(__mul__)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:459(mul)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:171(__init__)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:233(<genexpr>)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.any}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:1301(__hash__)
+        5    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:15(__init__)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:130(is_grad_enabled)
+        2    0.000    0.000    0.000    0.000 {built-in method builtins.id}
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.getattr}
+
+
+
+--- End of report ---
+
+--- Profiling report for bench_mul ---
+Wall‑time: 0.001034s
+memory_profiler not available
+CPU stats:
+         164 function calls in 0.001 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.001    0.001 /home/mitchellmirano/Desktop/MitchellProjects/sorix/tests/benchmark/test_tensor_perf.py:31(bench_mul)
+        1    0.000    0.000    0.001    0.001 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:499(__mul__)
+        1    0.000    0.000    0.001    0.001 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:459(mul)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:511(_compile_module_with_cache)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:542(_compile_with_cache_cuda)
+        1    0.000    0.000    0.000    0.000 {method 'load' of 'cupy.cuda.function.Module' objects}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:321(_hash_hexdigest)
+        2    0.000    0.000    0.000    0.000 {built-in method _hashlib.openssl_sha1}
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:32(__str__)
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:342(_name_get)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:171(__init__)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/string.py:104(substitute)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:270(_get_bool_env_variable)
+        3    0.000    0.000    0.000    0.000 <frozen _collections_abc>:808(get)
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:326(_name_includes_bit_suffix)
+        1    0.000    0.000    0.000    0.000 {method 'sub' of 're.Pattern' objects}
+        1    0.000    0.000    0.000    0.000 {built-in method _io.open}
+        3    0.000    0.000    0.000    0.000 <frozen os>:712(__getitem__)
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/numerictypes.py:475(issubdtype)
+        5    0.000    0.000    0.000    0.000 {method 'encode' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 <frozen genericpath>:48(isdir)
+        2    0.000    0.000    0.000    0.000 {built-in method posix.stat}
+        2    0.000    0.000    0.000    0.000 <frozen posixpath>:72(join)
+        3    0.000    0.000    0.000    0.000 <frozen os>:794(encode)
+        8    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/numerictypes.py:293(issubclass_)
+        7    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/string.py:110(convert)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/_creation/from_data.py:56(asarray)
+        1    0.000    0.000    0.000    0.000 {method 'read' of '_io.BufferedReader' objects}
+        1    0.000    0.000    0.000    0.000 {built-in method cupy._core.core.array}
+        1    0.000    0.000    0.000    0.000 {method '__exit__' of '_io._IOBase' objects}
+       20    0.000    0.000    0.000    0.000 {built-in method builtins.issubclass}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:504(get_cache_dir)
+        1    0.000    0.000    0.000    0.000 <frozen genericpath>:16(exists)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.any}
+       14    0.000    0.000    0.000    0.000 {method 'group' of 're.Match' objects}
+        2    0.000    0.000    0.000    0.000 {method 'hexdigest' of '_hashlib.HASH' objects}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:233(<genexpr>)
+       10    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:1301(__hash__)
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:23(_kind_name)
+        1    0.000    0.000    0.000    0.000 {method 'get' of 'dict' objects}
+        2    0.000    0.000    0.000    0.000 <frozen posixpath>:42(_get_sep)
+        1    0.000    0.000    0.000    0.000 {method '__exit__' of 'cupy.cuda.device.Device' objects}
+       14    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/multiarray.py:588(can_cast)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:15(__init__)
+        4    0.000    0.000    0.000    0.000 {built-in method posix.fspath}
+        2    0.000    0.000    0.000    0.000 {method 'startswith' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:150(_get_nvrtc_version)
+        2    0.000    0.000    0.000    0.000 {method 'endswith' of 'str' objects}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:130(is_grad_enabled)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.len}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/string.py:87(__init__)
+        1    0.000    0.000    0.000    0.000 {built-in method _stat.S_ISDIR}
+        2    0.000    0.000    0.000    0.000 {built-in method builtins.id}
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.getattr}
+
+
+
+--- End of report ---
+
+--- Profiling report for bench_sigmoid ---
+Wall‑time: 0.011125s
+memory_profiler not available
+CPU stats:
+         19 function calls in 0.011 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.011    0.011 /home/mitchellmirano/Desktop/MitchellProjects/sorix/tests/benchmark/test_tensor_perf.py:36(bench_sigmoid)
+        1    0.011    0.011    0.011    0.011 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:647(sigmoid)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:171(__init__)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/backend.py:20(get_xp)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:15(__init__)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.any}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:233(<genexpr>)
+        4    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:1301(__hash__)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:130(is_grad_enabled)
+        2    0.000    0.000    0.000    0.000 {built-in method builtins.getattr}
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.id}
+
+
+
+--- End of report ---
+
+--- Profiling report for bench_sigmoid ---
+Wall‑time: 0.002812s
+memory_profiler not available
+CPU stats:
+         571 function calls in 0.003 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.003    0.003 /home/mitchellmirano/Desktop/MitchellProjects/sorix/tests/benchmark/test_tensor_perf.py:36(bench_sigmoid)
+        1    0.001    0.001    0.003    0.003 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:647(sigmoid)
+        4    0.000    0.000    0.001    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:511(_compile_module_with_cache)
+        4    0.000    0.000    0.001    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:542(_compile_with_cache_cuda)
+        8    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:321(_hash_hexdigest)
+        8    0.000    0.000    0.000    0.000 {built-in method _hashlib.openssl_sha1}
+        4    0.000    0.000    0.000    0.000 {method 'load' of 'cupy.cuda.function.Module' objects}
+       14    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:32(__str__)
+       14    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:342(_name_get)
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/string.py:104(substitute)
+        4    0.000    0.000    0.000    0.000 {method 'sub' of 're.Pattern' objects}
+       14    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:326(_name_includes_bit_suffix)
+       12    0.000    0.000    0.000    0.000 <frozen _collections_abc>:808(get)
+       14    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/numerictypes.py:475(issubdtype)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:171(__init__)
+        8    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:270(_get_bool_env_variable)
+       20    0.000    0.000    0.000    0.000 {method 'encode' of 'str' objects}
+        8    0.000    0.000    0.000    0.000 <frozen posixpath>:72(join)
+        4    0.000    0.000    0.000    0.000 {built-in method _io.open}
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+       28    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/string.py:110(convert)
+       12    0.000    0.000    0.000    0.000 <frozen os>:712(__getitem__)
+        8    0.000    0.000    0.000    0.000 {built-in method posix.stat}
+        4    0.000    0.000    0.000    0.000 <frozen genericpath>:48(isdir)
+       28    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/numerictypes.py:293(issubclass_)
+        4    0.000    0.000    0.000    0.000 {method 'read' of '_io.BufferedReader' objects}
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:504(get_cache_dir)
+       12    0.000    0.000    0.000    0.000 <frozen os>:794(encode)
+        4    0.000    0.000    0.000    0.000 {method '__exit__' of '_io._IOBase' objects}
+       70    0.000    0.000    0.000    0.000 {built-in method builtins.issubclass}
+       56    0.000    0.000    0.000    0.000 {method 'group' of 're.Match' objects}
+        4    0.000    0.000    0.000    0.000 <frozen genericpath>:16(exists)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/_creation/from_data.py:56(asarray)
+       67    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/multiarray.py:588(can_cast)
+        8    0.000    0.000    0.000    0.000 {method 'hexdigest' of '_hashlib.HASH' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/backend.py:20(get_xp)
+        8    0.000    0.000    0.000    0.000 <frozen posixpath>:42(_get_sep)
+        1    0.000    0.000    0.000    0.000 {built-in method cupy._core.core.array}
+        4    0.000    0.000    0.000    0.000 {method 'get' of 'dict' objects}
+       24    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
+       14    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:23(_kind_name)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.any}
+       16    0.000    0.000    0.000    0.000 {built-in method posix.fspath}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:233(<genexpr>)
+        8    0.000    0.000    0.000    0.000 {method 'startswith' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 {method '__exit__' of 'cupy.cuda.device.Device' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:1301(__hash__)
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:150(_get_nvrtc_version)
+        8    0.000    0.000    0.000    0.000 {method 'endswith' of 'str' objects}
+        4    0.000    0.000    0.000    0.000 {built-in method builtins.len}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:15(__init__)
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/string.py:87(__init__)
+        2    0.000    0.000    0.000    0.000 {built-in method builtins.getattr}
+        4    0.000    0.000    0.000    0.000 {built-in method _stat.S_ISDIR}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:130(is_grad_enabled)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/multiarray.py:650(min_scalar_type)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.id}
+
+
+
+--- End of report ---
+
+--- Profiling report for bench_softmax ---
+Wall‑time: 0.000792s
+memory_profiler not available
+CPU stats:
+         30 function calls in 0.001 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.001    0.001 /home/mitchellmirano/Desktop/MitchellProjects/sorix/tests/benchmark/test_tensor_perf.py:41(bench_softmax)
+        1    0.001    0.001    0.001    0.001 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:671(softmax)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/fromnumeric.py:69(_wrapreduction)
+        2    0.000    0.000    0.000    0.000 {method 'reduce' of 'numpy.ufunc' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/fromnumeric.py:3052(max)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/fromnumeric.py:2338(sum)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:171(__init__)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.any}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/backend.py:20(get_xp)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:233(<genexpr>)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:1301(__hash__)
+        5    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:15(__init__)
+        2    0.000    0.000    0.000    0.000 {method 'items' of 'dict' objects}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:130(is_grad_enabled)
+        2    0.000    0.000    0.000    0.000 {built-in method builtins.getattr}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/fromnumeric.py:3047(_max_dispatcher)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/fromnumeric.py:2333(_sum_dispatcher)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.id}
+
+
+
+--- End of report ---
+
+--- Profiling report for bench_softmax ---
+Wall‑time: 0.001185s
+memory_profiler not available
+CPU stats:
+         307 function calls in 0.001 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.001    0.001 /home/mitchellmirano/Desktop/MitchellProjects/sorix/tests/benchmark/test_tensor_perf.py:41(bench_softmax)
+        1    0.000    0.000    0.001    0.001 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:671(softmax)
+        2    0.000    0.000    0.001    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:511(_compile_module_with_cache)
+        2    0.000    0.000    0.001    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:542(_compile_with_cache_cuda)
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:321(_hash_hexdigest)
+        4    0.000    0.000    0.000    0.000 {built-in method _hashlib.openssl_sha1}
+        2    0.000    0.000    0.000    0.000 {method 'load' of 'cupy.cuda.function.Module' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/_statistics/order.py:47(amax)
+        1    0.000    0.000    0.000    0.000 {method 'max' of 'cupy._core.core._ndarray_base' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/_math/sumprod.py:11(sum)
+        1    0.000    0.000    0.000    0.000 {method 'sum' of 'cupy._core.core._ndarray_base' objects}
+        8    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:32(__str__)
+        8    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:342(_name_get)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/string.py:104(substitute)
+        8    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:326(_name_includes_bit_suffix)
+        2    0.000    0.000    0.000    0.000 {method 'sub' of 're.Pattern' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:171(__init__)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+        8    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/numerictypes.py:475(issubdtype)
+        6    0.000    0.000    0.000    0.000 <frozen _collections_abc>:808(get)
+        4    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:270(_get_bool_env_variable)
+       10    0.000    0.000    0.000    0.000 {method 'encode' of 'str' objects}
+        2    0.000    0.000    0.000    0.000 {built-in method _io.open}
+        4    0.000    0.000    0.000    0.000 <frozen posixpath>:72(join)
+       14    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/string.py:110(convert)
+        6    0.000    0.000    0.000    0.000 <frozen os>:712(__getitem__)
+       16    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/numerictypes.py:293(issubclass_)
+        2    0.000    0.000    0.000    0.000 <frozen genericpath>:48(isdir)
+        4    0.000    0.000    0.000    0.000 {built-in method posix.stat}
+        2    0.000    0.000    0.000    0.000 {method 'read' of '_io.BufferedReader' objects}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:504(get_cache_dir)
+        6    0.000    0.000    0.000    0.000 <frozen os>:794(encode)
+       40    0.000    0.000    0.000    0.000 {built-in method builtins.issubclass}
+        2    0.000    0.000    0.000    0.000 {method '__exit__' of '_io._IOBase' objects}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/_creation/from_data.py:56(asarray)
+       28    0.000    0.000    0.000    0.000 {method 'group' of 're.Match' objects}
+        2    0.000    0.000    0.000    0.000 <frozen genericpath>:16(exists)
+        1    0.000    0.000    0.000    0.000 {built-in method cupy._core.core.array}
+        4    0.000    0.000    0.000    0.000 {method 'hexdigest' of '_hashlib.HASH' objects}
+        4    0.000    0.000    0.000    0.000 <frozen posixpath>:42(_get_sep)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/backend.py:20(get_xp)
+       27    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/multiarray.py:588(can_cast)
+       14    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
+        8    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:23(_kind_name)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.any}
+        2    0.000    0.000    0.000    0.000 {method 'get' of 'dict' objects}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:233(<genexpr>)
+        1    0.000    0.000    0.000    0.000 {method '__exit__' of 'cupy.cuda.device.Device' objects}
+        2    0.000    0.000    0.000    0.000 {built-in method cupy._core._fusion_thread_local.is_fusing}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:1301(__hash__)
+        8    0.000    0.000    0.000    0.000 {built-in method posix.fspath}
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:15(__init__)
+        4    0.000    0.000    0.000    0.000 {method 'startswith' of 'str' objects}
+        4    0.000    0.000    0.000    0.000 {method 'endswith' of 'str' objects}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:130(is_grad_enabled)
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/cupy/cuda/compiler.py:150(_get_nvrtc_version)
+        2    0.000    0.000    0.000    0.000 {built-in method builtins.len}
+        2    0.000    0.000    0.000    0.000 {built-in method builtins.getattr}
+        2    0.000    0.000    0.000    0.000 {built-in method _stat.S_ISDIR}
+        2    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/string.py:87(__init__)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.id}
+
+
+
+--- End of report ---
+
