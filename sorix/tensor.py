@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 from typing import Union, Any, List, Tuple, Set, Optional
 from sorix.cupy.cupy import _cupy_available
+from sorix.backend import get_xp  # centralised array-module selector; re-exported here
 
 if _cupy_available:
     import cupy as cp
@@ -129,14 +130,6 @@ def set_grad_enabled(mode: bool) -> None:
 def is_grad_enabled() -> bool:
     """Returns True if autograd engine is enabled."""
     return Tensor._autograd_enabled
-
-def get_xp(*args: Any) -> Any:
-    """Returns the appropriate array module (numpy or cupy) for the given arguments."""
-    for arg in args:
-        if isinstance(arg, Tensor) and arg.device.type == 'cuda':
-            if _cupy_available:
-                return cp
-    return np
 
 def _noop() -> None:
     """Empty function to use as default backward."""
@@ -529,21 +522,28 @@ class Tensor:
         def _backward() -> None:
             if out.grad is None:
                 return
-            
+
+            # PERF: extract raw arrays once; skip Tensor overhead in backward path.
+            g = out.grad.data if isinstance(out.grad, Tensor) else out.grad
+            xp = get_xp(self)
+
             if self.requires_grad:
-                grad_self = out.grad @ other.T
-                self._accumulate_grad(Tensor._match_shape(grad_self, self.shape))
+                # dL/dA = dL/dOut @ B^T  — keep as raw array, pass to _accumulate_grad
+                grad_self = g @ other.data.T
+                # shape will match because matmul preserves batch dims; _match_shape is a noop here
+                self._accumulate_grad(grad_self)
 
             if other.requires_grad:
-                grad_other = self.T @ out.grad
-                other._accumulate_grad(Tensor._match_shape(grad_other, other.shape))
+                # dL/dB = A^T @ dL/dOut
+                grad_other = self.data.T @ g
+                other._accumulate_grad(grad_other)
 
         out._backward = _backward
         return out
 
     def tanh(self) -> Tensor:
         """Hyperbolic tangent activation."""
-        xp = cp if self.device == 'cuda' else np
+        xp = get_xp(self)
         
         if not is_grad_enabled():
             return Tensor(xp.tanh(self.data), device=self.device)
@@ -567,7 +567,7 @@ class Tensor:
 
     def _accumulate_grad(self, grad: Union[np.ndarray, Any, 'Tensor']) -> None:
         """Internal method to accumulate gradients.
-        
+
         Stores gradients in self.grad. In standard mode (is_grad_enabled()=False),
         accumulation is in-place on the underlying array to preserve optimizer buffer views.
         In higher-order mode (is_grad_enabled()=True), the graph is preserved via Tensor addition.
@@ -576,44 +576,113 @@ class Tensor:
         if grad is None:
             return
 
-        # 1. Access raw data
         tracking = is_grad_enabled()
         grad_data = grad.data if isinstance(grad, Tensor) else grad
-        
-        # 2. Shape matching if needed
+
+        # Shape-match only when needed (avoids a copy in the common case)
         grad_val = grad
         if grad_data.shape != self.shape:
-             grad_val = Tensor._match_shape(grad, self.shape)
-             grad_data = grad_val.data if isinstance(grad_val, Tensor) else grad_val
-        
+            grad_val = Tensor._match_shape(grad, self.shape)
+            grad_data = grad_val.data if isinstance(grad_val, Tensor) else grad_val
+
         if self.grad is None:
             if tracking:
                 self.grad = grad_val if isinstance(grad_val, Tensor) else Tensor(grad_val, device=self.device)
             else:
-                self.grad = Tensor(grad_data.copy(), device=self.device)
+                # PERF: skip .copy() when grad_data is already a fresh array (e.g. result
+                # of a raw matmul/add that won't be mutated elsewhere).
+                owns_data = not isinstance(grad, Tensor) or grad_data.base is None
+                self.grad = Tensor(
+                    grad_data if owns_data else grad_data.copy(),
+                    device=self.device,
+                )
         else:
             if tracking:
-                # Build higher-order graph via Tensor addition.
-                # Ensure self.grad is a Tensor so Tensor.__add__ is used and the
-                # result stays in the graph (NumPy wins __add__ dispatch otherwise).
                 existing = self.grad if isinstance(self.grad, Tensor) else Tensor(self.grad, device=self.device)
                 self.grad = existing + grad
             else:
-                # Standard Mode: accumulate in-place.
+                # Standard mode: accumulate in-place to preserve optimizer buffer views.
                 if isinstance(self.grad, Tensor):
-                    # In-place on .data preserves optimizer buffer views
                     self.grad.data += grad_data
                 else:
-                    # self.grad is a raw array; accumulate directly
                     self.grad += grad_data
-                    # If incoming grad is a Tensor, upgrade so downstream code
-                    # expecting a Tensor (e.g. test assertions) works correctly.
                     if isinstance(grad, Tensor):
                         self.grad = Tensor(self.grad, device=self.device)
 
+    # ------------------------------------------------------------------
+    # In-place operations (no-grad paths)
+    # These mutate self.data directly, bypassing autograd recording: no node is
+    # added to the graph, so the mutation is invisible to backward(). They are
+    # therefore rejected on any tensor that requires grad while tracking is on
+    # (stricter than PyTorch, which only rejects leaf tensors).
+    #
+    # Caveat: the check can only inspect `self`. A tensor with
+    # requires_grad=False may still be *read* by another node's backward — in
+    # `y = a * c`, the gradient of `a` needs `c.data` — so mutating `c` between
+    # forward and backward silently changes `a.grad`. Only mutate tensors that
+    # no pending backward pass depends on.
+    # ------------------------------------------------------------------
+
+    def _check_inplace_allowed(self) -> None:
+        """Raises RuntimeError if in-place mutation would corrupt the autograd graph."""
+        if self.requires_grad and is_grad_enabled():
+            raise RuntimeError(
+                "In-place operations are not allowed on tensors that require grad "
+                "and are used in a gradient-tracked context. "
+                "Use the out-of-place operator instead, or wrap the call with "
+                "sorix.no_grad() if gradients are not needed."
+            )
+
+    def add_(self, other: Union['Tensor', np.ndarray, float, int]) -> 'Tensor':
+        """In-place addition. Mutates ``self`` and returns it.
+
+        Args:
+            other: Value to add. Scalar, ndarray, or Tensor.
+
+        Raises:
+            RuntimeError: If ``self.requires_grad`` is ``True`` and grad tracking
+                is enabled (would corrupt the autograd graph).
+        """
+        self._check_inplace_allowed()
+        other_data = other.data if isinstance(other, Tensor) else other
+        self.data += other_data
+        return self
+
+    def sub_(self, other: Union['Tensor', np.ndarray, float, int]) -> 'Tensor':
+        """In-place subtraction. Mutates ``self`` and returns it.
+
+        Raises:
+            RuntimeError: If in-place would corrupt the autograd graph.
+        """
+        self._check_inplace_allowed()
+        other_data = other.data if isinstance(other, Tensor) else other
+        self.data -= other_data
+        return self
+
+    def mul_(self, other: Union['Tensor', np.ndarray, float, int]) -> 'Tensor':
+        """In-place element-wise multiplication. Mutates ``self`` and returns it.
+
+        Raises:
+            RuntimeError: If in-place would corrupt the autograd graph.
+        """
+        self._check_inplace_allowed()
+        other_data = other.data if isinstance(other, Tensor) else other
+        self.data *= other_data
+        return self
+
+    def fill_(self, value: Union[float, int]) -> 'Tensor':
+        """Fills ``self`` with ``value`` in-place and returns it.
+
+        Raises:
+            RuntimeError: If in-place would corrupt the autograd graph.
+        """
+        self._check_inplace_allowed()
+        self.data.fill(value)
+        return self
+
     def __matmul__(self, other: Union[Tensor, np.ndarray]) -> Tensor:
         return self.matmul(other)
-    
+
     def __rmatmul__(self, other: Union[Tensor, np.ndarray]) -> Tensor:
         other = other if isinstance(other, Tensor) else Tensor(other, device=self.device)
         return other.matmul(self)
@@ -640,7 +709,7 @@ class Tensor:
 
     def sigmoid(self) -> Tensor:
         """Sigmoid activation."""
-        xp = self.xp
+        xp = get_xp(self)
         
         out_data = 1 / (1 + xp.exp(-self.data))
         if not is_grad_enabled():
@@ -666,7 +735,7 @@ class Tensor:
         """Softmax activation along an axis/dim."""
         if dim is not None:
             axis = dim
-        xp = self.xp
+        xp = get_xp(self)
         
         # Stability trick
         shifted_data = self.data - xp.max(self.data, axis=axis, keepdims=True)
@@ -737,7 +806,7 @@ class Tensor:
         """Computes mean along axis/dim."""
         if dim is not None:
             axis = dim
-        xp = self.xp
+        xp = get_xp(self)
 
         if not is_grad_enabled():
             return Tensor(xp.mean(self.data, axis=axis, keepdims=keepdims), device=self.device)
@@ -764,7 +833,7 @@ class Tensor:
         """Computes sum along axis/dim."""
         if dim is not None:
             axis = dim
-        xp = self.xp
+        xp = get_xp(self)
         
         if not is_grad_enabled():
             return Tensor(self.data.sum(axis=axis, keepdims=keepdims), device=self.device)
@@ -856,7 +925,7 @@ class Tensor:
 
     def squeeze(self, axis: Optional[int] = None) -> Tensor:
         """Removes dimensions of size 1."""
-        xp = self.xp
+        xp = get_xp(self)
         
         if not is_grad_enabled():
             return Tensor(xp.squeeze(self.data, axis=axis), device=self.device, requires_grad=False)
@@ -883,7 +952,7 @@ class Tensor:
         if len(sizes) == 1 and isinstance(sizes[0], (list, tuple)):
             sizes = sizes[0]
             
-        xp = self.xp
+        xp = get_xp(self)
         out_data = xp.tile(self.data, sizes)
         
         if not is_grad_enabled() or not self.requires_grad:
@@ -1003,7 +1072,7 @@ class Tensor:
 
         build_topo(self)
         
-        xp = self.xp
+        xp = get_xp(self)
         d_name = self.dtype.name if isinstance(self.dtype, DType) else str(self.dtype)
         
         # Check for scalarity if no seed gradient is provided.
@@ -1043,11 +1112,18 @@ class Tensor:
             set_grad_enabled(prev_grad_enabled)
 
     @staticmethod
-    def _match_shape(grad: Union[np.ndarray, cp.ndarray, Tensor], shape: Tuple[int, ...]) -> Union[np.ndarray, cp.ndarray, Tensor]:
-        """Internal helper to match gradient shape for broadcasting."""
+    def _match_shape(
+        grad: Union[np.ndarray, 'cp.ndarray', 'Tensor'],  # type: ignore[name-defined]
+        shape: Tuple[int, ...],
+    ) -> Union[np.ndarray, 'cp.ndarray', 'Tensor']:
+        """Internal helper to match gradient shape for broadcasting.
+
+        PERF: replaces the previous Python axis-by-axis loop with vectorised
+        reduce operations, cutting Python overhead for every backward call.
+        """
         if grad is None:
             return None
-        
+
         is_tensor = isinstance(grad, Tensor)
         if is_tensor:
             xp = grad.xp
@@ -1055,41 +1131,60 @@ class Tensor:
             xp = cp
         else:
             xp = np
-        
+
         curr_grad = grad
-        
-        # 1. Handle rank difference: Ensure same number of dimensions
-        while len(curr_grad.shape) < len(shape):
-            curr_grad = curr_grad.expand_dims(axis=0) if is_tensor else xp.expand_dims(curr_grad, axis=0)
 
+        # ── Rank alignment ───────────────────────────────────────────────────
+        # Sum away leading dimensions that don't exist in the target shape.
         while len(curr_grad.shape) > len(shape):
-            curr_grad = curr_grad.sum(axis=0) if is_tensor else curr_grad.sum(axis=0)
+            curr_grad = (
+                curr_grad.sum(axis=0) if is_tensor
+                else curr_grad.sum(axis=0)
+            )
 
-        # 2. Handle dimension-wise mismatch
-        # If any dimension doesn't match, we either sum (if larger) or broadcast (if smaller)
+        # Expand missing leading dimensions (rare path).
+        while len(curr_grad.shape) < len(shape):
+            curr_grad = (
+                curr_grad.expand_dims(axis=0) if is_tensor
+                else xp.expand_dims(curr_grad, axis=0)
+            )
+
+        # ── Fast-path: shapes already match ──────────────────────────────────
+        if curr_grad.shape == shape:
+            return curr_grad
+
+        # ── Vectorised dimension-wise reduction ───────────────────────────────
+        # Compute axes that need to be summed in a single reduce call.
         tracking = is_grad_enabled()
-        for axis, target_dim in enumerate(shape):
-            curr_dim = curr_grad.shape[axis]
-            if curr_dim > target_dim:
-                curr_grad = curr_grad.sum(axis=axis, keepdims=True)
-            elif curr_dim < target_dim:
-                # Use broadcasting
-                if is_tensor and tracking:
-                    # To preserve graph during create_graph=True, 
-                    # we must broadcast using a differentiable operation.
-                    ones = Tensor(xp.ones(shape, dtype=curr_grad.dtype.name if hasattr(curr_grad.dtype, 'name') else curr_grad.dtype), 
-                                  device=curr_grad.device, requires_grad=False)
-                    curr_grad = curr_grad * ones
-                    break
-                else:
-                    if is_tensor:
-                        new_data = xp.broadcast_to(curr_grad.data, shape)
-                        curr_grad = Tensor(new_data, device=curr_grad.device)
-                    else:
-                        curr_grad = xp.broadcast_to(curr_grad, shape)
-                    break # broadcast_to handles all dimensions
-                    
-        return curr_grad
+
+        if is_tensor and tracking:
+            # Higher-order mode: must go through differentiable Tensor ops.
+            ones = Tensor(
+                xp.ones(shape, dtype=(
+                    curr_grad.dtype.name
+                    if hasattr(curr_grad.dtype, 'name')
+                    else curr_grad.dtype
+                )),
+                device=curr_grad.device,
+                requires_grad=False,
+            )
+            return curr_grad * ones
+
+        # Standard mode: build a tuple of axes to collapse in one call.
+        raw = curr_grad.data if is_tensor else curr_grad
+        sum_axes = tuple(
+            ax for ax, (cur, tgt) in enumerate(zip(raw.shape, shape))
+            if cur != tgt
+        )
+        if sum_axes:
+            raw = raw.sum(axis=sum_axes, keepdims=True)
+
+        # After summing, squeeze back to match target shape exactly.
+        if raw.shape != shape:
+            # broadcast_to is zero-copy and handles remaining 1-dim expansion.
+            raw = xp.broadcast_to(raw, shape)
+
+        return Tensor(raw, device=curr_grad.device) if is_tensor else raw
     
 
     def __iter__(self):
@@ -1312,7 +1407,7 @@ class Tensor:
             raise RuntimeError(
                 "a leaf Variable that requires grad is being used in an in-place operation."
             )
-        xp = self.xp
+        xp = get_xp(self)
         self.data = xp.clip(self.data, a_min=min, a_max=max)
         return self
 

@@ -1,0 +1,73 @@
+name: Performance Benchmark
+
+on:
+  pull_request:
+    branches: [ main, develop, qa ]
+    paths:
+      - "sorix/**"
+      - "tests/benchmark/**"
+  push:
+    branches: [ qa, main ]
+
+jobs:
+  benchmark-cpu:
+    name: CPU Benchmark (informative)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          version: "latest"
+
+      - name: Set up Python 3.13
+        run: uv python install 3.13
+
+      - name: Install dependencies
+        run: uv sync --group test
+
+      - name: Run CPU baseline benchmark
+        run: uv run python tests/benchmark/baseline_benchmark.py
+
+      # Informative only — this step never fails the build.
+      #
+      # This used to gate PRs on absolute wall-clock times compared against
+      # constants captured on a developer machine. That is not something a
+      # shared runner can answer: the ubuntu-latest fleet is heterogeneous, and
+      # the same code measured back to back varies by more than the value being
+      # measured. Performance work is tracked locally instead, per
+      # docs/performance.md.
+      - name: Report timings
+        run: |
+          uv run python - <<'EOF'
+          import json
+
+          with open("tests/benchmark/baseline_cpu.json") as f:
+              results = json.load(f)
+
+          width = max(len(k) for k in results)
+          print(f"{'benchmark':<{width}}  {'min':>11}  {'avg':>11}")
+          print("-" * (width + 26))
+          for key, timings in results.items():
+              print(f"{key:<{width}}  {timings['min']*1000:8.3f} ms  "
+                    f"{timings['avg']*1000:8.3f} ms")
+
+          print(
+              "\nThese numbers are informative. Absolute timings on a shared CI"
+              "\nrunner are too variable to compare against a fixed threshold, so"
+              "\nthey are recorded and uploaded rather than gated on. To compare"
+              "\ntwo revisions, measure both on the same machine:"
+              "\n  python tests/benchmark/baseline_benchmark.py"
+          )
+          EOF
+
+      - name: Upload benchmark results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cpu-benchmark-results
+          path: tests/benchmark/baseline_cpu.json
+          retention-days: 30

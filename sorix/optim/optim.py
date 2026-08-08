@@ -13,8 +13,10 @@ class Optimizer:
     Base class for all optimizers with Fused architecture and param_groups support.
     
     Args:
-        params: Iterable of parameters or dicts defining parameter groups.
-        defaults: Dict containing default values of optimization options.
+        params (Any): Iterable of parameters or dicts defining parameter groups.
+        lr (float): Default learning rate for groups that do not override it.
+        weight_decay (float): Default L2 penalty for groups that do not
+            override it.
     """
     def __init__(self, params: Any, lr: float = 1e-3, weight_decay: float = 0.0) -> None:
         self.defaults = dict(lr=lr, weight_decay=weight_decay)

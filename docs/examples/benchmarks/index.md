@@ -102,4 +102,4 @@ To measure the true "weight" of each framework, we created independent virtual e
 
 Detailed logs, interactive charts, and the full step-by-step implementation are available in the benchmark notebook:
 
-👉 [**MNIST Comparison Notebook** (examples/benchmarks/mnist_comparison.ipynb)](./examples/benchmarks/mnist_comparison.ipynb)
+👉 [**MNIST Comparison Notebook**](mnist_comparison.ipynb)

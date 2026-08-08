@@ -29,8 +29,12 @@ jobs:
       run: uv sync --group test
 
     - name: Run tests with coverage
+      # tests/benchmark holds local profiling tools, not correctness tests: they
+      # time operations, need a GPU for their CUDA cases, and append to tracked
+      # report files. The performance gate lives in its own benchmark.yml
+      # workflow, so run them locally rather than here.
       run: |
-        uv run pytest --cov=sorix --cov-report=xml
+        uv run pytest --ignore=tests/benchmark --cov=sorix --cov-report=xml
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v4

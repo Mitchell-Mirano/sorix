@@ -65,6 +65,7 @@ benchmark = [
     "scikit-learn>=1.2",
     "pandas>=2.0",
     "cupy-cuda13x>=13.0",
+    "memory-profiler>=0.61",
 ]
 
 [tool.setuptools.packages.find]
