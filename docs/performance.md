@@ -130,6 +130,23 @@ Reports are written to `tests/benchmark/`.
 Every pull request targeting `main`, `develop`, or `qa` that touches `sorix/`
 runs the **Performance Benchmark** CI job (`.github/workflows/benchmark.yml`).
 
-The job enforces that the `matmul` backward pass is **at least 20% faster**
-than the stored reference baseline. If a PR introduces a regression, CI will
-fail with a clear message indicating which operation regressed and by how much.
+The job measures the CPU benchmarks, prints the timings in the log and uploads
+`baseline_cpu.json` as an artifact. It is **informative and never fails the
+build**.
+
+It deliberately does not gate on a fixed threshold. The runner fleet is
+heterogeneous, and on a shared runner the same code measured back to back can
+vary by more than the value being measured — so an absolute wall-clock limit
+would report hardware noise as a code regression. Comparing two revisions is
+only meaningful on one machine, back to back:
+
+```bash
+git switch --detach <baseline-ref>
+python tests/benchmark/baseline_benchmark.py   # keep a copy of baseline_cpu.json
+git switch -
+python tests/benchmark/baseline_benchmark.py   # compare against that copy
+```
+
+The pytest micro-benchmarks in `tests/benchmark/test_tensor_perf.py` are also
+local-only: they are excluded from the test workflow, since they time operations
+rather than assert correctness and their CUDA cases need a real GPU.
