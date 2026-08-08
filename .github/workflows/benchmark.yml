@@ -1,0 +1,78 @@
+name: Performance Benchmark
+
+on:
+  pull_request:
+    branches: [ main, develop, qa ]
+    paths:
+      - "sorix/**"
+      - "tests/benchmark/**"
+  push:
+    branches: [ qa, main ]
+
+jobs:
+  benchmark-cpu:
+    name: CPU Benchmark (≥20% speed-up gate)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          version: "latest"
+
+      - name: Set up Python 3.13
+        run: uv python install 3.13
+
+      - name: Install dependencies
+        run: uv sync --group test
+
+      - name: Run CPU baseline benchmark
+        run: uv run python tests/benchmark/baseline_benchmark.py
+
+      - name: Assert ≥20% speed-up vs stored baseline
+        run: |
+          uv run python - <<'EOF'
+          import json, sys
+
+          # Reference timings captured before the performance work (seconds).
+          # Update these values when establishing a new baseline intentionally.
+          REFERENCE = {
+              "matmul_bwd_512x512":  {"min": 0.004976},
+              "matmul_bwd_1024x1024": {"min": 0.018874},
+          }
+          THRESHOLD = 0.80   # must be ≤80 % of reference → ≥20 % faster
+
+          with open("tests/benchmark/baseline_cpu.json") as f:
+              results = json.load(f)
+
+          failures = []
+          for key, ref in REFERENCE.items():
+              current = results.get(key, {}).get("min")
+              if current is None:
+                  failures.append(f"MISSING: {key}")
+                  continue
+              ratio = current / ref["min"]
+              status = "✅" if ratio <= THRESHOLD else "❌"
+              print(f"{status} {key}: {current*1000:.3f}ms vs ref {ref['min']*1000:.3f}ms ({ratio:.2%})")
+              if ratio > THRESHOLD:
+                  failures.append(f"REGRESSION: {key} is {ratio:.1%} of reference (must be ≤{THRESHOLD:.0%})")
+
+          if failures:
+              print("\nBenchmark gate FAILED:")
+              for f in failures:
+                  print(f"  {f}")
+              sys.exit(1)
+          else:
+              print("\nAll benchmark gates passed ✅")
+          EOF
+
+      - name: Upload benchmark results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cpu-benchmark-results
+          path: tests/benchmark/baseline_cpu.json
+          retention-days: 30

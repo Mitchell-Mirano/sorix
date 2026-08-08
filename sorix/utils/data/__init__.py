@@ -1,2 +1,2 @@
-from .dataset import Dataset
+from .dataset import Dataset, WalkForwardSplit
 from .dataloader import DataLoader

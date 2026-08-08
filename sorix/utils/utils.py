@@ -284,7 +284,7 @@ def full_like(input, fill_value, device=None, requires_grad=False, dtype=None):
     xp = cp if device == 'cuda' and _cupy_available else np
     return tensor(xp.full_like(data, fill_value), device=device, requires_grad=requires_grad, dtype=dtype)
 
-def cat(tensors, dim=0, *, out=None):
+def cat(tensors, dim=0, *, out=None) -> Tensor:
     """Concatenates a sequence of tensors along a specified dimension.
 
     Args:
@@ -363,7 +363,7 @@ def cat(tensors, dim=0, *, out=None):
     res._backward = _backward
     return res
 
-def stack(tensors, dim=0, *, out=None):
+def stack(tensors, dim=0, *, out=None) -> Tensor:
     """Concatenates a sequence of tensors along a new dimension.
 
     Args:

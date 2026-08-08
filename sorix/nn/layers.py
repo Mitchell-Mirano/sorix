@@ -364,3 +364,108 @@ class Dropout(Module):
 
     def extra_repr(self) -> str:
         return f"p={self.p}"
+
+
+class Embedding(Module):
+    """
+    A learnable lookup table that stores embeddings of a fixed dictionary and size.
+
+    This module is typically used to store word or categorical embeddings and
+    retrieve them using integer indices. Maps each index to a dense vector of
+    size ``embedding_dim``.
+
+    Args:
+        num_embeddings (int): Size of the dictionary of embeddings (vocabulary size).
+        embedding_dim (int): The size of each embedding vector.
+        device (str): ``'cpu'`` or ``'cuda'``. Default: ``'cpu'``.
+
+    Attributes:
+        W (Tensor): The embedding weight matrix of shape
+            ``(num_embeddings, embedding_dim)``.
+
+    Examples:
+        ```python
+        emb = nn.Embedding(num_embeddings=100, embedding_dim=16)
+        # Token IDs: batch of 2 sequences of length 5
+        indices = tensor(np.array([[1, 5, 3, 0, 7],
+                                   [2, 4, 1, 6, 8]]))  # shape (2, 5)
+        out = emb(indices)  # shape (2, 5, 16)
+        ```
+    """
+
+    def __init__(
+        self,
+        num_embeddings: int,
+        embedding_dim: int,
+        device: str = "cpu",
+    ) -> None:
+        super().__init__()
+        if num_embeddings < 1:
+            raise ValueError(f"num_embeddings must be >= 1, got {num_embeddings}")
+        if embedding_dim < 1:
+            raise ValueError(f"embedding_dim must be >= 1, got {embedding_dim}")
+        self.device = device
+        self.num_embeddings = num_embeddings
+        self.embedding_dim = embedding_dim
+        xp = self.xp
+
+        # Kaiming-uniform initialisation (same as PyTorch default for Embedding)
+        bound = xp.sqrt(xp.array(1.0 / num_embeddings))
+        w_data = xp.random.uniform(-float(bound), float(bound),
+                                   size=(num_embeddings, embedding_dim)).astype(np.float32)
+        self.W = tensor(w_data, device=self.device, requires_grad=True, dtype=float32)
+
+    def __call__(self, indices: Any) -> Tensor:
+        """
+        Forward pass — index into the embedding table.
+
+        Args:
+            indices: Integer array/Tensor of arbitrary shape ``(*)``.
+                Values must be in ``[0, num_embeddings)``.
+
+        Returns:
+            Tensor of shape ``(*, embedding_dim)``.
+
+        Raises:
+            IndexError: If any index falls outside ``[0, num_embeddings)``.
+                Negative indices are rejected rather than wrapped around, since
+                silently reading the wrong row would also scatter the gradient
+                into the wrong row during the backward pass.
+        """
+        xp = self.xp
+
+        # Normalise indices to an integer array on this module's device
+        raw = indices.data if isinstance(indices, Tensor) else indices
+        idx = xp.asarray(raw).astype(int, copy=False)
+
+        if idx.size:
+            lo, hi = int(idx.min()), int(idx.max())
+            if lo < 0 or hi >= self.num_embeddings:
+                raise IndexError(
+                    f"Embedding indices must be in [0, {self.num_embeddings}), "
+                    f"but got values in [{lo}, {hi}]. Note that unseen categories "
+                    f"encoded as -1 must be mapped to a dedicated index instead."
+                )
+
+        # Forward: row-selection (equivalent to W[idx])
+        out_data = self.W.data[idx]  # shape (*idx.shape, embedding_dim)
+
+        if not is_grad_enabled() or not self.W.requires_grad:
+            return Tensor(out_data, device=self.device, requires_grad=False)
+
+        out = Tensor(out_data, [self.W], "Embedding", device=self.device, requires_grad=True)
+
+        def _backward() -> None:
+            if out.grad is None:
+                return
+            g = out.grad.data if isinstance(out.grad, Tensor) else out.grad
+            # Scatter-add gradient back to the embedding rows
+            grad_W = xp.zeros_like(self.W.data)
+            xp.add.at(grad_W, idx, g)
+            self.W._accumulate_grad(grad_W)
+
+        out._backward = _backward
+        return out
+
+    def extra_repr(self) -> str:
+        return f"num_embeddings={self.num_embeddings}, embedding_dim={self.embedding_dim}"
