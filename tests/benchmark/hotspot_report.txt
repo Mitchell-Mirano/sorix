@@ -1,0 +1,33 @@
+         5871 function calls (5791 primitive calls) in 0.139 seconds
+
+   Ordered by: cumulative time
+   List reduced from 92 to 25 due to restriction <25>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.008    0.008    0.139    0.139 /home/mitchellmirano/Desktop/MitchellProjects/sorix/tests/benchmark/hotspot_profile.py:7(scenario_backward)
+       20    0.000    0.000    0.091    0.005 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:982(backward)
+       20    0.062    0.003    0.062    0.003 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:530(_backward)
+       20    0.023    0.001    0.024    0.001 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:647(sigmoid)
+       20    0.023    0.001    0.023    0.001 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:657(_backward)
+       20    0.000    0.000    0.013    0.001 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:620(__matmul__)
+       20    0.013    0.001    0.013    0.001 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:505(matmul)
+      100    0.001    0.000    0.004    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:576(_accumulate_grad)
+       20    0.000    0.000    0.003    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:780(_backward)
+       20    0.000    0.000    0.002    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:767(sum)
+      242    0.001    0.000    0.002    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:171(__init__)
+       40    0.000    0.000    0.002    0.000 {method 'sum' of 'numpy.ndarray' objects}
+       40    0.000    0.000    0.002    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_methods.py:49(_sum)
+       40    0.002    0.000    0.002    0.000 {method 'reduce' of 'numpy.ufunc' objects}
+       20    0.000    0.000    0.002    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:1051(_match_shape)
+       20    0.001    0.000    0.001    0.000 {method 'copy' of 'numpy.ndarray' objects}
+       40    0.000    0.000    0.001    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:1186(dtype)
+       40    0.000    0.000    0.001    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:851(expand_dims)
+        2    0.001    0.000    0.001    0.000 {method 'astype' of 'numpy.ndarray' objects}
+       40    0.000    0.000    0.001    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/.venv/lib/python3.13/site-packages/numpy/_core/_dtype.py:32(__str__)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/warnings.py:97(_showwarnmsg)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/warnings.py:20(_showwarnmsg_impl)
+       40    0.000    0.000    0.000    0.000 /home/mitchellmirano/Desktop/MitchellProjects/sorix/sorix/tensor.py:799(reshape)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/warnings.py:118(_formatwarnmsg)
+        1    0.000    0.000    0.000    0.000 /home/mitchellmirano/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/warnings.py:35(_formatwarnmsg_impl)
+
+
