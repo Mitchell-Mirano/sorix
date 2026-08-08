@@ -65,7 +65,10 @@ def profile_func(func: Callable[..., Any]) -> Callable[..., Any]:
         mem_report = ""
         if _memory_profiler_available:
             mem = memory_usage((func, args, kwargs), max_usage=True, interval=0.01)
-            mem_report = f"Peak memory: {mem[0]:.2f} MiB"
+            # With max_usage=True, memory_profiler >= 0.55 returns a float, while
+            # older versions returned a single-element list.
+            peak = mem[0] if isinstance(mem, (list, tuple)) else mem
+            mem_report = f"Peak memory: {peak:.2f} MiB"
         else:
             mem_report = "memory_profiler not available"
 

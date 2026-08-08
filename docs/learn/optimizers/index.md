@@ -29,6 +29,9 @@ For a side-by-side comparison of these algorithms on non-convex landscapes, see 
 
 If you want to implement your own optimization algorithm, check out the **[Optimizer Base Class](06-Optimizer.ipynb)** documentation.
 
+For training schedules that automatically decay the learning rate over epochs, see **[LR Schedulers](07-LRSchedulers.ipynb)**.
+
+
 ---
 
 ### SciPy Optimization Bridge (`ScipyBridge`)

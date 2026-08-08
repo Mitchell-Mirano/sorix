@@ -6,30 +6,41 @@ module based on a Tensor's device and CuPy availability.
 
 from __future__ import annotations
 
+from typing import Any
+
 import numpy as np
 
-# Optional CuPy import – guarded to avoid ImportError when CuPy is not installed.
-try:
+from sorix.cupy.cupy import _cupy_available
+
+if _cupy_available:
     import cupy as cp
-    _cupy_available = True
-except Exception:  # pragma: no cover – CuPy may be absent.
-    cp = None  # type: ignore[assignment]
-    _cupy_available = False
+else:  # pragma: no cover - CuPy may be absent.
+    cp = None
 
 
-def get_xp(tensor) -> any:
-    """Return the array module (NumPy or CuPy) for *tensor*.
+def get_xp(*args: Any) -> Any:
+    """Return the array module (NumPy or CuPy) to use for ``args``.
+
+    This is the single array-module selector used across the library: it is
+    resolved once per operation instead of scattering ``device == 'cuda'``
+    conditionals through every call site.
 
     Args:
-        tensor: A :class:`sorix.tensor.Tensor` instance.
+        *args: Objects to inspect, typically :class:`sorix.tensor.Tensor`
+            instances. Anything without a CUDA ``device`` is ignored, so raw
+            NumPy arrays and scalars can be passed freely.
 
     Returns:
-        module: ``np`` if the tensor is on CPU or CuPy is unavailable; otherwise
-        ``cp``.
+        Any: ``cp`` if any argument lives on a CUDA device and CuPy is
+        available; otherwise ``np``.
     """
-    if getattr(tensor, "device", None) and tensor.device.type == "cuda" and _cupy_available:
-        return cp
+    if _cupy_available:
+        for arg in args:
+            device = getattr(arg, "device", None)
+            if getattr(device, "type", None) == "cuda":
+                return cp
     return np
+
 
 # Export for convenient import elsewhere.
 __all__ = ["get_xp", "_cupy_available"]

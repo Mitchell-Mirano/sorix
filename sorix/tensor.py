@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 from typing import Union, Any, List, Tuple, Set, Optional
 from sorix.cupy.cupy import _cupy_available
-from sorix.backend import get_xp as _get_xp  # centralised array-module selector
+from sorix.backend import get_xp  # centralised array-module selector; re-exported here
 
 if _cupy_available:
     import cupy as cp
@@ -130,14 +130,6 @@ def set_grad_enabled(mode: bool) -> None:
 def is_grad_enabled() -> bool:
     """Returns True if autograd engine is enabled."""
     return Tensor._autograd_enabled
-
-def get_xp(*args: Any) -> Any:
-    """Returns the appropriate array module (numpy or cupy) for the given arguments."""
-    for arg in args:
-        if isinstance(arg, Tensor) and arg.device.type == 'cuda':
-            if _cupy_available:
-                return cp
-    return np
 
 def _noop() -> None:
     """Empty function to use as default backward."""
@@ -533,7 +525,7 @@ class Tensor:
 
             # PERF: extract raw arrays once; skip Tensor overhead in backward path.
             g = out.grad.data if isinstance(out.grad, Tensor) else out.grad
-            xp = _get_xp(self)
+            xp = get_xp(self)
 
             if self.requires_grad:
                 # dL/dA = dL/dOut @ B^T  — keep as raw array, pass to _accumulate_grad
@@ -551,7 +543,7 @@ class Tensor:
 
     def tanh(self) -> Tensor:
         """Hyperbolic tangent activation."""
-        xp = _get_xp(self)
+        xp = get_xp(self)
         
         if not is_grad_enabled():
             return Tensor(xp.tanh(self.data), device=self.device)
@@ -617,9 +609,80 @@ class Tensor:
                     if isinstance(grad, Tensor):
                         self.grad = Tensor(self.grad, device=self.device)
 
+    # ------------------------------------------------------------------
+    # In-place operations (no-grad paths)
+    # These mutate self.data directly, bypassing autograd recording: no node is
+    # added to the graph, so the mutation is invisible to backward(). They are
+    # therefore rejected on any tensor that requires grad while tracking is on
+    # (stricter than PyTorch, which only rejects leaf tensors).
+    #
+    # Caveat: the check can only inspect `self`. A tensor with
+    # requires_grad=False may still be *read* by another node's backward — in
+    # `y = a * c`, the gradient of `a` needs `c.data` — so mutating `c` between
+    # forward and backward silently changes `a.grad`. Only mutate tensors that
+    # no pending backward pass depends on.
+    # ------------------------------------------------------------------
+
+    def _check_inplace_allowed(self) -> None:
+        """Raises RuntimeError if in-place mutation would corrupt the autograd graph."""
+        if self.requires_grad and is_grad_enabled():
+            raise RuntimeError(
+                "In-place operations are not allowed on tensors that require grad "
+                "and are used in a gradient-tracked context. "
+                "Use the out-of-place operator instead, or wrap the call with "
+                "sorix.no_grad() if gradients are not needed."
+            )
+
+    def add_(self, other: Union['Tensor', np.ndarray, float, int]) -> 'Tensor':
+        """In-place addition. Mutates ``self`` and returns it.
+
+        Args:
+            other: Value to add. Scalar, ndarray, or Tensor.
+
+        Raises:
+            RuntimeError: If ``self.requires_grad`` is ``True`` and grad tracking
+                is enabled (would corrupt the autograd graph).
+        """
+        self._check_inplace_allowed()
+        other_data = other.data if isinstance(other, Tensor) else other
+        self.data += other_data
+        return self
+
+    def sub_(self, other: Union['Tensor', np.ndarray, float, int]) -> 'Tensor':
+        """In-place subtraction. Mutates ``self`` and returns it.
+
+        Raises:
+            RuntimeError: If in-place would corrupt the autograd graph.
+        """
+        self._check_inplace_allowed()
+        other_data = other.data if isinstance(other, Tensor) else other
+        self.data -= other_data
+        return self
+
+    def mul_(self, other: Union['Tensor', np.ndarray, float, int]) -> 'Tensor':
+        """In-place element-wise multiplication. Mutates ``self`` and returns it.
+
+        Raises:
+            RuntimeError: If in-place would corrupt the autograd graph.
+        """
+        self._check_inplace_allowed()
+        other_data = other.data if isinstance(other, Tensor) else other
+        self.data *= other_data
+        return self
+
+    def fill_(self, value: Union[float, int]) -> 'Tensor':
+        """Fills ``self`` with ``value`` in-place and returns it.
+
+        Raises:
+            RuntimeError: If in-place would corrupt the autograd graph.
+        """
+        self._check_inplace_allowed()
+        self.data.fill(value)
+        return self
+
     def __matmul__(self, other: Union[Tensor, np.ndarray]) -> Tensor:
         return self.matmul(other)
-    
+
     def __rmatmul__(self, other: Union[Tensor, np.ndarray]) -> Tensor:
         other = other if isinstance(other, Tensor) else Tensor(other, device=self.device)
         return other.matmul(self)
@@ -646,7 +709,7 @@ class Tensor:
 
     def sigmoid(self) -> Tensor:
         """Sigmoid activation."""
-        xp = _get_xp(self)
+        xp = get_xp(self)
         
         out_data = 1 / (1 + xp.exp(-self.data))
         if not is_grad_enabled():
@@ -672,7 +735,7 @@ class Tensor:
         """Softmax activation along an axis/dim."""
         if dim is not None:
             axis = dim
-        xp = _get_xp(self)
+        xp = get_xp(self)
         
         # Stability trick
         shifted_data = self.data - xp.max(self.data, axis=axis, keepdims=True)
@@ -743,7 +806,7 @@ class Tensor:
         """Computes mean along axis/dim."""
         if dim is not None:
             axis = dim
-        xp = _get_xp(self)
+        xp = get_xp(self)
 
         if not is_grad_enabled():
             return Tensor(xp.mean(self.data, axis=axis, keepdims=keepdims), device=self.device)
@@ -770,7 +833,7 @@ class Tensor:
         """Computes sum along axis/dim."""
         if dim is not None:
             axis = dim
-        xp = _get_xp(self)
+        xp = get_xp(self)
         
         if not is_grad_enabled():
             return Tensor(self.data.sum(axis=axis, keepdims=keepdims), device=self.device)
@@ -862,7 +925,7 @@ class Tensor:
 
     def squeeze(self, axis: Optional[int] = None) -> Tensor:
         """Removes dimensions of size 1."""
-        xp = _get_xp(self)
+        xp = get_xp(self)
         
         if not is_grad_enabled():
             return Tensor(xp.squeeze(self.data, axis=axis), device=self.device, requires_grad=False)
@@ -889,7 +952,7 @@ class Tensor:
         if len(sizes) == 1 and isinstance(sizes[0], (list, tuple)):
             sizes = sizes[0]
             
-        xp = _get_xp(self)
+        xp = get_xp(self)
         out_data = xp.tile(self.data, sizes)
         
         if not is_grad_enabled() or not self.requires_grad:
@@ -1009,7 +1072,7 @@ class Tensor:
 
         build_topo(self)
         
-        xp = _get_xp(self)
+        xp = get_xp(self)
         d_name = self.dtype.name if isinstance(self.dtype, DType) else str(self.dtype)
         
         # Check for scalarity if no seed gradient is provided.
@@ -1344,7 +1407,7 @@ class Tensor:
             raise RuntimeError(
                 "a leaf Variable that requires grad is being used in an in-place operation."
             )
-        xp = _get_xp(self)
+        xp = get_xp(self)
         self.data = xp.clip(self.data, a_min=min, a_max=max)
         return self
 

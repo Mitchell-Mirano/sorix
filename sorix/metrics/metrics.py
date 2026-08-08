@@ -1,6 +1,6 @@
 from __future__ import annotations
 import numpy as np
-from typing import Union, Any, List, Tuple, Dict, Optional
+from typing import Callable, Union, Any, List, Tuple, Dict, Optional
 from sorix.tensor import Tensor, tensor
 
 
@@ -458,4 +458,106 @@ def classification_report(
     return "\n".join(lines)
 
 
+def find_optimal_threshold(
+    y_true: Any,
+    y_probs: Any,
+    metric_fn: Optional[Callable[[Any, Any], float]] = None,
+    *,
+    n_thresholds: int = 200,
+) -> Tuple[float, float]:
+    """
+    Find the classification threshold that maximises a given metric.
 
+    Evaluates the ``n_thresholds - 1`` interior candidates
+    ``{k / n_thresholds : k = 1, ..., n_thresholds - 1}`` and returns the one
+    that maximises ``metric_fn(y_true, y_pred)``. The degenerate thresholds 0
+    (predict everything positive) and 1 are excluded.
+
+    Args:
+        y_true: Ground-truth binary labels (0 / 1). Array-like or Tensor.
+        y_probs: Predicted probabilities for the positive class. Array-like
+            or Tensor. Values must be in ``[0, 1]``.
+        metric_fn: A callable ``(y_true, y_pred) -> float`` that is maximised.
+            Defaults to ``f1_score``. Candidates whose evaluation raises are
+            skipped, since metrics may be undefined for degenerate predictions.
+        n_thresholds (int): Grid resolution; the number of candidates evaluated
+            is ``n_thresholds - 1``. Must be >= 2. Default: 200.
+
+    Returns:
+        Tuple[float, float]: ``(best_threshold, best_metric_value)``
+
+    Raises:
+        ValueError: If ``n_thresholds < 2`` or the inputs are empty or of
+            different lengths.
+        RuntimeError: If ``metric_fn`` failed for every candidate threshold.
+
+    Examples:
+        ```python
+        from sorix.metrics import find_optimal_threshold, f1_score
+
+        # Binary classification
+        best_t, best_f1 = find_optimal_threshold(y_val, probs)
+        print(f"Optimal threshold: {best_t:.3f}  |  F1: {best_f1:.4f}")
+
+        # Custom metric — maximise min-class F1
+        def min_class_f1(y_true, y_pred):
+            f1s = [f1_score(y_true, y_pred, pos_label=c) for c in [0, 1]]
+            return min(f1s)
+
+        best_t, score = find_optimal_threshold(y_val, probs, min_class_f1)
+        ```
+    """
+    if metric_fn is None:
+        metric_fn = f1_score
+    if n_thresholds < 2:
+        raise ValueError(f"n_thresholds must be >= 2, got {n_thresholds}")
+
+    # Coerce to flat arrays, keeping cupy arrays on the device they came from.
+    if isinstance(y_true, Tensor):
+        y_true_np = y_true.data.ravel()
+    else:
+        y_true_np = np.asarray(y_true).ravel()
+
+    if isinstance(y_probs, Tensor):
+        y_probs_np = y_probs.data.ravel()
+    else:
+        y_probs_np = np.asarray(y_probs, dtype=float).ravel()
+
+    if y_true_np.size == 0:
+        raise ValueError("y_true and y_probs must not be empty")
+    if y_true_np.size != y_probs_np.size:
+        raise ValueError(
+            f"y_true and y_probs must have the same number of elements. "
+            f"Got {y_true_np.size} and {y_probs_np.size}"
+        )
+
+    thresholds = np.linspace(0.0, 1.0, n_thresholds, endpoint=False)[1:]  # skip 0
+    best_threshold = 0.5
+    best_score = -np.inf
+    n_evaluated = 0
+    first_error: Optional[Exception] = None
+
+    for t in thresholds:
+        y_pred = (y_probs_np >= t).astype(int)
+        try:
+            score = metric_fn(y_true_np, y_pred)
+        except Exception as exc:
+            # A metric can legitimately be undefined at some thresholds (e.g. no
+            # predicted positives). Remember the first failure in case *every*
+            # candidate fails, which means metric_fn itself is broken.
+            if first_error is None:
+                first_error = exc
+            continue
+        n_evaluated += 1
+        if score > best_score:
+            best_score = score
+            best_threshold = float(t)
+
+    if n_evaluated == 0:
+        raise RuntimeError(
+            f"metric_fn failed for all {len(thresholds)} candidate thresholds; "
+            f"no threshold could be evaluated. See the chained exception for the "
+            f"first failure."
+        ) from first_error
+
+    return best_threshold, float(best_score)

@@ -81,6 +81,7 @@ nav:
     - Data Handling:
       - Overview: learn/data/index.md
       - Dataset & DataLoader: learn/data/01-dataset-dataloader.ipynb
+      - Walk-Forward Split: learn/data/02-WalkForwardSplit.ipynb
     - Layers:
         - Overview: learn/layers/index.md
         - Linear: learn/layers/01-Linear.ipynb
@@ -90,9 +91,8 @@ nav:
         - Tanh: learn/layers/05-Tanh.ipynb
         - Dropout: learn/layers/06-Dropout.ipynb
         - Module: learn/layers/07-Module.ipynb
-        - Conv2d: learn/layers/08-Conv2d.ipynb
-        - MaxPool2d: learn/layers/09-MaxPool2d.ipynb
         - LeakyReLU: learn/layers/10-LeakyReLU.ipynb
+        - Embedding: learn/layers/11-Embedding.ipynb
     - Loss:
         - Overview: learn/loss/index.md
         - MSELoss: learn/loss/01-MSELoss.ipynb
@@ -106,6 +106,7 @@ nav:
         - Adam: learn/optimizers/04-Adam.ipynb
         - Comparison: learn/optimizers/05-Comparison.ipynb
         - Optimizer Class: learn/optimizers/06-Optimizer.ipynb
+        - LR Schedulers: learn/optimizers/07-LRSchedulers.ipynb
     - Preprocessing:
         - Overview: learn/preprocessing/index.md
         - Scalers: learn/preprocessing/01-Scalers.ipynb
@@ -118,6 +119,7 @@ nav:
         - Overview: learn/metrics/index.md
         - Regression: learn/metrics/01-Regression.ipynb
         - Classification: learn/metrics/02-Classification.ipynb
+        - Optimal Threshold: learn/metrics/03-OptimalThreshold.ipynb
   - Examples:
     - Preprocessing: examples/preprocessing/encoders-scalers-transformers.ipynb
     - Linear Regression: examples/regression/1-linear-regression.ipynb

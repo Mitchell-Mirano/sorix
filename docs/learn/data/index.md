@@ -10,14 +10,5 @@ The data handling system in Sorix is designed to be:
 
 ### Core Components
 
-The system is built around two main classes:
-
-- **[Dataset and DataLoader](01-dataset-dataloader.ipynb)**:
-    - `Dataset`: A base class to represent your data. It supports indexing and length retrieval.
-    - `DataLoader`: A utility that wraps a `Dataset` and provides an iterator over mini-batches, with support for shuffling and batch sizing.
-
-### Next Steps
-
-To learn how to use these components in your projects, check out the detailed guide:
-
-- **[Working with Data](01-dataset-dataloader.ipynb)**: A complete tutorial on creating datasets and using the data loader.
+- **[Dataset and DataLoader](01-dataset-dataloader.ipynb)**: `Dataset` wraps your data with indexing and length retrieval; `DataLoader` iterates over it in mini-batches with optional shuffling.
+- **[Walk-Forward Split](02-WalkForwardSplit.ipynb)**: Chronological cross-validation for time-series and sequence data. Prevents future leakage by guaranteeing the training window always precedes the validation window.
