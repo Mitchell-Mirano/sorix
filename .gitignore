@@ -186,8 +186,3 @@ docs/examples/data/
 *.onnx
 *.agents
 scratch/
-
-# Cloud Run deployment (Private infrastructure)
-.env.deploy
-.env.deploy.*
-scripts/deploy-cloudrun.sh
