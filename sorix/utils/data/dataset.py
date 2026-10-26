@@ -67,6 +67,38 @@ class Dataset:
         return self.__str__()
 
 
+class TensorDataset(Dataset):
+    """
+    Dataset wrapping tensors.
+
+    Each sample will be retrieved by indexing tensors along the first dimension.
+
+    Args:
+        *tensors: Tensors that have the same size of the first dimension.
+    """
+    def __init__(self, *tensors: Any):
+        if not tensors:
+            raise ValueError("TensorDataset requires at least one tensor")
+        first_len = len(tensors[0])
+        for i, t in enumerate(tensors):
+            if len(t) != first_len:
+                raise ValueError(
+                    f"All tensors must have the same size in the first dimension. "
+                    f"Tensor 0 has size {first_len}, but tensor {i} has size {len(t)}"
+                )
+        self.tensors = tuple(tensors)
+
+    def __getitem__(self, idx: int) -> Tuple[Any, ...]:
+        return tuple(tensor[idx] for tensor in self.tensors)
+
+    def __len__(self) -> int:
+        return len(self.tensors[0])
+
+    def __repr__(self) -> str:
+        sizes = [tuple(t.shape) if hasattr(t, 'shape') else len(t) for t in self.tensors]
+        return f"TensorDataset(tensors={sizes})"
+
+
 class WalkForwardSplit:
     """
     Chronological (walk-forward) cross-validation splitter.

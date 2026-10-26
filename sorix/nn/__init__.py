@@ -5,4 +5,6 @@ from .layers import Linear, ReLU, LeakyReLU, Sigmoid, Tanh, BatchNorm1d, Dropout
 from .net import Module, Sequential, ModuleList
 from .loss import MSELoss, BCEWithLogitsLoss, CrossEntropyLoss
 from . import init
+from . import functional
+from . import functional as F
 

@@ -108,14 +108,14 @@ class Module:
 
         return self
 
-    def train(self) -> None:
+    def train(self, mode: bool = True) -> Module:
         """Sets the module in training mode."""
-        self.training = True
+        self.training = mode
         def _apply(obj: Any) -> None:
             if hasattr(obj, "train") and callable(obj.train) and obj is not self:
-                obj.train()
+                obj.train(mode)
             elif hasattr(obj, "training"):
-                obj.training = True
+                obj.training = mode
             
             if isinstance(obj, (list, tuple)):
                 for o in obj: _apply(o)
@@ -125,24 +125,11 @@ class Module:
         for k, v in self.__dict__.items():
             if not k.startswith('_'):
                 _apply(v)
+        return self
 
-    def eval(self) -> None:
+    def eval(self) -> Module:
         """Sets the module in evaluation mode."""
-        self.training = False
-        def _apply(obj: Any) -> None:
-            if hasattr(obj, "eval") and callable(obj.eval) and obj is not self:
-                obj.eval()
-            elif hasattr(obj, "training"):
-                obj.training = False
-                
-            if isinstance(obj, (list, tuple)):
-                for o in obj: _apply(o)
-            elif isinstance(obj, dict):
-                for v in obj.values(): _apply(v)
-
-        for k, v in self.__dict__.items():
-            if not k.startswith('_'):
-                _apply(v)
+        return self.train(False)
 
     def __call__(self, *args: Any, **kwargs: Any) -> Tensor:
         return self.forward(*args, **kwargs)
@@ -309,15 +296,14 @@ class ModuleList(Module):
             params.extend(m.parameters())
         return params
 
-    def train(self) -> None:
-        self.training = True
+    def train(self, mode: bool = True) -> ModuleList:
+        super().train(mode)
         for m in self._items:
-            m.train()
+            m.train(mode)
+        return self
 
-    def eval(self) -> None:
-        self.training = False
-        for m in self._items:
-            m.eval()
+    def eval(self) -> ModuleList:
+        return self.train(False)
 
     def to(self, device: str) -> ModuleList:
         super().to(device)

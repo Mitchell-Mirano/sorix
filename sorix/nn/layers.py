@@ -28,13 +28,23 @@ class Linear(Module):
     """
     def __init__(
         self, 
-        features: int, 
-        neurons: int,
+        in_features: Optional[int] = None, 
+        out_features: Optional[int] = None,
         bias: bool = True, 
         init: str = 'he',
-        device: str = 'cpu'
+        device: str = 'cpu',
+        *,
+        features: Optional[int] = None,
+        neurons: Optional[int] = None
     ) -> None:
         super().__init__()
+        in_dim = in_features if in_features is not None else features
+        out_dim = out_features if out_features is not None else neurons
+        if in_dim is None or out_dim is None:
+            raise ValueError("Linear requires in_features and out_features (or features and neurons)")
+        
+        features = in_dim
+        neurons = out_dim
         if device == 'cuda' and not _cupy_available:
             raise Exception('Cupy is not available')
         
@@ -49,27 +59,26 @@ class Linear(Module):
         elif init == 'xavier':
             self.std_dev = xp.sqrt(2.0 / (features + neurons))  # Xavier init for tanh
 
-        self.bias = bias
         self.W = tensor(xp.random.normal(0, self.std_dev, size=(features, neurons)), 
                         device=self.device, requires_grad=True, dtype=float32)
         self.b = tensor(xp.zeros((1, neurons)), 
-                        device=self.device, requires_grad=True, dtype=float32) if self.bias else None
+                        device=self.device, requires_grad=True, dtype=float32) if bias else None
 
     def __call__(self, X: Tensor) -> Tensor:
         xp = self.xp
         X_data = X.data
         W_data = self.W.data
         out_data = X_data @ W_data
-        if self.bias:
+        if self.b is not None:
             out_data += self.b.data
             
-        requires_grad = X.requires_grad or self.W.requires_grad or (self.bias and self.b.requires_grad)
+        requires_grad = X.requires_grad or self.W.requires_grad or (self.b is not None and self.b.requires_grad)
         
         if not is_grad_enabled() or not requires_grad:
             return Tensor(out_data, device=self.device, requires_grad=False)
             
         deps = [X, self.W]
-        if self.bias:
+        if self.b is not None:
             deps.append(self.b)
             
         out = Tensor(out_data, deps, 'Linear', device=self.device, requires_grad=True)
@@ -88,7 +97,7 @@ class Linear(Module):
                     X._accumulate_grad(grad_out @ self.W.T)
                 if self.W.requires_grad:
                     self.W._accumulate_grad(X.T @ grad_out)
-                if self.bias and self.b.requires_grad:
+                if self.b is not None and self.b.requires_grad:
                     self.b._accumulate_grad(grad_out.sum(axis=0, keepdims=True))
             else:
                 # FAST PATH: raw numpy/cupy ops for standard training (no second-order)
@@ -99,14 +108,32 @@ class Linear(Module):
                     X._accumulate_grad(grad_out_data @ W_data.T)
                 if self.W.requires_grad:
                     self.W._accumulate_grad(X_data.T @ grad_out_data)
-                if self.bias and self.b.requires_grad:
+                if self.b is not None and self.b.requires_grad:
                     self.b._accumulate_grad(grad_out_data.sum(axis=0, keepdims=True))
 
         out._backward = _backward
         return out
     
+    @property
+    def weight(self) -> Tensor:
+        """Returns the weight Tensor (PyTorch parity)."""
+        return self.W
+
+    @weight.setter
+    def weight(self, value: Tensor) -> None:
+        self.W = value
+
+    @property
+    def bias(self) -> Optional[Tensor]:
+        """Returns the bias Tensor (PyTorch parity)."""
+        return self.b
+
+    @bias.setter
+    def bias(self, value: Optional[Tensor]) -> None:
+        self.b = value
+
     def extra_repr(self) -> str:
-        return f"in_features={self.W.shape[0]}, out_features={self.W.shape[1]}, bias={self.bias}"
+        return f"in_features={self.W.shape[0]}, out_features={self.W.shape[1]}, bias={self.b is not None}"
     
     @property
     def coef_(self) -> np.ndarray:
@@ -125,18 +152,7 @@ class Linear(Module):
 class ReLU(Module):
     """Rectified Linear Unit activation function."""
     def __call__(self, X: Tensor) -> Tensor:
-        xp = X.xp
-        out = Tensor(xp.maximum(0, X.data), (X,), 'ReLU', device=X.device, requires_grad=X.requires_grad)
-        
-        def _backward() -> None:
-            if out.grad is None:
-                return
-            if X.requires_grad:
-                # ReLU is not strictly differentiable at 0, but we use subgradient 0.
-                # Since out.grad is a Tensor, multiplying by a mask works if it's broadastable.
-                X._accumulate_grad(out.grad * (X.data > 0))
-        out._backward = _backward
-        return out
+        return X.relu()
 
 
 class LeakyReLU(Module):
@@ -171,52 +187,14 @@ class LeakyReLU(Module):
 class Sigmoid(Module):
     """Numerically stable Sigmoid activation function."""
     def __call__(self, X: Tensor) -> Tensor:
-        xp = X.xp
-        x = X.data
-        
-        # Stable Sigmoid implementation
-        # For x >= 0: 1 / (1 + exp(-x))
-        # For x < 0: exp(x) / (1 + exp(x))
-        abs_x = xp.abs(x)
-        exp_neg_abs_x = xp.exp(-abs_x)
-        denom = 1 + exp_neg_abs_x
-        
-        sigmoid_data = xp.where(x >= 0, 1 / denom, exp_neg_abs_x / denom)
-        
-        out = Tensor(sigmoid_data, (X,), 'Sigmoid', device=X.device, requires_grad=X.requires_grad)
-        
-        def _backward() -> None:
-            if out.grad is None:
-                return
-            if X.requires_grad:
-                if is_grad_enabled():
-                    X._accumulate_grad(out.grad * out * (1 - out))
-                else:
-                    # FAST PATH: use raw data
-                    X._accumulate_grad(out.grad.data * out.data * (1 - out.data))
-        out._backward = _backward
-        return out
+        return X.sigmoid()
     
     
 class Tanh(Module):
     """Hyperbolic tangent activation function."""
     def __call__(self, X: Tensor) -> Tensor:
-        xp = X.xp
-        out = Tensor(xp.tanh(X.data), (X,), 'Tanh', device=X.device, requires_grad=X.requires_grad)
-        
-        def _backward() -> None:
-            if out.grad is None:
-                return
-            if X.requires_grad:
-                if is_grad_enabled():
-                    # Higher-order mode: use Tensor ops to preserve the graph
-                    X._accumulate_grad(out.grad * (1 - out ** 2))
-                else:
-                    # FAST PATH: raw data
-                    g = out.grad.data if isinstance(out.grad, Tensor) else out.grad
-                    X._accumulate_grad(g * (1 - out.data ** 2))
-        out._backward = _backward
-        return out
+        return X.tanh()
+
 
 class BatchNorm1d(Module):
     """
@@ -315,9 +293,9 @@ class BatchNorm1d(Module):
                         X._accumulate_grad(grad_X)
                     else:
                         grad_X_norm_data = grad_out_data * gamma_data
-                        grad_var_data = (grad_X_norm_data * X_centered_data * -0.5 * (std_inv ** 3)).sum(axis=0, keepdims=True)
-                        grad_mean_data = (grad_X_norm_data * -std_inv).sum(axis=0, keepdims=True) + grad_var_data * xp.mean(-2.0 * X_centered_data, axis=0, keepdims=True)
-                        grad_X_data = (grad_X_norm_data * std_inv) + (grad_var_data * 2.0 * X_centered_data / N) + (grad_mean_data / N)
+                        sum_dxhat = grad_X_norm_data.sum(axis=0, keepdims=True)
+                        sum_dxhat_xhat = (grad_X_norm_data * X_norm_data).sum(axis=0, keepdims=True)
+                        grad_X_data = (std_inv / N) * (N * grad_X_norm_data - sum_dxhat - X_norm_data * sum_dxhat_xhat)
                         X._accumulate_grad(grad_X_data)
                 else:
                     # Analytical derivative during evaluation modes uses fixed mean/var
@@ -447,25 +425,17 @@ class Embedding(Module):
                     f"encoded as -1 must be mapped to a dedicated index instead."
                 )
 
-        # Forward: row-selection (equivalent to W[idx])
-        out_data = self.W.data[idx]  # shape (*idx.shape, embedding_dim)
+        from . import functional as F
+        return F.embedding(idx, self.W)
 
-        if not is_grad_enabled() or not self.W.requires_grad:
-            return Tensor(out_data, device=self.device, requires_grad=False)
+    @property
+    def weight(self) -> Tensor:
+        """Returns the embedding weight Tensor (PyTorch parity)."""
+        return self.W
 
-        out = Tensor(out_data, [self.W], "Embedding", device=self.device, requires_grad=True)
-
-        def _backward() -> None:
-            if out.grad is None:
-                return
-            g = out.grad.data if isinstance(out.grad, Tensor) else out.grad
-            # Scatter-add gradient back to the embedding rows
-            grad_W = xp.zeros_like(self.W.data)
-            xp.add.at(grad_W, idx, g)
-            self.W._accumulate_grad(grad_W)
-
-        out._backward = _backward
-        return out
+    @weight.setter
+    def weight(self, value: Tensor) -> None:
+        self.W = value
 
     def extra_repr(self) -> str:
         return f"num_embeddings={self.num_embeddings}, embedding_dim={self.embedding_dim}"
