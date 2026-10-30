@@ -1,57 +1,207 @@
 from __future__ import annotations
 import numpy as np
+import warnings
 from typing import Callable, Union, Any, List, Tuple, Dict, Optional
+import pandas as pd
 from sorix.tensor import Tensor, tensor
+from sorix.cupy.cupy import _cupy_available
+
+if _cupy_available:
+    import cupy as cp
 
 
-def _get_metric_data(Y_true: Any, Y_pred: Any) -> Tuple[Union[Tensor, np.ndarray], Union[Tensor, np.ndarray]]:
-    if isinstance(Y_true, Tensor):
-        return Y_true, Y_pred
-    return np.array(Y_true), np.array(Y_pred)
-
-def mean_squared_error(Y_true: Any, Y_pred: Any) -> float:
-    """Computes the mean squared error regression loss."""
-    Y_true, Y_pred = _get_metric_data(Y_true, Y_pred)
-    mse = ((Y_true-Y_pred)**2).mean()
-    return mse.item() if hasattr(mse, 'item') else float(mse)
-
-def root_mean_squared_error(Y_true: Any, Y_pred: Any) -> float:
-    """Computes the root mean squared error regression loss."""
-    return mean_squared_error(Y_true, Y_pred)**0.5
-
-
-def mean_absolute_error(Y_true: Any, Y_pred: Any) -> float:
-    """Computes the mean absolute error regression loss."""
-    Y_true, Y_pred = _get_metric_data(Y_true, Y_pred)
-    if isinstance(Y_true, Tensor):
-        mae = (Y_true-Y_pred).abs().mean()
+def _to_numpy_array(x: Any, dtype: Optional[Any] = None) -> np.ndarray:
+    """Safely converts any input container (Tensor, CuPy, Pandas, list) to a NumPy array without in-place side effects."""
+    if isinstance(x, Tensor):
+        if x.device.type == "cuda" and _cupy_available:
+            arr = cp.asnumpy(x.data)
+        else:
+            arr = np.asarray(x.data)
+    elif isinstance(x, (pd.Series, pd.DataFrame)):
+        arr = x.to_numpy()
+    elif isinstance(x, np.ndarray):
+        arr = x
+    elif hasattr(x, "__array__"):
+        arr = np.asarray(x)
     else:
-        mae = np.abs(Y_true-Y_pred).mean()
-    return mae.item() if hasattr(mae, 'item') else float(mae)
+        arr = np.asarray(x)
 
-def mean_absolute_percentage_error(Y_true: Any, Y_pred: Any) -> float:
-    """Computes the mean absolute percentage error regression loss."""
-    Y_true, Y_pred = _get_metric_data(Y_true, Y_pred)
-    if isinstance(Y_true, Tensor):
-        mape = ((Y_true-Y_pred)/Y_true).abs().mean()
+    if dtype is not None and arr.dtype != dtype:
+        arr = arr.astype(dtype, copy=False)
+    return arr
+
+
+def _handle_zero_division(
+    numerator: Union[int, float],
+    denominator: Union[int, float],
+    zero_division: Union[str, int, float] = "warn"
+) -> float:
+    """Helper function to handle division by zero in metric calculation."""
+    if denominator == 0 or np.isclose(denominator, 0.0):
+        if zero_division == "warn":
+            warnings.warn("Division by zero in metric calculation.", RuntimeWarning, stacklevel=2)
+            return 0.0
+        return float(zero_division)
+    return float(numerator / denominator)
+
+
+def _get_classification_data(
+    y_true: Any,
+    y_pred: Any,
+    sample_weight: Optional[Any] = None
+) -> Tuple[np.ndarray, np.ndarray, Optional[np.ndarray]]:
+    """Internal helper to convert and validate classification targets and sample weights."""
+    y_t = _to_numpy_array(y_true).ravel()
+    y_p = _to_numpy_array(y_pred).ravel()
+
+    if y_t.shape != y_p.shape:
+        raise ValueError(f"y_true and y_pred must have the same shape. Got {y_t.shape} and {y_p.shape}")
+
+    weights = None
+    if sample_weight is not None:
+        weights = _to_numpy_array(sample_weight, dtype=float).ravel()
+        if weights.shape != y_t.shape:
+            raise ValueError(f"sample_weight shape {weights.shape} must match y_true {y_t.shape}")
+
+    return y_t, y_p, weights
+
+
+def mean_squared_error(
+    y_true: Any,
+    y_pred: Any,
+    *,
+    sample_weight: Optional[Any] = None,
+    multioutput: str = "uniform_average",
+    squared: bool = True
+) -> Union[float, np.ndarray]:
+    """
+    Computes mean squared error regression loss.
+    
+    Compatible with scikit-learn API and sorix.Tensor.
+    """
+    y_t = _to_numpy_array(y_true, dtype=float)
+    y_p = _to_numpy_array(y_pred, dtype=float)
+    if y_t.shape != y_p.shape:
+        raise ValueError(f"y_true and y_pred must have the same shape. Got {y_t.shape} and {y_p.shape}")
+
+    weights = _to_numpy_array(sample_weight, dtype=float) if sample_weight is not None else None
+    diff2 = (y_t - y_p) ** 2
+    raw = np.average(diff2, axis=0, weights=weights)
+
+    if not squared:
+        raw = np.sqrt(raw)
+
+    if multioutput == "raw_values":
+        return raw
+    elif multioutput == "uniform_average":
+        return float(np.average(raw))
     else:
-        mape = np.abs((Y_true-Y_pred)/Y_true).mean()
-    return mape.item() if hasattr(mape, 'item') else float(mape)
+        raise ValueError(f"Unknown multioutput: {multioutput}. Must be 'raw_values' or 'uniform_average'")
 
-def r2_score(Y_true: Any, Y_pred: Any) -> float:
-    """Computes the R^2 (coefficient of determination) regression score."""
-    Y_true, Y_pred = _get_metric_data(Y_true, Y_pred)
-    sr = ((Y_true-Y_pred)**2).mean()
-    sy = ((Y_true-Y_true.mean())**2).mean()
-    r2 = (1-(sr/sy))
-    return r2.item() if hasattr(r2, 'item') else float(r2)
 
+def root_mean_squared_error(
+    y_true: Any,
+    y_pred: Any,
+    *,
+    sample_weight: Optional[Any] = None,
+    multioutput: str = "uniform_average"
+) -> Union[float, np.ndarray]:
+    """Computes root mean squared error regression loss."""
+    return mean_squared_error(
+        y_true, y_pred, sample_weight=sample_weight, multioutput=multioutput, squared=False
+    )
+
+
+def mean_absolute_error(
+    y_true: Any,
+    y_pred: Any,
+    *,
+    sample_weight: Optional[Any] = None,
+    multioutput: str = "uniform_average"
+) -> Union[float, np.ndarray]:
+    """Computes mean absolute error regression loss."""
+    y_t = _to_numpy_array(y_true, dtype=float)
+    y_p = _to_numpy_array(y_pred, dtype=float)
+    if y_t.shape != y_p.shape:
+        raise ValueError(f"y_true and y_pred must have the same shape. Got {y_t.shape} and {y_p.shape}")
+
+    weights = _to_numpy_array(sample_weight, dtype=float) if sample_weight is not None else None
+    diff = np.abs(y_t - y_p)
+    raw = np.average(diff, axis=0, weights=weights)
+
+    if multioutput == "raw_values":
+        return raw
+    elif multioutput == "uniform_average":
+        return float(np.average(raw))
+    else:
+        raise ValueError(f"Unknown multioutput: {multioutput}. Must be 'raw_values' or 'uniform_average'")
+
+
+def mean_absolute_percentage_error(
+    y_true: Any,
+    y_pred: Any,
+    *,
+    sample_weight: Optional[Any] = None,
+    multioutput: str = "uniform_average"
+) -> Union[float, np.ndarray]:
+    """Computes mean absolute percentage error regression loss."""
+    y_t = _to_numpy_array(y_true, dtype=float)
+    y_p = _to_numpy_array(y_pred, dtype=float)
+    if y_t.shape != y_p.shape:
+        raise ValueError(f"y_true and y_pred must have the same shape. Got {y_t.shape} and {y_p.shape}")
+
+    weights = _to_numpy_array(sample_weight, dtype=float) if sample_weight is not None else None
+    epsilon = np.finfo(np.float64).eps
+    diff = np.abs((y_t - y_p) / np.maximum(np.abs(y_t), epsilon))
+    raw = np.average(diff, axis=0, weights=weights)
+
+    if multioutput == "raw_values":
+        return raw
+    elif multioutput == "uniform_average":
+        return float(np.average(raw))
+    else:
+        raise ValueError(f"Unknown multioutput: {multioutput}. Must be 'raw_values' or 'uniform_average'")
+
+
+def r2_score(
+    y_true: Any,
+    y_pred: Any,
+    *,
+    sample_weight: Optional[Any] = None,
+    multioutput: str = "uniform_average"
+) -> Union[float, np.ndarray]:
+    """
+    Computes R^2 (coefficient of determination) regression score.
+    
+    Correctly handles constant ground truth targets without division by zero or NaN.
+    """
+    y_t = _to_numpy_array(y_true, dtype=float)
+    y_p = _to_numpy_array(y_pred, dtype=float)
+    if y_t.shape != y_p.shape:
+        raise ValueError(f"y_true and y_pred must have the same shape. Got {y_t.shape} and {y_p.shape}")
+
+    weights = _to_numpy_array(sample_weight, dtype=float) if sample_weight is not None else None
+
+    numerator = np.average((y_t - y_p) ** 2, axis=0, weights=weights)
+    y_t_mean = np.average(y_t, axis=0, weights=weights)
+    denominator = np.average((y_t - y_t_mean) ** 2, axis=0, weights=weights)
+
+    raw = np.zeros_like(numerator)
+    is_const = (denominator == 0) | np.isclose(denominator, 0.0)
+    raw[is_const] = np.where(np.isclose(numerator[is_const], 0.0), 1.0, 0.0)
+    not_const = ~is_const
+    raw[not_const] = 1.0 - (numerator[not_const] / denominator[not_const])
+
+    if multioutput == "raw_values":
+        return raw
+    elif multioutput == "uniform_average":
+        return float(np.average(raw))
+    else:
+        raise ValueError(f"Unknown multioutput: {multioutput}. Must be 'raw_values' or 'uniform_average'")
 
 
 def regression_report(y_true: Any, y_pred: Any) -> str:
-    """
-    Returns a comprehensive regression report as a formatted string.
-    """
+    """Returns a comprehensive regression report as a formatted string."""
     metrics = {
         "R2":   (r2_score(y_true, y_pred), "[0,   1]"),
         "MAE":  (mean_absolute_error(y_true, y_pred), "[0,  ∞)"),
@@ -60,7 +210,6 @@ def regression_report(y_true: Any, y_pred: Any) -> str:
         "MAPE": (mean_absolute_percentage_error(y_true, y_pred) * 100, "[0, 100]"),
     }
 
-    # Force all ranges to the same length (8 characters)
     fixed_width = 8
     metrics_with_ranges = {}
     for k, (val, rng) in metrics.items():
@@ -79,165 +228,125 @@ def regression_report(y_true: Any, y_pred: Any) -> str:
     return "\n".join(lines)
 
 
-def accuracy_score(Y_true: Any, Y_pred: Any) -> float:
-    """
-    Computes the accuracy classification score.
+def accuracy_score(
+    y_true: Any,
+    y_pred: Any,
+    *,
+    normalize: bool = True,
+    sample_weight: Optional[Any] = None
+) -> Union[float, int]:
+    """Computes accuracy classification score."""
+    y_t, y_p, weights = _get_classification_data(y_true, y_pred, sample_weight)
+    equal = (y_t == y_p)
 
-    Examples:
-        ```python
-        y_true = [0, 1, 2, 3]
-        y_pred = [0, 2, 1, 3]
-        acc = accuracy_score(y_true, y_pred) # 0.5
-        ```
-    """
-    Y_true, Y_pred = _get_metric_data(Y_true, Y_pred)
-    if isinstance(Y_true, Tensor):
-        acc = (Y_true == Y_pred).mean()
-    else:
-        acc = (Y_true == Y_pred).mean()
-    return acc.item() if hasattr(acc, 'item') else float(acc)
+    if weights is None:
+        if normalize:
+            return float(np.mean(equal))
+        return int(np.sum(equal))
 
-
-def _handle_zero_division(
-    numerator: Union[int, float],
-    denominator: Union[int, float],
-    zero_division: Union[str, int, float] = "warn"
-) -> float:
-    """Helper function to handle division by zero in metric calculation.
-
-    Args:
-        numerator: The numerator of the division.
-        denominator: The denominator of the division.
-        zero_division: Value to return when division by zero occurs.
-            Can be 0, 1, 0.0, 1.0, or "warn".
-
-    Returns:
-        float: Result of division or the zero_division value.
-    """
-    if denominator == 0:
-        if zero_division == "warn":
-            import warnings
-            warnings.warn("Division by zero in metric calculation.", RuntimeWarning, stacklevel=2)
-            return 0.0
-        return float(zero_division)
-    return float(numerator / denominator)
+    score = np.sum(equal * weights)
+    total_weight = np.sum(weights)
+    if normalize:
+        return float(score / total_weight) if total_weight > 0 else 0.0
+    return float(score) if not float(score).is_integer() else int(score)
 
 
 def confusion_matrix(
     y_true: Any,
     y_pred: Any,
     *,
-    labels: Optional[List[Any]] = None
+    labels: Optional[List[Any]] = None,
+    sample_weight: Optional[Any] = None,
+    normalize: Optional[str] = None
 ) -> np.ndarray:
-    """Computes confusion matrix to evaluate the accuracy of a classification.
+    """Computes confusion matrix to evaluate classification accuracy."""
+    y_t, y_p, weights = _get_classification_data(y_true, y_pred, sample_weight)
 
-    Args:
-        y_true: Ground truth (correct) target values.
-        y_pred: Estimated targets as returned by a classifier.
-        labels: List of labels to index the matrix. This may be used to select
-            a subset of labels or reorder the labels. If None, all labels that
-            appear at least once in y_true or y_pred are used in sorted order.
-
-    Returns:
-        np.ndarray: Confusion matrix of shape (n_classes, n_classes).
-    """
-    y_true_data, y_pred_data = _get_classification_data(y_true, y_pred)
-    
     if labels is not None:
         classes = np.array(labels)
     else:
-        classes = np.unique(np.concatenate([y_true_data, y_pred_data]))
-    
+        classes = np.unique(np.concatenate([y_t, y_p]))
+
     n_classes = len(classes)
-    cm = np.zeros((n_classes, n_classes), dtype=int)
-    
-    if n_classes > 0:
-        class_to_idx = {c: idx for idx, c in enumerate(classes)}
-        for t, p in zip(y_true_data, y_pred_data):
-            if t in class_to_idx and p in class_to_idx:
-                cm[class_to_idx[t], class_to_idx[p]] += 1
-                
+    if weights is None:
+        cm = np.zeros((n_classes, n_classes), dtype=int)
+    else:
+        cm = np.zeros((n_classes, n_classes), dtype=float)
+
+    for i, c_t in enumerate(classes):
+        mask_t = (y_t == c_t)
+        if not np.any(mask_t):
+            continue
+        for j, c_p in enumerate(classes):
+            mask = mask_t & (y_p == c_p)
+            if weights is None:
+                cm[i, j] = int(np.sum(mask))
+            else:
+                cm[i, j] = float(np.sum(weights[mask]))
+
+    if normalize is not None:
+        cm = cm.astype(float, copy=False)
+        if normalize == "true":
+            with np.errstate(all="ignore"):
+                row_sum = cm.sum(axis=1, keepdims=True)
+                cm = np.divide(cm, row_sum, out=np.zeros_like(cm), where=row_sum != 0)
+        elif normalize == "pred":
+            with np.errstate(all="ignore"):
+                col_sum = cm.sum(axis=0, keepdims=True)
+                cm = np.divide(cm, col_sum, out=np.zeros_like(cm), where=col_sum != 0)
+        elif normalize == "all":
+            total_sum = cm.sum()
+            cm = (cm / total_sum) if total_sum != 0 else np.zeros_like(cm)
+        else:
+            raise ValueError(f"normalize must be one of ('true', 'pred', 'all', None), got {normalize}")
+
     return cm
 
-
-def _get_classification_data(y_true: Any, y_pred: Any) -> Tuple[np.ndarray, np.ndarray]:
-    """Internal helper to prepare classification data."""
-    if isinstance(y_true, (list, tuple)):
-        y_true = np.array(y_true)
-    if isinstance(y_pred, (list, tuple)):
-        y_pred = np.array(y_pred)
-
-    if y_true.shape != y_pred.shape:
-        raise ValueError("y_true and y_pred must have the same shape.")
-    
-    if isinstance(y_true, Tensor):
-        y_true_out = y_true.numpy().flatten()
-    else:
-        y_true_out = y_true.flatten()
-
-    if isinstance(y_pred, Tensor):
-        y_pred_out = y_pred.numpy().flatten()
-    else:
-        y_pred_out = y_pred.flatten()
-        
-    return y_true_out, y_pred_out
 
 def precision_score(
     y_true: Any,
     y_pred: Any,
     *,
     labels: Optional[List[Any]] = None,
-    average: Optional[str] = 'binary',
+    average: Optional[str] = "binary",
     pos_label: Union[int, str] = 1,
+    sample_weight: Optional[Any] = None,
     zero_division: Union[str, int, float] = "warn"
 ) -> Union[float, np.ndarray]:
-    """Computes the precision.
+    """Computes the precision score."""
+    y_t, y_p, weights = _get_classification_data(y_true, y_pred, sample_weight)
+    w = weights if weights is not None else np.ones_like(y_t, dtype=float)
 
-    The precision is the ratio ``tp / (tp + fp)`` where ``tp`` is the number of
-    true positives and ``fp`` the number of false positives. The precision is
-    intuitively the ability of the classifier not to label as positive a sample
-    that is negative.
+    if average == "binary":
+        true_pos = np.sum(((y_t == pos_label) & (y_p == pos_label)) * w)
+        pred_pos = np.sum((y_p == pos_label) * w)
+        return _handle_zero_division(true_pos, pred_pos, zero_division)
 
-    Args:
-        y_true: Ground truth (correct) target values.
-        y_pred: Estimated targets as returned by a classifier.
-        labels: List of labels to include when average is not 'binary'.
-        average: This parameter determines the type of averaging performed on the data.
-            Can be 'binary', 'macro', 'weighted', or None.
-        pos_label: The class to report if average='binary'.
-        zero_division: Sets the value to return when there is a zero division.
-            Can be 0, 1, or "warn".
-
-    Returns:
-        Union[float, np.ndarray]: Precision of the positive class or precision for each class.
-    """
-    y_true_data, y_pred_data = _get_classification_data(y_true, y_pred)
-    
     if labels is not None:
         classes = np.array(labels)
     else:
-        classes = np.unique(y_true_data)
+        classes = np.unique(np.concatenate([y_t, y_p]))
 
-    if average == 'binary':
-        true_pos = np.sum((y_true_data == pos_label) & (y_pred_data == pos_label))
-        pred_pos = np.sum(y_pred_data == pos_label)
-        return _handle_zero_division(true_pos, pred_pos, zero_division)
+    tps = np.array([np.sum(((y_t == c) & (y_p == c)) * w) for c in classes])
+    fps = np.array([np.sum(((y_t != c) & (y_p == c)) * w) for c in classes])
+    supports = np.array([np.sum((y_t == c) * w) for c in classes])
 
-    precisions = []
-    supports = []
-    for c in classes:
-        true_pos = np.sum((y_true_data == c) & (y_pred_data == c))
-        pred_pos = np.sum(y_pred_data == c)
-        precisions.append(_handle_zero_division(true_pos, pred_pos, zero_division))
-        supports.append(np.sum(y_true_data == c))
+    if average == "micro":
+        return _handle_zero_division(np.sum(tps), np.sum(tps) + np.sum(fps), zero_division)
 
-    if average == 'macro':
-        return np.mean(precisions) if len(precisions) > 0 else 0.0
-    elif average == 'weighted':
+    precisions = np.array([
+        _handle_zero_division(tp, tp + fp, zero_division) for tp, fp in zip(tps, fps)
+    ])
+
+    if average == "macro":
+        return float(np.mean(precisions)) if len(precisions) > 0 else 0.0
+    elif average == "weighted":
         sum_supports = np.sum(supports)
-        return np.average(precisions, weights=supports) if sum_supports > 0 else 0.0
-    
-    return np.array(precisions)
+        return float(np.average(precisions, weights=supports)) if sum_supports > 0 else 0.0
+    elif average is None:
+        return precisions
+
+    raise ValueError(f"average has to be one of ('binary', 'micro', 'macro', 'weighted', None), got {average}")
 
 
 def recall_score(
@@ -245,56 +354,45 @@ def recall_score(
     y_pred: Any,
     *,
     labels: Optional[List[Any]] = None,
-    average: Optional[str] = 'binary',
+    average: Optional[str] = "binary",
     pos_label: Union[int, str] = 1,
+    sample_weight: Optional[Any] = None,
     zero_division: Union[str, int, float] = "warn"
 ) -> Union[float, np.ndarray]:
-    """Computes the recall.
+    """Computes the recall score."""
+    y_t, y_p, weights = _get_classification_data(y_true, y_pred, sample_weight)
+    w = weights if weights is not None else np.ones_like(y_t, dtype=float)
 
-    The recall is the ratio ``tp / (tp + fn)`` where ``tp`` is the number of
-    true positives and ``fn`` the number of false negatives. The recall is
-    intuitively the ability of the classifier to find all the positive samples.
+    if average == "binary":
+        true_pos = np.sum(((y_t == pos_label) & (y_p == pos_label)) * w)
+        actual_pos = np.sum((y_t == pos_label) * w)
+        return _handle_zero_division(true_pos, actual_pos, zero_division)
 
-    Args:
-        y_true: Ground truth (correct) target values.
-        y_pred: Estimated targets as returned by a classifier.
-        labels: List of labels to include when average is not 'binary'.
-        average: This parameter determines the type of averaging performed on the data.
-            Can be 'binary', 'macro', 'weighted', or None.
-        pos_label: The class to report if average='binary'.
-        zero_division: Sets the value to return when there is a zero division.
-            Can be 0, 1, or "warn".
-
-    Returns:
-        Union[float, np.ndarray]: Recall of the positive class or recall for each class.
-    """
-    y_true_data, y_pred_data = _get_classification_data(y_true, y_pred)
-    
     if labels is not None:
         classes = np.array(labels)
     else:
-        classes = np.unique(y_true_data)
+        classes = np.unique(np.concatenate([y_t, y_p]))
 
-    if average == 'binary':
-        true_pos = np.sum((y_true_data == pos_label) & (y_pred_data == pos_label))
-        actual_pos = np.sum(y_true_data == pos_label)
-        return _handle_zero_division(true_pos, actual_pos, zero_division)
+    tps = np.array([np.sum(((y_t == c) & (y_p == c)) * w) for c in classes])
+    fns = np.array([np.sum(((y_t == c) & (y_p != c)) * w) for c in classes])
+    supports = np.array([np.sum((y_t == c) * w) for c in classes])
 
-    recalls = []
-    supports = []
-    for c in classes:
-        true_pos = np.sum((y_true_data == c) & (y_pred_data == c))
-        actual_pos = np.sum(y_true_data == c)
-        recalls.append(_handle_zero_division(true_pos, actual_pos, zero_division))
-        supports.append(actual_pos)
+    if average == "micro":
+        return _handle_zero_division(np.sum(tps), np.sum(tps) + np.sum(fns), zero_division)
 
-    if average == 'macro':
-        return np.mean(recalls) if len(recalls) > 0 else 0.0
-    elif average == 'weighted':
+    recalls = np.array([
+        _handle_zero_division(tp, tp + fn, zero_division) for tp, fn in zip(tps, fns)
+    ])
+
+    if average == "macro":
+        return float(np.mean(recalls)) if len(recalls) > 0 else 0.0
+    elif average == "weighted":
         sum_supports = np.sum(supports)
-        return np.average(recalls, weights=supports) if sum_supports > 0 else 0.0
-    
-    return np.array(recalls)
+        return float(np.average(recalls, weights=supports)) if sum_supports > 0 else 0.0
+    elif average is None:
+        return recalls
+
+    raise ValueError(f"average has to be one of ('binary', 'micro', 'macro', 'weighted', None), got {average}")
 
 
 def f1_score(
@@ -302,58 +400,209 @@ def f1_score(
     y_pred: Any,
     *,
     labels: Optional[List[Any]] = None,
-    average: Optional[str] = 'binary',
+    average: Optional[str] = "binary",
     pos_label: Union[int, str] = 1,
+    sample_weight: Optional[Any] = None,
     zero_division: Union[str, int, float] = "warn"
 ) -> Union[float, np.ndarray]:
-    """Computes the F1 score, also known as balanced F-score or F-measure.
+    """Computes F1 score (harmonic mean of precision and recall)."""
+    y_t, y_p, weights = _get_classification_data(y_true, y_pred, sample_weight)
+    w = weights if weights is not None else np.ones_like(y_t, dtype=float)
 
-    The F1 score can be interpreted as a weighted average of the precision and
-    recall, where an F1 score reaches its best value at 1 and worst score at 0.
-    The relative contribution of precision and recall to the F1 score are equal.
+    if average == "binary":
+        tp = np.sum(((y_t == pos_label) & (y_p == pos_label)) * w)
+        fp = np.sum(((y_t != pos_label) & (y_p == pos_label)) * w)
+        fn = np.sum(((y_t == pos_label) & (y_p != pos_label)) * w)
+        return _handle_zero_division(2 * tp, 2 * tp + fp + fn, zero_division)
 
-    Args:
-        y_true: Ground truth (correct) target values.
-        y_pred: Estimated targets as returned by a classifier.
-        labels: List of labels to include when average is not 'binary'.
-        average: This parameter determines the type of averaging performed on the data.
-            Can be 'binary', 'macro', 'weighted', or None.
-        pos_label: The class to report if average='binary'.
-        zero_division: Sets the value to return when there is a zero division.
-            Can be 0, 1, or "warn".
-
-    Returns:
-        Union[float, np.ndarray]: F1 score of the positive class or F1 score for each class.
-    """
-    y_true_data, y_pred_data = _get_classification_data(y_true, y_pred)
-    
     if labels is not None:
         classes = np.array(labels)
     else:
-        classes = np.unique(y_true_data)
+        classes = np.unique(np.concatenate([y_t, y_p]))
 
-    if average == 'binary':
-        tp = np.sum((y_true_data == pos_label) & (y_pred_data == pos_label))
-        fp = np.sum((y_true_data != pos_label) & (y_pred_data == pos_label))
-        fn = np.sum((y_true_data == pos_label) & (y_pred_data != pos_label))
-        return _handle_zero_division(2 * tp, 2 * tp + fp + fn, zero_division)
+    tps = np.array([np.sum(((y_t == c) & (y_p == c)) * w) for c in classes])
+    fps = np.array([np.sum(((y_t != c) & (y_p == c)) * w) for c in classes])
+    fns = np.array([np.sum(((y_t == c) & (y_p != c)) * w) for c in classes])
+    supports = np.array([np.sum((y_t == c) * w) for c in classes])
 
-    f1s = []
-    supports = []
-    for c in classes:
-        tp = np.sum((y_true_data == c) & (y_pred_data == c))
-        fp = np.sum((y_true_data != c) & (y_pred_data == c))
-        fn = np.sum((y_true_data == c) & (y_pred_data != c))
-        f1s.append(_handle_zero_division(2 * tp, 2 * tp + fp + fn, zero_division))
-        supports.append(np.sum(y_true_data == c))
+    if average == "micro":
+        tp_tot = np.sum(tps)
+        fp_tot = np.sum(fps)
+        fn_tot = np.sum(fns)
+        return _handle_zero_division(2 * tp_tot, 2 * tp_tot + fp_tot + fn_tot, zero_division)
 
-    if average == 'macro':
-        return np.mean(f1s) if len(f1s) > 0 else 0.0
-    elif average == 'weighted':
+    f1s = np.array([
+        _handle_zero_division(2 * tp, 2 * tp + fp + fn, zero_division)
+        for tp, fp, fn in zip(tps, fps, fns)
+    ])
+
+    if average == "macro":
+        return float(np.mean(f1s)) if len(f1s) > 0 else 0.0
+    elif average == "weighted":
         sum_supports = np.sum(supports)
-        return np.average(f1s, weights=supports) if sum_supports > 0 else 0.0
-        
-    return np.array(f1s)
+        return float(np.average(f1s, weights=supports)) if sum_supports > 0 else 0.0
+    elif average is None:
+        return f1s
+
+    raise ValueError(f"average has to be one of ('binary', 'micro', 'macro', 'weighted', None), got {average}")
+
+
+def balanced_accuracy_score(
+    y_true: Any,
+    y_pred: Any,
+    *,
+    sample_weight: Optional[Any] = None,
+    adjusted: bool = False
+) -> float:
+    """Computes balanced accuracy classification score."""
+    y_t, y_p, weights = _get_classification_data(y_true, y_pred, sample_weight)
+    classes = np.unique(y_t)
+    recalls = recall_score(y_t, y_p, labels=classes, average=None, sample_weight=weights, zero_division=0.0)
+    score = float(np.mean(recalls))
+
+    if adjusted:
+        n_classes = len(classes)
+        chance = 1.0 / n_classes if n_classes > 0 else 0.0
+        score = (score - chance) / (1.0 - chance) if chance < 1.0 else 0.0
+
+    return score
+
+
+def roc_auc_score(
+    y_true: Any,
+    y_score: Any,
+    *,
+    average: Optional[str] = "macro",
+    sample_weight: Optional[Any] = None,
+    max_fpr: Optional[float] = None,
+    multi_class: str = "raise",
+    labels: Optional[List[Any]] = None
+) -> float:
+    """Computes Area Under the Receiver Operating Characteristic Curve (ROC AUC)."""
+    y_t = _to_numpy_array(y_true)
+    y_s = _to_numpy_array(y_score, dtype=float)
+    w = _to_numpy_array(sample_weight, dtype=float).ravel() if sample_weight is not None else None
+
+    # Binary case:
+    if y_s.ndim == 1 or y_s.shape[1] == 1:
+        y_t_flat = y_t.ravel()
+        y_s_flat = y_s.ravel()
+        if w is None:
+            w_flat = np.ones_like(y_t_flat, dtype=float)
+        else:
+            w_flat = w
+
+        unique_labels = np.unique(y_t_flat)
+        if len(unique_labels) != 2:
+            raise ValueError(f"Only one class present in y_true: {unique_labels}. ROC AUC score is not defined.")
+
+        pos_mask = (y_t_flat == unique_labels[1])
+        neg_mask = ~pos_mask
+
+        n_pos = np.sum(w_flat[pos_mask])
+        n_neg = np.sum(w_flat[neg_mask])
+        if n_pos == 0 or n_neg == 0:
+            return 0.5
+
+        order = np.argsort(y_s_flat)[::-1]
+        y_t_sorted = pos_mask[order]
+        w_sorted = w_flat[order]
+        y_s_sorted = y_s_flat[order]
+
+        distinct_indices = np.where(np.diff(y_s_sorted))[0]
+        threshold_indices = np.r_[distinct_indices, y_t_sorted.size - 1]
+
+        tps = np.r_[0, np.cumsum(y_t_sorted * w_sorted)[threshold_indices]]
+        fps = np.r_[0, np.cumsum((~y_t_sorted) * w_sorted)[threshold_indices]]
+
+        fpr = fps / n_neg
+        tpr = tps / n_pos
+
+        trapz_fn = getattr(np, 'trapezoid', getattr(np, 'trapz', None))
+        return float(trapz_fn(tpr, fpr))
+
+    # Multiclass case:
+    if y_s.ndim == 2:
+        if multi_class not in ("ovr", "raise"):
+            raise ValueError(f"multi_class must be 'ovr' or 'raise', got {multi_class}")
+        if multi_class == "raise" and len(np.unique(y_t)) > 2:
+            raise ValueError("multi_class must be set to 'ovr' to evaluate multiclass targets.")
+
+        classes = labels if labels is not None else np.unique(y_t)
+        n_classes = len(classes)
+        auc_scores = []
+        class_weights = []
+
+        for i, c in enumerate(classes):
+            bin_true = (y_t == c).astype(int)
+            bin_score = y_s[:, i] if y_s.shape[1] > i else y_s[:, 0]
+            auc = roc_auc_score(bin_true, bin_score, sample_weight=w)
+            auc_scores.append(auc)
+            class_weights.append(np.sum(bin_true * (w if w is not None else 1.0)))
+
+        if average == "macro":
+            return float(np.mean(auc_scores))
+        elif average == "weighted":
+            tot = np.sum(class_weights)
+            return float(np.average(auc_scores, weights=class_weights)) if tot > 0 else 0.0
+        else:
+            return float(np.mean(auc_scores))
+
+    raise ValueError(f"Unexpected shape for y_score: {y_s.shape}")
+
+
+def log_loss(
+    y_true: Any,
+    y_pred: Any,
+    *,
+    eps: Union[str, float] = "auto",
+    normalize: bool = True,
+    sample_weight: Optional[Any] = None,
+    labels: Optional[List[Any]] = None
+) -> float:
+    """Computes log loss, aka logistic loss or cross-entropy loss."""
+    y_t = _to_numpy_array(y_true)
+    y_p = _to_numpy_array(y_pred, dtype=float)
+    weights = _to_numpy_array(sample_weight, dtype=float).ravel() if sample_weight is not None else None
+
+    epsilon = 1e-15 if (eps == "auto" or eps is None) else float(eps)
+
+    if y_p.ndim == 1 or (y_p.ndim == 2 and y_p.shape[1] == 1):
+        y_t_flat = y_t.ravel()
+        y_p_flat = np.clip(y_p.ravel(), epsilon, 1.0 - epsilon)
+        loss = - (y_t_flat * np.log(y_p_flat) + (1.0 - y_t_flat) * np.log(1.0 - y_p_flat))
+    else:
+        # Multiclass probability distribution
+        p_row_sum = y_p.sum(axis=1, keepdims=True)
+        y_p_norm = y_p / np.maximum(p_row_sum, epsilon)
+        y_p_norm = np.clip(y_p_norm, epsilon, 1.0 - epsilon)
+        y_p_norm = y_p_norm / y_p_norm.sum(axis=1, keepdims=True)
+
+        n_samples = len(y_t)
+        n_classes = y_p.shape[1]
+
+        if labels is not None:
+            classes = list(labels)
+        else:
+            classes = sorted(list(np.unique(y_t)))
+
+        class_to_idx = {c: idx for idx, c in enumerate(classes)}
+        y_t_onehot = np.zeros((n_samples, n_classes), dtype=float)
+        for i, val in enumerate(y_t.ravel()):
+            if val in class_to_idx:
+                y_t_onehot[i, class_to_idx[val]] = 1.0
+
+        loss = - np.sum(y_t_onehot * np.log(y_p_norm), axis=1)
+
+    if weights is not None:
+        if normalize:
+            return float(np.average(loss, weights=weights))
+        return float(np.sum(loss * weights))
+
+    if normalize:
+        return float(np.mean(loss))
+    return float(np.sum(loss))
+
 
 def classification_report(
     y_true: Any,
@@ -361,29 +610,18 @@ def classification_report(
     *,
     labels: Optional[List[Any]] = None,
     target_names: Optional[List[str]] = None,
+    sample_weight: Optional[Any] = None,
+    digits: int = 2,
     output_dict: bool = False,
     zero_division: Union[str, int, float] = "warn"
 ) -> Union[str, Dict[str, Any]]:
-    """Builds a text report showing the main classification metrics.
+    """Builds a comprehensive classification metrics text report or nested dictionary."""
+    y_t, y_p, weights = _get_classification_data(y_true, y_pred, sample_weight)
 
-    Args:
-        y_true: Ground truth (correct) target values.
-        y_pred: Estimated targets as returned by a classifier.
-        labels: Optional list of label indices to include in the report.
-        target_names: Optional list of display names matching the labels.
-        output_dict: If True, return the report as a nested dictionary.
-        zero_division: Sets the value to return when there is a zero division.
-            Can be 0, 1, or "warn".
-
-    Returns:
-        Union[str, Dict[str, Any]]: A formatted string report or a dictionary.
-    """
-    y_true_data, y_pred_data = _get_classification_data(y_true, y_pred)
-    
     if labels is not None:
         classes = list(labels)
     else:
-        classes = sorted(list(np.unique(y_true_data)))
+        classes = sorted(list(np.unique(y_t)))
 
     if target_names is not None:
         if len(target_names) != len(classes):
@@ -392,13 +630,17 @@ def classification_report(
     else:
         display_names = [str(c) for c in classes]
 
-    precisions = precision_score(y_true_data, y_pred_data, labels=classes, average=None, zero_division=zero_division)
-    recalls = recall_score(y_true_data, y_pred_data, labels=classes, average=None, zero_division=zero_division)
-    f1s = f1_score(y_true_data, y_pred_data, labels=classes, average=None, zero_division=zero_division)
-    support = np.array([np.sum(y_true_data == c) for c in classes], dtype=int)
-    
+    precisions = precision_score(y_t, y_p, labels=classes, average=None, sample_weight=weights, zero_division=zero_division)
+    recalls = recall_score(y_t, y_p, labels=classes, average=None, sample_weight=weights, zero_division=zero_division)
+    f1s = f1_score(y_t, y_p, labels=classes, average=None, sample_weight=weights, zero_division=zero_division)
+
+    if weights is None:
+        support = np.array([np.sum(y_t == c) for c in classes], dtype=int)
+    else:
+        support = np.array([np.sum(weights[y_t == c]) for c in classes], dtype=float)
+
     total_support = int(np.sum(support))
-    accuracy = accuracy_score(y_true_data, y_pred_data)
+    accuracy = accuracy_score(y_t, y_p, sample_weight=weights)
 
     macro_precision = float(np.mean(precisions)) if len(precisions) > 0 else 0.0
     macro_recall = float(np.mean(recalls)) if len(recalls) > 0 else 0.0
@@ -420,7 +662,7 @@ def classification_report(
                 "precision": float(precisions[idx]),
                 "recall": float(recalls[idx]),
                 "f1-score": float(f1s[idx]),
-                "support": int(support[idx])
+                "support": int(support[idx]) if weights is None else float(support[idx])
             }
         report_dict["accuracy"] = float(accuracy)
         report_dict["macro avg"] = {
@@ -437,23 +679,29 @@ def classification_report(
         }
         return report_dict
 
-    header = f"{'':<12}{'precision':>9}{'recall':>9}{'f1-score':>9}{'support':>9}"
+    width = max([len(name) for name in display_names + ["weighted avg", "macro avg", "accuracy"]] + [12])
+    col_width = max(digits + 5, 9)
+    fmt = f"{{:>{col_width}.{digits}f}}"
+    int_fmt = f"{{:>{col_width}d}}"
+    str_fmt = f"{{:>{col_width}}}"
+
+    header = f"{'':<{width}}" + f"{'precision':>{col_width}}" + f"{'recall':>{col_width}}" + f"{'f1-score':>{col_width}}" + f"{'support':>{col_width}}"
     lines = [header]
-    
+
     for idx, name in enumerate(display_names):
         lines.append(
-            f"{name:<12}"
-            f"{precisions[idx]:>9.2f}"
-            f"{recalls[idx]:>9.2f}"
-            f"{f1s[idx]:>9.2f}"
-            f"{support[idx]:>9}"
+            f"{name:<{width}}"
+            f"{fmt.format(precisions[idx])}"
+            f"{fmt.format(recalls[idx])}"
+            f"{fmt.format(f1s[idx])}"
+            f"{int_fmt.format(int(support[idx]))}"
         )
-    
+
     lines.append("")
-    
-    lines.append(f"{'accuracy':<12}{'':>9}{'':>9}{accuracy:>9.2f}{total_support:>9}")
-    lines.append(f"{'macro avg':<12}{macro_precision:>9.2f}{macro_recall:>9.2f}{macro_f1:>9.2f}{total_support:>9}")
-    lines.append(f"{'weighted avg':<12}{weighted_precision:>9.2f}{weighted_recall:>9.2f}{weighted_f1:>9.2f}{total_support:>9}")
+
+    lines.append(f"{'accuracy':<{width}}{str_fmt.format('')}{str_fmt.format('')}{fmt.format(accuracy)}{int_fmt.format(total_support)}")
+    lines.append(f"{'macro avg':<{width}}{fmt.format(macro_precision)}{fmt.format(macro_recall)}{fmt.format(macro_f1)}{int_fmt.format(total_support)}")
+    lines.append(f"{'weighted avg':<{width}}{fmt.format(weighted_precision)}{fmt.format(weighted_recall)}{fmt.format(weighted_f1)}{int_fmt.format(total_support)}")
 
     return "\n".join(lines)
 
@@ -465,63 +713,14 @@ def find_optimal_threshold(
     *,
     n_thresholds: int = 200,
 ) -> Tuple[float, float]:
-    """
-    Find the classification threshold that maximises a given metric.
-
-    Evaluates the ``n_thresholds - 1`` interior candidates
-    ``{k / n_thresholds : k = 1, ..., n_thresholds - 1}`` and returns the one
-    that maximises ``metric_fn(y_true, y_pred)``. The degenerate thresholds 0
-    (predict everything positive) and 1 are excluded.
-
-    Args:
-        y_true: Ground-truth binary labels (0 / 1). Array-like or Tensor.
-        y_probs: Predicted probabilities for the positive class. Array-like
-            or Tensor. Values must be in ``[0, 1]``.
-        metric_fn: A callable ``(y_true, y_pred) -> float`` that is maximised.
-            Defaults to ``f1_score``. Candidates whose evaluation raises are
-            skipped, since metrics may be undefined for degenerate predictions.
-        n_thresholds (int): Grid resolution; the number of candidates evaluated
-            is ``n_thresholds - 1``. Must be >= 2. Default: 200.
-
-    Returns:
-        Tuple[float, float]: ``(best_threshold, best_metric_value)``
-
-    Raises:
-        ValueError: If ``n_thresholds < 2`` or the inputs are empty or of
-            different lengths.
-        RuntimeError: If ``metric_fn`` failed for every candidate threshold.
-
-    Examples:
-        ```python
-        from sorix.metrics import find_optimal_threshold, f1_score
-
-        # Binary classification
-        best_t, best_f1 = find_optimal_threshold(y_val, probs)
-        print(f"Optimal threshold: {best_t:.3f}  |  F1: {best_f1:.4f}")
-
-        # Custom metric — maximise min-class F1
-        def min_class_f1(y_true, y_pred):
-            f1s = [f1_score(y_true, y_pred, pos_label=c) for c in [0, 1]]
-            return min(f1s)
-
-        best_t, score = find_optimal_threshold(y_val, probs, min_class_f1)
-        ```
-    """
+    """Finds the classification threshold that maximizes a given metric."""
     if metric_fn is None:
         metric_fn = f1_score
     if n_thresholds < 2:
         raise ValueError(f"n_thresholds must be >= 2, got {n_thresholds}")
 
-    # Coerce to flat arrays, keeping cupy arrays on the device they came from.
-    if isinstance(y_true, Tensor):
-        y_true_np = y_true.data.ravel()
-    else:
-        y_true_np = np.asarray(y_true).ravel()
-
-    if isinstance(y_probs, Tensor):
-        y_probs_np = y_probs.data.ravel()
-    else:
-        y_probs_np = np.asarray(y_probs, dtype=float).ravel()
+    y_true_np = _to_numpy_array(y_true).ravel()
+    y_probs_np = _to_numpy_array(y_probs, dtype=float).ravel()
 
     if y_true_np.size == 0:
         raise ValueError("y_true and y_probs must not be empty")
@@ -531,7 +730,7 @@ def find_optimal_threshold(
             f"Got {y_true_np.size} and {y_probs_np.size}"
         )
 
-    thresholds = np.linspace(0.0, 1.0, n_thresholds, endpoint=False)[1:]  # skip 0
+    thresholds = np.linspace(0.0, 1.0, n_thresholds, endpoint=False)[1:]
     best_threshold = 0.5
     best_score = -np.inf
     n_evaluated = 0
@@ -542,9 +741,6 @@ def find_optimal_threshold(
         try:
             score = metric_fn(y_true_np, y_pred)
         except Exception as exc:
-            # A metric can legitimately be undefined at some thresholds (e.g. no
-            # predicted positives). Remember the first failure in case *every*
-            # candidate fails, which means metric_fn itself is broken.
             if first_error is None:
                 first_error = exc
             continue
@@ -556,8 +752,7 @@ def find_optimal_threshold(
     if n_evaluated == 0:
         raise RuntimeError(
             f"metric_fn failed for all {len(thresholds)} candidate thresholds; "
-            f"no threshold could be evaluated. See the chained exception for the "
-            f"first failure."
+            f"no threshold could be evaluated."
         ) from first_error
 
     return best_threshold, float(best_score)

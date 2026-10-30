@@ -40,6 +40,7 @@ from .utils.utils import (as_tensor, from_numpy,
 from . import autograd
 from . import nn
 from . import optim
+from . import utils
 
 
 from .utils.math import (sin, cos, tanh, exp, log, sqrt, mean, sum,
@@ -48,6 +49,26 @@ from .utils.math import (sin, cos, tanh, exp, log, sqrt, mean, sum,
 
 # Aliases
 abs = absolute
+relu = nn.functional.relu
+
+
+def max(input, dim=None, keepdim=False):
+    if hasattr(input, "max"):
+        return input.max(dim=dim, keepdim=keepdim)
+    return as_tensor(input).max(dim=dim, keepdim=keepdim)
+
+
+def min(input, dim=None, keepdim=False):
+    if hasattr(input, "min"):
+        return input.min(dim=dim, keepdim=keepdim)
+    return as_tensor(input).min(dim=dim, keepdim=keepdim)
+
+
+def norm(input, p=2, dim=None, keepdim=False):
+    if hasattr(input, "norm"):
+        return input.norm(p=p, dim=dim, keepdim=keepdim)
+    return as_tensor(input).norm(p=p, dim=dim, keepdim=keepdim)
+
 
 try:
     from ._version import version as __version__

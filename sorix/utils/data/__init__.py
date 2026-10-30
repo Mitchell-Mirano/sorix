@@ -1,2 +1,3 @@
-from .dataset import Dataset, WalkForwardSplit
+from .dataset import Dataset, TensorDataset, WalkForwardSplit
 from .dataloader import DataLoader
+

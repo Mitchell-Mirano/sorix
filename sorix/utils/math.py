@@ -239,9 +239,12 @@ def ceil(X):
         xp = cp if (cp is not None and isinstance(X, cp.ndarray)) else np
         return xp.ceil(X)
 
-def mean(X, axis=None, keepdims=False):
-    """Computes the mean value of all elements in the input tensor.
-    """
+def mean(X, axis=None, dim=None, keepdims=False, keepdim=None):
+    """Computes the mean value of all elements in the input tensor."""
+    if dim is not None:
+        axis = dim
+    if keepdim is not None:
+        keepdims = keepdim
     if isinstance(X, Tensor):
         return X.mean(axis=axis, keepdims=keepdims)
     else:
@@ -249,9 +252,12 @@ def mean(X, axis=None, keepdims=False):
         return xp.mean(X, axis=axis, keepdims=keepdims)
     
  
-def sum(X, axis=None, keepdims=False):
-    """Computes the sum of all elements in the input tensor.
-    """
+def sum(X, axis=None, dim=None, keepdims=False, keepdim=None):
+    """Computes the sum of all elements in the input tensor."""
+    if dim is not None:
+        axis = dim
+    if keepdim is not None:
+        keepdims = keepdim
     if isinstance(X, Tensor):
         return X.sum(axis=axis, keepdims=keepdims)
     else:

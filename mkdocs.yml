@@ -3,7 +3,7 @@
 # ====================================================================
 site_name: Sorix
 site_description: High-performance, minimalist library for Machine Learning and Deep Learning based on NumPy.
-site_url: https://mitchell-mirano.github.io/sorix/
+site_url: https://sorix.mitchellmirano.com/
 repo_url: https://github.com/Mitchell-Mirano/sorix/
 repo_name: Mitchell-Mirano/sorix
 edit_uri: edit/{{ branch }}/docs/
