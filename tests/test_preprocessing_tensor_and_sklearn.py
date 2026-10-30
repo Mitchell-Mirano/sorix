@@ -1,7 +1,8 @@
 import pytest
+sklearn = pytest.importorskip("sklearn")
+from sklearn.pipeline import Pipeline
 import numpy as np
 import pandas as pd
-from sklearn.pipeline import Pipeline
 import sorix
 from sorix.preprocessing import (
     StandardScaler, 

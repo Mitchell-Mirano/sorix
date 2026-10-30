@@ -3127,8 +3127,10 @@ docs = [
 ]
 test = [
     { name = "cupy-cuda13x" },
+    { name = "pandas" },
     { name = "pytest" },
     { name = "pytest-cov" },
+    { name = "scikit-learn" },
     { name = "scipy" },
 ]
 
@@ -3173,8 +3175,10 @@ docs = [
 ]
 test = [
     { name = "cupy-cuda13x", specifier = ">=13.0" },
+    { name = "pandas", specifier = ">=2.0" },
     { name = "pytest", specifier = ">=9.0.1" },
     { name = "pytest-cov" },
+    { name = "scikit-learn", specifier = ">=1.2" },
     { name = "scipy" },
 ]
 
