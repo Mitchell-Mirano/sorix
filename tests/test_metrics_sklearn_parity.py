@@ -1,4 +1,5 @@
 import pytest
+sklearn = pytest.importorskip("sklearn")
 import numpy as np
 import sklearn.metrics as skm
 import sorix

@@ -1,8 +1,9 @@
 import pytest
-import numpy as np
-import pandas as pd
+sklearn = pytest.importorskip("sklearn")
 from sklearn.pipeline import Pipeline
 from sklearn.cluster import KMeans as SklearnKMeans
+import numpy as np
+import pandas as pd
 import sorix
 from sorix.clustering import KMeans, Kmeans
 from sorix.preprocessing import StandardScaler
