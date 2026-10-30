@@ -2,6 +2,7 @@ import pytest
 import numpy as np
 import os
 import pickle
+import sys
 from io import BytesIO
 from unittest.mock import MagicMock, patch
 
@@ -13,26 +14,33 @@ from sorix.cuda import cuda
 import sorix.cupy.cupy as sorix_cupy
 
 def test_cuda_is_available_mock():
-    # Mocking cupy to test cuda.is_available branches
+    # Mocking cupy via sys.modules to test cuda.is_available branches in CPU-only environments
+    mock_cupy = MagicMock()
+    mock_cupy.cuda.runtime.getDeviceCount.return_value = 1
+    mock_cupy.cuda.runtime.getDeviceProperties.return_value = {'name': b'Mock GPU'}
+    mock_cupy.cuda.runtime.runtimeGetVersion.return_value = 11000
+    mock_cupy.__version__ = '12.0.0'
+    mock_cupy.arange.return_value.__mul__.return_value.sum.return_value = 1
+    mock_cupy.random.rand.return_value.__matmul__.return_value.sum.return_value = 1
+
     with patch('sorix.cuda.cuda._cupy_available', True):
-        with patch('cupy.cuda.runtime.getDeviceCount', return_value=1):
-            with patch('cupy.cuda.runtime.getDeviceProperties', return_value={'name': b'Mock GPU'}):
-                with patch('cupy.cuda.runtime.runtimeGetVersion', return_value=11000):
-                    with patch('cupy.__version__', '12.0.0'):
-                        # Mock arithmetic operation
-                        with patch('cupy.arange', return_value=MagicMock()):
-                            with patch('cupy.random.rand', return_value=MagicMock()):
-                                with patch('cupy.random.rand', return_value=MagicMock()):
-                                     assert cuda.is_available(verbose=True) == True
+        with patch.dict(sys.modules, {'cupy': mock_cupy}):
+            assert cuda.is_available(verbose=True) == True
 
 def test_cuda_not_available_no_gpus():
+    mock_cupy = MagicMock()
+    mock_cupy.cuda.runtime.getDeviceCount.return_value = 0
+
     with patch('sorix.cuda.cuda._cupy_available', True):
-        with patch('cupy.cuda.runtime.getDeviceCount', return_value=0):
+        with patch.dict(sys.modules, {'cupy': mock_cupy}):
             assert cuda.is_available(verbose=True) == False
 
 def test_cuda_not_available_exception():
+    mock_cupy = MagicMock()
+    mock_cupy.cuda.runtime.getDeviceCount.side_effect = Exception("CUDA error")
+
     with patch('sorix.cuda.cuda._cupy_available', True):
-        with patch('cupy.cuda.runtime.getDeviceCount', side_effect=Exception("CUDA error")):
+        with patch.dict(sys.modules, {'cupy': mock_cupy}):
             assert cuda.is_available(verbose=True) == False
 
 def test_utils_gpu_exceptions():
