@@ -2,6 +2,9 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 from typing import Union, Any, List, Tuple, Set, Optional
+from collections import namedtuple
+
+_reduction_result = namedtuple('reduction_result', ['values', 'indices'])
 from sorix.cupy.cupy import _cupy_available
 from sorix.backend import get_xp  # centralised array-module selector; re-exported here
 
@@ -291,7 +294,17 @@ class Tensor:
         Args:
             device: 'cpu', 'cuda', 'cuda:0', etc.
         """
-        new_device = Device(device)
+        if isinstance(device, str):
+            if device == 'cpu' and self.device.type == 'cpu':
+                return self
+            new_device = Device(device)
+        elif isinstance(device, Device):
+            if device == self.device:
+                return self
+            new_device = device
+        else:
+            new_device = Device(device)
+            
         if new_device == self.device:
             return self
         
@@ -321,41 +334,6 @@ class Tensor:
     def gpu(self) -> Tensor:
         """Moves tensor to GPU."""
         return self.to('cuda')
-    
-    # In-place operations
-    def add_(self, other: Union[Tensor, float, int]) -> Tensor:
-        """In-place addition."""
-        other_data = other.data if isinstance(other, Tensor) else other
-        self.data += other_data
-        return self
-
-    def sub_(self, other: Union[Tensor, float, int]) -> Tensor:
-        """In-place subtraction."""
-        other_data = other.data if isinstance(other, Tensor) else other
-        self.data -= other_data
-        return self
-
-    def mul_(self, other: Union[Tensor, float, int]) -> Tensor:
-        """In-place multiplication."""
-        other_data = other.data if isinstance(other, Tensor) else other
-        self.data *= other_data
-        return self
-
-    def div_(self, other: Union[Tensor, float, int]) -> Tensor:
-        """In-place division."""
-        other_data = other.data if isinstance(other, Tensor) else other
-        self.data /= other_data
-        return self
-        
-    def fill_(self, value: float) -> Tensor:
-        """Fills the tensor with the specified value in-place."""
-        self.data.fill(value)
-        return self
-
-    def zero_(self) -> Tensor:
-        """Fills the tensor with zero in-place."""
-        return self.fill_(0.0)
-        
 
     def add(self, other: Union[Tensor, float, int]) -> Tensor:
         """
@@ -523,20 +501,63 @@ class Tensor:
             if out.grad is None:
                 return
 
-            # PERF: extract raw arrays once; skip Tensor overhead in backward path.
-            g = out.grad.data if isinstance(out.grad, Tensor) else out.grad
+            tracking = is_grad_enabled()
             xp = get_xp(self)
 
-            if self.requires_grad:
-                # dL/dA = dL/dOut @ B^T  — keep as raw array, pass to _accumulate_grad
-                grad_self = g @ other.data.T
-                # shape will match because matmul preserves batch dims; _match_shape is a noop here
-                self._accumulate_grad(grad_self)
+            if tracking:
+                grad_out = out.grad if isinstance(out.grad, Tensor) else Tensor(out.grad, device=self.device)
+                
+                if self.requires_grad:
+                    if self.ndim == 1 and other.ndim == 1:
+                        g_self = grad_out * other
+                    elif self.ndim >= 2 and other.ndim == 1:
+                        g_self = grad_out.unsqueeze(-1) @ other.unsqueeze(-2)
+                    elif self.ndim == 1 and other.ndim >= 2:
+                        g_self = (grad_out.unsqueeze(-2) @ other.transpose(-1, -2)).squeeze(-2)
+                    else:
+                        other_t = other.transpose(-1, -2) if other.ndim >= 2 else other
+                        g_self = grad_out @ other_t
+                    self._accumulate_grad(Tensor._match_shape(g_self, self.shape))
 
-            if other.requires_grad:
-                # dL/dB = A^T @ dL/dOut
-                grad_other = self.data.T @ g
-                other._accumulate_grad(grad_other)
+                if other.requires_grad:
+                    if self.ndim == 1 and other.ndim == 1:
+                        g_other = grad_out * self
+                    elif self.ndim >= 2 and other.ndim == 1:
+                        self_t = self.transpose(-1, -2)
+                        g_other = (self_t @ grad_out.unsqueeze(-1)).squeeze(-1)
+                    elif self.ndim == 1 and other.ndim >= 2:
+                        g_other = self.unsqueeze(-1) @ grad_out.unsqueeze(-2)
+                    else:
+                        self_t = self.transpose(-1, -2) if self.ndim >= 2 else self
+                        g_other = self_t @ grad_out
+                    other._accumulate_grad(Tensor._match_shape(g_other, other.shape))
+            else:
+                g = out.grad.data if isinstance(out.grad, Tensor) else out.grad
+
+                if self.requires_grad:
+                    if self.ndim == 1 and other.ndim == 1:
+                        g_self = g * other.data
+                    elif self.ndim >= 2 and other.ndim == 1:
+                        g_self = xp.expand_dims(g, -1) @ xp.expand_dims(other.data, -2)
+                    elif self.ndim == 1 and other.ndim >= 2:
+                        g_self = (xp.expand_dims(g, -2) @ xp.swapaxes(other.data, -1, -2)).squeeze(-2)
+                    else:
+                        other_t = xp.swapaxes(other.data, -1, -2) if other.ndim >= 2 else other.data
+                        g_self = g @ other_t
+                    self._accumulate_grad(Tensor._match_shape(g_self, self.shape))
+
+                if other.requires_grad:
+                    if self.ndim == 1 and other.ndim == 1:
+                        g_other = g * self.data
+                    elif self.ndim >= 2 and other.ndim == 1:
+                        self_t = xp.swapaxes(self.data, -1, -2)
+                        g_other = (self_t @ xp.expand_dims(g, -1)).squeeze(-1)
+                    elif self.ndim == 1 and other.ndim >= 2:
+                        g_other = xp.expand_dims(self.data, -1) @ xp.expand_dims(g, -2)
+                    else:
+                        self_t = xp.swapaxes(self.data, -1, -2) if self.ndim >= 2 else self.data
+                        g_other = self_t @ g
+                    other._accumulate_grad(Tensor._match_shape(g_other, other.shape))
 
         out._backward = _backward
         return out
@@ -627,6 +648,7 @@ class Tensor:
         """Raises RuntimeError if in-place mutation would corrupt the autograd graph."""
         if self.requires_grad and is_grad_enabled():
             raise RuntimeError(
+                "a view of a leaf Variable that requires grad is being used in an in-place operation. "
                 "In-place operations are not allowed on tensors that require grad "
                 "and are used in a gradient-tracked context. "
                 "Use the out-of-place operator instead, or wrap the call with "
@@ -680,6 +702,21 @@ class Tensor:
         self.data.fill(value)
         return self
 
+    def zero_(self) -> 'Tensor':
+        """Fills the tensor with zero in-place."""
+        return self.fill_(0.0)
+
+    def div_(self, other: Union['Tensor', np.ndarray, float, int]) -> 'Tensor':
+        """In-place division. Mutates ``self`` and returns it.
+
+        Raises:
+            RuntimeError: If in-place would corrupt the autograd graph.
+        """
+        self._check_inplace_allowed()
+        other_data = other.data if isinstance(other, Tensor) else other
+        self.data /= other_data
+        return self
+
     def __matmul__(self, other: Union[Tensor, np.ndarray]) -> Tensor:
         return self.matmul(other)
 
@@ -708,10 +745,14 @@ class Tensor:
         return out
 
     def sigmoid(self) -> Tensor:
-        """Sigmoid activation."""
+        """Numerically stable Sigmoid activation."""
         xp = get_xp(self)
         
-        out_data = 1 / (1 + xp.exp(-self.data))
+        abs_x = xp.abs(self.data)
+        exp_neg_abs_x = xp.exp(-abs_x)
+        denom = 1 + exp_neg_abs_x
+        out_data = xp.where(self.data >= 0, 1 / denom, exp_neg_abs_x / denom)
+
         if not is_grad_enabled():
             return Tensor(out_data, device=self.device, requires_grad=False)
         
@@ -800,18 +841,23 @@ class Tensor:
         other = other if isinstance(other, Tensor) else Tensor(other, device=self.device)
         return other.div(self)
     
-    def mean(self, axis: Optional[Union[int, Tuple[int, ...]]] = None, 
-             dim: Optional[Union[int, Tuple[int, ...]]] = None, 
+    def mean(self, dim: Optional[Union[int, Tuple[int, ...], List[int]]] = None, 
+             axis: Optional[Union[int, Tuple[int, ...], List[int]]] = None, 
+             keepdim: Optional[bool] = None,
              keepdims: bool = False) -> Tensor:
         """Computes mean along axis/dim."""
         if dim is not None:
             axis = dim
+        if keepdim is not None:
+            keepdims = keepdim
         xp = get_xp(self)
 
+        raw_axis = tuple(axis) if isinstance(axis, list) else axis
+
         if not is_grad_enabled():
-            return Tensor(xp.mean(self.data, axis=axis, keepdims=keepdims), device=self.device)
+            return Tensor(xp.mean(self.data, axis=raw_axis, keepdims=keepdims), device=self.device)
         
-        out = Tensor(xp.mean(self.data, axis=axis, keepdims=keepdims), [self], 'mean', device=self.device, requires_grad=self.requires_grad)
+        out = Tensor(xp.mean(self.data, axis=raw_axis, keepdims=keepdims), [self], 'mean', device=self.device, requires_grad=self.requires_grad)
 
         def _backward() -> None:            
             if out.grad is None:
@@ -819,26 +865,37 @@ class Tensor:
             
             if self.requires_grad:
                 grad = out.grad
-                if not keepdims and axis is not None:
-                    grad = grad.expand_dims(axis=axis)
+                if not keepdims:
+                    if axis is None:
+                        target_shape = tuple(1 for _ in self.shape)
+                    else:
+                        axes_seq = (axis,) if isinstance(axis, int) else axis
+                        norm_axes = {ax if ax >= 0 else self.ndim + ax for ax in axes_seq}
+                        target_shape = tuple(1 if i in norm_axes else s for i, s in enumerate(self.shape))
+                    grad = grad.reshape(target_shape)
                 
                 n = self.numel / (out.numel if out.numel > 0 else 1)
                 self._accumulate_grad(grad / n)
         out._backward = _backward
         return out
     
-    def sum(self, axis: Optional[Union[int, Tuple[int, ...]]] = None, 
-            dim: Optional[Union[int, Tuple[int, ...]]] = None, 
+    def sum(self, dim: Optional[Union[int, Tuple[int, ...], List[int]]] = None, 
+            axis: Optional[Union[int, Tuple[int, ...], List[int]]] = None, 
+            keepdim: Optional[bool] = None,
             keepdims: bool = False) -> Tensor:
         """Computes sum along axis/dim."""
         if dim is not None:
             axis = dim
+        if keepdim is not None:
+            keepdims = keepdim
         xp = get_xp(self)
+
+        raw_axis = tuple(axis) if isinstance(axis, list) else axis
         
         if not is_grad_enabled():
-            return Tensor(self.data.sum(axis=axis, keepdims=keepdims), device=self.device)
+            return Tensor(self.data.sum(axis=raw_axis, keepdims=keepdims), device=self.device)
             
-        out = Tensor(self.data.sum(axis=axis, keepdims=keepdims), [self], 'sum', device=self.device, requires_grad=self.requires_grad)
+        out = Tensor(self.data.sum(axis=raw_axis, keepdims=keepdims), [self], 'sum', device=self.device, requires_grad=self.requires_grad)
         
         def _backward() -> None:
             if out.grad is None:
@@ -846,8 +903,14 @@ class Tensor:
 
             if self.requires_grad:
                 grad = out.grad
-                if not keepdims and axis is not None:
-                    grad = grad.expand_dims(axis=axis)
+                if not keepdims:
+                    if axis is None:
+                        target_shape = tuple(1 for _ in self.shape)
+                    else:
+                        axes_seq = (axis,) if isinstance(axis, int) else axis
+                        norm_axes = {ax if ax >= 0 else self.ndim + ax for ax in axes_seq}
+                        target_shape = tuple(1 if i in norm_axes else s for i, s in enumerate(self.shape))
+                    grad = grad.reshape(target_shape)
                 # Multiplication by ones_like is implicit during accumulation match_shape
                 self._accumulate_grad(grad)
         
@@ -855,9 +918,9 @@ class Tensor:
         return out
     
     def abs(self) -> Tensor:
-        """Absolute value."""
-        xp = cp if self.device == 'cuda' else np
-        return Tensor(xp.abs(self.data), device=self.device)
+        """Absolute value with autograd support."""
+        from sorix.utils.math import abs as math_abs
+        return math_abs(self)
     
     def reshape(self, *shape: Any) -> Tensor:
         """Reshapes the tensor to a new shape."""
@@ -882,25 +945,60 @@ class Tensor:
         """Alias for reshape, implemented to mimic PyTorch's view method."""
         return self.reshape(*shape)
 
-    def transpose(self, *axes: Any) -> Tensor:
-        """Transposes the tensor axes."""
-        if not is_grad_enabled():
-            return Tensor(self.data.transpose(*axes), device=self.device, requires_grad=False)
+    def permute(self, *dims: Any) -> Tensor:
+        """Permutes the dimensions of the tensor."""
+        if len(dims) == 1 and isinstance(dims[0], (list, tuple)):
+            dims = tuple(dims[0])
+        norm_dims = tuple(d if d >= 0 else self.ndim + d for d in dims)
         
-        out = Tensor(self.data.transpose(*axes), [self], 'transpose', device=self.device, requires_grad=self.requires_grad)
+        if not is_grad_enabled():
+            return Tensor(self.data.transpose(norm_dims), device=self.device, requires_grad=False)
+        
+        out = Tensor(self.data.transpose(norm_dims), [self], 'permute', device=self.device, requires_grad=self.requires_grad)
         
         def _backward() -> None:
             if out.grad is None:
                 return
             if self.requires_grad:
-                if not axes:
-                    self._accumulate_grad(out.grad.transpose())
-                else:
-                    inv_axes = np.argsort(axes)
-                    self._accumulate_grad(out.grad.transpose(*inv_axes))
+                inv_dims = tuple(np.argsort(norm_dims))
+                self._accumulate_grad(out.grad.permute(*inv_dims))
         
         out._backward = _backward
         return out
+
+    def transpose(self, *axes: Any) -> Tensor:
+        """Transposes the tensor dimensions.
+        
+        If called with 0 arguments, swaps the last two dimensions (or 2D transpose).
+        If called with 2 arguments (dim0, dim1), swaps those two dimensions (PyTorch style).
+        If called with >2 arguments, delegates to permute(*axes) (backwards compatibility).
+        """
+        if len(axes) == 1 and isinstance(axes[0], (list, tuple)):
+            axes = tuple(axes[0])
+
+        if len(axes) == 0:
+            if self.ndim <= 1:
+                if not is_grad_enabled():
+                    return Tensor(self.data.copy(), device=self.device, requires_grad=False)
+                out = Tensor(self.data.copy(), [self], 'transpose', device=self.device, requires_grad=self.requires_grad)
+                def _backward() -> None:
+                    if out.grad is not None and self.requires_grad:
+                        self._accumulate_grad(out.grad)
+                out._backward = _backward
+                return out
+            perm = list(range(self.ndim))
+            perm[-1], perm[-2] = perm[-2], perm[-1]
+            return self.permute(*perm)
+
+        if len(axes) == 2:
+            dim0, dim1 = axes[0], axes[1]
+            d0 = dim0 if dim0 >= 0 else self.ndim + dim0
+            d1 = dim1 if dim1 >= 0 else self.ndim + dim1
+            perm = list(range(self.ndim))
+            perm[d0], perm[d1] = perm[d1], perm[d0]
+            return self.permute(*perm)
+
+        return self.permute(*axes)
 
     @property
     def T(self) -> Tensor:
@@ -911,8 +1009,13 @@ class Tensor:
         """Flattens the tensor into 1D."""
         return self.reshape(-1)
 
-    def expand_dims(self, axis: int) -> Tensor:
-        """Adds a new dimension at the specified axis. Matches np.expand_dims."""
+    def expand_dims(self, axis: Union[int, Tuple[int, ...], List[int]]) -> Tensor:
+        """Adds a new dimension at the specified axis. Matches np.expand_dims / unsqueeze."""
+        if isinstance(axis, (list, tuple)):
+            res = self
+            for ax in sorted(axis):
+                res = res.expand_dims(ax)
+            return res
         new_shape = list(self.shape)
         if axis < 0:
             axis = len(new_shape) + axis + 1
@@ -940,11 +1043,6 @@ class Tensor:
         
         out._backward = _backward
         return out
-
-    def permute(self, *dims: int) -> 'Tensor':
-        """Permutes the dimensions of the tensor.
-        """
-        return self.transpose(*dims)
 
     def repeat(self, *sizes: int) -> 'Tensor':
         """Repeats the tensor along the specified dimensions.
@@ -1254,7 +1352,30 @@ class Tensor:
     def astype(self, dtype: Any) -> Tensor:
         """Casts tensor to a new data type."""
         target_dtype = dtype.name if isinstance(dtype, DType) else dtype
-        return Tensor(self.data.astype(target_dtype), device=self.device, requires_grad=self.requires_grad)
+        curr_dtype = self.dtype.name if isinstance(self.dtype, DType) else str(self.dtype)
+        if curr_dtype == str(target_dtype):
+            return self
+        
+        target_dt_obj = _str_to_dtype.get(str(target_dtype), None)
+        is_float_target = target_dt_obj in (float32, float64, float16) or 'float' in str(target_dtype)
+        requires_grad = self.requires_grad and is_float_target and is_grad_enabled()
+        
+        out_data = self.data.astype(target_dtype)
+        if not is_grad_enabled() or not requires_grad:
+            return Tensor(out_data, device=self.device, requires_grad=False)
+            
+        out = Tensor(out_data, [self], 'astype', device=self.device, requires_grad=True)
+        
+        def _backward() -> None:
+            if out.grad is None:
+                return
+            if self.requires_grad:
+                orig_dtype = self.dtype.name if isinstance(self.dtype, DType) else self.data.dtype
+                g = out.grad.astype(orig_dtype) if isinstance(out.grad, Tensor) else out.grad.astype(orig_dtype)
+                self._accumulate_grad(g)
+                
+        out._backward = _backward
+        return out
 
     def float(self) -> Tensor:
         """Casts tensor to float32."""
@@ -1284,6 +1405,165 @@ class Tensor:
         """Returns a new Tensor, detached from the current graph."""
         return Tensor(self.data.copy(), device=self.device, requires_grad=False)
 
+    def clone(self) -> Tensor:
+        """Returns a copy of the tensor with autograd connection."""
+        if not is_grad_enabled() or not self.requires_grad:
+            return Tensor(self.data.copy(), device=self.device, requires_grad=self.requires_grad)
+        out = Tensor(self.data.copy(), [self], 'clone', device=self.device, requires_grad=True)
+        def _backward():
+            if out.grad is None:
+                return
+            self._accumulate_grad(out.grad)
+        out._backward = _backward
+        return out
+
+    def contiguous(self) -> Tensor:
+        """Returns self (Sorix tensors are already memory-contiguous)."""
+        return self
+
+    def relu(self) -> Tensor:
+        """Applies rectified linear unit function element-wise."""
+        xp = get_xp(self)
+        out_data = xp.maximum(0, self.data)
+        if not is_grad_enabled() or not self.requires_grad:
+            return Tensor(out_data, device=self.device, requires_grad=False)
+        out = Tensor(out_data, [self], 'relu', device=self.device, requires_grad=True)
+        def _backward():
+            if out.grad is None:
+                return
+            mask = (self.data > 0)
+            if is_grad_enabled():
+                mask_t = Tensor(mask.astype(self.data.dtype), device=self.device, requires_grad=False)
+                self._accumulate_grad(out.grad * mask_t)
+            else:
+                g = out.grad.data if isinstance(out.grad, Tensor) else out.grad
+                self._accumulate_grad(g * mask)
+        out._backward = _backward
+        return out
+
+    def exp(self) -> Tensor:
+        """Applies exponential function element-wise."""
+        from sorix.utils.math import exp as math_exp
+        return math_exp(self)
+
+    def log(self) -> Tensor:
+        """Applies natural logarithm element-wise."""
+        from sorix.utils.math import log as math_log
+        return math_log(self)
+
+    def sqrt(self) -> Tensor:
+        """Applies square root element-wise."""
+        from sorix.utils.math import sqrt as math_sqrt
+        return math_sqrt(self)
+
+    def sin(self) -> Tensor:
+        """Applies sine element-wise."""
+        from sorix.utils.math import sin as math_sin
+        return math_sin(self)
+
+    def cos(self) -> Tensor:
+        """Applies cosine element-wise."""
+        from sorix.utils.math import cos as math_cos
+        return math_cos(self)
+
+    def argmax(self, dim: Optional[int] = None, keepdim: bool = False) -> Tensor:
+        """Returns the indices of the maximum values along an axis."""
+        xp = get_xp(self)
+        res = xp.argmax(self.data, axis=dim, keepdims=keepdim)
+        return Tensor(res, device=self.device, requires_grad=False, dtype=int64)
+
+    def argmin(self, dim: Optional[int] = None, keepdim: bool = False) -> Tensor:
+        """Returns the indices of the minimum values along an axis."""
+        xp = get_xp(self)
+        res = xp.argmin(self.data, axis=dim, keepdims=keepdim)
+        return Tensor(res, device=self.device, requires_grad=False, dtype=int64)
+
+    def max(self, dim: Optional[int] = None, keepdim: bool = False) -> Union[Tensor, Any]:
+        """Returns the maximum value of all elements or along a dimension."""
+        xp = get_xp(self)
+        if dim is None:
+            max_val = xp.max(self.data)
+            if not is_grad_enabled() or not self.requires_grad:
+                return Tensor(max_val, device=self.device, requires_grad=False)
+            out = Tensor(max_val, [self], 'max', device=self.device, requires_grad=True)
+            def _backward():
+                if out.grad is None:
+                    return
+                mask = (self.data == max_val)
+                scale = 1.0 / (mask.sum() if mask.sum() > 0 else 1)
+                g = out.grad.data if isinstance(out.grad, Tensor) else out.grad
+                self._accumulate_grad(g * mask * scale)
+            out._backward = _backward
+            return out
+        else:
+            values_data = xp.max(self.data, axis=dim, keepdims=keepdim)
+            indices_data = xp.argmax(self.data, axis=dim, keepdims=keepdim)
+            indices = Tensor(indices_data, device=self.device, requires_grad=False, dtype=int64)
+            if not is_grad_enabled() or not self.requires_grad:
+                values = Tensor(values_data, device=self.device, requires_grad=False)
+                return _reduction_result(values, indices)
+            values = Tensor(values_data, [self], 'max', device=self.device, requires_grad=True)
+            def _backward():
+                if values.grad is None:
+                    return
+                expanded_val = values.data if keepdim else xp.expand_dims(values.data, axis=dim)
+                mask = (self.data == expanded_val)
+                g = values.grad
+                if not keepdim:
+                    g = g.unsqueeze(dim) if isinstance(g, Tensor) else xp.expand_dims(g, axis=dim)
+                raw_g = g.data if isinstance(g, Tensor) else g
+                self._accumulate_grad(raw_g * mask)
+            values._backward = _backward
+            return _reduction_result(values, indices)
+
+    def min(self, dim: Optional[int] = None, keepdim: bool = False) -> Union[Tensor, Any]:
+        """Returns the minimum value of all elements or along a dimension."""
+        xp = get_xp(self)
+        if dim is None:
+            min_val = xp.min(self.data)
+            if not is_grad_enabled() or not self.requires_grad:
+                return Tensor(min_val, device=self.device, requires_grad=False)
+            out = Tensor(min_val, [self], 'min', device=self.device, requires_grad=True)
+            def _backward():
+                if out.grad is None:
+                    return
+                mask = (self.data == min_val)
+                scale = 1.0 / (mask.sum() if mask.sum() > 0 else 1)
+                g = out.grad.data if isinstance(out.grad, Tensor) else out.grad
+                self._accumulate_grad(g * mask * scale)
+            out._backward = _backward
+            return out
+        else:
+            values_data = xp.min(self.data, axis=dim, keepdims=keepdim)
+            indices_data = xp.argmin(self.data, axis=dim, keepdims=keepdim)
+            indices = Tensor(indices_data, device=self.device, requires_grad=False, dtype=int64)
+            if not is_grad_enabled() or not self.requires_grad:
+                values = Tensor(values_data, device=self.device, requires_grad=False)
+                return _reduction_result(values, indices)
+            values = Tensor(values_data, [self], 'min', device=self.device, requires_grad=True)
+            def _backward():
+                if values.grad is None:
+                    return
+                expanded_val = values.data if keepdim else xp.expand_dims(values.data, axis=dim)
+                mask = (self.data == expanded_val)
+                g = values.grad
+                if not keepdim:
+                    g = g.unsqueeze(dim) if isinstance(g, Tensor) else xp.expand_dims(g, axis=dim)
+                raw_g = g.data if isinstance(g, Tensor) else g
+                self._accumulate_grad(raw_g * mask)
+            values._backward = _backward
+            return _reduction_result(values, indices)
+
+    def norm(self, p: Union[int, float, str] = 2, dim: Optional[Union[int, Tuple[int, ...]]] = None, keepdim: bool = False) -> Tensor:
+        """Computes the matrix or vector norm."""
+        if p == 2 or p == 'fro':
+            return (self ** 2).sum(dim=dim, keepdim=keepdim).sqrt()
+        elif p == 1:
+            return self.abs().sum(dim=dim, keepdim=keepdim)
+        else:
+            p_val = float(p)
+            return (self.abs() ** p_val).sum(dim=dim, keepdim=keepdim) ** (1.0 / p_val)
+
     def size(self, dim: Optional[int] = None) -> Union[Size, int]:
         """Returns the size of the tensor, matching PyTorch's .size() method."""
         if dim is not None:
@@ -1298,7 +1578,7 @@ class Tensor:
         """Expects self to be <= 2-D tensor and transposes dimensions 0 and 1."""
         if self.ndim > 2:
             raise RuntimeError("t() expects at most 2 dimensions")
-        return self.transpose()
+        return self.transpose(0, 1) if self.ndim == 2 else self
     
     def numpy(self) -> np.ndarray:
         """
@@ -1403,10 +1683,7 @@ class Tensor:
             min: Lower-bound of the range to clamp to.
             max: Upper-bound of the range to clamp to.
         """
-        if self.requires_grad:
-            raise RuntimeError(
-                "a leaf Variable that requires grad is being used in an in-place operation."
-            )
+        self._check_inplace_allowed()
         xp = get_xp(self)
         self.data = xp.clip(self.data, a_min=min, a_max=max)
         return self

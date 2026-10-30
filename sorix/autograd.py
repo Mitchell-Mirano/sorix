@@ -88,7 +88,7 @@ def grad(
                 if create_graph:
                     out.grad = Tensor(seed_data, device=out.device, requires_grad=True)
                 else:
-                    out.grad = seed_data
+                    out.grad = Tensor(seed_data, device=out.device)
             else:
                 out.grad = go if isinstance(go, Tensor) else Tensor(go, device=out.device, requires_grad=create_graph)
 

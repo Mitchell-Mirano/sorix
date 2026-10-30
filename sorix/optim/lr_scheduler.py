@@ -304,14 +304,57 @@ class ReduceLROnPlateau:
         return {k: v for k, v in self.__dict__.items() if k != "optimizer"}
 
     def load_state_dict(self, state_dict: dict) -> None:
-        """
-        Loads the scheduler state.
-
-        Note:
-            This scheduler mutates the optimizer's learning rate incrementally,
-            so the restored learning rate is whatever the optimizer currently
-            holds — load the optimizer's own ``state_dict`` alongside this one.
-        """
         state_dict = dict(state_dict)
         state_dict.pop("optimizer", None)
         self.__dict__.update(state_dict)
+
+
+class MultiStepLR(_LRScheduler):
+    """
+    Decays the learning rate of each parameter group by gamma once the
+    number of epoch reaches one of the milestones.
+
+    Args:
+        optimizer (Optimizer): Wrapped optimizer.
+        milestones (list): List of epoch indices. Must be increasing.
+        gamma (float): Multiplicative factor of learning rate decay. Default: 0.1.
+        last_epoch (int): The index of last epoch. Default: -1.
+    """
+    def __init__(self, optimizer: "Optimizer", milestones: List[int], gamma: float = 0.1, last_epoch: int = -1) -> None:
+        self.milestones = sorted(milestones)
+        self.gamma = gamma
+        super().__init__(optimizer, last_epoch)
+
+    def get_lr(self) -> List[float]:
+        import bisect
+        factor = self.gamma ** bisect.bisect_right(self.milestones, self.last_epoch)
+        return [base_lr * factor for base_lr in self.base_lrs]
+
+
+class LambdaLR(_LRScheduler):
+    """
+    Sets the learning rate of each parameter group to the initial lr
+    times a given function.
+
+    Args:
+        optimizer (Optimizer): Wrapped optimizer.
+        lr_lambda (function or list): A function or a list of functions
+            which computes a multiplicative factor given an integer parameter epoch.
+        last_epoch (int): The index of last epoch. Default: -1.
+    """
+    def __init__(self, optimizer: "Optimizer", lr_lambda: Any, last_epoch: int = -1) -> None:
+        if not isinstance(lr_lambda, (list, tuple)):
+            self.lr_lambdas = [lr_lambda] * len(optimizer.param_groups)
+        else:
+            if len(lr_lambda) != len(optimizer.param_groups):
+                raise ValueError(f"Expected {len(optimizer.param_groups)} lr_lambdas, but got {len(lr_lambda)}")
+            self.lr_lambdas = list(lr_lambda)
+        super().__init__(optimizer, last_epoch)
+
+    def get_lr(self) -> List[float]:
+        return [base_lr * lmbda(self.last_epoch) for lmbda, base_lr in zip(self.lr_lambdas, self.base_lrs)]
+
+
+# PyTorch 2.0+ alias
+LRScheduler = _LRScheduler
+

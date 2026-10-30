@@ -11,19 +11,25 @@ if _cupy_available:
 def uniform_(tensor: Any, a: float = 0.0, b: float = 1.0) -> Any:
     """Fills the input tensor with values drawn from the uniform distribution U(a, b)."""
     xp = get_xp(tensor)
-    tensor.data = xp.random.uniform(a, b, size=tensor.shape)
+    dtype = tensor.data.dtype if hasattr(tensor, 'data') else np.float32
+    vals = xp.random.uniform(a, b, size=tensor.shape).astype(dtype)
+    if hasattr(tensor, 'data'):
+        tensor.data[...] = vals
     return tensor
 
 def normal_(tensor: Any, mean: float = 0.0, std: float = 1.0) -> Any:
     """Fills the input tensor with values drawn from the normal distribution N(mean, std^2)."""
     xp = get_xp(tensor)
-    tensor.data = xp.random.normal(mean, std, size=tensor.shape)
+    dtype = tensor.data.dtype if hasattr(tensor, 'data') else np.float32
+    vals = xp.random.normal(mean, std, size=tensor.shape).astype(dtype)
+    if hasattr(tensor, 'data'):
+        tensor.data[...] = vals
     return tensor
 
 def constant_(tensor: Any, val: float) -> Any:
     """Fills the input tensor with the value val."""
-    xp = get_xp(tensor)
-    tensor.data = xp.full(tensor.shape, val)
+    if hasattr(tensor, 'data'):
+        tensor.data.fill(val)
     return tensor
 
 def zeros_(tensor: Any) -> Any:
