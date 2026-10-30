@@ -61,7 +61,6 @@ docs = [
 test = [
     "pytest>=9.0.1",
     "pytest-cov",
-    "cupy-cuda13x>=13.0",
     "scipy",
     "pandas>=2.0",
     "scikit-learn>=1.2",
