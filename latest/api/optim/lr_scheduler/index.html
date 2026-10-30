@@ -10,7 +10,7 @@
       
       
       
-        <link rel="canonical" href="https://mitchell-mirano.github.io/sorix/latest/api/optim/lr_scheduler/">
+        <link rel="canonical" href="https://sorix.mitchellmirano.com/latest/api/optim/lr_scheduler/">
       
       
         <link rel="prev" href="../">
@@ -3714,6 +3714,8 @@
       
         
       
+        
+      
     
     
     
@@ -3771,6 +3773,34 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nn/functional/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    functional
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -4123,19 +4153,30 @@
   
 </li>
         
+      </ul>
+    </nav>
+  
+</li>
+        
           <li class="md-nav__item">
-  <a href="#sorix.optim.lr_scheduler.ReduceLROnPlateau.load_state_dict" class="md-nav__link">
+  <a href="#sorix.optim.lr_scheduler.MultiStepLR" class="md-nav__link">
     <span class="md-ellipsis">
       
-        load_state_dict
+        MultiStepLR
       
     </span>
   </a>
   
 </li>
         
-      </ul>
-    </nav>
+          <li class="md-nav__item">
+  <a href="#sorix.optim.lr_scheduler.LambdaLR" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LambdaLR
+      
+    </span>
+  </a>
   
 </li>
         
@@ -4845,19 +4886,30 @@
   
 </li>
         
+      </ul>
+    </nav>
+  
+</li>
+        
           <li class="md-nav__item">
-  <a href="#sorix.optim.lr_scheduler.ReduceLROnPlateau.load_state_dict" class="md-nav__link">
+  <a href="#sorix.optim.lr_scheduler.MultiStepLR" class="md-nav__link">
     <span class="md-ellipsis">
       
-        load_state_dict
+        MultiStepLR
       
     </span>
   </a>
   
 </li>
         
-      </ul>
-    </nav>
+          <li class="md-nav__item">
+  <a href="#sorix.optim.lr_scheduler.LambdaLR" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LambdaLR
+      
+    </span>
+  </a>
   
 </li>
         
@@ -5660,59 +5712,210 @@ for epoch in range(epochs):
 
 </div>
 
-<div class="doc doc-object doc-function">
 
 
-<h4 id="sorix.optim.lr_scheduler.ReduceLROnPlateau.load_state_dict" class="doc doc-heading">
-            <span class="doc doc-object-name doc-function-name">load_state_dict</span>
+  </div>
 
-
-<a href="#sorix.optim.lr_scheduler.ReduceLROnPlateau.load_state_dict" class="headerlink" title="Permanent link">&para;</a></h4>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">load_state_dict</span><span class="p">(</span><span class="n">state_dict</span><span class="p">)</span>
-</span></code></pre></div>
-
-    <div class="doc doc-contents ">
-
-        <p>Loads the scheduler state.</p>
-
-
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This scheduler mutates the optimizer's learning rate incrementally,
-so the restored learning rate is whatever the optimizer currently
-holds — load the optimizer's own <code>state_dict</code> alongside this one.</p>
-</details>
-
-            <details class="mkdocstrings-source">
-              <summary>Source code in <code>sorix/optim/lr_scheduler.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-306">306</a></span>
-<span class="normal"><a href="#__codelineno-0-307">307</a></span>
-<span class="normal"><a href="#__codelineno-0-308">308</a></span>
-<span class="normal"><a href="#__codelineno-0-309">309</a></span>
-<span class="normal"><a href="#__codelineno-0-310">310</a></span>
-<span class="normal"><a href="#__codelineno-0-311">311</a></span>
-<span class="normal"><a href="#__codelineno-0-312">312</a></span>
-<span class="normal"><a href="#__codelineno-0-313">313</a></span>
-<span class="normal"><a href="#__codelineno-0-314">314</a></span>
-<span class="normal"><a href="#__codelineno-0-315">315</a></span>
-<span class="normal"><a href="#__codelineno-0-316">316</a></span>
-<span class="normal"><a href="#__codelineno-0-317">317</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-306"><a id="__codelineno-0-306" name="__codelineno-0-306"></a><span class="k">def</span><span class="w"> </span><span class="nf">load_state_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-0-307"><a id="__codelineno-0-307" name="__codelineno-0-307"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="__span-0-308"><a id="__codelineno-0-308" name="__codelineno-0-308"></a><span class="sd">    Loads the scheduler state.</span>
-</span><span id="__span-0-309"><a id="__codelineno-0-309" name="__codelineno-0-309"></a>
-</span><span id="__span-0-310"><a id="__codelineno-0-310" name="__codelineno-0-310"></a><span class="sd">    Note:</span>
-</span><span id="__span-0-311"><a id="__codelineno-0-311" name="__codelineno-0-311"></a><span class="sd">        This scheduler mutates the optimizer&#39;s learning rate incrementally,</span>
-</span><span id="__span-0-312"><a id="__codelineno-0-312" name="__codelineno-0-312"></a><span class="sd">        so the restored learning rate is whatever the optimizer currently</span>
-</span><span id="__span-0-313"><a id="__codelineno-0-313" name="__codelineno-0-313"></a><span class="sd">        holds — load the optimizer&#39;s own ``state_dict`` alongside this one.</span>
-</span><span id="__span-0-314"><a id="__codelineno-0-314" name="__codelineno-0-314"></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="__span-0-315"><a id="__codelineno-0-315" name="__codelineno-0-315"></a>    <span class="n">state_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">state_dict</span><span class="p">)</span>
-</span><span id="__span-0-316"><a id="__codelineno-0-316" name="__codelineno-0-316"></a>    <span class="n">state_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;optimizer&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-</span><span id="__span-0-317"><a id="__codelineno-0-317" name="__codelineno-0-317"></a>    <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">state_dict</span><span class="p">)</span>
-</span></code></pre></div></td></tr></table></div>
-            </details>
     </div>
 
 </div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="sorix.optim.lr_scheduler.MultiStepLR" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">MultiStepLR</span>
+
+
+<a href="#sorix.optim.lr_scheduler.MultiStepLR" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">MultiStepLR</span><span class="p">(</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">optimizer</span><span class="p">,</span> <span class="n">milestones</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">last_epoch</span><span class="o">=-</span><span class="mi">1</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">)</span>
+</span></code></pre></div>
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="sorix.optim.lr_scheduler._LRScheduler">_LRScheduler</span></code></p>
+
+
+
+        <p>Decays the learning rate of each parameter group by gamma once the
+number of epoch reaches one of the milestones.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+            <b><code>optimizer</code></b>
+              (<code><a class="autorefs autorefs-internal" title="Optimizer (sorix.optim.optim.Optimizer)" href="../optim/#sorix.optim.optim.Optimizer">Optimizer</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>Wrapped optimizer.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+            <b><code>milestones</code></b>
+              (<code><span title="list">list</span></code>)
+          –
+          <div class="doc-md-description">
+            <p>List of epoch indices. Must be increasing.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+            <b><code>gamma</code></b>
+              (<code><span title="sorix.float">float</span></code>, default:
+                  <code>0.1</code>
+)
+          –
+          <div class="doc-md-description">
+            <p>Multiplicative factor of learning rate decay. Default: 0.1.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+            <b><code>last_epoch</code></b>
+              (<code><span title="sorix.int">int</span></code>, default:
+                  <code>-1</code>
+)
+          –
+          <div class="doc-md-description">
+            <p>The index of last epoch. Default: -1.</p>
+          </div>
+        </li>
+    </ul>
+
+
+
+
+
+
+
+
+                  <details class="mkdocstrings-source">
+                    <summary>Source code in <code>sorix/optim/lr_scheduler.py</code></summary>
+                    <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-323">323</a></span>
+<span class="normal"><a href="#__codelineno-0-324">324</a></span>
+<span class="normal"><a href="#__codelineno-0-325">325</a></span>
+<span class="normal"><a href="#__codelineno-0-326">326</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-323"><a id="__codelineno-0-323" name="__codelineno-0-323"></a><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">:</span> <span class="s2">&quot;Optimizer&quot;</span><span class="p">,</span> <span class="n">milestones</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">gamma</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">last_epoch</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-0-324"><a id="__codelineno-0-324" name="__codelineno-0-324"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">milestones</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">milestones</span><span class="p">)</span>
+</span><span id="__span-0-325"><a id="__codelineno-0-325" name="__codelineno-0-325"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="o">=</span> <span class="n">gamma</span>
+</span><span id="__span-0-326"><a id="__codelineno-0-326" name="__codelineno-0-326"></a>    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">last_epoch</span><span class="p">)</span>
+</span></code></pre></div></td></tr></table></div>
+                  </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="sorix.optim.lr_scheduler.LambdaLR" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">LambdaLR</span>
+
+
+<a href="#sorix.optim.lr_scheduler.LambdaLR" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">LambdaLR</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">lr_lambda</span><span class="p">,</span> <span class="n">last_epoch</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+</span></code></pre></div>
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="sorix.optim.lr_scheduler._LRScheduler">_LRScheduler</span></code></p>
+
+
+
+        <p>Sets the learning rate of each parameter group to the initial lr
+times a given function.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+            <b><code>optimizer</code></b>
+              (<code><a class="autorefs autorefs-internal" title="Optimizer (sorix.optim.optim.Optimizer)" href="../optim/#sorix.optim.optim.Optimizer">Optimizer</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>Wrapped optimizer.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+            <b><code>lr_lambda</code></b>
+              (<code><span title="function">function</span> or <span title="list">list</span></code>)
+          –
+          <div class="doc-md-description">
+            <p>A function or a list of functions
+which computes a multiplicative factor given an integer parameter epoch.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+            <b><code>last_epoch</code></b>
+              (<code><span title="sorix.int">int</span></code>, default:
+                  <code>-1</code>
+)
+          –
+          <div class="doc-md-description">
+            <p>The index of last epoch. Default: -1.</p>
+          </div>
+        </li>
+    </ul>
+
+
+
+
+
+
+
+
+                  <details class="mkdocstrings-source">
+                    <summary>Source code in <code>sorix/optim/lr_scheduler.py</code></summary>
+                    <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-345">345</a></span>
+<span class="normal"><a href="#__codelineno-0-346">346</a></span>
+<span class="normal"><a href="#__codelineno-0-347">347</a></span>
+<span class="normal"><a href="#__codelineno-0-348">348</a></span>
+<span class="normal"><a href="#__codelineno-0-349">349</a></span>
+<span class="normal"><a href="#__codelineno-0-350">350</a></span>
+<span class="normal"><a href="#__codelineno-0-351">351</a></span>
+<span class="normal"><a href="#__codelineno-0-352">352</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-345"><a id="__codelineno-0-345" name="__codelineno-0-345"></a><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">:</span> <span class="s2">&quot;Optimizer&quot;</span><span class="p">,</span> <span class="n">lr_lambda</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">last_epoch</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-0-346"><a id="__codelineno-0-346" name="__codelineno-0-346"></a>    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lr_lambda</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+</span><span id="__span-0-347"><a id="__codelineno-0-347" name="__codelineno-0-347"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">lr_lambdas</span> <span class="o">=</span> <span class="p">[</span><span class="n">lr_lambda</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">optimizer</span><span class="o">.</span><span class="n">param_groups</span><span class="p">)</span>
+</span><span id="__span-0-348"><a id="__codelineno-0-348" name="__codelineno-0-348"></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="__span-0-349"><a id="__codelineno-0-349" name="__codelineno-0-349"></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lr_lambda</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">optimizer</span><span class="o">.</span><span class="n">param_groups</span><span class="p">):</span>
+</span><span id="__span-0-350"><a id="__codelineno-0-350" name="__codelineno-0-350"></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">optimizer</span><span class="o">.</span><span class="n">param_groups</span><span class="p">)</span><span class="si">}</span><span class="s2"> lr_lambdas, but got </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">lr_lambda</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-0-351"><a id="__codelineno-0-351" name="__codelineno-0-351"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">lr_lambdas</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">lr_lambda</span><span class="p">)</span>
+</span><span id="__span-0-352"><a id="__codelineno-0-352" name="__codelineno-0-352"></a>    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">last_epoch</span><span class="p">)</span>
+</span></code></pre></div></td></tr></table></div>
+                  </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
 
 
 

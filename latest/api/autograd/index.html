@@ -10,7 +10,7 @@
       
       
       
-        <link rel="canonical" href="https://mitchell-mirano.github.io/sorix/latest/api/autograd/">
+        <link rel="canonical" href="https://sorix.mitchellmirano.com/latest/api/autograd/">
       
       
         <link rel="prev" href="../_version/">
@@ -3785,6 +3785,8 @@
       
         
       
+        
+      
     
     
     
@@ -3842,6 +3844,34 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nn/functional/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    functional
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -5109,7 +5139,7 @@ allowing to compute higher order derivative products.</p>
 </span><span id="__span-0-88"><a id="__codelineno-0-88" name="__codelineno-0-88"></a>                <span class="k">if</span> <span class="n">create_graph</span><span class="p">:</span>
 </span><span id="__span-0-89"><a id="__codelineno-0-89" name="__codelineno-0-89"></a>                    <span class="n">out</span><span class="o">.</span><span class="n">grad</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">seed_data</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">out</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </span><span id="__span-0-90"><a id="__codelineno-0-90" name="__codelineno-0-90"></a>                <span class="k">else</span><span class="p">:</span>
-</span><span id="__span-0-91"><a id="__codelineno-0-91" name="__codelineno-0-91"></a>                    <span class="n">out</span><span class="o">.</span><span class="n">grad</span> <span class="o">=</span> <span class="n">seed_data</span>
+</span><span id="__span-0-91"><a id="__codelineno-0-91" name="__codelineno-0-91"></a>                    <span class="n">out</span><span class="o">.</span><span class="n">grad</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">seed_data</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">out</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
 </span><span id="__span-0-92"><a id="__codelineno-0-92" name="__codelineno-0-92"></a>            <span class="k">else</span><span class="p">:</span>
 </span><span id="__span-0-93"><a id="__codelineno-0-93" name="__codelineno-0-93"></a>                <span class="n">out</span><span class="o">.</span><span class="n">grad</span> <span class="o">=</span> <span class="n">go</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">go</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">)</span> <span class="k">else</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">go</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">out</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="n">create_graph</span><span class="p">)</span>
 </span><span id="__span-0-94"><a id="__codelineno-0-94" name="__codelineno-0-94"></a>
